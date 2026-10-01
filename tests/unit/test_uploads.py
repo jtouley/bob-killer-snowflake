@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from http import HTTPStatus
 
 import pytest
@@ -30,7 +31,7 @@ def test_workbook_container_accepted() -> None:
         (bomb(2_000_000), HTTPStatus.REQUEST_ENTITY_TOO_LARGE),
         (make_zip({f"m{i}.xml": b"x" for i in range(11)}), HTTPStatus.REQUEST_ENTITY_TOO_LARGE),
         (
-            make_zip({"big.bin": __import__("os").urandom(70_000)}),
+            make_zip({"big.bin": os.urandom(70_000)}),
             HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
         ),
     ],
