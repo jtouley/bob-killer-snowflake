@@ -1,0 +1,82 @@
+{
+  "lock_version": 1,
+  "workbooks": [
+    {
+      "id": "mt_dot_budget",
+      "complexity": "low",
+      "title": "Montana DOT MWTP Project Budget Worksheet",
+      "source_page": "https://www.mdt.mt.gov/pubinvolve/mwt/program.aspx",
+      "url": "https://www.mdt.mt.gov/other/webdata/external/Planning/MWT/MWTP-Program/MWTP-Project-Budget-Worksheet-Template.xlsx",
+      "filename": "mwtp_project_budget_worksheet.xlsx",
+      "sha256": null,
+      "status": "pending-hash",
+      "note": "SPEC linked the Appendix B PDF; this .xlsx template URL came from a web search and is unverified. Check Montana's redistribution terms before sharing."
+    },
+    {
+      "id": "iwarm",
+      "complexity": "low-mid",
+      "title": "EPA Individual Waste Reduction Model (iWARM) tool",
+      "source_page": "https://www.epa.gov/warm/individual-waste-reduction-model-iwarm-tool",
+      "url": null,
+      "filename": null,
+      "sha256": null,
+      "status": "unresolved",
+      "note": "Landing page only (xlsm, 119.41 KB, 2016-07-18); direct file URL not yet known."
+    },
+    {
+      "id": "sgec_current",
+      "complexity": "mid",
+      "title": "EPA Simplified GHG Emissions Calculator (current, uses XLOOKUP)",
+      "source_page": "https://www.epa.gov/climateleadership/simplified-ghg-emissions-calculator",
+      "url": null,
+      "filename": null,
+      "sha256": null,
+      "status": "unresolved",
+      "note": "Landing page only; direct file URL not yet known."
+    },
+    {
+      "id": "jedi_wind",
+      "complexity": "high",
+      "title": "NREL JEDI Land-Based Wind model",
+      "source_page": "https://www.nrel.gov/analysis/jedi/wind",
+      "url": null,
+      "filename": null,
+      "sha256": null,
+      "status": "unresolved",
+      "note": "Landing page only (release W10.30.20 per search); check the NREL user agreement before redistribution."
+    },
+    {
+      "id": "warm_v16",
+      "complexity": "high",
+      "title": "EPA WARM Version 16",
+      "source_page": "https://19january2025snapshot.epa.gov/warm/versions-waste-reduction-model/index.html",
+      "url": null,
+      "filename": null,
+      "sha256": null,
+      "status": "unresolved",
+      "note": "Listed as .xls (3.44 MB): must be converted to .xlsx by the Excel oracle before use."
+    },
+    {
+      "id": "sgec_v4_1",
+      "complexity": "bonus",
+      "title": "EPA SGEC v4.1 (2017), version-diff pair",
+      "source_page": "https://19january2017snapshot.epa.gov/climateleadership/center-corporate-climate-leadership-simplified-ghg-emissions-calculator_.html",
+      "url": "https://19january2017snapshot.epa.gov/sites/production/files/2017-01/sgec_tool_v4_1.xlsm",
+      "filename": "sgec_tool_v4_1.xlsm",
+      "sha256": null,
+      "status": "pending-hash",
+      "note": "Direct URL from SPEC; hash pinned on first reviewed download."
+    },
+    {
+      "id": "sgec_v5_1",
+      "complexity": "bonus",
+      "title": "EPA SGEC v5.1 (2018), version-diff pair",
+      "source_page": "https://www.epa.gov/climateleadership/simplified-ghg-emissions-calculator",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/sgec_tool_v5_1.xlsm",
+      "filename": "sgec_tool_v5_1.xlsm",
+      "sha256": null,
+      "status": "pending-hash",
+      "note": "Direct URL from SPEC; hash pinned on first reviewed download."
+    }
+  ]
+}

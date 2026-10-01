@@ -6,6 +6,8 @@ import hashlib
 from pathlib import Path
 
 import pytest
+
+from bob_killer.contracts.golden import GoldenEntry, GoldenLock, GoldenStatus
 from fetch_golden import (
     EXIT_OK,
     LOCK_PATH,
@@ -16,8 +18,6 @@ from fetch_golden import (
     lock_problems,
     main,
 )
-
-from bob_killer.contracts.golden import GoldenEntry, GoldenLock, GoldenStatus
 
 PAYLOAD = b"PK\x03\x04 pretend workbook"
 
