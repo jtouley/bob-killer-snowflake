@@ -41,7 +41,18 @@ src = ["src", "scripts", "tests"]
 select = ["E", "F", "I", "UP", "B", "W", "SIM"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["bob_killer", "bk_gates", "export_contracts", "fetch_golden", "gates", "record_run", "tests"]
+known-first-party = [
+  "bob_killer",
+  "bk_gates",
+  "export_contracts",
+  "fetch_golden",
+  "gates",
+  "hook_post_edit",
+  "hook_stop",
+  "hooks_log_head",
+  "record_run",
+  "tests",
+]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["E501", "SIM300"]  # inline cheat sources; never auto-rewrite asserts
@@ -86,3 +97,7 @@ name = "Production code never imports tests"
 type = "forbidden"
 source_modules = ["bob_killer"]
 forbidden_modules = ["tests"]
+
+[tool.mutmut]
+paths_to_mutate = ["src/bob_killer/runtime/"]
+pytest_add_cli_args_test_selection = ["tests/unit"]

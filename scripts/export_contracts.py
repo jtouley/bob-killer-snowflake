@@ -1,6 +1,6 @@
 """Write contract snapshots for the current SCHEMA_VERSION. Refuses to overwrite a version.
 
-    uv run python scripts/export_contracts.py
+uv run python scripts/export_contracts.py
 """
 
 from __future__ import annotations

@@ -29,7 +29,12 @@ Phase 0 plan is `../../.context/plans/bob-killer-phase0_gh-5.plan.md` (ticket jt
 
 ## Commands (from labs/bob_killer/)
 - uv run pytest -q
-- uv run python scripts/gates.py   # must pass before you stop
+- uv run python scripts/gates.py   # must pass before you stop (the Stop hook enforces it)
+- uv run python scripts/record_run.py --phase red <test paths>   # red evidence; commit it with the red commit
+- uv run python scripts/export_contracts.py   # only after bumping SCHEMA_VERSION
+- uv run python scripts/fetch_golden.py [--accept ID]   # golden workbooks into gitignored golden/
+- Commits that change .context/hooks.log add: --trailer "Hooks-Log-Head=$(uv run python scripts/hooks_log_head.py)"
+- All trailers (TDD-Phase, Hooks-Log-Head, Co-Authored-By) go in ONE final paragraph, or git won't parse them.
 - uv run bob-killer all golden/sgec_tool.xlsm --out build/
 - uv run fastapi dev src/bob_killer/api/main.py
 
