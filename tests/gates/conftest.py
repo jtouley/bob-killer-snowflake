@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
+
 from bk_gates.tdd_common import digest_tests_tree, parse_junit, read_worktree_tests
 
 if TYPE_CHECKING:

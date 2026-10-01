@@ -19,10 +19,10 @@ from pathlib import Path
 
 from bk_gates.tdd_common import (
     PROJECT_ROOT,
+    digest_tests_tree,
     parse_junit,
     read_worktree_tests,
     repo_root,
-    digest_tests_tree,
 )
 
 PHASES = ("red", "green", "refactor")

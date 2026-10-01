@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import pytest
+
 from bk_gates.core import load_gates
 from tests.gates.conftest import History
 

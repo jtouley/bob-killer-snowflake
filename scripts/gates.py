@@ -1,8 +1,8 @@
 """Run Bob Killer's anti-cheat gates. Exit 0 only when every selected gate passes.
 
-    uv run python scripts/gates.py                    # all PR gates, base = merge-base with main
-    uv run python scripts/gates.py --only tdd_order --base origin/main
-    uv run python scripts/gates.py --nightly          # also the nightly-only gates (mutation)
+uv run python scripts/gates.py                    # all PR gates, base = merge-base with main
+uv run python scripts/gates.py --only tdd_order --base origin/main
+uv run python scripts/gates.py --nightly          # also the nightly-only gates (mutation)
 """
 
 from __future__ import annotations
@@ -41,7 +41,9 @@ def main(argv: list[str] | None = None) -> int:
     repo = args.repo_root or repo_root(args.project_root)
     base = args.base if args.base and args.base != ZERO_SHA else default_base(repo)
     ctx = GateContext(repo_root=repo, project_root=args.project_root, base=base)
-    selected = args.only or [n for n, g in sorted(gates.items()) if args.nightly or not g.nightly_only]
+    selected = args.only or [
+        n for n, g in sorted(gates.items()) if args.nightly or not g.nightly_only
+    ]
 
     failed = False
     for name in selected:

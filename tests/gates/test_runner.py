@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import pytest
+
 from bk_gates.core import load_gates
-from tests.gates.conftest import History
 from gates import main
+from tests.gates.conftest import History
 
 EXPECTED_HISTORY_GATES = {"tdd_order", "assertions_frozen"}
 
@@ -23,9 +24,7 @@ def test_clean_history_exits_zero(history: History) -> None:
     assert main(_argv(history, "--only", "tdd_order", "--only", "assertions_frozen")) == 0
 
 
-def test_cheat_exits_one_with_rule_id(
-    history: History, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_cheat_exits_one_with_rule_id(history: History, capsys: pytest.CaptureFixture[str]) -> None:
     history.commit({"proj/src/pkg/calc.py": "def f() -> int:\n    return 1\n"}, phase="green")
     assert main(_argv(history, "--only", "tdd_order")) == 1
     assert "tdd_order/green-without-red" in capsys.readouterr().err

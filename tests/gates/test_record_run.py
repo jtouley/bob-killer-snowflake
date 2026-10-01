@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from bk_gates.tdd_common import parse_junit, read_worktree_tests, digest_tests_tree
+from bk_gates.tdd_common import digest_tests_tree, parse_junit, read_worktree_tests
 from record_run import record
 
 FAILING_TEST = b"def test_fails():\n    assert 1 == 2\n"

@@ -62,7 +62,9 @@ def _check_change(
         return [*out, Violation("assertions_frozen/assert-modified", f"{short} {rel} unparseable")]
     for name, asserts in old.items():
         if name not in new:
-            out.append(Violation("assertions_frozen/test-removed", f"{short} removes {rel}::{name}"))
+            out.append(
+                Violation("assertions_frozen/test-removed", f"{short} removes {rel}::{name}")
+            )
         elif new[name] != asserts:
             out.append(
                 Violation("assertions_frozen/assert-modified", f"{short} changes {rel}::{name}")

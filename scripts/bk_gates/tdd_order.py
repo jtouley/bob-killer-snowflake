@@ -1,4 +1,7 @@
-"""Red before green: commit phases, red-run evidence, gate-file protection (SPEC gates; C1/C2/C5/C7)."""
+"""Red before green: commit phases, red-run evidence and gate-file protection.
+
+SPEC gate "Red before green" plus adversarial conditions C1, C2, C5 and C7.
+"""
 
 from __future__ import annotations
 
