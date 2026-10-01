@@ -7,6 +7,9 @@ an existing version directory, so changing a contract means bumping ``SCHEMA_VER
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -79,8 +82,30 @@ def check_snapshots(generated: dict[str, str], directory: Path) -> list[Violatio
     return out
 
 
+_GENERATE = (
+    "import json, sys\n"
+    "from bk_gates.contracts_versioned import generate\n"
+    "from bob_killer.contracts import SCHEMA_VERSION\n"
+    "json.dump({'version': SCHEMA_VERSION, 'files': generate()}, sys.stdout)\n"
+)
+
+
+def generate_for(project_root: Path) -> tuple[int, dict[str, str]]:
+    """Generate from the checked project's own src/, never from whatever is installed."""
+    path = os.pathsep.join([str(project_root / "src"), str(Path(__file__).resolve().parents[1])])
+    proc = subprocess.run(
+        [sys.executable, "-c", _GENERATE],
+        cwd=project_root,
+        capture_output=True,
+        text=True,
+        check=True,
+        env={**os.environ, "PYTHONPATH": path},
+    )
+    data = json.loads(proc.stdout)
+    return int(data["version"]), dict(data["files"])
+
+
 @gate("contracts_versioned")
 def check(ctx: GateContext) -> list[Violation]:
-    from bob_killer.contracts import SCHEMA_VERSION
-
-    return check_snapshots(generate(), snapshot_dir(ctx.project_root, SCHEMA_VERSION))
+    version, generated = generate_for(ctx.project_root)
+    return check_snapshots(generated, snapshot_dir(ctx.project_root, version))

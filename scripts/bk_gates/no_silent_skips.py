@@ -46,21 +46,27 @@ def allowlist(project_root: Path) -> set[str]:
     return ids
 
 
-def _offending_lines(module: Module) -> dict[int, str]:
+DYNAMIC_IMPORTS = frozenset({"__import__", "importlib.import_module"})
+
+
+def _offending_lines(module: Module) -> dict[int, tuple[str, str]]:
+    """Line -> (rule, what). Dynamic imports are banned outright: they hide the module used."""
     aliases = import_aliases(module.tree)
-    lines: dict[int, str] = {}
+    lines: dict[int, tuple[str, str]] = {}
     for node in ast.walk(module.tree):
         if isinstance(node, ast.ImportFrom) and node.module:
             for a in node.names:
                 name = f"{node.module}.{a.name}"
                 if matches(name, BANNED):
-                    lines.setdefault(node.lineno, name)
+                    lines.setdefault(node.lineno, ("no_silent_skips/unallowed", name))
+        elif isinstance(node, ast.Call) and dotted(node.func, aliases) in DYNAMIC_IMPORTS:
+            lines[node.lineno] = ("no_silent_skips/dynamic-import", "dynamic import in tests")
         elif isinstance(node, ast.Attribute | ast.Name) and isinstance(
             getattr(node, "ctx", None), ast.Load
         ):
             resolved = dotted(node, aliases)
             if resolved is not None and matches(resolved, BANNED):
-                lines.setdefault(node.lineno, resolved)
+                lines.setdefault(node.lineno, ("no_silent_skips/unallowed", resolved))
     return lines
 
 
@@ -69,11 +75,13 @@ def check(ctx: GateContext) -> list[Violation]:
     allowed = allowlist(ctx.project_root)
     out: list[Violation] = []
     for module in modules(ctx.project_root, "tests"):
-        for lineno, name in sorted(_offending_lines(module).items()):
+        for lineno, (rule, name) in sorted(_offending_lines(module).items()):
             m = ALLOW.search(module.lines[lineno - 1])
             where = f"{module.rel}:{lineno}"
-            if m is None:
-                out.append(Violation("no_silent_skips/unallowed", f"{where} uses {name}"))
+            if rule == "no_silent_skips/dynamic-import":
+                out.append(Violation(rule, f"{where} {name}"))
+            elif m is None:
+                out.append(Violation(rule, f"{where} uses {name}"))
             elif m.group(1) not in allowed:
                 out.append(
                     Violation(
