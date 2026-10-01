@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 
 from bk_gates.core import GateContext, load_gates
@@ -35,7 +33,7 @@ def _base(project: Project) -> Project:
     return project.write(
         {
             "pyproject.toml": PYPROJECT,
-            "src/app/__init__.py": "",
+            "src/app/__init__.py": "from app import high  # noqa: F401  (keeps layers covered)\n",
             "src/app/high.py": "from app import low\n\nX = low.Y\n",
             "src/app/low.py": "Y = 1\n",
             "src/app/calc.py": TYPED,
