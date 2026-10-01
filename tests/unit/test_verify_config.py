@@ -1,8 +1,9 @@
 """verify.config.values_equal is exact: same type, same value, no tolerance."""
 
-from bob_killer.verify.config import values_equal
 from hypothesis import given
 from hypothesis import strategies as st
+
+from bob_killer.verify.config import values_equal
 
 cell_values = st.one_of(st.floats(allow_nan=False), st.text(), st.booleans(), st.none())
 
