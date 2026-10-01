@@ -42,3 +42,14 @@ def test_contracts_gate_reads_the_checked_project_not_the_installed_one(tmp_path
     ctx = GateContext(repo_root=tmp_path, project_root=copy, base=None)
     rules = {v.rule for v in load_gates()["contracts_versioned"].check(ctx)}
     assert "contracts_versioned/drift" in rules
+
+
+def test_ignored_hook_log_fails(tmp_path: Path) -> None:
+    from bk_gates.hook_log import append_event
+    from tests.gates.conftest import History
+
+    h = History(tmp_path)
+    h.commit({".gitignore": "*.log\n"}, phase="scaffold")
+    append_event(h.root / ".context" / "hooks.log", {"event": "stop_blocked"})
+    rules = {v.rule for v in load_gates()["append_only_log"].check(h.context())}
+    assert "append_only_log/ignored" in rules
