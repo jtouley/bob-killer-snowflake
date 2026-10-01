@@ -1,0 +1,8 @@
+golden/
+build/
+*.db
+.venv/
+.mypy_cache/
+.coverage
+coverage.xml
+mutants/
