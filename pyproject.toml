@@ -70,10 +70,11 @@ root_packages = ["bob_killer"]
 include_external_packages = true
 
 [[tool.importlinter.contracts]]
-name = "Layers: api/cli > stages > store > ir/registry/runtime > contracts"
+name = "Layers: api/cli > service > stages > store > ir/registry/runtime > contracts"
 type = "layers"
 layers = [
   "bob_killer.api | bob_killer.cli",
+  "bob_killer.service",
   "bob_killer.extract | bob_killer.graph | bob_killer.lift | bob_killer.generate | bob_killer.verify",
   "bob_killer.store",
   "bob_killer.ir | bob_killer.registry | bob_killer.runtime",
