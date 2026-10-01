@@ -97,3 +97,29 @@ class History:
 @pytest.fixture
 def history(tmp_path: Path) -> History:
     return History(tmp_path)
+
+
+class Project:
+    """A working-tree-only project for static gates (no git history needed)."""
+
+    def __init__(self, root: Path) -> None:
+        self.root = root
+        self.project = root / PREFIX.rstrip("/")
+        self.project.mkdir()
+
+    def write(self, files: Mapping[str, str]) -> Project:
+        for rel, content in files.items():
+            path = self.project / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content)
+        return self
+
+    def context(self) -> GateContext:
+        from bk_gates.core import GateContext
+
+        return GateContext(repo_root=self.root, project_root=self.project, base=None)
+
+
+@pytest.fixture
+def project(tmp_path: Path) -> Project:
+    return Project(tmp_path)
