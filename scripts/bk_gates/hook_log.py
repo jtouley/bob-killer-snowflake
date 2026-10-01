@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 from bk_gates.core import GateContext, Violation, gate
@@ -78,9 +79,18 @@ def _history(ctx: GateContext) -> list[Violation]:
     return out
 
 
+def is_ignored(repo: Path) -> bool:
+    proc = subprocess.run(["git", "check-ignore", "-q", LOG], cwd=repo, check=False)
+    return proc.returncode == 0
+
+
 @gate("append_only_log")
 def check(ctx: GateContext) -> list[Violation]:
     out = _history(ctx) if ctx.base is not None else []
+    if is_ignored(ctx.repo_root):
+        out.append(
+            Violation("append_only_log/ignored", f"git ignores {LOG}; it can never be audited")
+        )
     path = ctx.repo_root / LOG
     current = path.read_bytes() if path.is_file() else None
     committed = file_at(ctx.repo_root, ctx.head, LOG)
