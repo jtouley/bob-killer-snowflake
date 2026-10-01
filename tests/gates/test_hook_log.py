@@ -5,11 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from bk_gates.hook_log import GENESIS, append_event, chain_head, verify_chain
 from hypothesis import given
 from hypothesis import strategies as st
 
 from bk_gates.core import load_gates
+from bk_gates.hook_log import GENESIS, append_event, chain_head, verify_chain
 from tests.gates.conftest import History
 
 LOG = ".context/hooks.log"
