@@ -50,6 +50,7 @@ def squash_tree_differs(h: History) -> None:
 
 def squash_history_missing(h: History) -> None:
     clean(h)
+    _git(h, "reset", "-q", "--soft", h.base)
     h.commit({}, phase="squash", trailers={"TDD-History": "0" * 40})
 
 
@@ -64,7 +65,7 @@ def squash_history_not_descendant(h: History) -> None:
     archived = _git(h, "rev-parse", "HEAD")
     _git(h, "checkout", "-q", "--orphan", "other")
     _git(h, "rm", "-rqf", ".")
-    h.commit({"README.md": "base\n"}, phase=None)
+    h.commit({"README.md": "unrelated root\n"}, phase=None)  # distinct SHA from base
     unrelated = _git(h, "rev-parse", "HEAD")
     _git(h, "checkout", "-q", "main")
     _git(h, "reset", "-q", "--hard", archived)

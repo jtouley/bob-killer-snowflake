@@ -9,14 +9,26 @@ import ast
 import hashlib
 import json
 import re
+from dataclasses import replace
 from pathlib import PurePosixPath
 
 from bk_gates.core import GateContext, Violation, gate
-from bk_gates.git_history import Commit, changed_paths, commits_in_range, file_at, files_under
+from bk_gates.git_history import (
+    Commit,
+    changed_paths,
+    commits_in_range,
+    file_at,
+    files_under,
+    git,
+    is_ancestor,
+    rev_exists,
+    tree_of,
+)
 from bk_gates.tdd_common import digest_tests_tree, parse_junit
 
 PHASE_TRAILER = "TDD-Phase"
-PHASES = frozenset({"red", "green", "refactor", "scaffold", "gate-change"})
+PHASES = frozenset({"red", "green", "refactor", "scaffold", "gate-change", "squash"})
+HISTORY_TRAILER = "TDD-History"
 GATE_PATHS = ("scripts/bk_gates/", "scripts/gates.py", "scripts/record_run.py")
 RED_HELPER_NAMES = frozenset({"conftest.py", "__init__.py", "oracle_values.py"})
 RUN_RECORD = re.compile(r"\.context/runs/[^/]+/run\.json")
@@ -32,6 +44,35 @@ def is_trivial_module(source: bytes) -> bool:
     if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant):
         body = body[1:]
     return not body
+
+
+def squash_history(ctx: GateContext, commit: Commit) -> tuple[GateContext | None, list[Violation]]:
+    """The archived history a squash commit replaces, as a context to re-check.
+
+    The history must exist, descend from the squash's parent, and end at the same tree.
+    """
+    short = commit.sha[:8]
+    ref = commit.trailers.get(HISTORY_TRAILER, "")
+    if not ref or not rev_exists(ctx.repo_root, ref):
+        return None, [
+            Violation(
+                "tdd_order/squash-history-missing", f"{short} {HISTORY_TRAILER} {ref!r} not found"
+            )
+        ]
+    parent = git(ctx.repo_root, "rev-parse", f"{commit.sha}^").strip()
+    if not is_ancestor(ctx.repo_root, parent, ref):
+        return None, [
+            Violation(
+                "tdd_order/squash-not-descendant", f"{short} history does not build on {parent[:8]}"
+            )
+        ]
+    if tree_of(ctx.repo_root, ref) != tree_of(ctx.repo_root, commit.sha):
+        return None, [
+            Violation(
+                "tdd_order/squash-tree-mismatch", f"{short} tree differs from history {ref[:8]}"
+            )
+        ]
+    return replace(ctx, base=parent, head=ref), []
 
 
 def _touches_project(commit: Commit, prefix: str) -> bool:
@@ -163,6 +204,13 @@ def check(ctx: GateContext) -> list[Violation]:
             violations.append(
                 Violation("tdd_order/unknown-phase", f"{commit.sha[:8]} has phase {phase!r}")
             )
+            continue
+        if phase == "squash":
+            history, errors = squash_history(ctx, commit)
+            violations.extend(errors)
+            if history is not None:
+                violations.extend(check(history))
+            pending_red = False
             continue
         found, pending_red = _check_commit(ctx, commit, phase, pending_red)
         violations.extend(found)

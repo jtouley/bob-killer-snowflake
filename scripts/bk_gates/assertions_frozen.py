@@ -85,6 +85,13 @@ def check(ctx: GateContext) -> list[Violation]:
     violations: list[Violation] = []
     for commit in commits_in_range(ctx.repo_root, ctx.base, ctx.head):
         phase = commit.trailers.get("TDD-Phase", "")
+        if phase == "squash":
+            from bk_gates.tdd_order import squash_history  # tdd_order reports squash errors
+
+            history, _ = squash_history(ctx, commit)
+            if history is not None:
+                violations.extend(check(history))
+            continue
         if phase not in FROZEN_PHASES:
             continue
         for ch in commit.changes:

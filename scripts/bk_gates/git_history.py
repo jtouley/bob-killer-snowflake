@@ -79,3 +79,21 @@ def commits_in_range(repo: Path, base: str, head: str) -> list[Commit]:
 
 def changed_paths(repo: Path, base: str, head: str) -> list[str]:
     return git(repo, "diff", "--name-only", base, head).splitlines()
+
+
+def rev_exists(repo: Path, rev: str) -> bool:
+    out = subprocess.run(
+        ["git", "cat-file", "-e", f"{rev}^{{commit}}"], cwd=repo, capture_output=True
+    )
+    return out.returncode == 0
+
+
+def is_ancestor(repo: Path, ancestor: str, rev: str) -> bool:
+    out = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, rev], cwd=repo, capture_output=True
+    )
+    return out.returncode == 0
+
+
+def tree_of(repo: Path, rev: str) -> str:
+    return git(repo, "rev-parse", f"{rev}^{{tree}}").strip()

@@ -25,7 +25,10 @@ Phase 0 plan is `../../.context/plans/bob-killer-phase0_gh-5.plan.md` (ticket jt
 - Every type is defined once in contracts/ as a strict Pydantic model.
 - Never execute VBA or macros outside the isolated oracle runner.
 - `.context/` is committed evidence. If a gate fails, report it. Never delete, rewrite or hide logs in .context/.
-- PRs merge with merge commits, not squash (the TDD-order gate reads commit order).
+- The TDD-order gate reads commit order, so never squash blindly. A squash must be a *verified squash*:
+  push the red/green history as a tag (`archive/<ticket>-tdd-history`), then make one commit with
+  trailers `TDD-Phase: squash` and `TDD-History: <archived sha>`. The gate checks the history exists,
+  descends from the squash's parent, has the identical tree, and passes tdd_order/assertions_frozen.
 
 ## Commands (from labs/bob_killer/)
 - uv run pytest -q
