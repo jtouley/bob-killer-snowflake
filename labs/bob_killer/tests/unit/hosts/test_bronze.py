@@ -21,6 +21,7 @@ from bob_killer.contracts.bronze import BronzeRow, LandedFile
 from bob_killer.hosts.snowflake.bronze import (
     ALREADY_LANDED,
     LANDED,
+    PARSE_JSON,
     STAGE_NAME,
     BronzeContext,
     BronzeWriter,
@@ -124,7 +125,7 @@ def test_land_runs_begin_merge_hook_batches_commit_with_bound_values() -> None:
     assert _batch_rows(session) == [
         (r.file_sha256, r.sheet, r.row_number, r.run_id, r.payload.model_dump_json()) for r in rows
     ]
-    assert all("PARSE_JSON(" in q for q in session.sql_texts if q.startswith("INSERT"))
+    assert all(f"{PARSE_JSON}(" in q for q in session.sql_texts if q.startswith("INSERT"))
     assert not any(SHA in q for q in session.sql_texts)
 
 
