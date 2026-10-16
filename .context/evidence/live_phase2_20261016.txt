@@ -1,0 +1,38 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.12, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/jasontouleyrou/Projects/bob-killer-snowflake-coco-p2/labs/bob_killer
+configfile: pyproject.toml
+plugins: platformdirs-4.12.2, hypothesis-6.168.3, cov-7.1.0, anyio-4.15.1
+collected 18 items
+
+tests/live/test_connection.py .                                          [  5%]
+tests/live/test_platform.py .................                            [100%]
+
+=============================== warnings summary ===============================
+tests/live/test_connection.py::test_connection_uses_the_build_role
+tests/live/test_platform.py::test_f2_core_runs_in_a_312_procedure
+  /Users/jasontouleyrou/Projects/bob-killer-snowflake-coco-p2/labs/bob_killer/.venv/lib/python3.12/site-packages/snowflake/connector/vendored/urllib3/contrib/pyopenssl.py:413: DeprecationWarning: X509.get_subject is deprecated. You should use cryptography's X.509 APIs instead.
+    "subject": ((("commonName", x509.get_subject().CN),),),  # type: ignore[dict-item]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/live/test_connection.py::test_connection_uses_the_build_role
+PASSED tests/live/test_platform.py::test_f2_core_runs_in_a_312_procedure
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[pydantic-2.11.]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[pydantic-core-]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[annotated-types-]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[typing-extensions-]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[typing-inspection-]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[openpyxl-]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[et_xmlfile-]
+PASSED tests/live/test_platform.py::test_f3_package_resolves_on_the_anaconda_channel_for_312[snowflake-snowpark-python-]
+PASSED tests/live/test_platform.py::test_f4_primary_key_is_not_enforced_and_not_null_is
+PASSED tests/live/test_platform.py::test_f5_owners_rights_procedure_runs_in_its_own_schema
+PASSED tests/live/test_platform.py::test_f6_staged_bytes_are_stored_uncompressed
+PASSED tests/live/test_platform.py::test_f8_deploy_ships_the_build_zip_and_packages
+PASSED tests/live/test_platform.py::test_f9_call_without_blocking_returns_an_async_job
+PASSED tests/live/test_platform.py::test_f1_hello_app_uses_the_container_runtime_and_pool
+PASSED tests/live/test_platform.py::test_f7_pypi_integration_is_attached_only_where_declared
+PASSED tests/live/test_platform.py::test_hello_pool_suspends_and_teardown_drops_the_schema
+================== 18 passed, 2 warnings in 75.93s (0:01:15) ===================
