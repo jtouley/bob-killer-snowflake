@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-import os
-import subprocess
-import sys
 from pathlib import Path
 
 from bk_gates.core import GateContext, load_gates
 from hook_stop import EXIT_BLOCK, EXIT_OK, stop
-from tests.gates.conftest import History, Project, copy_project
+from tests.gates.conftest import History, Project, copy_project, lint_imports
 from tests.gates.test_hooks import FAILING_GATES, _events
 from tests.gates.test_static_gates import BASE
 
@@ -76,13 +73,6 @@ def test_new_contract_module_is_discovered(tmp_path: Path) -> None:
 # §1.6 item 1: the Streamlit app package (Python 3.11) never imports the core.
 def test_app_package_importing_core_is_rejected(tmp_path: Path) -> None:
     copy = copy_project(tmp_path, {"src/bob_killer_sis/leak.py": "import bob_killer.contracts\n"})
-    proc = subprocess.run(
-        [str(Path(sys.executable).with_name("lint-imports"))],
-        cwd=copy,
-        capture_output=True,
-        text=True,
-        check=False,
-        env={**os.environ, "PYTHONPATH": str(copy / "src")},
-    )
+    proc = lint_imports(copy)
     assert proc.returncode != 0, proc.stdout
     assert "bob_killer_sis" in proc.stdout

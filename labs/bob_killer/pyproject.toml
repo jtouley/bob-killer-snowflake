@@ -8,6 +8,10 @@ dependencies = [
   "pydantic~=2.11",
   "fastapi~=0.115",
   "python-multipart>=0.0.20",
+  "openpyxl>=3.1",
+  "jinja2~=3.1",
+  "pyyaml>=6",
+  "oletools>=0.60",
 ]
 
 [project.optional-dependencies]
@@ -27,6 +31,7 @@ dev = [
   "types-openpyxl",
   "pyyaml>=6",
   "types-PyYAML",
+  "types-olefile",
   "jsonschema>=4.23",
   "types-jsonschema",
   "streamlit>=1.50",
@@ -78,6 +83,11 @@ python_version = "3.12"
 mypy_path = ["src", "scripts"]
 explicit_package_bases = true
 
+[[tool.mypy.overrides]]
+# oletools ships no py.typed marker and has no typeshed stubs (olefile does: types-olefile).
+module = ["oletools", "oletools.*"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 addopts = "-q --strict-markers -m 'not live'"
 markers = [
@@ -123,6 +133,12 @@ source_modules = ["bob_killer.hosts.snowflake"]
 forbidden_modules = ["bob_killer.api", "fastapi", "uvicorn"]
 
 [[tool.importlinter.contracts]]
+name = "Generators read registry.functions; they never evaluate Excel semantics"
+type = "forbidden"
+source_modules = ["bob_killer.generate"]
+forbidden_modules = ["bob_killer.runtime"]
+
+[[tool.importlinter.contracts]]
 name = "The Streamlit app (Python 3.11) never imports the core"
 type = "forbidden"
 source_modules = ["bob_killer_sis"]
@@ -134,5 +150,6 @@ paths_to_mutate = [
   "src/bob_killer/service/",
   "src/bob_killer/store/",
   "src/bob_killer/hosts/snowflake/",
+  "src/bob_killer/verify/",
 ]
 pytest_add_cli_args_test_selection = ["tests/unit"]

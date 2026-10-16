@@ -7,7 +7,7 @@ import ast
 from bk_gates.astutil import Module, modules
 from bk_gates.core import GateContext, Violation, gate
 
-SCOPES = ("tests/unit", "tests/integration", "tests/live")
+SCOPES = ("tests/unit", "tests/integration", "tests/live", "tests/snapshot")
 
 
 def is_literal(node: ast.AST) -> bool:
