@@ -698,3 +698,20 @@ Open questions for you: confirm the goal set and any golden swap if a URL or the
 frozen volatile cells (D24); accept "translated VBA rejoins the denominator only on an exact cached-value match plus
 your review" (§6); approve Cortex `AI_COMPLETE` and name the model (D27); confirm the dbt 1.12.3 pin (D29) and the
 per-run output schema `<DEPLOY>__R_<run_id>` (§3.4).
+
+## Decisions approved by the user (2026-10-16)
+
+The user approved the six defaults of the open questions. They are binding; no phase stops on them.
+
+1. **Goal set.** The five golden workbooks of core SPEC "Golden sample set". If a golden has no direct URL or fails
+   the Excel-saved check (cached values present), Phase 9 swaps it for the nearest public Excel-saved workbook of the
+   same complexity tier and records the swap and its reason in `golden.lock` and `.context/evidence/`.
+2. **D24 frozen volatile cells**: accepted as written.
+3. **VBA denominator rule**: a translated procedure rejoins the parity denominator only on an exact cached-value match
+   plus a human review row; accepted.
+4. **D27 Cortex `AI_COMPLETE`**: approved. Model: the first model in Phase 10's F28 evidence list, in this order of
+   preference: a Claude model, then a Llama 3.x 70B+ model, then any other model the region serves. Phase 10 records
+   which one; Phase 16 uses it.
+5. **D29 dbt pin 1.12.3**: confirmed.
+6. **Per-run output schema `<DEPLOY>__R_<run_id>`**: confirmed.
+
