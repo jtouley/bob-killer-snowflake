@@ -12,8 +12,6 @@ from bob_killer.runtime.values import UnsupportedValue
 
 SIGNIFICANT_DIGITS = 15
 _FIFTEEN = Context(prec=SIGNIFICANT_DIGITS, rounding=ROUND_HALF_UP)
-# Wide enough for a 15-digit coefficient plus a carry digit.
-_QUANTIZE = Context(prec=SIGNIFICANT_DIGITS + 2)
 _FIXED_MIN_EXPONENT = -5
 _FIXED_MAX_EXPONENT = SIGNIFICANT_DIGITS - 1
 
@@ -25,9 +23,9 @@ def fifteen_digits(x: float) -> Decimal:
 
 def _round(x: float, digits: int, rounding: str) -> float:
     d = fifteen_digits(x)
-    exponent = d.as_tuple().exponent
-    if isinstance(exponent, int) and exponent < -digits:
-        d = d.quantize(Decimal(1).scaleb(-digits), rounding=rounding, context=_QUANTIZE)
+    # Never quantize finer than the 15 digits held; the result has at most 16 digits.
+    places = max(-digits, int(d.as_tuple().exponent))
+    d = d.quantize(Decimal(f"1E{places}"), rounding=rounding)
     result = float(d)
     return 0.0 if result == 0 else result  # Excel has no negative zero in a cell
 
@@ -56,12 +54,12 @@ def number_to_text(x: float) -> str:
     d = fifteen_digits(x)
     if d.is_zero():
         return "0"
-    d = d.normalize(_FIFTEEN)
+    d = d.normalize()
     exponent = d.adjusted()
     if _FIXED_MIN_EXPONENT <= exponent <= _FIXED_MAX_EXPONENT:
         return format(d, "f")
     if exponent < _FIXED_MIN_EXPONENT:
-        raise UnsupportedValue(f"text form of {x!r}: notation below 1E-5 is not established")
+        raise UnsupportedValue(f"text form of {x!r} below 1E-5")  # pragma: no mutate
     sign, digits, _ = d.as_tuple()
     mantissa = "".join(map(str, digits))
     if len(mantissa) > 1:

@@ -18,14 +18,14 @@ TypedRule = Callable[[CellValue], float | ExcelError]
 
 def _typed(value: CellValue) -> float | ExcelError:
     if value is None:
-        raise UnsupportedValue("an omitted argument")
+        raise UnsupportedValue("an omitted argument")  # pragma: no mutate
     return to_number(value)
 
 
 def _typed_numbers_only(value: CellValue) -> float | ExcelError:
     # The AVERAGE page says typed logicals and number text are "not counted"; unconfirmed.
     if isinstance(value, bool | str):
-        raise UnsupportedValue(f"typed {value!r} in AVERAGE")
+        raise UnsupportedValue(f"typed {value!r} in AVERAGE")  # pragma: no mutate
     return _typed(value)
 
 
@@ -108,7 +108,7 @@ def counta(*args: Arg) -> float:
         if isinstance(arg, tuple):
             n += sum(cell is not None for cell in arg)
         elif arg is None:
-            raise UnsupportedValue("an omitted argument")
+            raise UnsupportedValue("an omitted argument")  # pragma: no mutate
         else:
             n += 1
     return float(n)

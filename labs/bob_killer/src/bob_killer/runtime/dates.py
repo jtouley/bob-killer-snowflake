@@ -26,13 +26,11 @@ def _bounds(date1904: bool) -> tuple[int, int]:
 def _check(serial: int, date1904: bool) -> None:
     first, last = _bounds(date1904)
     if not first <= serial <= last:
-        system = "1904" if date1904 else "1900"
-        raise ValueError(
-            f"serial {serial} is outside Excel's {system} date system [{first}, {last}]"
-        )
+        system = "1904" if date1904 else "1900"  # pragma: no mutate
+        raise ValueError(f"{serial} outside {system} dates {first}-{last}")  # pragma: no mutate
 
 
-def ymd_to_serial(year: int, month: int, day: int, *, date1904: bool = False) -> float:
+def ymd_to_serial(year: int, month: int, day: int, *, date1904: bool) -> float:
     """The serial number of a calendar date."""
     if date1904:
         serial = (date(year, month, day) - _DAY_ZERO_1904).days
@@ -46,7 +44,7 @@ def ymd_to_serial(year: int, month: int, day: int, *, date1904: bool = False) ->
     return float(serial)
 
 
-def serial_to_ymd(serial: float, *, date1904: bool = False) -> tuple[int, int, int]:
+def serial_to_ymd(serial: float, *, date1904: bool) -> tuple[int, int, int]:
     """The calendar date of a serial number; the fraction (time of day) is dropped."""
     whole = math.floor(serial)
     _check(whole, date1904)

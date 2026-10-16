@@ -16,13 +16,13 @@ def _logicals(args: tuple[Arg, ...]) -> list[bool] | ExcelError:
     out: list[bool] = []
     for arg in args:
         if arg is None:
-            raise UnsupportedValue("an omitted argument")
+            raise UnsupportedValue("an omitted argument")  # pragma: no mutate
         cells = arg if isinstance(arg, tuple) else (to_logical(arg),)
         for cell in cells:
             if isinstance(cell, ExcelError):
                 return cell
             if isinstance(cell, float):
-                raise UnsupportedValue("a number inside a reference given to AND or OR")
+                raise UnsupportedValue("a number in a reference for AND/OR")  # pragma: no mutate
             if isinstance(cell, bool):
                 out.append(cell)
     return out or ExcelError.VALUE
