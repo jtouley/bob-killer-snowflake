@@ -113,23 +113,23 @@ def execute_run_handler(
     return RunView(run=run, stages=host.store.stages(run_id))
 
 
+SESSION_PARAMETER = "session"  # Snowflake passes the Snowpark session as the first handler argument
+
+
 def create_run_procedure(
     session: Session,
     stage_file: str,
     filename: str,
     sha256: str,
-    host_factory: HostFactory = default_host,
 ) -> dict[str, Any]:
     """CREATE_RUN(VARCHAR, VARCHAR, VARCHAR) RETURNS VARIANT."""
-    result = create_run_handler(session, stage_file, filename, sha256, host_factory)
+    result = create_run_handler(session, stage_file, filename, sha256, default_host)
     return result.model_dump(mode="json")
 
 
-def execute_run_procedure(
-    session: Session, run_id: str, host_factory: HostFactory = default_host
-) -> dict[str, Any]:
+def execute_run_procedure(session: Session, run_id: str) -> dict[str, Any]:
     """EXECUTE_RUN(VARCHAR) RETURNS VARIANT."""
-    return execute_run_handler(session, run_id, host_factory).model_dump(mode="json")
+    return execute_run_handler(session, run_id, default_host).model_dump(mode="json")
 
 
 register_stages()

@@ -268,16 +268,16 @@ def _schema(model: type) -> Any:
 def _outcomes(world: World) -> list[tuple[type, dict[str, Any]]]:
     claimed = hashlib.sha256(b"x").hexdigest()
     world.stage(WORKBOOK, claimed)
-    rejected = procedure.create_run_procedure(
-        world.session, f"{claimed}.xlsx", "x.xlsx", claimed, host_factory=world.host
-    )
+    rejected = procedure.create_run_handler(
+        world.session, f"{claimed}.xlsx", "x.xlsx", claimed, world.host
+    ).model_dump(mode="json")
     sha = world.stage(WORKBOOK)
-    created = procedure.create_run_procedure(
-        world.session, f"{sha}.xlsx", "book.xlsx", sha, host_factory=world.host
-    )
-    view = procedure.execute_run_procedure(
-        world.session, str(created["run_id"]), host_factory=world.host
-    )
+    created = procedure.create_run_handler(
+        world.session, f"{sha}.xlsx", "book.xlsx", sha, world.host
+    ).model_dump(mode="json")
+    view = procedure.execute_run_handler(
+        world.session, str(created["run_id"]), world.host
+    ).model_dump(mode="json")
     return [(RunRejected, rejected), (RunCreated, created), (RunView, view)]
 
 
