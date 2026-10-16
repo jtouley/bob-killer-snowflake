@@ -26,6 +26,7 @@ from bob_killer.hosts.snowflake.store import (
     affected,
     run_sql,
 )
+from bob_killer.store import RunRepository
 
 LANDED = "landed"
 ALREADY_LANDED = "already landed"
@@ -161,13 +162,27 @@ class BronzeWriter:
         return LANDED
 
 
+def land_file(
+    session: SqlSession, landed: LandedFile, data: bytes, *, batch_size: int = DEFAULT_BATCH_SIZE
+) -> str:
+    """Parse the staged bytes and land their rows once (the BronzeWriter path of land_bronze)."""
+    rows = rows_from_workbook(data, file_sha256=landed.file_sha256, run_id=landed.first_run_id)
+    return BronzeWriter(session, batch_size=batch_size).land(landed, rows)
+
+
 @dataclass(frozen=True)
 class BronzeContext:
-    """What land_bronze needs per procedure call (D4): the session and how to read a staged file."""
+    """What land_bronze needs per procedure call (D4): the session and how to read a staged file.
+
+    ``store`` and ``land`` default to SnowflakeRunStore and ``land_file`` over the session; the
+    procedure host passes its own.
+    """
 
     session: SqlSession
     read_file: Callable[[str], bytes]
     batch_size: int = DEFAULT_BATCH_SIZE
+    store: RunRepository | None = None
+    land: Callable[[LandedFile, bytes], str] | None = None
 
 
 def stage_reader(session: Any) -> Callable[[str], bytes]:
@@ -195,7 +210,8 @@ def landing_context(ctx: BronzeContext) -> Iterator[BronzeContext]:
 def land_bronze(run_id: str) -> str:
     """Stage: run_id -> sha256 -> staged file -> bronze rows, landed once per file."""
     ctx = _context.get()
-    run = SnowflakeRunStore(ctx.session).get_run(run_id)
+    store = SnowflakeRunStore(ctx.session) if ctx.store is None else ctx.store
+    run = store.get_run(run_id)
     if run is None:
         raise KeyError(run_id)
     stage_file = f"{run.sha256}.xlsx"
@@ -207,8 +223,9 @@ def land_bronze(run_id: str) -> str:
         size_bytes=len(data),
         first_run_id=run_id,
     )
-    rows = rows_from_workbook(data, file_sha256=run.sha256, run_id=run_id)
-    return BronzeWriter(ctx.session, batch_size=ctx.batch_size).land(landed, rows)
+    if ctx.land is not None:
+        return ctx.land(landed, data)
+    return land_file(ctx.session, landed, data, batch_size=ctx.batch_size)
 
 
 def register_stages() -> None:
