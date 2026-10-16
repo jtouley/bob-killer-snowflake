@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
+from typing import Literal
 
 from bob_killer.contracts.base import StrictModel
 
@@ -48,6 +49,13 @@ class StageStatus(StrictModel):
 class RunCreated(StrictModel):
     run_id: str
     state: RunState
+
+
+class RunRejected(StrictModel):
+    """CREATE_RUN refused the upload; nothing was written and nothing stays staged."""
+
+    status: Literal[400, 413, 415]
+    detail: str
 
 
 class RunView(StrictModel):
