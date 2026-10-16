@@ -10,14 +10,14 @@ from bob_killer import registry
 from bob_killer.contracts import SCHEMA_VERSION
 from bob_killer.contracts.runs import Run, RunState, StageState, StageStatus, UploadLimits
 from bob_killer.service.uploads import inspect_upload
-from bob_killer.store.db import RunStore
+from bob_killer.store import RunRepository
 
 
 def _status(run_id: str, stage: str, state: StageState, detail: str = "") -> StageStatus:
     return StageStatus(run_id=run_id, stage=stage, state=state, detail=detail)
 
 
-def create_run(store: RunStore, filename: str, data: bytes, limits: UploadLimits) -> Run:
+def create_run(store: RunRepository, filename: str, data: bytes, limits: UploadLimits) -> Run:
     inspect_upload(data, limits)
     run = Run(
         run_id=uuid.uuid4().hex,
@@ -33,7 +33,7 @@ def create_run(store: RunStore, filename: str, data: bytes, limits: UploadLimits
     return run
 
 
-def execute_run(store: RunStore, run_id: str) -> RunState:
+def execute_run(store: RunRepository, run_id: str) -> RunState:
     store.set_state(run_id, RunState.RUNNING)
     final = RunState.SUCCEEDED
     for name, stage in registry.stages.items():

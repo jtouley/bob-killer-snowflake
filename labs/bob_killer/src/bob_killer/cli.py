@@ -10,6 +10,7 @@ from bob_killer import registry
 from bob_killer.contracts.runs import RunState, UploadLimits
 from bob_killer.service.runs import create_run, execute_run
 from bob_killer.service.uploads import UploadRejected
+from bob_killer.store import RunRepository
 from bob_killer.store.db import RunStore
 
 EXIT_OK = 0
@@ -24,7 +25,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--db", type=Path, default=Path("build/bob_killer.db"))
     args = parser.parse_args(argv)
 
-    store = RunStore(args.db)
+    store: RunRepository = RunStore(args.db)
     try:
         run = create_run(store, args.workbook.name, args.workbook.read_bytes(), UploadLimits())
     except UploadRejected as exc:

@@ -44,11 +44,28 @@ class RunStore:
                 f"UPDATE {Run.table_name} SET state = ? WHERE run_id = ?", (state.value, run_id)
             )
 
+    def claim_run(self, run_id: str) -> bool:
+        with self._conn:
+            cur = self._conn.execute(
+                f"UPDATE {Run.table_name} SET state = ? WHERE run_id = ? AND state = ?",
+                (RunState.RUNNING.value, run_id, RunState.QUEUED.value),
+            )
+        return cur.rowcount == 1
+
     def upsert_stage(self, status: StageStatus) -> None:
+        # ON CONFLICT ... DO UPDATE keeps the rowid, so stage order stays insert order (G8).
         marks = ", ".join("?" * len(StageStatus.model_fields))
+        keys = ", ".join(StageStatus.primary_key)
+        updates = ", ".join(
+            f"{name} = excluded.{name}"
+            for name in StageStatus.model_fields
+            if name not in StageStatus.primary_key
+        )
         with self._conn:
             self._conn.execute(
-                f"INSERT OR REPLACE INTO {StageStatus.table_name} VALUES ({marks})", _row(status)
+                f"INSERT INTO {StageStatus.table_name} VALUES ({marks}) "
+                f"ON CONFLICT({keys}) DO UPDATE SET {updates}",
+                _row(status),
             )
 
     def stages(self, run_id: str) -> tuple[StageStatus, ...]:
