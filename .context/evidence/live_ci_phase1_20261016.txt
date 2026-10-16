@@ -1,0 +1,4 @@
+run: https://github.com/jtouley/bob-killer-snowflake/actions/runs/38954302634
+commit: 04a4da6
+jobs: gates success; live success (step notice: "live job skipped: no SNOWFLAKE_* secrets; see tools/setup-ci-secrets.sh"); mutation skipped (nightly)
+result: skip = pass for the Phase 1 exit check
