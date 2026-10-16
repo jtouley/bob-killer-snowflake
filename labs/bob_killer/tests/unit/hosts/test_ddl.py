@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
+import json
+from datetime import datetime
 from pathlib import Path
 
 import pytest
 
 from bob_killer.contracts import TABLES, StrictModel
-from bob_killer.contracts.bronze import BronzeRow, LandedFile
+from bob_killer.contracts.bronze import BronzePayload, BronzeRow, LandedFile
 from bob_killer.contracts.ddl import ddl_dialects
-from bob_killer.hosts.snowflake.ddl import SNOWFLAKE_TABLES, table_ddl
+from bob_killer.contracts.runs import RunState
+from bob_killer.hosts.snowflake.ddl import SNOWFLAKE_TABLES, column_type, table_ddl
 
 GOLDEN = Path(__file__).resolve().parents[3] / "hosts/snowflake/sql/10_tables.sql"
 
@@ -50,3 +53,22 @@ def test_unmapped_type_raises_type_error() -> None:
 
     with pytest.raises(TypeError):
         table_ddl(Unmapped)
+
+
+_ORACLE = json.loads(
+    (Path(__file__).resolve().parents[2] / "oracle" / "snowflake_types.json").read_text("utf-8")
+)
+_ANNOTATIONS: dict[str, object] = {
+    "str": str,
+    "int": int,
+    "float": float,
+    "bool": bool,
+    "datetime": datetime,
+    "enum": RunState,
+    "nested_model": BronzePayload,
+}
+
+
+@pytest.mark.parametrize("kind", sorted(_ORACLE["cases"]))
+def test_type_map_row_matches_the_spec(kind: str) -> None:
+    assert column_type("c", _ANNOTATIONS[kind]) == _ORACLE["cases"][kind]

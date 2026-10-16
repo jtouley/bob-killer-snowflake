@@ -1,0 +1,13 @@
+{
+  "source": "docs/SPEC.md §6.2 (the snowflake dialect type map)",
+  "verified_by": "Claude Code, copied from the spec text on 2026-10-16, not from hosts/snowflake/ddl.py",
+  "cases": {
+    "str": "VARCHAR",
+    "int": "NUMBER(38,0)",
+    "float": "FLOAT",
+    "bool": "BOOLEAN",
+    "datetime": "TIMESTAMP_TZ",
+    "enum": "VARCHAR",
+    "nested_model": "VARIANT"
+  }
+}
