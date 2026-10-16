@@ -34,6 +34,8 @@ from openpyxl.workbook.external_link.external import ExternalBook, ExternalLink
 from openpyxl.worksheet.formula import DataTableFormula
 from openpyxl.worksheet.table import Table
 
+from bob_killer.contracts.base import SCHEMA_VERSION
+
 if TYPE_CHECKING:
     from bob_killer.contracts.raw import RawWorkbook
 from collections.abc import Mapping
@@ -313,7 +315,7 @@ DATA, SUMMARY, RATES = "Data", "Summary", "Rates {2013}"
 def sample_ir_json() -> Json:
     """Every IR section and every step kind, on three sheets (one name needs SQL/Jinja escaping)."""
     return {
-        "schema_version": 1,
+        "schema_version": SCHEMA_VERSION,
         "source": {"file": "bobs_forecast_2013.xlsm", "sha256": "9f2c" * 16},
         "sheets": [
             {"id": "data", "name": DATA, "index": 0},
