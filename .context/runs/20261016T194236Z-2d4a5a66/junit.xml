@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="8" time="0.662" timestamp="2026-10-16T15:42:36.608709-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_store" name="test_run_round_trips[sqlite]" time="0.010" /><testcase classname="tests.unit.test_store" name="test_missing_run_is_none" time="0.080" /><testcase classname="tests.unit.test_store" name="test_set_state_and_stages[sqlite]" time="0.034" /><testcase classname="tests.unit.test_store" name="test_unknown_run_is_none_and_not_claimed[sqlite]" time="0.007"><failure message="AttributeError: 'RunStore' object has no attribute 'claim_run'">store = &lt;bob_killer.store.db.RunStore object at 0x1070ff860&gt;
+
+    def test_unknown_run_is_none_and_not_claimed(store: RunRepository) -&gt; None:
+        missing = sample_run().run_id
+&gt;       assert not store.claim_run(missing)
+                   ^^^^^^^^^^^^^^^
+E       AttributeError: 'RunStore' object has no attribute 'claim_run'
+
+tests/unit/test_store.py:49: AttributeError</failure></testcase><testcase classname="tests.unit.test_store" name="test_upsert_updates_the_row_in_place[sqlite]" time="0.020"><failure message="AssertionError: assert (StageStatus(...etail='boom')) == (StageStatus(...&gt;, detail=''))&#10;  &#10;  At index 0 diff: StageStatus(run_id='r1', stage='lift', state=&lt;StageState.PENDING: 'pending'&gt;, detail='') != StageStatus(run_id='r1', stage='extract', state=&lt;StageState.FAILED: 'failed'&gt;, detail='boom')&#10;  Use -v to get more diff">store = &lt;bob_killer.store.db.RunStore object at 0x1070ffd70&gt;
+
+    def test_upsert_updates_the_row_in_place(store: RunRepository) -&gt; None:
+        """G8: a second upsert of a stage keeps its position in insert order."""
+        run = sample_run()
+        store.insert_run(run)
+        first, second = (
+            StageStatus(run_id=run.run_id, stage=name, state=StageState.PENDING, detail="")
+            for name in ("extract", "lift")
+        )
+        store.upsert_stage(first)
+        store.upsert_stage(second)
+        failed = first.model_copy(update={"state": StageState.FAILED, "detail": "boom"})
+        store.upsert_stage(failed)
+&gt;       assert store.stages(run.run_id) == (failed, second)
+E       AssertionError: assert (StageStatus(...etail='boom')) == (StageStatus(...&gt;, detail=''))
+E         
+E         At index 0 diff: StageStatus(run_id='r1', stage='lift', state=&lt;StageState.PENDING: 'pending'&gt;, detail='') != StageStatus(run_id='r1', stage='extract', state=&lt;StageState.FAILED: 'failed'&gt;, detail='boom')
+E         Use -v to get more diff
+
+tests/unit/test_store.py:65: AssertionError</failure></testcase><testcase classname="tests.unit.test_store" name="test_stage_rows_keep_registry_order_after_execute[sqlite-all-succeed]" time="0.019" /><testcase classname="tests.unit.test_store" name="test_stage_rows_keep_registry_order_after_execute[sqlite-first-fails]" time="0.028"><failure message="AssertionError: assert ('second', 'first') == ('first', 'second')&#10;  &#10;  At index 0 diff: 'second' != 'first'&#10;  Use -v to get more diff">store = &lt;bob_killer.store.db.RunStore object at 0x1071346e0&gt;, first_fails = True
+
+    @pytest.mark.parametrize("first_fails", [False, True], ids=["all-succeed", "first-fails"])
+    def test_stage_rows_keep_registry_order_after_execute(
+        store: RunRepository, first_fails: bool
+    ) -&gt; None:
+        def first(run_id: str) -&gt; None:
+            if first_fails:
+                raise RuntimeError(run_id)
+    
+        def second(run_id: str) -&gt; None:
+            return None
+    
+        for stage in (first, second):
+            registry.stages.add(stage.__name__, stage)
+        run = queued_run(store)
+        execute_run(store, run.run_id)
+&gt;       assert tuple(s.stage for s in store.stages(run.run_id)) == registry.stages.names()
+E       AssertionError: assert ('second', 'first') == ('first', 'second')
+E         
+E         At index 0 diff: 'second' != 'first'
+E         Use -v to get more diff
+
+tests/unit/test_store.py:83: AssertionError</failure></testcase><testcase classname="tests.unit.test_store" name="test_claim_is_won_once[sqlite]" time="0.006"><failure message="AttributeError: 'RunStore' object has no attribute 'claim_run'">store = &lt;bob_killer.store.db.RunStore object at 0x107134e30&gt;
+
+    def test_claim_is_won_once(store: RunRepository) -&gt; None:
+        run = sample_run()
+        store.insert_run(run)
+&gt;       assert store.claim_run(run.run_id)
+               ^^^^^^^^^^^^^^^
+E       AttributeError: 'RunStore' object has no attribute 'claim_run'
+
+tests/unit/test_store.py:89: AttributeError</failure></testcase></testsuite></testsuites>

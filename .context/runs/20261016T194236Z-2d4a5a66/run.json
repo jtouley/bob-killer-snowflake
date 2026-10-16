@@ -1,0 +1,20 @@
+{
+  "junit_sha256": "78fbd08cc6f2eb443cb682fcb12e28ed5ffcef896883fbc548d34a4b80801441",
+  "nodes": {
+    "tests.unit.test_store::test_claim_is_won_once[sqlite]": "failed",
+    "tests.unit.test_store::test_missing_run_is_none": "passed",
+    "tests.unit.test_store::test_run_round_trips[sqlite]": "passed",
+    "tests.unit.test_store::test_set_state_and_stages[sqlite]": "passed",
+    "tests.unit.test_store::test_stage_rows_keep_registry_order_after_execute[sqlite-all-succeed]": "passed",
+    "tests.unit.test_store::test_stage_rows_keep_registry_order_after_execute[sqlite-first-fails]": "failed",
+    "tests.unit.test_store::test_unknown_run_is_none_and_not_claimed[sqlite]": "failed",
+    "tests.unit.test_store::test_upsert_updates_the_row_in_place[sqlite]": "failed"
+  },
+  "pytest_args": [
+    "tests/unit/test_store.py"
+  ],
+  "recorded_at": "2026-10-16T19:42:36Z",
+  "run_id": "20261016T194236Z-2d4a5a66",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "54471d89bd320ce8bc4711c16a35ee322db44a40711542d37d50778f2aae7e6d"
+}
