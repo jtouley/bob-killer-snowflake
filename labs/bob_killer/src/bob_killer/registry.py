@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
+from contextlib import contextmanager
 from importlib.metadata import entry_points
 from typing import Any
 
@@ -35,6 +36,18 @@ class Registry[T]:
 
     def items(self) -> tuple[tuple[str, T], ...]:
         return tuple(self._items.items())
+
+    def clear(self) -> None:
+        self._items.clear()
+
+    @contextmanager
+    def snapshot(self) -> Iterator[None]:
+        """Save the entries on entry and restore them on exit, even if the block raises."""
+        saved = dict(self._items)
+        try:
+            yield
+        finally:
+            self._items = saved
 
     def __contains__(self, name: object) -> bool:
         return name in self._items
