@@ -8,8 +8,8 @@
       "source_page": "https://www.mdt.mt.gov/pubinvolve/mwt/program.aspx",
       "url": "https://www.mdt.mt.gov/other/webdata/external/Planning/MWT/MWTP-Program/MWTP-Project-Budget-Worksheet-Template.xlsx",
       "filename": "mwtp_project_budget_worksheet.xlsx",
-      "sha256": null,
-      "status": "pending-hash",
+      "sha256": "e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047",
+      "status": "resolved",
       "note": "SPEC linked the Appendix B PDF; this .xlsx template URL came from a web search and is unverified. Check Montana's redistribution terms before sharing."
     },
     {
@@ -17,22 +17,22 @@
       "complexity": "low-mid",
       "title": "EPA Individual Waste Reduction Model (iWARM) tool",
       "source_page": "https://www.epa.gov/warm/individual-waste-reduction-model-iwarm-tool",
-      "url": null,
-      "filename": null,
-      "sha256": null,
-      "status": "unresolved",
-      "note": "Landing page only (xlsm, 119.41 KB, 2016-07-18); direct file URL not yet known."
+      "url": "https://www.epa.gov/sites/default/files/2016-07/iwarm_v2.xlsm",
+      "filename": "iwarm_v2.xlsm",
+      "sha256": "69aee51c5bf2e56ce67e07a55c4df5778a271580bc467d673485c63e594f67fe",
+      "status": "resolved",
+      "note": "Direct link found on https://www.epa.gov/waste-reduction-model/individual-waste-reduction-model-tool (2026-10-16)."
     },
     {
       "id": "sgec_current",
       "complexity": "mid",
       "title": "EPA Simplified GHG Emissions Calculator (current, uses XLOOKUP)",
       "source_page": "https://www.epa.gov/climateleadership/simplified-ghg-emissions-calculator",
-      "url": null,
-      "filename": null,
-      "sha256": null,
-      "status": "unresolved",
-      "note": "Landing page only; direct file URL not yet known."
+      "url": "https://www.epa.gov/system/files/other-files/2022-09/calculator_tool.xlsm",
+      "filename": "sgec_calculator_tool_2022_09.xlsm",
+      "sha256": "47bd1b100597d0972049425c3686a6edf50f6b7518de2551749363fef34fe8f9",
+      "status": "resolved",
+      "note": "Direct link found on https://www.epa.gov/climateleadership/simplified-ghg-emissions-calculator (2026-10-16)."
     },
     {
       "id": "jedi_wind",
@@ -43,7 +43,7 @@
       "filename": null,
       "sha256": null,
       "status": "unresolved",
-      "note": "Landing page only (release W10.30.20 per search); check the NREL user agreement before redistribution."
+      "note": "No direct file URL: nlr.gov (NREL's new domain) serves the model through a download flow with the user agreement inside the workbook. Swap required under the approved goal-set rule (docs/SPEC-compiler-dbt.md, approved decisions 1)."
     },
     {
       "id": "warm_v16",
@@ -63,8 +63,8 @@
       "source_page": "https://19january2017snapshot.epa.gov/climateleadership/center-corporate-climate-leadership-simplified-ghg-emissions-calculator_.html",
       "url": "https://19january2017snapshot.epa.gov/sites/production/files/2017-01/sgec_tool_v4_1.xlsm",
       "filename": "sgec_tool_v4_1.xlsm",
-      "sha256": null,
-      "status": "pending-hash",
+      "sha256": "75f5d8a0c660fb37535571ef463195508cc9dae7dc94acf604593dcd5078ac08",
+      "status": "resolved",
       "note": "Direct URL from SPEC; hash pinned on first reviewed download."
     },
     {
@@ -74,8 +74,8 @@
       "source_page": "https://www.epa.gov/climateleadership/simplified-ghg-emissions-calculator",
       "url": "https://www.epa.gov/sites/default/files/2018-04/sgec_tool_v5_1.xlsm",
       "filename": "sgec_tool_v5_1.xlsm",
-      "sha256": null,
-      "status": "pending-hash",
+      "sha256": "b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd",
+      "status": "resolved",
       "note": "Direct URL from SPEC; hash pinned on first reviewed download."
     }
   ]
