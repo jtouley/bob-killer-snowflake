@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: hello
+    description: One row copied from the hello seed.
+    columns:
+      - name: greeting
+        description: The greeting text of the seed.
+        data_tests:
+          - not_null

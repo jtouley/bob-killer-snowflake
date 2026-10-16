@@ -1,0 +1,15 @@
+# F14: dbt needs account and user, but they may be empty strings; the dbt command runs with
+# the role of the outputs block. No secret and no account-specific literal is in this file:
+# the live fixture supplies role, warehouse, database and schema from its own session.
+bk_hello:
+  target: bk
+  outputs:
+    bk:
+      type: snowflake
+      account: ""
+      user: ""
+      role: "{{ env_var('BK_DBT_ROLE', '') }}"
+      warehouse: "{{ env_var('BK_DBT_WAREHOUSE', '') }}"
+      database: "{{ env_var('BK_DBT_DATABASE', '') }}"
+      schema: "{{ env_var('BK_DBT_SCHEMA', '') }}"
+      threads: 1
