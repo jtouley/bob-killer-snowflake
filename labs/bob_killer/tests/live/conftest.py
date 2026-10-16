@@ -55,19 +55,33 @@ def expected_role() -> str:
     return role
 
 
+def fresh_tables(session: Session, schema: str, models: tuple[type, ...]) -> None:
+    """Create (or replace) these contract tables, from the snowflake DDL dialect, in ``schema``."""
+    from bob_killer.hosts.snowflake.ddl import table_ddl
+
+    session.use_schema(schema)
+    for model in models:
+        ddl = table_ddl(model).replace("CREATE TABLE IF NOT EXISTS", "CREATE OR REPLACE TABLE", 1)
+        session.sql(ddl).collect()
+
+
 @pytest.fixture
 def store(session: Session, schema: str) -> object:
     """The shared RunRepository suite's ``store``, overridden here with a live SnowflakeRunStore.
 
-    Fresh RUNS and STAGE_STATUS tables (from the snowflake DDL dialect) in this run's TEST_ schema
-    for every test, so tests do not share rows.
+    Fresh RUNS and STAGE_STATUS tables in this run's TEST_ schema for every test.
     """
     from bob_killer.contracts.runs import Run, StageStatus
-    from bob_killer.hosts.snowflake.ddl import table_ddl
     from bob_killer.hosts.snowflake.store import SnowflakeRunStore
 
-    session.use_schema(schema)
-    for model in (Run, StageStatus):
-        ddl = table_ddl(model).replace("CREATE TABLE IF NOT EXISTS", "CREATE OR REPLACE TABLE", 1)
-        session.sql(ddl).collect()
+    fresh_tables(session, schema, (Run, StageStatus))
     return SnowflakeRunStore(session)
+
+
+@pytest.fixture
+def bronze_session(session: Session, schema: str) -> Session:
+    """Fresh LANDED_FILES and BRONZE_ROWS tables in this run's TEST_ schema for every test."""
+    from bob_killer.contracts.bronze import BronzeRow, LandedFile
+
+    fresh_tables(session, schema, (LandedFile, BronzeRow))
+    return session

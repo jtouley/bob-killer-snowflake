@@ -47,7 +47,18 @@ F3_PACKAGES = [
 ]
 
 
+_ACCOUNT_URL = re.compile(r"https://app\.snowflake\.com/[^/\s]+/[^/\s]+/")
+_ACCOUNT_HOST = re.compile(r"[A-Za-z0-9_-]+\.snowflakecomputing\.com")
+
+
+def redact(text: str) -> str:
+    """Evidence is committed to a public repo: no account identifier in it (README, spec §1.4)."""
+    text = _ACCOUNT_URL.sub("https://app.snowflake.com/<ORG>/<ACCOUNT>/", text)
+    return _ACCOUNT_HOST.sub("<ACCOUNT>.snowflakecomputing.com", text)
+
+
 def record(title: str, body: str) -> None:
+    body = redact(body)
     EVIDENCE.parent.mkdir(parents=True, exist_ok=True)
     with EVIDENCE.open("a", encoding="utf-8") as f:
         f.write(
