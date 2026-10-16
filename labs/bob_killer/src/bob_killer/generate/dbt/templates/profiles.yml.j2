@@ -1,0 +1,13 @@
+[# F14: dbt needs account and user, which may be empty; the role in outputs runs the commands. #]
+[[ project | yq ]]:
+  target: bk
+  outputs:
+    bk:
+      type: snowflake
+      account: ""
+      user: ""
+      role: [[ target.role | yq ]]
+      warehouse: [[ target.warehouse | yq ]]
+      database: [[ target.database | yq ]]
+      schema: [[ target.output_schema | yq ]]
+      threads: 4

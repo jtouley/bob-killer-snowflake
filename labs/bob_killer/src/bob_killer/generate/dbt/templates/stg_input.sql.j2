@@ -1,0 +1,27 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model) ]]
+WITH spine AS (
+    SELECT [[ first_row ]] + ROW_NUMBER() OVER (ORDER BY SEQ4()) - 1 AS _row
+    FROM TABLE(GENERATOR(ROWCOUNT => [[ height ]]))
+),
+cells AS (
+    SELECT [[ ident('row') ]] AS _r, [[ ident('col') ]] AS _c, [[ ident('value') ]] AS _v
+    FROM {{ source('bk', 'WB_INPUT_CELLS') }}
+    WHERE [[ ident('run_id') ]] = '{{ var('bk_run_id') }}'
+        AND [[ ident('sheet') ]] = [[ sheet ]]
+        AND [[ ident('row') ]] BETWEEN [[ first_row ]] AND [[ last_row ]]
+        AND [[ ident('col') ]] BETWEEN [[ first_col ]] AND [[ last_col ]]
+),
+pivot AS (
+    SELECT spine._row, OBJECT_AGG(TO_VARCHAR(cells._c), cells._v) AS _cells
+    FROM spine
+    LEFT JOIN cells ON cells._r = spine._row
+    GROUP BY spine._row
+)
+SELECT
+    _row,
+    [[ first_col ]] AS _col,
+[% for c in columns %]
+    COALESCE(_cells['[[ c.col ]]'], {{ bk_blank() }}) AS [[ ident(c.name) ]][[ "," if not loop.last ]]
+[% endfor %]
+FROM pivot

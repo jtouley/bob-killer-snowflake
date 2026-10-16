@@ -1,0 +1,4 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model) ]]
+[[ sql.cell_select(ident('sheet'), "TO_NUMBER(" ~ ident('row') ~ ")", "TO_NUMBER(" ~ ident('col') ~ ")", node_id, "{{ bk_wire(bk_ident('wire_json')) }}") ]]
+FROM {{ ref([[ seed | sql ]]) }}

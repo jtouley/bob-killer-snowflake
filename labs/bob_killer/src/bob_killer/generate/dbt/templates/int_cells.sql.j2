@@ -1,0 +1,3 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model, depends) ]]
+[% call(r) sql.union_all(rows) %][[ sql.cell_select(r.sheet, r.row, r.col, r.node_id, r.value) ]][% endcall %]
