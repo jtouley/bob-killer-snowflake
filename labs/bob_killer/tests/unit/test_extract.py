@@ -8,9 +8,29 @@ from typing import Any
 
 import pytest
 
-from bob_killer.contracts.raw import CachedType, RawCell, RawWorkbook, SheetState
+from bob_killer import registry
+from bob_killer.contracts.raw import (
+    CachedType,
+    RawCell,
+    RawUnsupported,
+    RawWorkbook,
+    SheetState,
+    VbaModuleKind,
+    VbaSourceStatus,
+)
 from bob_killer.extract import extract_workbook
-from tests.unit.conftest import ORACLE, Structure, build_structure
+from tests.unit.conftest import (
+    EXTERNAL_LINK,
+    FEATURES,
+    ORACLE,
+    VBA_PART,
+    VBA_PROJECT,
+    VBA_SOURCE,
+    Structure,
+    build_structure,
+    build_with_feature,
+    build_with_vba_part,
+)
 
 GoldenRaw = Callable[[str], RawWorkbook]
 
@@ -25,7 +45,9 @@ def _golden(key: str) -> list[tuple[str, dict[str, Any]]]:
 
 def _golden_id(case: object) -> str:
     if isinstance(case, dict):
-        return "!".join(str(case[k]) for k in ("sheet", "address", "scope", "name") if k in case)
+        return "!".join(
+            str(case[k]) for k in ("sheet", "address", "scope", "name", "origin") if k in case
+        )
     return str(case)
 
 
@@ -108,3 +130,57 @@ def test_golden_defined_name(
 ) -> None:
     found = {(n.scope, n.name): n.refers_to for n in golden_raw(workbook_id).defined_names}
     assert found[(expected["scope"], expected["name"])] == expected["refers_to"]
+
+
+def _unsupported(raw: RawWorkbook) -> dict[tuple[str, str], str]:
+    return {(u.kind, u.origin): u.reason for u in raw.unsupported}
+
+
+@pytest.mark.parametrize("kind", sorted(FEATURES))
+def test_unsupported_feature_is_reported_with_its_origin(kind: str) -> None:
+    data, origin = build_with_feature(kind)
+    found = _unsupported(extract_workbook(data))
+    assert (kind, origin) in found
+    assert found[(kind, origin)]
+
+
+def test_detectors_run_through_the_registry(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(registry, "detectors", registry.Registry("detectors"))
+    marker = RawUnsupported(kind="test_marker", origin="Inputs!A1", reason="registered by a test")
+    registry.detectors.add(marker.kind, lambda wb: (marker,))
+    raw = extract_workbook(build_structure())
+    assert marker in raw.unsupported
+    assert set(FEATURES) <= set(registry.detectors.names())
+
+
+def test_a_plain_workbook_has_no_unsupported_rows(structure_raw: RawWorkbook) -> None:
+    assert not structure_raw.unsupported
+    assert not structure_raw.vba_modules
+
+
+def test_unreadable_vba_project_is_reported_not_raised() -> None:
+    raw = extract_workbook(build_with_vba_part(b"not an OLE compound file"))
+    assert not raw.vba_modules
+    assert (VBA_PROJECT, VBA_PART) in _unsupported(raw)
+
+
+@pytest.mark.parametrize(("workbook_id", "expected"), _golden("external_links"), ids=_golden_id)
+def test_golden_external_link(
+    golden_raw: GoldenRaw, workbook_id: str, expected: dict[str, str]
+) -> None:
+    reason = _unsupported(golden_raw(workbook_id))[(EXTERNAL_LINK, expected["origin"])]
+    assert expected["target"] in reason
+
+
+@pytest.mark.parametrize("workbook_id", sorted(ORACLE["workbooks"]))
+def test_golden_vba_inventory_in_project_order(golden_raw: GoldenRaw, workbook_id: str) -> None:
+    raw = golden_raw(workbook_id)
+    expected = ORACLE["workbooks"][workbook_id]["vba_modules"]
+    assert [(m.name, m.kind) for m in raw.vba_modules] == [
+        (e["name"], VbaModuleKind(e["kind"])) for e in expected
+    ]
+    # Source needs oletools, which is not a dependency: each module is listed as unsupported.
+    found = _unsupported(raw)
+    for module in raw.vba_modules:
+        assert module.source_status is VbaSourceStatus.NEEDS_OLETOOLS
+        assert (VBA_SOURCE, module.name) in found

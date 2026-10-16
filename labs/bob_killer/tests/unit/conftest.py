@@ -11,14 +11,22 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import zipfile
 from collections.abc import Callable
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 import openpyxl
 import pytest
+from openpyxl.chart import BarChart, Reference
+from openpyxl.packaging.relationship import Relationship
+from openpyxl.pivot.cache import CacheDefinition, CacheField, CacheSource, WorksheetSource
+from openpyxl.pivot.record import RecordList
+from openpyxl.pivot.table import Location, TableDefinition
 from openpyxl.styles import PatternFill
 from openpyxl.workbook.defined_name import DefinedName
+from openpyxl.workbook.external_link.external import ExternalBook, ExternalLink
+from openpyxl.worksheet.formula import DataTableFormula
 from openpyxl.worksheet.table import Table
 
 if TYPE_CHECKING:
@@ -54,7 +62,7 @@ class Structure:
     tables = (("Prices", "Inputs", "F1:G3"),)
 
 
-def build_structure() -> bytes:
+def structure_workbook() -> openpyxl.Workbook:
     wb = openpyxl.Workbook()
     for i, (name, state) in enumerate(Structure.sheets):
         ws = wb.active if i == 0 else wb.create_sheet()
@@ -74,13 +82,86 @@ def build_structure() -> bytes:
         ws = wb[sheet]
         ws["F1"], ws["G1"] = "region", "price"
         ws.add_table(Table(displayName=name, ref=ref))
-    return save(wb)
+    return wb
 
 
-def save(wb: openpyxl.Workbook) -> bytes:
+def build_structure() -> bytes:
+    return save(structure_workbook())
+
+
+def save(wb: openpyxl.Workbook, extra_parts: dict[str, bytes] | None = None) -> bytes:
     buf = io.BytesIO()
     wb.save(buf)
+    if extra_parts:
+        with zipfile.ZipFile(buf, "a") as zf:
+            for name, data in extra_parts.items():
+                zf.writestr(name, data)
     return buf.getvalue()
+
+
+# Unsupported-feature kinds: the names detectors register under, plus the VBA inventory's.
+CHART = "chart"
+PIVOT_TABLE = "pivot_table"
+EXTERNAL_LINK = "external_link"
+DATA_TABLE = "data_table"
+VBA_SOURCE = "vba_source"
+VBA_PROJECT = "vba_project"
+VBA_PART = "xl/vbaProject.bin"
+
+
+def _add_chart(wb: openpyxl.Workbook) -> str:
+    ws = wb["Inputs"]
+    chart = BarChart()
+    chart.add_data(Reference(ws, min_col=1, min_row=1, max_row=3))
+    ws.add_chart(chart, "J5")
+    return "Inputs!J5"
+
+
+def _add_pivot_table(wb: openpyxl.Workbook) -> str:
+    source = WorksheetSource(ref="A1:A3", sheet="Inputs")
+    cache = CacheDefinition(
+        cacheSource=CacheSource(type="worksheet", worksheetSource=source),
+        cacheFields=[CacheField(name="qty")],
+    )
+    cache.records = RecordList()
+    location = Location(ref="L1:M3", firstHeaderRow=1, firstDataRow=1, firstDataCol=1)
+    pivot = TableDefinition(name="P1", cacheId=1, dataCaption="Values", location=location)
+    pivot.cache = cache
+    wb["Calc"]._pivots.append(pivot)
+    return "Calc!L1:M3"
+
+
+def _add_external_link(wb: openpyxl.Workbook) -> str:
+    link = ExternalLink(externalBook=ExternalBook(id="rId1"))
+    link.file_link = Relationship(
+        type="externalLinkPath", Target="other.xlsx", TargetMode="External"
+    )
+    wb._external_links.append(link)
+    return "[1]"
+
+
+def _add_data_table(wb: openpyxl.Workbook) -> str:
+    wb["Calc"]["C1"] = DataTableFormula(ref="C1:C3", dt2D=False, dtr=False, r1="A1")
+    return "Calc!C1:C3"
+
+
+FEATURES: dict[str, Callable[[openpyxl.Workbook], str]] = {
+    CHART: _add_chart,
+    PIVOT_TABLE: _add_pivot_table,
+    EXTERNAL_LINK: _add_external_link,
+    DATA_TABLE: _add_data_table,
+}
+
+
+def build_with_feature(kind: str) -> tuple[bytes, str]:
+    """The structure workbook plus one unsupported feature; returns (bytes, expected origin)."""
+    wb = structure_workbook()
+    origin = FEATURES[kind](wb)
+    return save(wb), origin
+
+
+def build_with_vba_part(data: bytes) -> bytes:
+    return save(structure_workbook(), {VBA_PART: data})
 
 
 def golden_path(workbook_id: str) -> Path:
