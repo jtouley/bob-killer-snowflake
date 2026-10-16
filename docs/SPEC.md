@@ -65,7 +65,8 @@ shell. So the controls for E1 are these:
    Step 0d under human review. A CoCo commit with `TDD-Phase: gate-change`, or one that touches `tools/`,
    `scripts/bk_gates/`, `scripts/gates.py`, `scripts/record_run.py`, `.github/`, `pyproject.toml` or
    `uv.lock`, fails the phase as a Cadence hard stop `security`.
-7. **Tool blocklist.** `tools/coco-flags.sh` blocks git push, remote, reset, rebase, amend, worktree,
+7. **Tool allowlist and blocklist.** `tools/coco-flags.sh` allows 18 named tools (no `ask_user_question`,
+   no cron, no teams) and blocks git push, remote, reset, rebase, amend, worktree,
    checkout, switch, branch, tag, update-ref, config, stash, clean, filter-branch, gc and recursive `rm`. This
    is a speed bump only: a blocklist cannot list every command, and file writes into `.git/` cannot be
    blocked. Controls 1–3 are the guard.
@@ -87,8 +88,16 @@ CoCo loads Claude Code's MCP servers from `~/.claude.json` unless `--no-mcp` is 
 launch, so `tools/coco-phase` refuses to run when `cortex --version` is not in the newest evidence file;
 re-run `tools/record-cli-evidence`, review the help diff, then retry.
 
-**Unproven until Step 0e:** whether `--blocked` without `--bypass` lets every other tool run (exec rejects
-interactive prompts). `tools/coco-probe` settles it.
+**Proven by `tools/coco-probe` (2026-10-16, `.context/evidence/coco_probe_*.txt`).** `--blocked` alone does
+**not** let other tools run: exec denies every tool that would need a prompt, so CoCo could not write a file.
+With `--allowed <tool names>` plus `--blocked <patterns>`: file write and `git commit` work; `git push` and
+`git config` are "permanently blocked by session policy"; a file write into `.git/hooks/` still works (caught
+by `coco-guard clone-check`). CoCo tool names are lowercase (`read`, `write`, `edit`, `bash`, `sql_execute`, …;
+listed in the exec `init` event). No `--bypass`.
+
+**Skills.** CoCo loads every skill in `~/.claude/skills/` (the init event lists `cadence`, `ship-feature`,
+`vibe-test` and others) and `exec` has no flag to turn that off. AGENTS.md forbids invoking them; `coco-guard`
+hashes the Cadence skill tree, and the run repo's `.context/` is outside CoCo's clone.
 
 ### 1.4 Step 0b — service user and connection (no secret in any repo file)
 
@@ -138,7 +147,7 @@ gates need the local clone and uv toolchain.
 
 | Tool | Does |
 | --- | --- |
-| `tools/coco-flags.sh` | Connection name, clone path, timeout (6600 s), and the flags of every call: `--format json`, `--no-mcp`, `--private`, `--max-turns 200`, `--blocked …`. No `--bypass` unless Step 0e proves it is needed. |
+| `tools/coco-flags.sh` | Connection name, clone path, timeout (6600 s), and the flags of every call: `--format json`, `--no-mcp`, `--private`, `--max-turns 200`, `--allowed <18 tool names>`, `--blocked <git and rm patterns>`. No `--bypass` (Step 0e). |
 | `tools/coco-clone <run-branch>` | Makes the isolated clone on `coco/<run-branch>` and removes its remote. `--sync <run-branch>` fast-forwards it after a phase close. |
 | `tools/coco-phase <prompt> <log>` | One call: lock (one call at a time), version check, `cortex exec -w <clone>/labs/bob_killer`, watchdog. The log always ends with `COCO_EXIT <code>`, also on timeout (143) or kill. Final message in `<log>.last.md`. |
 | `tools/coco-guard snapshot / verify / clone-check` | §1.2 controls 2 and 3. |
@@ -189,10 +198,11 @@ Exit: the PR is green and you approved and merged it.
 
 ### 1.7 Step 0e — the probe and the dry run
 
-1. `tools/coco-probe`. It asks CoCo, with the real flags, to write a file, commit, push to a local bare
+1. `tools/coco-probe` (**passed 2026-10-16**). It asks CoCo, with the real flags, to write a file, commit, push to a local bare
    remote, write a git hook, and set `core.hooksPath`. Pass = the file was written and committed, and the push
    did not reach the remote. If the write or commit fails, the `--blocked`-only mode does not let tools run:
-   change `tools/coco-flags.sh` to `--bypass` plus the same `--blocked` list (human review), and probe again.
+   change the flags (human review) and probe again. The first probe failed this way with `--blocked` alone;
+   the `--allowed` list fixed it.
    The probe output (`.context/evidence/coco_probe_*.txt`) records what the blocklist does not stop.
 2. Dry run of the guard: `tools/coco-guard snapshot`, one `Monitor` wait of 60 s with no CoCo call, then
    `tools/coco-guard verify`. Any entry that changed was written by Claude Code's own hooks: add its path
@@ -298,6 +308,8 @@ If two documents conflict, stop with status blocked and name the conflict. Do no
 - Snowflake: run DDL only in schemas named TEST_* that a test fixture creates, or in the schema the phase
   names. Never DROP anything else.
 - If a fact in ../../docs/SPEC.md §4 is false in this account, stop with status blocked.
+- Do not invoke the skills cadence, ship-feature, spec-driven, plan-create, plan-review, plan-update,
+  pr-review, babysit or commit-push-pr. Claude Code runs the pipeline; you build.
 - If a tool, scope or policy refuses an action, stop with status blocked. Never route around it with
   another tool (for example the snow CLI in place of the SQL tool).
 

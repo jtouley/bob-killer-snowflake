@@ -5,9 +5,13 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$here/coco-flags.s
 root="$(git rev-parse --show-toplevel)"
 out="$root/.context/evidence/smoke_$(date -u +%Y%m%dT%H%M%SZ).txt"
 tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+# Evidence is committed to a public repo: replace the account identifier before it is written.
+acct="$(uv run --project "$root" snow connection list --format json 2>/dev/null \
+  | python3 -c 'import json,sys; print(next((c["parameters"].get("account","") for c in json.load(sys.stdin) if c["connection_name"]=="'"$COCO_CONNECTION"'"),""))')"
+redact() { if [[ -n "$acct" ]]; then sed -E "s/${acct}/<ACCOUNT>/gI"; else cat; fi; }
 {
   echo "=== snow connection test"; (cd "$root" && uv run snow connection test -c "$COCO_CONNECTION")
   echo "=== cortex exec (real flags)"
   cortex exec -c "$COCO_CONNECTION" -w "$tmp" "${COCO_FLAGS[@]}" --max-turns 5 \
     "Run SELECT CURRENT_USER(), CURRENT_ROLE(), CURRENT_WAREHOUSE(), CURRENT_VERSION(); print the result and stop." </dev/null
-} 2>&1 | tee "$out"
+} 2>&1 | redact | tee "$out"
