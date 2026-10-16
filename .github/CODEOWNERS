@@ -1,0 +1,5 @@
+# Bob Killer gates: changes to gate code or gate tests need the owner's review (adversarial C5).
+/labs/bob_killer/scripts/ @jtouley
+/labs/bob_killer/tests/gates/ @jtouley
+/.github/workflows/bob-killer.yml @jtouley
+/tools/ @jtouley

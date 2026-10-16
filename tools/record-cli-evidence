@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# record-cli-evidence : write CLI versions and help text to .context/evidence/ (SPEC §1.3).
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+out="$root/.context/evidence/coco_cli_$(date -u +%Y%m%d).txt"
+mkdir -p "$(dirname "$out")"
+{
+  date -u
+  cortex --version
+  echo "=== cortex --help";      cortex --help
+  echo "=== cortex exec --help"; cortex exec --help
+  echo "=== cortex mcp --help";  cortex mcp --help
+  echo "=== snow";               (cd "$root" && uv run snow --version)
+} > "$out" 2>&1 </dev/null
+sed -i '' $'s/\x1b\\[[0-9;]*m//g' "$out" 2>/dev/null || true
+echo "$out"

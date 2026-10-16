@@ -1,0 +1,56 @@
+name: bob-killer
+
+on:
+  pull_request:
+    paths:
+      - "labs/bob_killer/**"
+      - ".context/**"
+      - ".github/workflows/bob-killer.yml"
+  push:
+    branches: [main]
+    paths:
+      - "labs/bob_killer/**"
+      - ".context/**"
+      - ".github/workflows/bob-killer.yml"
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: labs/bob_killer
+
+jobs:
+  gates:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # The PR head, not GitHub's synthetic merge commit: history gates walk
+          # first-parent commits, and from a merge commit that walk lands on main.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --python 3.12 --locked
+      - run: uv run python scripts/fetch_golden.py --verify-lock
+      - name: All PR gates over the change's commit range
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: uv run python scripts/gates.py --base "$BASE"
+      - name: Flag gate-change commits for human review
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if git log --format='%h %(trailers:key=TDD-Phase,valueonly,separator=)' "$BASE..HEAD" 2>/dev/null | grep -q gate-change; then
+            echo "::warning::This range has gate-change commits; CODEOWNERS review required."
+          fi
+
+  mutation:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --python 3.12 --locked
+      - run: uv run python scripts/gates.py --only mutation

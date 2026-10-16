@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.DS_Store
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.vscode/
+build/
+*.db
+*.log
+# Bob Killer's hash-chained hook log is committed evidence (labs/bob_killer, SPEC gates)
+!.context/hooks.log
+# CoCo call logs and prompts are local working files
+.context/coco/
+# Never commit Snowflake credentials
+connections.toml
+*.p8

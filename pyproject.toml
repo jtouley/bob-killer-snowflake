@@ -1,0 +1,12 @@
+[project]
+name = "bob-killer-snowflake-tools"
+version = "0.0.1"
+description = "Repo tooling for the Bob Killer Snowflake host: Snowflake CLI and the CoCo bridge. The core lives in labs/bob_killer."
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = ["snowflake-cli"]
+
+[tool.uv]
+package = false

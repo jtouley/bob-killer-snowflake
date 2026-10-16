@@ -1,0 +1,356 @@
+Fri Oct 16 17:33:16 UTC 2026
+Cortex Code v1.2.14
+=== cortex --help
+Usage: cortex [options] [message]
+
+Commands:
+  cortex exec                 Execute non-interactively (CI/CD mode)
+  cortex mcp                  Manage MCP servers (run "cortex mcp --help" for
+                              details)
+  cortex acp                  Agent Client Protocol (ACP) commands (run "cortex
+                              acp --help" for details)
+  cortex profile              Manage profiles (run "cortex profile --help" for
+                              details)
+  cortex skill                Manage skill directories (run "cortex skill
+                              --help" for details)
+  cortex ctx                  Long-term AI memory and task management (run
+                              "cortex ctx --help" for details)
+  cortex conversations        Inspect and search saved conversations (run
+                              "cortex conversations --help" for details)
+  cortex resume [session_id]  Resume a previous session (use --last for most
+                              recent)
+  cortex update [target]      Update to latest version
+  cortex versions             List locally installed versions
+  cortex worktree             Manage git worktrees (run "cortex worktree --help"
+                              for details)
+  cortex connections          Manage Snowflake connections (run "cortex
+                              connections --help" for details)
+  cortex search               Search Snowflake objects or docs (run "cortex
+                              search --help" for details)
+  cortex artifact             Artifact operations (run "cortex artifact --help"
+                              for details)
+  cortex analyst              Cortex Analyst operations (run "cortex analyst
+                              --help" for details)
+  cortex agents               Discover and explore Cortex Agents (run "cortex
+                              agents --help" for details)
+  cortex agent-studio         Manage Semantic Views and Cortex Agents
+                              (read/write/deploy/query/eval/backend) (run
+                              "cortex agent-studio --help" for details)
+  cortex lineage              Show upstream and downstream lineage for a
+                              Snowflake object (run "cortex lineage --help" for
+                              details)
+  cortex airflow              Interact with Apache Airflow
+  cortex completion           Generate shell completion script
+
+Options:
+  -w, --workdir                             Working directory
+       [string] [default: "/Users/jasontouleyrou/Projects/bob-killer-snowflake"]
+      --mount                               Additional mount for sandbox VM (hos
+                                            tPath=<path>,mountPath=<path>[,ro]).
+                                            May be repeated.             [array]
+  -c, --connection                          Snowflake connection name   [string]
+  -m, --model                               Model override              [string]
+      --mode                                Agent mode: 'standard' or 'code'
+                                                                        [string]
+      --plan                                Enable plan mode
+                                                      [boolean] [default: false]
+      --goal                                Run the provided prompt as a goal
+                                            and submit it as the first headless
+                                            message                     [string]
+      --sql-read-only                       Start the session with the built-in
+                                            SQL tool in read-only mode (rejects
+                                            DDL/DML via
+                                            CORTEX_CLIENT_READ_ONLY). Toggle at
+                                            runtime with /sql-readonly on|off.
+                                                      [boolean] [default: false]
+      --with-restricted-session-scope       Attach a named, server-side
+                                            restricted session scope on startup.
+                                            Accepts a bare RSS name (e.g.
+                                            MY_SCOPE — expanded to
+                                            USER$<username>.RSS.MY_SCOPE) or a
+                                            fully qualified name (USER$<username
+                                            >.<schema>.<rss_name>) for scopes
+                                            stored in a custom schema. Applied
+                                            via ALTER SESSION SET
+                                            RESTRICTED_SESSION_SCOPE = <name>.
+                                            The session is terminated if the
+                                            scope cannot be attached. Requires
+                                            the restrictedSessionScope feature
+                                            (on by default; opt out with
+                                            CORTEX_CODE_EXPERIMENTAL_FEATURES='{
+                                            "restrictedSessionScope":false}').
+                                                                        [string]
+      --bypass,                             Enable bypass safeguards mode
+      --dangerously-allow-all-tool-calls    (auto-approve all tool calls)
+                                                      [boolean] [default: false]
+      --auto-accept-plans                   Auto-accept plan mode requests and
+                                            confirmations without prompting
+                                                      [boolean] [default: false]
+      --enable-fips                         Enable FIPS 140 mode for this run
+                                            (requires a FIPS-capable build with
+                                            a bundled OpenSSL provider).
+                                            Overrides the enableFips setting.
+                                            Use --no-enable-fips to force off.
+                                                                       [boolean]
+      --fips-status                         Print whether FIPS 140 mode is
+                                            active (honoring --enable-fips and
+                                            the enableFips setting) and exit.
+                                                                       [boolean]
+      --profile                             Apply a profile configuration (from
+                                            ~/.snowflake/cortex/profiles/)
+                                                                        [string]
+  -r, --resume                              Open the resume menu on startup or
+                                            immediately resume a session by
+                                            session ID                  [string]
+      --continue                            Resume the most recent session
+                                                      [boolean] [default: false]
+      --session-name                        Name for the new session (ignored
+                                            when resuming)              [string]
+      --session-id                          Set the session ID for a new session
+                                            (ignored when resuming)     [string]
+      --fork-session                        When resuming, fork to a new session
+                                            instead of continuing the existing
+                                            one       [boolean] [default: false]
+      --fork                                Fork an existing session into a new
+                                            one. In TUI: opens the message
+                                            picker to choose where to fork from.
+                                            In --print or --input-format
+                                            stream-json: forks the full history
+                                            (equivalent to --resume <id>
+                                            --fork-session).            [string]
+      --resume-session-at                   When forking a resumed session,
+                                            truncate history at this message ID
+                                            (requires --fork-session and
+                                            --resume)                   [string]
+      --setting-sources                     Comma-separated list of setting
+                                            sources to load: user, project.
+                                            Empty string disables all.  [string]
+      --output-format                       Output format: 'stream-json' for
+                                            JSON streaming output
+                                               [string] [choices: "stream-json"]
+      --input-format                        Input format: 'stream-json' for JSON
+                                            stdin input (use with
+                                            --output-format stream-json)
+                                               [string] [choices: "stream-json"]
+  -p, --print                               Print a series of chat response and
+                                            exit (in headless, non-interactive
+                                            mode)                       [string]
+      --config                              Path to a custom settings.json
+                                            configuration file (default:
+                                            ~/.snowflake/cortex/settings.json)
+                                                                        [string]
+      --config-file                         Path to Snowflake connection config
+                                            file (connections.toml or
+                                            config.toml)                [string]
+      --skills                              Path to a custom skills.json
+                                            configuration file (default:
+                                            ~/.snowflake/cortex/skills.json)
+                                                                        [string]
+      --mcp                                 Enable MCP servers (use --no-mcp to
+                                            disable)   [boolean] [default: true]
+      --only-explicit-mcp-servers           Load only explicitly-provided MCP
+                                            servers (--mcp-config, profile,
+                                            admin) and skip the user's mcp.json
+                                            and ~/.claude.json. Unlike --no-mcp,
+                                            the servers passed via --mcp-config
+                                            still load.
+                                                      [boolean] [default: false]
+      --mcp-wait                            Wait for all MCP servers to connect
+                                            before starting task execution (same
+                                            as settings mcpWait: true). Timeout
+                                            is 5 minutes, or
+                                            COCO_MCP_WAIT_TIMEOUT_MS. Opt-in
+                                            only: cannot force wait off if
+                                            settings.json has mcpWait: true
+                                            (--no-mcp-wait has no effect).
+                                                                       [boolean]
+      --only-explicit-plugins               Load only --plugin-dir and profile
+                                            plugins and skip ambient plugins
+                                            (settings.json,
+                                            ~/.snowflake/cortex/plugins, project
+                                            plugins, bundled) and skip
+                                            managed-plugin auto-update at
+                                            startup.  [boolean] [default: false]
+      --only-explicit-skills                Load only project, bundled, profile,
+                                            session, and plugin skills and skip
+                                            the user's global, remote,
+                                            persisted, and curator skills.
+                                                      [boolean] [default: false]
+      --only-explicit-profiles              Apply only a profile given with
+                                            --profile and skip settings.json
+                                            defaultProfile, the profile restored
+                                            from a resumed session, and account
+                                            auto-apply profiles.
+                                                      [boolean] [default: false]
+      --auto-update                         Auto-update on launch (use
+                                            --no-auto-update to disable)
+                                                       [boolean] [default: true]
+      --worktree                            Create a new worktree with the
+                                            specified branch name and start
+                                            session in it               [string]
+      --worktree-base                       Branch, tag, or commit used when
+                                            creating a new --worktree branch
+                                                                        [string]
+      --plugin-dir                          Plugin directory or GitHub repo
+                                            (owner/repo, owner/repo#branch, or
+                                            URL). Can be repeated.      [string]
+      --shell                               Shell executor for commands:
+                                            'powershell', 'cmd', or 'bash'
+                                            (default: auto-detect; on Windows
+                                            defaults to powershell)
+                                 [string] [choices: "bash", "cmd", "powershell"]
+      --allowed-tools                       Tools that execute without prompting
+                                            for permission (e.g. "Bash(git *)"
+                                            "Read" "Edit")               [array]
+      --disallowed-tools                    Tools that are removed from the
+                                            model's context and cannot be used
+                                            (e.g. "Bash(rm *)" "Task(Explore)")
+                                                                         [array]
+      --snowflake-sandbox                   Enable Snowflake server-side sandbox
+                                            for coding agent. Equivalent to bare
+                                            --cloud.  [boolean] [default: false]
+      --cloud                               Enable Snowflake server-side
+                                            sandbox; optionally pass a workspace
+                                            FQN (DB.SCHEMA.STAGE) to mount
+                                            instead of USER$.PUBLIC.DEFAULT$.
+                                            Use --no-workspace for an ephemeral
+                                            /workspace. Browse and switch
+                                            in-session via /workspace.  [string]
+      --github                              Give the cloud sandbox authenticated
+                                            git/gh egress to github.com using a
+                                            Snowflake SECRET (holding a GitHub
+                                            PAT) that you own, e.g. --github
+                                            USER$YOU.PUBLIC.GITHUB_SECRET.
+                                            Implies --cloud. The PAT is fetched
+                                            server-side and never enters the
+                                            container.                  [string]
+      --include-partial-messages            Include partial message events for
+                                            token-level streaming
+                                                      [boolean] [default: false]
+      --max-turns                           Maximum number of agentic turns per
+                                            conversation round          [number]
+      --effort                              Thinking effort level: minimal, low,
+                                            medium, high, xhigh, or max
+          [string] [choices: "minimal", "low", "medium", "high", "xhigh", "max"]
+      --agent                               Use a custom agent definition by
+                                            name (from .cortex/agents/ or
+                                            ~/.snowflake/cortex/agents/)[string]
+      --index                               Build tgrep semantic search index on
+                                            startup                    [boolean]
+      --team                                Enable teams mode (loads
+                                            team-workflow skill on startup)
+                                                      [boolean] [default: false]
+      --private                             Do not save this session to history
+                                            (disables conversation persistence
+                                            and server-side logging)
+                                                      [boolean] [default: false]
+      --mcp-config                          MCP server configuration as a JSON
+                                            string (e.g. '{"mcpServers":
+                                            {"server-name": {"type": "stdio",
+                                            "command": "cmd"}}}')       [string]
+  -o, --output-last-message                 Write the final agent response to a
+                                            file (in addition to stdout)[string]
+      --help                                Show help                  [boolean]
+  -V, --version                             Show version               [boolean]
+=== cortex exec --help
+Usage: cortex exec [options] <message>
+       cortex exec [options] --file <path>
+       cortex exec [options]              (reads prompt from stdin)
+
+Execute cortex non-interactively. Designed for CI/CD pipelines.
+Plan mode is always disabled. Interactive prompts are auto-rejected.
+
+Options:
+      --format        Output format: text (default) or json
+      --allowed       Tools that may run (all others blocked). May be repeated or comma-separated.
+      --blocked       Tools that are blocked (all others allowed). May be repeated or comma-separated.
+      --file          Read prompt from a file (use - for stdin)
+  -m, --model         Model override
+      --mode          Agent mode: standard, code, or rem
+  -c, --connection    Snowflake connection name
+  -w, --workdir       Working directory
+      --max-turns     Maximum agentic turns (safety ceiling)
+      --effort        Thinking effort: minimal, low, medium, high, xhigh, max
+      --no-history    Do not save this session to history
+      --private       Alias for --no-history
+      --no-mcp        Disable MCP servers
+      --cloud [<workspace-fqn>]
+                      Enable the server-side sandbox; optionally mount the named stage at /workspace.
+      --no-workspace  Use an ephemeral /workspace instead of mounting a stage.
+      --skills <name=@stage/path>
+                      Attach a server-loaded STAGE skill. May be repeated; requires --cloud.
+      --mcp <fqn>     Attach an object from SHOW EXTERNAL MCP SERVERS. May be repeated; requires --cloud.
+      --eai <name>    Attach an External Access Integration. May be repeated; requires --cloud.
+      --with-restricted-session-scope <scope>
+                      Bind a well-known or fully-qualified restricted session scope in the sandbox.
+      --github <fqn>  Grant the sandbox authenticated git/gh egress via a Snowflake SECRET
+                      (e.g. --github USER$YOU.PUBLIC.GITHUB_PAT). Implies --cloud.
+      --pre-run-hook <bash>
+                      Run inline bash before each server agent run, including continuations.
+                      Must be idempotent; requires --cloud.
+      --post-run-hook <bash>
+                      Run inline bash after each server run response, including continuations.
+                      Must be idempotent; requires --cloud.
+      --pre-run-timeout <seconds>
+                      Pre-run timeout: 0 uses 60s default; maximum 300.
+      --post-run-timeout <seconds>
+                      Post-run timeout: 0 uses 30s default; maximum 300.
+      --bypass        Allow all tool calls without prompting (use with care in trusted environments)
+  -o, --output-last-message  Write final response to a file
+  -h, --help          Show this help
+
+Examples:
+  cortex exec "fix all lint errors"
+  cortex exec "explain this codebase" --format json
+  cortex exec "update tests" --allowed "Read,Edit,Bash(git *)"
+  cortex exec "analyze" -c prod --max-turns 30
+  cortex exec --file .cortex/prompts/review-pr.md --allowed "Bash(gh *)"
+  cat prompt.md | cortex exec --allowed "Bash(gh *)"
+  git diff HEAD~1 | cortex exec "review these changes"
+  cortex exec --no-history "one-off query"
+  cortex exec --private "one-off query"
+  cortex exec "summarize changes" -o /tmp/summary.txt
+  cortex exec --cloud "analyze repo" --allowed "Read"
+  cortex exec --cloud --github 'USER$YOU.PUBLIC.GITHUB_PAT' "clone and review the repo"
+  cortex exec --cloud --pre-run-hook "cd /workspace && git pull --ff-only" "review recent changes"
+  cortex exec --bypass "scaffold this project"
+=== cortex mcp --help
+cortex mcp
+
+Manage MCP servers
+
+Commands:
+  cortex mcp add <name> <commandOrUrl>      Add an MCP server
+  [args..]
+  cortex mcp get <name>                     Get details for a specific MCP
+                                            server
+  cortex mcp remove <name>                  Remove an MCP server
+  cortex mcp list                           List all configured MCP servers
+  cortex mcp reconnect [name]               Reconnect MCP server(s). With no
+                                            name, retries all
+                                            failed/disconnected servers.
+  cortex mcp start                          Start MCP servers
+
+Options:
+  --help  Show help                                                    [boolean]
+=== cortex mcp serve --help
+cortex mcp
+
+Manage MCP servers
+
+Commands:
+  cortex mcp add <name> <commandOrUrl>      Add an MCP server
+  [args..]
+  cortex mcp get <name>                     Get details for a specific MCP
+                                            server
+  cortex mcp remove <name>                  Remove an MCP server
+  cortex mcp list                           List all configured MCP servers
+  cortex mcp reconnect [name]               Reconnect MCP server(s). With no
+                                            name, retries all
+                                            failed/disconnected servers.
+  cortex mcp start                          Start MCP servers
+
+Options:
+  --help  Show help                                                    [boolean]
+=== snow
+Snowflake CLI version: 3.29.0

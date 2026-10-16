@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tools/coco-phase:*)",
+      "Bash(tools/coco-worktree:*)",
+      "Bash(tools/record-cli-evidence)",
+      "Bash(tools/smoke-test)",
+      "Bash(git -C ../bob-killer-snowflake-coco:*)",
+      "Bash(uv run snow:*)"
+    ]
+  }
+}

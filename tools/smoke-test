@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# smoke-test : check the bob_killer connection with the Snowflake CLI and with CoCo (SPEC §1.4).
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+source "$root/tools/coco-flags.sh"
+out="$root/.context/evidence/smoke_$(date -u +%Y%m%dT%H%M%SZ).txt"
+{
+  echo "=== snow connection test"; (cd "$root" && uv run snow connection test -c "$COCO_CONNECTION")
+  echo "=== cortex exec";          cortex exec -c "$COCO_CONNECTION" --no-mcp --private --max-turns 5 \
+    "Run SELECT CURRENT_ROLE(), CURRENT_WAREHOUSE(), CURRENT_VERSION(); print the result and stop."
+} 2>&1 | tee "$out"
