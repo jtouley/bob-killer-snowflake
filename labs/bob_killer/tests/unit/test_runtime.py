@@ -63,6 +63,12 @@ def test_date_serial_outside_excel_range(case: dict[str, Any]) -> None:
         ("IF", [(True,), 1, 2]),
         ("NOT", [(True,)]),
         ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+        ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+        ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+        (
+            "coercion.to_number",
+            ["(5)"],
+        ),  # accounting parentheses: Excel reads a negative; not on a fetched page
     ],
 )
 def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -> None:
