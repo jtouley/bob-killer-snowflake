@@ -14,7 +14,7 @@ Claude Code runs the Cadence pipeline; Snowflake CoCo (Cortex Code CLI) builds e
 | Platform Phases 1–3 (gates, CI, platform proof, contracts, DDL, ODCS v3.2.0) | Done, merged |
 | Phase 4 core (RunRepository, registry isolation, run claim) | Merged; Snowflake store pending |
 | Compiler: Extract, Graph, Excel runtime, Workbook IR, dbt + docs generators | Merged (contracts v5) |
-| Golden probe, 5 government workbooks | 8,681 / 8,681 formulas parse; 921 / 921 evaluable formulas equal Excel's cached values exactly |
+| Golden tests, 5 government workbooks (`tests/golden/`) | 8,681 / 8,681 formulas parse; 207 / 207 cells the runtime evaluates alone match Excel's cached values exactly. An evidence probe that adds its own `+ - * /` and cross-sheet refs: 921 / 921 exact. The runtime has no operator layer yet; operators, SUMIF, ISNA, ISBLANK, SUMPRODUCT, VLOOKUP are the next gaps. |
 | Live Snowflake suite | 18 / 18 pass on merged code |
 | Not done | Snowflake store + bronze, procedures + app, lift, runtime UDFs in Snowflake, dbt deploy + execute, parity in Snowflake (the goal: `docs/SPEC-compiler-dbt.md` Phase 16) |
 
