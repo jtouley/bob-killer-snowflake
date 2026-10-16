@@ -10,6 +10,7 @@ Read these files before any task, in this order:
 1. SPEC.md            (core design; the authority on the compiler)
 2. CLAUDE.md          (the TDD loop and the hard rules; they apply to you too)
 3. ../../docs/SPEC.md (the authority on the Snowflake host)
+4. ../../docs/SPEC-compiler-dbt.md (the authority on the compiler in Snowflake and the dbt target)
 
 If two documents conflict, stop with status blocked and name the conflict. Do not choose for yourself.
 Exception: for commit subjects, .context/ paths and hooks.log, this file wins over CLAUDE.md.
