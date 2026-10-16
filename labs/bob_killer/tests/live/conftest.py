@@ -85,3 +85,21 @@ def bronze_session(session: Session, schema: str) -> Session:
 
     fresh_tables(session, schema, (LandedFile, BronzeRow))
     return session
+
+
+def write_evidence(name: str, title: str, body: str) -> None:
+    """Append one redacted section to ``.context/evidence/<name>_<date>.txt`` (committed, public)."""
+    from datetime import UTC, datetime
+    from pathlib import Path
+
+    from tests.live.test_platform import redact
+
+    path = (
+        Path(__file__).resolve().parents[4]
+        / ".context"
+        / "evidence"
+        / f"{name}_{datetime.now(UTC):%Y%m%d}.txt"
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as f:
+        f.write(f"\n== {title} ({datetime.now(UTC).isoformat()})\n{redact(body).rstrip()}\n")

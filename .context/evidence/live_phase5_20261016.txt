@@ -1,0 +1,3 @@
+
+== 30 000-row landing (2026-10-16T21:13:46.486686+00:00)
+batch_size=10000: landed rows=30000 seconds=11.0
