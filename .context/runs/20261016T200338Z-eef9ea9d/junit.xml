@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="0.578" timestamp="2026-10-16T16:03:39.743460-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_runs" name="test_stage_return_is_the_success_detail[sqlite-text]" time="0.026"><failure message="AssertionError: assert '' == 'landed b844d...5b8039bd709dd'&#10;  &#10;  - landed b844d5f4932f49529385b8039bd709dd">store = &lt;bob_killer.store.db.RunStore object at 0x105c52900&gt;
+returns_text = True
+
+    @pytest.mark.parametrize("returns_text", [True, False], ids=["text", "none"])
+    def test_stage_return_is_the_success_detail(store: RunRepository, returns_text: bool) -&gt; None:
+        def stage(run_id: str) -&gt; str | None:
+            return f"landed {run_id}" if returns_text else None
+    
+        registry.stages.add(stage.__name__, stage)
+        run = queued_run(store)
+        execute_run(store, run.run_id)
+        (status,) = store.stages(run.run_id)
+        assert status.state == StageState.SUCCEEDED
+&gt;       assert status.detail == (stage(run.run_id) or "")
+E       AssertionError: assert '' == 'landed b844d...5b8039bd709dd'
+E         
+E         - landed b844d5f4932f49529385b8039bd709dd
+
+tests/unit/test_runs.py:28: AssertionError</failure></testcase><testcase classname="tests.unit.test_runs" name="test_stage_return_is_the_success_detail[sqlite-none]" time="0.065" /></testsuite></testsuites>

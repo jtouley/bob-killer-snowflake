@@ -1,0 +1,14 @@
+{
+  "junit_sha256": "cfd45b7a1d9d083a65a713c63dadfe66fb409a163bffe4f368a1c92752c7f358",
+  "nodes": {
+    "tests.unit.test_runs::test_stage_return_is_the_success_detail[sqlite-none]": "passed",
+    "tests.unit.test_runs::test_stage_return_is_the_success_detail[sqlite-text]": "failed"
+  },
+  "pytest_args": [
+    "tests/unit/test_runs.py"
+  ],
+  "recorded_at": "2026-10-16T19:45:23Z",
+  "run_id": "20261016T194523Z-d0b287f7",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "743dbb1f8b5b72f0451b08570e670908ec1b34dc856b9c9c5739e4c617a91289"
+}
