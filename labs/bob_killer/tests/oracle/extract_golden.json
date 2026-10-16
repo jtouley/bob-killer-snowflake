@@ -1,0 +1,333 @@
+{
+  "source": "Excel-saved golden workbooks pinned by sha256 below (urls in golden.lock). Each value is read from the raw OOXML parts, not through openpyxl or bob_killer: the sheet part's <c>/<f>/<v> element (xml), xl/sharedStrings.xml for t=\"s\", xl/workbook.xml <sheet state> and <definedName>, xl/externalLinks/_rels/externalLink1.xml.rels, and the PROJECT stream text inside xl/vbaProject.bin. cached_value is the canonical Raw-layer text: repr(float(v)) for numbers, the text for strings, empty for blank. A shared-formula child's formula is its master's text shifted by the row offset. An empty formula means a constant cell.",
+  "verified_by": "Claude Code agent (compiler/extract, jtouley/bob-killer-snowflake#2), 2026-10-16: unzip -p <file> <part> | grep for each cell, name and link; strings xl/vbaProject.bin | grep -E '^(Module|Document|Class|BaseClass)=' for the VBA modules, in stream order",
+  "workbooks": {
+    "mt_dot_budget": {
+      "sha256": "e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047",
+      "sheets": [
+        {
+          "name": "COSTS",
+          "state": "visible"
+        },
+        {
+          "name": "REVENUE",
+          "state": "visible"
+        },
+        {
+          "name": "ESRI_MAPINFO_SHEET",
+          "state": "veryHidden"
+        }
+      ],
+      "cells": [
+        {
+          "sheet": "COSTS",
+          "address": "A1",
+          "xml": "<c r=\"A1\" s=\"181\" t=\"s\"><v>0</v></c>; sharedStrings[0]=APPENDIX B",
+          "formula": "",
+          "cached_type": "string",
+          "cached_value": "APPENDIX B"
+        },
+        {
+          "sheet": "COSTS",
+          "address": "E26",
+          "xml": "<c r=\"E26\" s=\"38\"><f t=\"shared\" ref=\"E26:E27\" si=\"1\">C26*D26</f><v>0</v></c>",
+          "formula": "=C26*D26",
+          "cached_type": "number",
+          "cached_value": "0.0"
+        },
+        {
+          "sheet": "COSTS",
+          "address": "E27",
+          "xml": "<c r=\"E27\" s=\"11\"><f t=\"shared\" si=\"1\"/><v>0</v></c>",
+          "formula": "=C27*D27",
+          "cached_type": "number",
+          "cached_value": "0.0"
+        },
+        {
+          "sheet": "COSTS",
+          "address": "C27",
+          "xml": "<c r=\"C27\" s=\"3\"/>",
+          "formula": "",
+          "cached_type": "blank",
+          "cached_value": ""
+        },
+        {
+          "sheet": "REVENUE",
+          "address": "B15",
+          "xml": "<c r=\"B15\" s=\"135\"><f>COSTS!E40</f><v>0</v></c>",
+          "formula": "=COSTS!E40",
+          "cached_type": "number",
+          "cached_value": "0.0"
+        }
+      ],
+      "defined_names": [],
+      "external_links": [],
+      "vba_modules": []
+    },
+    "sgec_v5_1": {
+      "sha256": "b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd",
+      "sheets": [
+        {
+          "name": "Introduction",
+          "state": "visible"
+        },
+        {
+          "name": "Summary",
+          "state": "visible"
+        },
+        {
+          "name": "DropDown",
+          "state": "hidden"
+        }
+      ],
+      "cells": [
+        {
+          "sheet": "Electricity",
+          "address": "D20",
+          "xml": "<c r=\"D20\" s=\"860\" t=\"s\"><v>52</v></c>; sharedStrings[52]=HIMS (HICC Miscellaneous)",
+          "formula": "",
+          "cached_type": "string",
+          "cached_value": "HIMS (HICC Miscellaneous)"
+        },
+        {
+          "sheet": "Electricity",
+          "address": "E20",
+          "xml": "<c r=\"E20\" s=\"861\"><v>200000</v></c>",
+          "formula": "",
+          "cached_type": "number",
+          "cached_value": "200000.0"
+        },
+        {
+          "sheet": "Electricity",
+          "address": "L20",
+          "xml": "<c r=\"L20\" s=\"654\"><f>IF(ISNA(VLOOKUP($D20,eGRID_em_Fctrs,4,FALSE)),\"\",VLOOKUP($D20,eGRID_em_Fctrs,4,FALSE)*$E20/1000)</f><v>222140</v></c>",
+          "formula": "=IF(ISNA(VLOOKUP($D20,eGRID_em_Fctrs,4,FALSE)),\"\",VLOOKUP($D20,eGRID_em_Fctrs,4,FALSE)*$E20/1000)",
+          "cached_type": "number",
+          "cached_value": "222140.0"
+        },
+        {
+          "sheet": "Electricity",
+          "address": "N20",
+          "xml": "<c r=\"N20\" s=\"654\"><f t=\"shared\" ref=\"N20:N57\" si=\"1\">IF(ISNA(VLOOKUP($D20,eGRID_em_Fctrs,7,FALSE)),\"\",VLOOKUP($D20,eGRID_em_Fctrs,7,FALSE)*$E20/1000)</f><v>3.5999999999999996</v></c>",
+          "formula": "=IF(ISNA(VLOOKUP($D20,eGRID_em_Fctrs,7,FALSE)),\"\",VLOOKUP($D20,eGRID_em_Fctrs,7,FALSE)*$E20/1000)",
+          "cached_type": "number",
+          "cached_value": "3.5999999999999996"
+        },
+        {
+          "sheet": "Electricity",
+          "address": "N21",
+          "xml": "<c r=\"N21\" s=\"549\" t=\"str\"><f t=\"shared\" si=\"1\"/><v/></c>",
+          "formula": "=IF(ISNA(VLOOKUP($D21,eGRID_em_Fctrs,7,FALSE)),\"\",VLOOKUP($D21,eGRID_em_Fctrs,7,FALSE)*$E21/1000)",
+          "cached_type": "string",
+          "cached_value": ""
+        },
+        {
+          "sheet": "DropDown",
+          "address": "J2",
+          "xml": "<c r=\"J2\" s=\"2\" t=\"str\"><f>'Emission Factors'!A271</f><v>AKGD (ASCC Alaska Grid)</v></c>",
+          "formula": "='Emission Factors'!A271",
+          "cached_type": "string",
+          "cached_value": "AKGD (ASCC Alaska Grid)"
+        },
+        {
+          "sheet": "Emission Factors",
+          "address": "B406",
+          "xml": "<c r=\"B406\" s=\"1066\"><f>1/2000</f><v>5.0000000000000001E-4</v></c>",
+          "formula": "=1/2000",
+          "cached_type": "number",
+          "cached_value": "0.0005"
+        },
+        {
+          "sheet": "Emission Factors",
+          "address": "B407",
+          "xml": "<c r=\"B407\" s=\"1066\"><f>1/907.2</f><v>1.1022927689594356E-3</v></c>",
+          "formula": "=1/907.2",
+          "cached_type": "number",
+          "cached_value": "0.0011022927689594356"
+        }
+      ],
+      "defined_names": [
+        {
+          "scope": "",
+          "name": "eGRID_em_Fctrs",
+          "refers_to": "'Emission Factors'!$A$271:$G$296"
+        },
+        {
+          "scope": "",
+          "name": "Biz_Travel_Fctr",
+          "refers_to": "'Emission Factors'!$A$300:$D$311"
+        },
+        {
+          "scope": "",
+          "name": "Em_by_ProdTransType",
+          "refers_to": "'Product Transport'!$A$101"
+        },
+        {
+          "scope": "Waste",
+          "name": "Em_by_ProdTransType",
+          "refers_to": "Waste!$A$55"
+        }
+      ],
+      "external_links": [
+        {
+          "origin": "[1]",
+          "target": "Reference"
+        }
+      ],
+      "vba_modules": [
+        {
+          "name": "Sheet2",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet3",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet4",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet5",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet6",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet7",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet8",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet9",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet10",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet13",
+          "kind": "document"
+        },
+        {
+          "name": "ThisWorkbook",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet12",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet15",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet16",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet17",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet18",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet19",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet20",
+          "kind": "document"
+        },
+        {
+          "name": "Module1",
+          "kind": "standard"
+        },
+        {
+          "name": "Sheet1",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet31",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet33",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet11",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet22",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet23",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet24",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet25",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet26",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet27",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet28",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet29",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet30",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet21",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet32",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet34",
+          "kind": "document"
+        },
+        {
+          "name": "Module2",
+          "kind": "standard"
+        },
+        {
+          "name": "Sheet35",
+          "kind": "document"
+        },
+        {
+          "name": "Sheet36",
+          "kind": "document"
+        }
+      ]
+    }
+  }
+}
