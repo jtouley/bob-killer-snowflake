@@ -3,15 +3,13 @@
 from __future__ import annotations
 
 import os
-import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 from bk_gates.core import GateContext, load_gates
-from bk_gates.tdd_common import PROJECT_ROOT
 from hook_stop import EXIT_BLOCK, EXIT_OK, stop
-from tests.gates.conftest import History, Project
+from tests.gates.conftest import History, Project, copy_project
 from tests.gates.test_hooks import FAILING_GATES, _events
 from tests.gates.test_static_gates import BASE
 
@@ -66,41 +64,25 @@ def test_stop_without_marker_still_refuses(project: Project) -> None:
 
 # §1.6 item 3: a new contracts module is found without editing the gate.
 def test_new_contract_module_is_discovered(tmp_path: Path) -> None:
-    copy = tmp_path / "proj"
-    shutil.copytree(
-        PROJECT_ROOT / "src", copy / "src", ignore=shutil.ignore_patterns("__pycache__")
-    )
-    (copy / "src" / "bob_killer" / "contracts" / "extra_probe.py").write_text(
+    probe = (
         "from bob_killer.contracts.base import StrictModel\n\n\n"
         "class ExtraProbe(StrictModel):\n    name: str\n"
     )
+    copy = copy_project(tmp_path, {"src/bob_killer/contracts/extra_probe.py": probe})
     ctx = GateContext(repo_root=tmp_path, project_root=copy, base=None)
     assert "contracts_versioned/drift" in _rules("contracts_versioned", ctx)
 
 
-# §1.6 item 1: the Streamlit app package never imports the core.
-def _lint_imports(project_root: Path) -> subprocess.CompletedProcess[str]:
-    exe = Path(sys.executable).with_name("lint-imports")
-    return subprocess.run(
-        [str(exe)],
-        cwd=project_root,
+# §1.6 item 1: the Streamlit app package (Python 3.11) never imports the core.
+def test_app_package_importing_core_is_rejected(tmp_path: Path) -> None:
+    copy = copy_project(tmp_path, {"src/bob_killer_sis/leak.py": "import bob_killer.contracts\n"})
+    proc = subprocess.run(
+        [str(Path(sys.executable).with_name("lint-imports"))],
+        cwd=copy,
         capture_output=True,
         text=True,
         check=False,
-        env={**os.environ, "PYTHONPATH": str(project_root / "src")},
+        env={**os.environ, "PYTHONPATH": str(copy / "src")},
     )
-
-
-def test_app_package_importing_core_is_rejected(tmp_path: Path) -> None:
-    copy = tmp_path / "proj"
-    shutil.copytree(
-        PROJECT_ROOT / "src", copy / "src", ignore=shutil.ignore_patterns("__pycache__")
-    )
-    shutil.copy(PROJECT_ROOT / "pyproject.toml", copy / "pyproject.toml")
-    sis = copy / "src" / "bob_killer_sis"
-    sis.mkdir(exist_ok=True)
-    (sis / "__init__.py").write_text('"""App package."""\n')
-    (sis / "leak.py").write_text("import bob_killer.contracts\n")
-    proc = _lint_imports(copy)
     assert proc.returncode != 0, proc.stdout
     assert "bob_killer_sis" in proc.stdout

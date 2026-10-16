@@ -71,12 +71,32 @@ case "${1:-}" in
     fail=0
     want="$(cat "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)" 2>/dev/null || echo none)"
     [[ "$(clone_config_sha)" == "$want" ]] || { echo "clone .git/config changed since clone time" >&2; fail=1; }
-    # .context/hooks.log is written by the core hooks that CoCo runs; it is archived, never committed by CoCo.
-    dirty="$("${SAFE_GIT[@]}" -C "$COCO_CLONE" status --porcelain | grep -vx '?? .context/hooks.log' || true)"
+    # The core hooks that CoCo runs write .context/hooks.log, .context/runs/<id>/ (hook-run.json, junit.xml)
+    # and CoCo may write .context/coco/BLOCKED. Those are archived, never committed by CoCo. A run folder
+    # is tolerated only if it is a hook run (hook-run.json, no run.json), so a red record cannot hide here.
+    dirty="$("${SAFE_GIT[@]}" -C "$COCO_CLONE" status --porcelain --untracked-files=all | while IFS= read -r line; do
+      p="${line:3}"
+      case "$line" in
+        "?? .context/hooks.log"|"?? .context/coco/BLOCKED") continue ;;
+        "?? .context/runs/"*/hook-run.json|"?? .context/runs/"*/junit.xml)
+          d="$COCO_CLONE/$(dirname "$p")"
+          [[ -f "$d/hook-run.json" && ! -f "$d/run.json" ]] && continue ;;
+      esac
+      echo "$line"
+    done)"
     [[ -z "$dirty" ]] || { echo "clone not clean:" >&2; echo "$dirty" >&2; fail=1; }
     [[ -z "$("${SAFE_GIT[@]}" -C "$COCO_CLONE" remote)" ]] || { echo "clone has remotes" >&2; fail=1; }
     hooks="$(find "$(git -C "$COCO_CLONE" rev-parse --absolute-git-dir)/hooks" -type f ! -name '*.sample' 2>/dev/null)"
     [[ -z "$hooks" ]] || { echo "clone has active git hooks: $hooks" >&2; fail=1; }
     [[ $fail -eq 0 ]] && echo "clone OK"; exit $fail ;;
-  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | baseline | clone-check" >&2; exit 2 ;;
+  archive)    # copy the hook output out of the clone: coco-guard archive <dest-dir>
+    dest="${2:?destination}"; mkdir -p "$dest"
+    for f in .context/hooks.log .context/coco/BLOCKED; do
+      [[ -f "$COCO_CLONE/$f" ]] && cp "$COCO_CLONE/$f" "$dest/$(basename "$f")"
+    done
+    for d in "$COCO_CLONE"/.context/runs/*/; do
+      [[ -f "$d/hook-run.json" && ! -f "$d/run.json" ]] && cp -R "${d%/}" "$dest/"
+    done
+    echo "archived to $dest" ;;
+  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | baseline | clone-check | archive <dir>" >&2; exit 2 ;;
 esac

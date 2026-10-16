@@ -19,10 +19,19 @@ SNAPSHOTS = Path("src/bob_killer/contracts/snapshots")
 
 
 def default_models() -> list[type]:
-    """Every shipped StrictModel subclass (test-defined models are excluded), sorted by name."""
-    import bob_killer.contracts.golden  # noqa: F401  (register subclasses)
-    import bob_killer.contracts.runs  # noqa: F401
+    """Every shipped StrictModel subclass (test-defined models are excluded), sorted by name.
+
+    Every module of the ``bob_killer.contracts`` package is imported, so a new contracts module
+    is snapshotted without a change to this gate.
+    """
+    import importlib
+    import pkgutil
+
+    import bob_killer.contracts as package
     from bob_killer.contracts.base import StrictModel
+
+    for info in pkgutil.iter_modules(package.__path__):
+        importlib.import_module(f"{package.__name__}.{info.name}")
 
     found: list[type] = []
     stack: list[type] = [StrictModel]

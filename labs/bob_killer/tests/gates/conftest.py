@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import uuid
 from collections.abc import Mapping
@@ -12,7 +13,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from bk_gates.tdd_common import digest_tests_tree, parse_junit, read_worktree_tests
+from bk_gates.tdd_common import PROJECT_ROOT, digest_tests_tree, parse_junit, read_worktree_tests
 
 if TYPE_CHECKING:
     from bk_gates.core import GateContext
@@ -124,3 +125,20 @@ class Project:
 @pytest.fixture
 def project(tmp_path: Path) -> Project:
     return Project(tmp_path)
+
+
+def copy_project(tmp_path: Path, files: Mapping[str, str] | None = None) -> Path:
+    """A throwaway copy of this project's src/ and pyproject.toml, with ``files`` written on top.
+
+    Gates that run the real project (contracts, import-linter) mutate the copy, never the repo.
+    """
+    copy = tmp_path / "proj"
+    shutil.copytree(
+        PROJECT_ROOT / "src", copy / "src", ignore=shutil.ignore_patterns("__pycache__")
+    )
+    shutil.copy(PROJECT_ROOT / "pyproject.toml", copy / "pyproject.toml")
+    for rel, content in (files or {}).items():
+        path = copy / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content)
+    return copy
