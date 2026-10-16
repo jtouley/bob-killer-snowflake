@@ -101,7 +101,8 @@ def _expected_kinds(batches: int, end: str) -> list[str]:
 
 
 def _batch_rows(session: FakeSession) -> list[tuple[Any, ...]]:
-    params = [list(p or ()) for q, p in session.statements if q.startswith("INSERT")]
+    insert = f"INSERT INTO {BronzeRow.table_name.upper()}"
+    params = [list(p or ()) for q, p in session.statements if q.startswith(insert)]
     flat = [v for p in params for v in p]
     width = len(BronzeRow.model_fields)
     return [tuple(flat[i : i + width]) for i in range(0, len(flat), width)]
