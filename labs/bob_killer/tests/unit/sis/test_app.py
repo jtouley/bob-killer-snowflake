@@ -6,10 +6,10 @@ import hashlib
 import json
 from pathlib import Path
 
-import bob_killer_sis.streamlit_app as sis
 import pytest
 from streamlit.testing.v1 import AppTest
 
+import bob_killer_sis.streamlit_app as sis
 from bob_killer.contracts import SCHEMA_VERSION
 from bob_killer.contracts.runs import RunCreated, RunRejected, RunState
 from tests.conftest import workbook_like
