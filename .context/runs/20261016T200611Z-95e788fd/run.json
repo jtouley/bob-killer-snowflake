@@ -1,0 +1,15 @@
+{
+  "junit_sha256": "0f4be2f069c7dc526201caaf4fc9ea066a1a6e0e3c1cded6a027f44f76435148",
+  "nodes": {
+    "::tests.unit.test_graph_dag": "error",
+    "::tests.unit.test_graph_parser": "error"
+  },
+  "pytest_args": [
+    "tests/unit/test_graph_dag.py",
+    "tests/unit/test_graph_parser.py"
+  ],
+  "recorded_at": "2026-10-16T20:06:11Z",
+  "run_id": "20261016T200611Z-95e788fd",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "5be2f24066e70d6cc435c252572346243e181150289dc5aecefef7d6cf190794"
+}
