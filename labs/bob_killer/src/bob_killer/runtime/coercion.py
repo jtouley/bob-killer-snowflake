@@ -6,6 +6,7 @@ in formulas), the N, VALUE and IFERROR function pages.
 
 from __future__ import annotations
 
+import math
 import re
 from decimal import Decimal
 
@@ -49,11 +50,13 @@ def parse_number_text(text: str) -> float | ExcelError:
         if re.search(r"\d", text) and _DATE_OR_TIME_TEXT.search(text):
             raise UnsupportedValue(f"date or time text {text!r} is not converted yet")
         return ExcelError.VALUE
-    digits = m.group("int").replace(",", "") + (m.group("frac") or "") + (m.group("exp") or "")
-    number = Decimal(f"{m.group('sign')}{digits}")
     if m.group("pct"):
-        number = number.scaleb(-2)
-    return float(number)
+        raise UnsupportedValue(f"percent text {text!r} is not converted yet")
+    digits = m.group("int").replace(",", "") + (m.group("frac") or "") + (m.group("exp") or "")
+    number = float(Decimal(f"{m.group('sign')}{digits}"))
+    if not math.isfinite(number):
+        raise UnsupportedValue(f"number text {text!r} exceeds Excel's largest number")
+    return number
 
 
 def to_number(value: Arg) -> float | ExcelError:
@@ -88,10 +91,7 @@ def to_logical(value: Arg) -> bool | ExcelError:
     if isinstance(value, float):
         return value != 0
     if isinstance(value, str):
-        upper = value.upper()
-        if upper in ("TRUE", "FALSE"):
-            return upper == "TRUE"
-        return ExcelError.VALUE
+        raise UnsupportedValue(f"text {value!r} where a logical is expected")
     return value
 
 
