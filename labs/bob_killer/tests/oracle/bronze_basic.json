@@ -1,0 +1,44 @@
+{
+  "source": "tests/fixtures/make_bronze_fixtures.py basic() and the header and G18 row rules of docs/SPEC.md §6.1",
+  "verified_by": "hand-derived from the rules, cell by cell; openpyxl 3.1 read_only/data_only data_type values checked by reading tests/fixtures/workbooks/bronze_basic.xlsx (2026-10-16)",
+  "fixture": "bronze_basic.xlsx",
+  "row_count": 4,
+  "rows": [
+    {
+      "sheet": "Data",
+      "row_number": 4,
+      "payload": {
+        "column_names": ["id", "column_B", "name", "id_2", "when"],
+        "dtypes": {"id": "n", "column_B": "n", "name": "s", "id_2": "b", "when": "n"},
+        "data": {"id": 1, "column_B": 2.5, "name": "alpha", "id_2": true, "when": null}
+      }
+    },
+    {
+      "sheet": "Data",
+      "row_number": 6,
+      "payload": {
+        "column_names": ["id", "column_B", "name", "id_2", "when"],
+        "dtypes": {"id": "n", "column_B": "e", "name": "d", "id_2": "d", "when": "d"},
+        "data": {"id": 2, "column_B": "#DIV/0!", "name": "2026-01-02T03:04:05", "id_2": "13:30:00", "when": 5400.0}
+      }
+    },
+    {
+      "sheet": "Data",
+      "row_number": 7,
+      "payload": {
+        "column_names": ["id", "column_B", "name", "id_2", "when"],
+        "dtypes": {"id": "n", "column_B": "n", "name": "n", "id_2": "b", "when": "n"},
+        "data": {"id": 3, "column_B": null, "name": null, "id_2": false, "when": null}
+      }
+    },
+    {
+      "sheet": "Second",
+      "row_number": 2,
+      "payload": {
+        "column_names": ["x", "x_2", "x_3"],
+        "dtypes": {"x": "n", "x_2": "n", "x_3": "s"},
+        "data": {"x": 10, "x_2": null, "x_3": "z"}
+      }
+    }
+  ]
+}
