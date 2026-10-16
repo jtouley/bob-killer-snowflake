@@ -1,6 +1,6 @@
 # Bob Killer on Snowflake — Build Spec (Claude Code + Cadence orchestrates, CoCo builds)
 
-Oct 16, 2026 · Jason Touleyrou · Status: r7.6 (AGENTS.md test-DRY rules)
+Oct 16, 2026 · Jason Touleyrou · Status: r9-scope (user goal: Bob Killer features + dbt project in Snowflake; D14–D16; §8a Phases 9–16 to plan)
 
 This document is the one handoff for building the Bob Killer Snowflake host. It joins two repositories
 into one service that runs in Snowflake. It holds the operating model, the CLI setup, the scope, the
@@ -362,7 +362,28 @@ Exception: for commit subjects, .context/ paths and hooks.log, this file wins ov
 
 ## 2. Purpose and scope
 
-### 2.1 Goal
+### 2.0 The goal (governs everything below; the run fails if this is not met)
+
+**Bob Killer runs in Snowflake end to end.** A user uploads a workbook. Snowflake pulls it apart and gives
+back a **dbt project in Snowflake** that reproduces the workbook's calculations, with docs and parity tests:
+
+1. **Extract** every cell, formula, cached value, defined name, table and VBA module (core SPEC stage 1).
+2. **Graph** the formulas into a dependency DAG; flag cycles, volatile and dynamic references (stage 2).
+3. **Lift** the graph into the Workbook IR: inputs, lookups, parameters (promoted hardcodes), vectorized
+   steps, outputs (stage 3), using the shared Excel runtime (`runtime/`, core decision 5).
+4. **Generate** from the IR, through the generator registry (no `if target ==` in core):
+   - a **dbt project** (D14) deployed as a **dbt Project on Snowflake** and run there;
+   - plain-English docs, and the equivalence tests (as dbt tests);
+   - the Streamlit app of core SPEC stage 4 stays a registered generator, lower priority than dbt.
+5. **Verify** exact parity of the dbt outputs against Excel's cached values (D15), with a report.
+6. **VBA**: inventory all modules (stage 1); translate pure-computation procedures behind tests (core SPEC
+   Phase 5); cells a macro writes are listed and leave the parity denominator until translated.
+
+Phases 1–8 (§8) are the platform this runs on: storage, upload, bronze landing, run status, procedures, the
+app shell, the ODCS contract. Phases 9–16 (§8a) are the compiler and the dbt target. **Done means Phase 16's
+exit holds on the golden workbooks**, not only the platform.
+
+### 2.1 Platform goal (Phases 1–8)
 
 One Snowflake-native service. A user opens a Streamlit app in Snowsight and uploads a workbook. One
 upload does three things:
@@ -371,37 +392,45 @@ upload does three things:
 2. **Writes bronze rows**: each data row of each sheet as a VARIANT payload with lineage (the donor's
    feature, fixed).
 3. **Runs Bob Killer**: the core `create_run` then `execute_run`, with run and stage status in Snowflake
-   tables. The app shows the status.
+   tables. The app shows the status. From Phase 9 on, the run's stages are the compiler stages above.
 
-### 2.2 Honest scope
+### 2.2 Honest limits
 
-The core is at core SPEC Phase 0. Its stage registry is empty, so today a run has one stage only: the
-host's `land_bronze`. This work builds the **Snowflake host**: storage, upload, landing, bronze, run status
-and deployment. Later core phases add stages. Some will need host work too (for example, core decision 9
-`workbook.db` storage and long runs). This spec does not promise that they run with no host change.
-
-This work does **not** build core SPEC Phase 6 (the Snowflake Streamlit generator for converted workbooks).
-It does record the platform facts that core Phase 7 needs.
+- **Exact parity needs Excel's arithmetic.** Elementwise `+ - * /` on doubles is exact in Snowflake SQL, but
+  Excel's summation order, 15-significant-digit rounding, the 1900 leap-year bug and blank-vs-zero coercion are
+  not SQL semantics. dbt models that need them call the shared `runtime/` through **Python UDFs** (or dbt Python
+  models), never a SQL re-implementation (D14, core decisions 1 and 5).
+- **The Excel oracle cannot run in Snowflake.** Parity is proven against the **cached values** of workbooks that
+  real Excel saved: the five golden public workbooks of core SPEC "Golden sample set" (EPA, NREL, Montana DOT).
+  Other input sets need desktop Excel or Microsoft Graph outside Snowflake; until that runner exists, those
+  cases are listed in the report, never approximated (D15).
+- **Formula fixtures need real Excel.** Small per-behavior formula fixtures must be saved by Excel. This Mac has
+  none, so the golden workbooks' cached values are the fixture oracle for Phases 9–15; a fixture that needs Excel
+  and has none is a blocked item with a reason, not a fake.
+- **Out-of-scope features stay reported**: pivot tables, Power Query, Solver, data tables, charts, external links
+  (core SPEC non-goals) appear in the coverage report.
 
 ### 2.3 Non-goals
 
-- Compiler stages (extract, graph, lift, generate, verify).
-- The Excel oracle. `UnavailableOracle` stays.
-- `.xls` input. The core rejects it (415). The donor accepted `.xls`; this is a deliberate change.
-- Silver and gold layers, Iceberg as default, multi-tenant access control, Native App packaging.
-- The FastAPI app inside Snowflake. FastAPI stays the local and CI surface.
+- The Excel oracle runner (desktop Excel / Microsoft Graph). Its client protocol exists (`verify/oracle.py`).
+- `.xls` input until the oracle converts it (core rejects it, 415).
+- Multi-tenant access control, Native App packaging, round-tripping back into Excel.
 
 ### 2.4 Success signals
 
-- A user uploads a fixture workbook in Snowsight. The app shows the run `succeeded` and its stages.
-- `BRONZE_ROWS` holds one row per data row per sheet, with the file SHA-256 and the run id.
-- A second upload of the same bytes makes a new run and adds **zero** bronze rows. Two parallel uploads of
-  the same bytes add the rows once.
-- An `.xls` file (415), a zip bomb (413) and a file over 50 MB (413) are rejected with the core's messages,
-  and no run row is written.
-- `gates.py` passes on the run branch.
+Platform (Phases 1–8):
+- A user uploads a workbook in Snowsight. The app shows the run and its stages.
+- `BRONZE_ROWS` holds one row per non-blank data row per sheet, with the file SHA-256 and the run id.
+- A second upload of the same bytes makes a new run and adds **zero** bronze rows; parallel uploads land once.
+- `.xls` (415), a zip bomb (413) and a file over 50 MB (413) are rejected; no run row is written.
 
----
+Bob Killer in Snowflake (Phases 9–16), on each golden workbook:
+- The run's stages extract, graph and lift it into an IR; the IR round-trips (`workbook.db` → YAML → `workbook.db`).
+- The dbt generator writes a dbt project; it deploys as a dbt Project on Snowflake and `EXECUTE DBT PROJECT` runs it.
+- Every non-VBA formula output cell in the dbt marts equals Excel's cached value exactly; the dbt tests prove it;
+  the equivalence report lists cells checked, matched, every mismatch, and coverage (formula cells and IR steps).
+- VBA modules are inventoried; macro-writable cells are listed; translated procedures match recorded output.
+- Docs are generated for each workbook.
 
 ## 3. Source inventory
 
@@ -614,6 +643,9 @@ tests, and drops the schema in teardown. Without a working connection the live s
 | D10 | Excel reader | openpyxl `read_only=True, data_only=True`, in the `snowflake` extra. | pandas (forbidden); Polars `read_excel` (adds fastexcel). |
 | D12 | Live tests in CI | **This run needs no CI secret.** The live suite runs locally in Claude Code's §1.9 step 4 after each phase (connection `bob_killer` on this Mac); its output is evidence in `.context/evidence/`. CI always runs the offline suite (fake sessions and the stub). The CI `live` job is automatic: it runs on pushes and PRs **when** the `SNOWFLAKE_*` secrets exist, and otherwise skips with a notice that names `tools/setup-ci-secrets.sh`. Anyone sets the secrets with `tools/setup-ci-secrets.sh [--connection NAME] [--dry-run]`: it reads a key-pair connection from `~/.snowflake/connections.toml`, pipes the key to `gh secret set` on stdin, sets the variables, and refuses when the Snowflake user holds an admin role unless `--accept-admin-risk`. The `live` job is never a required check in this run, and missing secrets are never a hard stop. | Key as a required CI secret now (full account control in a public repo's Actions while the grant exists); hard stop on missing secrets (ends the run in Phase 1). |
 | D13 | Data contracts (ODCS) | The Snowflake tables get an **Open Data Contract Standard v3.2.0** contract, generated from the Pydantic contracts and the `snowflake` DDL dialect (one type definition, D2/decision 8). `bob_killer.hosts.snowflake.odcs` writes `hosts/snowflake/contracts/bob_killer_app.odcs.yaml`: `apiVersion: v3.2.0`, `kind: DataContract`, one `servers` entry (`type: snowflake`, database `BOB_KILLER`, schema `APP`; account taken from no file), one `schema` object per table in `SNOWFLAKE_TABLES` with `physicalName`, and per property `logicalType`, `physicalType` (from the dialect), `required`, `primaryKey`/`primaryKeyPosition`, and `description`. Nested models (`BronzePayload`) become `logicalType: object` with their own `properties`. Dialect columns `_seq` and `_written_at` are listed. Tests: the generated file validates against the vendored `tests/oracle/odcs-json-schema-v3.2.0.json` (pinned SHA-256 in `tests/oracle/odcs_schema.source.json`); one parametrized test per table and property checks the ODCS property against the model field; the committed YAML is a drift guard. A contract change without a regenerated YAML fails. | Hand-written ODCS YAML (a second type definition); datacontract-cli as a runtime dependency (heavy; only the JSON Schema is needed to validate). |
+| D14 | dbt output target | A `dbt` generator registered in `registry.generators` (core extension point) renders the IR into a dbt project: `sources` = the run's IR tables and bronze; **seeds** = lookup tables and the parity oracle (cached values); **dbt vars** = promoted parameters; **models** = steps in topological order (`scalar_expr`/`column_expr` with exact SQL semantics → SQL models; reductions, rounding, dates, coercion → calls to Python UDFs built from `runtime/`); **marts** = outputs; **dbt tests** = exact-equality parity tests against the oracle seed, plus not-null/unique from the IR. The project deploys with `snow dbt deploy` / `CREATE DBT PROJECT` and runs with `EXECUTE DBT PROJECT` (dbt Projects on Snowflake). The generator is template-driven (Jinja partials, core DRY rules). | A SQL re-implementation of Excel semantics (breaks exact parity); dbt Core outside Snowflake (the goal is dbt in Snowflake). |
+| D15 | Parity oracle | Cached values from Excel-saved golden workbooks are the oracle for their one input set; the comparator is `verify/config.py` (exact). New input sets need the external Excel oracle (out of scope); the report lists them as unverified, never approximated. | LibreOffice recalculation (never an oracle, core decision 1). |
+| D16 | Where the compiler runs | Extract, graph, lift, generate and verify are registered stages that run inside `EXECUTE_RUN` (3.12 procedure). `workbook.db` (core decision 9) becomes the run's tables in the deployment schema through the `RunRepository`/dialect pattern of Phases 3–4. Generated dbt files are written to a stage and deployed from it. Long runs: if a stage exceeds the procedure limit, split per stage into separate procedure calls (Phase 9 measures it). `oletools` (VBA) must resolve (F3 pattern); if not, VBA inventory runs from a vendored pure-Python reader or the run stops blocked. | Running the compiler only on the Mac (the goal is Snowflake). |
 | D11 | Mutation scope | Phase 1 adds `src/bob_killer/service/`, `src/bob_killer/store/` and `src/bob_killer/hosts/snowflake/` to `[tool.mutmut] paths_to_mutate` (test selection stays `tests/unit`, offline, fake sessions; `session.py` live I/O may be excluded with `do_not_mutate`). After Phase 6, `gates.py --only mutation` runs once and its kill rate goes to `.context/evidence/mutation_phase6_<date>.txt` (P7 F3). | Core mutation on `runtime/` only (this run's new logic would have no mutation gate). |
 
 ---
@@ -915,4 +947,6 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 | P7 test-benchmark (plan) | Cadence test-benchmark | FAIL (mean 7.0; F1–F3 must-fix) | F1–F3 written into §8 Phases 1, 2, 3, 5, 6 and D11 (r7.4). The P4 peer did not read the benchmark file and could not be pointed at it (lean-prompt rule), so the spec carries them. F1–F3 stay open in `.context/findings.jsonl` until R5. |
 
 | User request 2026-10-16 | — | Add ODCS data contracts | D13; Phase 1 vendors the schema and adds PyYAML; Phase 3 generates and tests the contract |
+
+| User scope change 2026-10-16 | — | Bob Killer extract/graph/lift/generate/verify/VBA + a dbt project in Snowflake; the run fails without them | §2 rewritten (goal 2.0), D14–D16, §8a phases to be planned by a fresh Cadence run |
 
