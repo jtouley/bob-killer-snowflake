@@ -1,6 +1,6 @@
 # Bob Killer on Snowflake — Build Spec (Claude Code + Cadence orchestrates, CoCo builds)
 
-Oct 16, 2026 · Jason Touleyrou · Status: r6 (P3 r1–r3 applied; CLI and tools verified; see §13)
+Oct 16, 2026 · Jason Touleyrou · Status: r7 (P3 r1–r3 and A5 vibe-test blocking gaps applied; see §13)
 
 This document is the one handoff for building the Bob Killer Snowflake host. It joins two repositories
 into one service that runs in Snowflake. It holds the operating model, the CLI setup, the scope, the
@@ -60,7 +60,9 @@ shell. So the controls for E1 are these:
    (`pipeline_run_id`, `task_id`, `branch`, `worktree`, `hard_stop`, `resume_slug`, `status`).
 3. **Clone check.** `tools/coco-guard clone-check`: the clone's `.git/config` is byte-identical to its
    clone-time baseline (so no `core.fsmonitor`, `core.hooksPath` or alias was planted), the clone is clean
-   (except `.context/hooks.log`), has no remotes and no active git hooks. Every guard git call runs with
+   (except the core hooks' output: `.context/hooks.log`, `.context/coco/BLOCKED`, and untracked
+   `.context/runs/<id>/` directories that hold a `hook-run.json`; Claude Code archives them to
+   `.context/coco/clone-<n>/`), has no remotes and no active git hooks. Every guard git call runs with
    `-c core.fsmonitor=false -c core.hooksPath=/dev/null`.
 4. **History gates.** The bob_killer gates read git history (`tdd_order`, `assertions_frozen`,
    `no_oracle_literals`, `no_silent_skips`, `exact_parity`, `contracts_versioned`). Claude Code runs them on
@@ -154,13 +156,13 @@ gates need the local clone and uv toolchain.
 | --- | --- |
 | `tools/coco-flags.sh` | Connection name, clone path, timeout (6600 s), and the flags of every call: `--format json`, `--no-mcp`, `--private`, `--max-turns 200`, `--allowed <18 tool names>`, `--blocked <git and rm patterns>`. No `--bypass` (Step 0e). |
 | `tools/coco-clone <run-branch>` | Makes the isolated clone on `coco/<run-branch>` and removes its remote. `--sync <run-branch>` fast-forwards it after a phase close. |
-| `tools/coco-phase <prompt> <log>` | One call: lock (one call at a time), version check, `cortex exec -w <clone>/labs/bob_killer`, watchdog. The log always ends with `COCO_EXIT <code>`, also on timeout (143) or kill. Final message in `<log>.last.md`. |
+| `tools/coco-phase <prompt> <log>` | One call: lock (one call at a time), version check, `cortex exec -w <clone>/labs/bob_killer`, watchdog. The log always ends with `COCO_EXIT <code>`, also on timeout (124) or a signal (143). Final message in `<log>.last.md`. |
 | `tools/coco-guard snapshot / verify / clone-check` | §1.2 controls 2 and 3. |
 | `tools/coco-probe` | Step 0e permission probe in a throwaway repo with a local bare remote. |
 | `tools/record-cli-evidence`, `tools/smoke-test` | §1.3, §1.4. |
 
 These behaviors were tested offline with a stub `cortex` on 2026-10-16: normal exit, timeout → `COCO_EXIT 143`,
-second call blocked by the lock, version mismatch refused, a changed `.context/` file caught by `verify`, a
+second call blocked by the lock, version mismatch refused (timeout → `COCO_EXIT 124`, signal → 143), a changed `.context/` file caught by `verify`, a
 planted hook in the clone caught by `clone-check`.
 
 **Waiting.** Claude Code starts `tools/coco-phase` with `run_in_background: true` and `timeout: 7200000`, then
@@ -176,6 +178,10 @@ You review them in the draft PR before merge; CODEOWNERS requires your review fo
 `tools/` and the workflow. CoCo phases (2–8) start only after Phase 1 is closed, and CoCo may not change
 any of these files (§1.2 control 6).
 
+0. **Blocked stop for the core Stop hook** (G5): `scripts/hook_stop.py` allows a stop when the file
+   `.context/coco/BLOCKED` exists (CoCo writes it with the reason when it stops blocked), and logs a
+   `stop_allowed_blocked` event to the hook chain. A test in `tests/gates/` proves that a stop with failing gates
+   and no marker is still refused. AGENTS.md tells CoCo to write the marker before it stops blocked.
 1. **import-linter** (`labs/bob_killer/pyproject.toml`): `root_packages = ["bob_killer", "bob_killer_sis"]`;
    add `bob_killer.hosts` to the top layer (`bob_killer.api | bob_killer.cli | bob_killer.hosts`); forbidden
    contracts: `bob_killer.hosts.snowflake` must not import `bob_killer.api`, `fastapi`, `uvicorn`;
@@ -267,6 +273,10 @@ After each call:
    (`tdd_order` ignores an empty commit; `phase_ledger.py` marks the phase done only here). Push the run branch.
    For a phase that deploys (6, 7), tag the close commit `deploy/<phase>-<short-sha>` and push the tag (rollback, §11).
 7. A check fails: write a fix prompt. After 3 failed fix calls on one phase, Cadence hard stop `retries`.
+8. `status: blocked`: read `blocked_reason`. A false platform fact (§4) or a missing credential is a Cadence hard
+   stop (`credentials` or `retries` with the reason). Anything else gets one fix prompt that resolves the block (for
+   example a spec conflict that Claude Code can settle from this file); it counts toward the 3-call limit.
+9. A `clone-check` or `verify` failure is a Cadence hard stop `security`. It is never a fix prompt.
 
 `<run-base-sha>` is the merge-base of the run branch with `main`, recorded at A1. Claude Code puts it in
 every prompt.
@@ -325,6 +335,8 @@ Exception: for commit subjects, .context/ paths and hooks.log, this file wins ov
 - Snowflake: run DDL only in schemas named TEST_* that a test fixture creates, or in the schema the phase
   names. Never DROP anything else.
 - If a fact in ../../docs/SPEC.md §4 is false in this account, stop with status blocked.
+- To stop blocked: write the reason to ../../.context/coco/BLOCKED (the core Stop hook then lets you stop), then end
+  with the COCO_RESULT block (status: blocked).
 - Do not invoke the skills cadence, ship-feature, spec-driven, plan-create, plan-review, plan-update,
   pr-review, babysit or commit-push-pr. Claude Code runs the pipeline; you build.
 - If a tool, scope or policy refuses an action, stop with status blocked. Never route around it with
@@ -427,7 +439,7 @@ to `.context/evidence/snowflake_platform_<date>.md`. A false fact stops the run.
 
 | # | Fact | Consequence | Phase 2 check |
 | --- | --- | --- | --- |
-| F1 | SiS **container runtime** supports **Python 3.11 only**, installs from `pyproject.toml` with uv, needs Streamlit ≥ 1.50, runs on a compute pool. | The app cannot import the core (3.12, PEP 695 syntax). The app is the separate package `bob_killer_sis`. | Deploy a hello app; show `sys.version` and `get_active_session().get_current_role()`. |
+| F1 | SiS **container runtime** supports **Python 3.11 only**, installs from `pyproject.toml` with uv, needs Streamlit ≥ 1.50, runs on a compute pool. | The app cannot import the core (3.12, PEP 695 syntax). The app is the separate package `bob_killer_sis`. | Phase 2: the hello app deploys with the container runtime (`DESCRIBE STREAMLIT`). After merge: you open it once; it shows `sys.version` and the role. |
 | F2 | Python stored procedures support runtimes 3.10–3.13. | The core runs in 3.12 stored procedures (D1). | A 3.12 procedure that imports `bob_killer.contracts`, builds a `Run`, and returns `sys.version`. |
 | F3 | Procedure packages come from the Anaconda channel, or from PyPI through an artifact repository. | The import set must resolve for 3.12: `pydantic` 2.11.x, `pydantic-core`, `annotated-types`, `typing-extensions`, `typing-inspection`, `openpyxl`, `et-xmlfile`, `snowflake-snowpark-python`. Not `fastapi`. | `SELECT package_name, version FROM information_schema.packages WHERE language='python' AND runtime_version='3.12' AND package_name IN (...)`. If one is missing, prove the artifact-repository path. Record which path works. |
 | F4 | Standard tables do not enforce PRIMARY KEY or UNIQUE, and have no CHECK constraints. They do enforce NOT NULL. | Enum and key rules live in code: strict models on write and on read, `MERGE` for upserts and dedup. | In a TEST_ schema: a duplicate PK insert succeeds; a NULL into NOT NULL fails. |
@@ -605,26 +617,34 @@ Do the phases in order. "Allowed paths" are relative to `labs/bob_killer/`, plus
 
 ### Phase 1: Gate and dependency prep
 
-Done by Claude Code itself, not CoCo. Allowed paths: `pyproject.toml`, `uv.lock`, `scripts/bk_gates/`,
+Done by Claude Code itself, not CoCo. Allowed paths: `scripts/hook_stop.py`, `../../tools/`, `pyproject.toml`, `uv.lock`, `scripts/bk_gates/`,
 `tests/gates/`, `tests/live/test_connection.py`, `tests/live/conftest.py`, `src/bob_killer/hosts/__init__.py`,
 `src/bob_killer/hosts/snowflake/__init__.py`, `src/bob_killer_sis/__init__.py`, `src/bob_killer_sis/ruff.toml`,
 `../../.github/workflows/bob-killer.yml`, `../../.gitignore`.
 
 - Every item of §1.6, as `TDD-Phase: gate-change` commits (the gate tests in item 8 first).
+- `tools/coco-guard`: tolerate and archive the hook output named in §1.2 control 3.
+- One probe CoCo call in a throwaway clone: one `edit` of a test file. Record whether `PostToolUse` fired
+  (a `.context/runs/<id>/hook-run.json` appears) in `.context/evidence/coco_hooks_<date>.txt`.
 - Exit: §1.6 exit.
 
 ### Phase 2: Platform proof
 
 Allowed paths: `hosts/snowflake/`, `src/bob_killer/hosts/snowflake/session.py`, `tests/live/test_platform.py`, `tests/live/conftest.py`, `tests/unit/hosts/test_session.py`, `.context/evidence/`.
 
-- The bootstrap is already applied (Step 0b). Commit `hosts/snowflake/sql/00_admin_bootstrap.sql` as it ran,
-  and write `99_teardown.sql`. If the `BOB_KILLER_OWNER` role is missing, stop with status blocked.
+- The bootstrap is already applied (Step 0b, in a CoCo Snowsight session; its text is not on disk). Write
+  `hosts/snowflake/sql/00_admin_bootstrap.sql` from §6.3, with the header line `-- RECONSTRUCTED from docs/SPEC.md §6.3;
+  applied 2026-10-16`, a placeholder for the public key body, and no ACCOUNTADMIN grant to `BOB_KILLER_SVC`. Do not
+  run it. Write `99_teardown.sql`. If the `BOB_KILLER_OWNER` role is missing, stop with status blocked.
 - Red first: tests import `bob_killer.hosts.snowflake.session` (not yet written), so they fail for a stated
   reason. Green: `session.py` with `open_session(connection_name)` and the `test_schema()` context manager
   (create `TEST_<uuid8>`, yield, drop). The F2, F4, F5, F6, F9 checks are live tests that use them.
 - Evidence for F1, F3, F7, F8: the commands and outputs in `.context/evidence/snowflake_platform_<date>.md`.
 
-Exit: every F1–F10 fact is confirmed in evidence, or the phase stops blocked with the false fact named.
+Exit: F2–F6, F8 and F9 are confirmed by live tests or evidence. F1 and F7 are confirmed at deploy level: a hello
+  app deploys with the container runtime, the compute pool and the PyPI integration, and `DESCRIBE STREAMLIT` shows
+  them (a container app starts only when a person opens it; the runtime check is in the post-merge step of Phase 7).
+  F10 is proven in Phase 5. A false fact stops the phase blocked, with the fact named.
 
 ### Phase 3: Contracts and DDL dialects
 
@@ -644,12 +664,15 @@ Exit: SQLite DDL unchanged; `contracts_versioned` green.
 
 ### Phase 4: Repository Protocol, stage detail, SnowflakeRunStore
 
-Allowed paths: `src/bob_killer/store/`, `src/bob_killer/service/runs.py`, `src/bob_killer/registry.py`, `src/bob_killer/api/main.py`, `src/bob_killer/cli.py`, `src/bob_killer/hosts/snowflake/store.py`, `tests/unit/`, `tests/integration/`, `tests/live/`.
+Allowed paths: `src/bob_killer/store/`, `src/bob_killer/service/runs.py`, `src/bob_killer/registry.py`, `src/bob_killer/api/main.py`, `src/bob_killer/cli.py`, `src/bob_killer/hosts/snowflake/store.py`, `tests/conftest.py`, `tests/unit/`, `tests/integration/`, `tests/live/`.
 
 - Red: a shared `RunRepository` suite (insert, get missing → None, set_state, upsert twice → one row,
   stages in insert order after `create_run` + `execute_run`). It takes a store factory.
 - Green: extract the Protocol; type `service/runs.py`, `api/main.py`, `cli.py` against it; the suite runs on `RunStore`.
 - Red/green (D3): a stage that returns `"x"` gets detail `"x"`; a stage that returns `None` gets `""`.
+- Red/green (G1): `Registry.snapshot()` returns a context manager that restores the entries on exit. A
+  `tests/conftest.py` autouse fixture wraps every test in `registry.stages.snapshot()`, so a test that imports
+  `procedure.py` (which registers `land_bronze`) cannot change `tests/integration/test_api.py:38`'s empty-stage case.
 - Red/green: `SnowflakeRunStore` with the fake session (SQL text, binds, MERGE shape, read validation:
   a bad enum value from the database raises).
 - Live: the shared suite on `SnowflakeRunStore` in the TEST_ schema.
@@ -720,9 +743,10 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 
 ## 9. Gates and how CoCo works under them
 
-- **CoCo runs the core's hooks.** With `-w labs/bob_killer`, CoCo loads `labs/bob_killer/.claude/settings.json`:
-  `PostToolUse` runs the affected tests and the `Stop` hook refuses to let CoCo stop while a gate fails (seen
-  2026-10-16). That is wanted. It needs a base: `tools/coco-clone` makes a local `main` in the clone. The hooks
+- **CoCo runs the core's hooks.** With `-w labs/bob_killer`, CoCo loads `labs/bob_killer/.claude/settings.json`.
+  The `Stop` hook refused CoCo's stop while a gate failed (seen 2026-10-16). Whether `PostToolUse` fires is not
+  proven: its matcher is `Edit|Write|MultiEdit` and CoCo's tool names are lowercase. Phase 1 probes it with one
+  real CoCo edit and records the result; `clone-check` tolerates the hook output either way. That is wanted. It needs a base: `tools/coco-clone` makes a local `main` in the clone. The hooks
   append to the clone's `.context/hooks.log`, which Claude Code archives (§1.9).
 - For Claude Code, those hooks load only when it starts in `labs/bob_killer/`; this run starts at the repo
   root. Claude Code edits `src/` or `tests/` only in Phase 1 (gate tests). The controls are §1.2. Do not touch `.context/hooks.log`; only Claude Code hooks append to it.
@@ -740,7 +764,9 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 1. §2.4 signals, each shown by a test or a query output in `.context/evidence/`.
 2. `uv run pytest -q`, `uv run pytest -m live tests/live`, `gates.py` green; SQLite DDL unchanged.
 3. Coverage ≥ 90% of `src/` from the offline suite; R2 test-benchmark has no HIGH item.
-4. No pandas, no password, no ACCOUNTADMIN in any repo file.
+4. No pandas and no password in any repo file. No file under `labs/bob_killer/src/`, `labs/bob_killer/tests/` or
+   `tools/`, and no connection config, names an admin role. Only `hosts/snowflake/sql/00_admin_bootstrap.sql` and
+   docs may name one, and the committed bootstrap does not grant ACCOUNTADMIN to `BOB_KILLER_SVC`.
 5. One documented deploy path for procedures and app; one teardown script.
 
 ---
@@ -754,6 +780,7 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 | Idle compute pool cost | Auto-suspend in the bootstrap. |
 | No PK/UNIQUE/CHECK enforcement (F4) | Strict models on write and read; MERGE; live tests that write bad rows by raw SQL. |
 | CoCo acts outside its phase | §1.2 controls; hard stop `security`. |
+| `BOB_KILLER_SVC` holds ACCOUNTADMIN (checked 2026-10-16: grants `ACCOUNTADMIN`, `BOB_KILLER_OWNER`) and CoCo has a SQL tool | **Accepted risk until you revoke it.** Only the AGENTS.md rule stops `USE ROLE ACCOUNTADMIN`. The §1.2 controls guard the Mac, not the account. Revoke: `REVOKE ROLE ACCOUNTADMIN FROM USER BOB_KILLER_SVC;` |
 | Generated apps (core Phase 7) must run on 3.11 | Out of scope. Phase 2 evidence feeds a core ticket. |
 | Core changes in sandbox after the import | The import is a snapshot at `40987f0`. Bring later sandbox changes with `git subtree pull` in a human-reviewed PR. |
 
@@ -774,7 +801,7 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 | Key-pair or PAT | Key-pair; PAT only if CoCo rejects key-pair |
 | GitHub remote | Public `github.com/jtouley/bob-killer-snowflake` (created 2026-10-16); evidence files redact the account id |
 | Run branch | `snowflake-host` from `main`; Phase 1 is its first phase |
-| `CORE` / `BRONZE` schemas from the first bootstrap | Replace with `APP` (D7) |
+| `CORE` / `BRONZE` schemas from the first bootstrap | Done 2026-10-16: `APP` exists; `CORE` and `BRONZE` are dropped |
 
 ---
 
@@ -845,4 +872,18 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 | NTH Phase 1 ownership | Phase 1 is Claude Code's own phase |
 | NTH AGENTS precedence, run-base-sha | AGENTS exception line; §1.9 defines `<run-base-sha>` |
 | Step 0d human pre-merge | Replaced by Phase 1 inside the run, reviewed at the PR (user asked to start `/cadence` now) |
+
+| A5 vibe-test (on r6) | Cadence vibe-test | NOT READY FOR P1 (G1–G6 blocking, G7–G24 non-blocking) | Blocking gaps applied in r7; non-blocking go to the P1 plan |
+
+| Gap | Fix in r7 |
+| --- | --- |
+| G1 global stage registration vs frozen test | Phase 4: `Registry.snapshot()` + `tests/conftest.py` autouse fixture |
+| G2 acceptance criterion 4 | §10.4 rewritten as a checkable path rule; issue #1 matches |
+| G3 bootstrap source missing | Phase 2 reconstructs it from §6.3, marked, without the ACCOUNTADMIN grant |
+| G4 Phase 2 exit | F2–F6, F8, F9 live; F1, F7 deploy-level; runtime check after merge; F10 in Phase 5 |
+| G5 Stop hook vs blocked | §1.6 item 0: `BLOCKED` marker in `hook_stop.py`; §1.9 steps 8–9 map blocked and guard failures |
+| G6 clone-check vs hook output | §1.2 control 3 tolerance + archive; Phase 1 probes `PostToolUse` |
+| Security note | §11 accepted-risk row with the checked grants |
+| G16 schemas | Done |
+| G23 timeout code | Fixed |
 

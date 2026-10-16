@@ -41,6 +41,8 @@ Exception: for commit subjects, .context/ paths and hooks.log, this file wins ov
 - Snowflake: run DDL only in schemas named TEST_* that a test fixture creates, or in the schema the phase
   names. Never DROP anything else.
 - If a fact in ../../docs/SPEC.md §4 is false in this account, stop with status blocked.
+- To stop blocked: write the reason to ../../.context/coco/BLOCKED (the core Stop hook then lets you stop), then end
+  with the COCO_RESULT block (status: blocked).
 - Do not invoke the skills cadence, ship-feature, spec-driven, plan-create, plan-review, plan-update,
   pr-review, babysit or commit-push-pr. Claude Code runs the pipeline; you build.
 - If a tool, scope or policy refuses an action, stop with status blocked. Never route around it with
