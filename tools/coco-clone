@@ -6,12 +6,16 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$here/coco-flags.s
 root="$(git rev-parse --show-toplevel)"
 if [[ "${1:-}" == "--sync" ]]; then
   run="${2:?usage: coco-clone --sync <run-branch>}"
-  git -C "$COCO_CLONE" pull --ff-only --no-rebase "$root" "$run"
+  git -c core.fsmonitor=false -c core.hooksPath=/dev/null -C "$COCO_CLONE" pull --ff-only --no-rebase "$root" "$run"
   exit 0
 fi
 run="${1:?usage: coco-clone <run-branch>}"
 [[ -e "$COCO_CLONE" ]] && { echo "exists: $COCO_CLONE" >&2; exit 1; }
 git clone --no-hardlinks --quiet --branch "$run" "$root" "$COCO_CLONE"
+git -C "$COCO_CLONE" branch --quiet main origin/main  # local main: gates.py and the core Stop hook find their base
 git -C "$COCO_CLONE" remote remove origin           # nothing to push to
+# The core's hooks (which CoCo runs) append to .context/hooks.log in the clone. CoCo never commits it;
+# coco-guard clone-check tolerates it; Claude Code archives it to .context/coco/ after each call.
 git -C "$COCO_CLONE" switch --quiet -c "coco/$run"
+"$here/coco-guard" baseline
 echo "CoCo clone: $COCO_CLONE on coco/$run (no remotes)"

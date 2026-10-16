@@ -1,38 +1,60 @@
 #!/usr/bin/env bash
-# coco-guard snapshot <manifest>      : record the state CoCo must not change; print its digest.
-# coco-guard verify <manifest> <digest>: recompute; list changed entries; exit 1 on any change.
-# coco-guard clone-check              : CoCo clone is clean, has no remotes, has no hooks.
-# Claude Code keeps the printed digest in its own transcript, so a rewritten manifest is caught.
+# coco-guard snapshot <manifest>       : record the state CoCo must not change; print its digest.
+# coco-guard verify <manifest> <digest> : recompute; list changed entries; exit 1 on any change.
+# coco-guard clone-check               : CoCo clone is clean, has no remotes, no hooks, unchanged config.
+# Claude Code keeps the printed digest in its transcript, so a rewritten manifest is caught.
+# Every git call on the clone disables fsmonitor and hooks, so clone config cannot run code here.
 set -euo pipefail
-here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$here/coco-flags.sh"
-root="$(git rev-parse --show-toplevel)"
-CADENCE="${CADENCE_HOME:-$HOME/.claude/skills/cadence}"
-# Paths that Claude Code's own hooks write during a wait. Fill from the Step 0e dry run; keep it short.
-NOISE_RE='^(\.context/coco/)'
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+root="$(cd "$here/.." && pwd)"                       # works from any cwd
+source "$here/coco-flags.sh"
+CADENCE="$(cd "${CADENCE_HOME:-$HOME/.claude/skills/cadence}" && pwd -P)"
+SAFE_GIT=(git -c core.fsmonitor=false -c core.hooksPath=/dev/null)
+# Paths that Cadence itself rewrites while Claude Code waits (stop guard, session heartbeat).
+# Their integrity is checked by the normalized session line below instead of a raw hash.
+NOISE_RE='^\.context/(coco/|breadcrumbs/|cadence-session[^/]*\.json$|sessions/)'
 
-hash_tree() {  # <label> <dir> : one line per file
+hash_tree() {  # <label> <dir>
   local label="$1" dir="$2"
-  [[ -d "$dir" ]] || { echo "$label MISSING"; return; }
-  (cd "$dir" && find . -type f ! -path '*/__pycache__/*' ! -path './.venv/*' -print0 | sort -z \
-     | xargs -0 shasum -a 256 2>/dev/null) | sed "s|  \./|  $label/|"
+  [[ -d "$dir" ]] || { echo "MISSING  $label"; return; }
+  (cd "$dir" && find . -type f ! -path '*/__pycache__/*' ! -path './.venv/*' ! -path './.git/*' -print0 \
+     | sort -z | xargs -0 shasum -a 256 2>/dev/null) | sed "s|  \./|  $label/|"
+}
+
+session_line() {  # Cadence run identity, minus the counters the stop guard bumps
+  python3 - "$root/.context" <<'PY'
+import json, sys, pathlib
+out = []
+for p in sorted(pathlib.Path(sys.argv[1]).glob("cadence-session*.json")):
+    try: d = json.loads(p.read_text())
+    except Exception: out.append(f"{p.name}=UNREADABLE"); continue
+    keep = {k: d.get(k) for k in ("pipeline_run_id", "task_id", "branch", "worktree", "hard_stop", "resume_slug", "status")}
+    out.append(f"{p.name}={json.dumps(keep, sort_keys=True)}")
+print("session " + ";".join(out))
+PY
 }
 
 manifest() {
-  hash_tree .context "$root/.context" | grep -Ev "  \.context/coco/" || true
+  hash_tree .context "$root/.context" | awk -v re="$NOISE_RE" '{ if ($2 !~ re) print }'
+  session_line
   hash_tree .claude "$root/.claude"
   hash_tree tools "$root/tools"
-  hash_tree git-hooks "$(git -C "$root" rev-parse --git-path hooks)"
+  hash_tree git-hooks "$(git -C "$root" rev-parse --path-format=absolute --git-path hooks)"
   hash_tree cadence-skill "$CADENCE"
-  shasum -a 256 "$(git -C "$root" rev-parse --git-path config)" | sed 's|  .*|  git/config|'
+  shasum -a 256 "$(git -C "$root" rev-parse --path-format=absolute --git-path config)" | sed 's|  .*|  git/config|'
+  bl="$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)"
+  [[ -f "$bl" ]] && shasum -a 256 "$bl" | sed 's|  .*|  git/coco-clone-config.sha256|'
   [[ -f "$HOME/.claude/settings.json" ]] && shasum -a 256 "$HOME/.claude/settings.json" | sed 's|  .*|  home/.claude/settings.json|'
-  git -C "$root" for-each-ref --format='%(objectname) ref/%(refname)' | grep -v ' ref/refs/coco/' || true
-  git -C "$root" status --porcelain=v1 | sed 's/^/status /' | grep -Ev "^status .. $NOISE_RE" || true
+  git -C "$root" for-each-ref --format='ref %(objectname) %(refname)'
+  git -C "$root" status --porcelain=v1 | awk -v re="$NOISE_RE" '{ p=substr($0,4); if (p !~ re) print "status " $0 }'
   if git -C "$root" remote get-url origin >/dev/null 2>&1; then
     git -C "$root" ls-remote origin | sed 's/^/remote /'
   else
     echo "remote NONE"
   fi
 }
+
+clone_config_sha() { shasum -a 256 "$(git -C "$COCO_CLONE" rev-parse --absolute-git-dir)/config" | cut -d' ' -f1; }
 
 case "${1:-}" in
   snapshot)
@@ -41,15 +63,20 @@ case "${1:-}" in
     out="${2:?manifest path}"; want="${3:?digest}"
     got="$(shasum -a 256 "$out" | cut -d' ' -f1)"
     [[ "$got" == "$want" ]] || { echo "MANIFEST TAMPERED: $out" >&2; exit 1; }
-    if diff <(cat "$out") <(manifest) > "$out.diff"; then echo "guard OK"; rm -f "$out.diff"
+    if diff "$out" <(manifest) > "$out.diff"; then echo "guard OK"; rm -f "$out.diff"
     else echo "GUARD FAIL: protected state changed:" >&2; cat "$out.diff" >&2; exit 1; fi ;;
+  baseline)   # called by coco-clone right after the clone is made
+    clone_config_sha > "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)"; echo "baseline saved" ;;
   clone-check)
     fail=0
-    [[ -z "$(git -C "$COCO_CLONE" status --porcelain)" ]] || { echo "clone not clean" >&2; git -C "$COCO_CLONE" status --short >&2; fail=1; }
-    [[ -z "$(git -C "$COCO_CLONE" remote)" ]] || { echo "clone has remotes: $(git -C "$COCO_CLONE" remote)" >&2; fail=1; }
+    want="$(cat "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)" 2>/dev/null || echo none)"
+    [[ "$(clone_config_sha)" == "$want" ]] || { echo "clone .git/config changed since clone time" >&2; fail=1; }
+    # .context/hooks.log is written by the core hooks that CoCo runs; it is archived, never committed by CoCo.
+    dirty="$("${SAFE_GIT[@]}" -C "$COCO_CLONE" status --porcelain | grep -vx '?? .context/hooks.log' || true)"
+    [[ -z "$dirty" ]] || { echo "clone not clean:" >&2; echo "$dirty" >&2; fail=1; }
+    [[ -z "$("${SAFE_GIT[@]}" -C "$COCO_CLONE" remote)" ]] || { echo "clone has remotes" >&2; fail=1; }
     hooks="$(find "$(git -C "$COCO_CLONE" rev-parse --absolute-git-dir)/hooks" -type f ! -name '*.sample' 2>/dev/null)"
     [[ -z "$hooks" ]] || { echo "clone has active git hooks: $hooks" >&2; fail=1; }
-    [[ -z "$(git -C "$COCO_CLONE" config --get core.hooksPath || true)" ]] || { echo "clone sets core.hooksPath" >&2; fail=1; }
     [[ $fail -eq 0 ]] && echo "clone OK"; exit $fail ;;
-  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | clone-check" >&2; exit 2 ;;
+  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | baseline | clone-check" >&2; exit 2 ;;
 esac

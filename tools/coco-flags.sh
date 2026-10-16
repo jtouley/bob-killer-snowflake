@@ -2,9 +2,10 @@
 # Source of truth: .context/evidence/coco_cli_*.txt (`cortex exec --help`, CoCo v1.2.14).
 # Changes to this file are gate changes: human review only (SPEC §1.2 control 5).
 COCO_CONNECTION="bob_killer"
-_repo_root="$(git rev-parse --show-toplevel)"
+_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COCO_CLONE="${COCO_CLONE:-$(cd "$_repo_root/.." && pwd)/bob-killer-snowflake-coco}"
 COCO_TIMEOUT_S="${COCO_TIMEOUT_S:-6600}"   # below the 2 h ceiling of a Claude Code background command
+COCO_BIN="${COCO_BIN:-cortex}"            # tests set an explicit stub path; never fall back silently
 COCO_FLAGS=(
   --format json            # machine-readable log
   --no-mcp                 # do not load Claude Code's MCP servers from ~/.claude.json

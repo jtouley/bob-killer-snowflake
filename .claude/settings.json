@@ -2,10 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(tools/coco-phase:*)",
-      "Bash(tools/coco-worktree:*)",
+      "Bash(tools/coco-clone:*)",
+      "Bash(tools/coco-guard:*)",
+      "Bash(tools/coco-probe)",
       "Bash(tools/record-cli-evidence)",
       "Bash(tools/smoke-test)",
       "Bash(git -C ../bob-killer-snowflake-coco:*)",
+      "Bash(git -c core.hooksPath=/dev/null:*)",
       "Bash(uv run snow:*)"
     ]
   }
