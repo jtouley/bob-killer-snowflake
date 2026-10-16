@@ -1,0 +1,455 @@
+{
+  "bob_killer.contracts.golden.GoldenEntry": {
+    "$defs": {
+      "GoldenStatus": {
+        "enum": [
+          "resolved",
+          "pending-hash",
+          "unresolved"
+        ],
+        "title": "GoldenStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "complexity": {
+        "title": "Complexity",
+        "type": "string"
+      },
+      "filename": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Filename"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "note": {
+        "title": "Note",
+        "type": "string"
+      },
+      "sha256": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Sha256"
+      },
+      "source_page": {
+        "title": "Source Page",
+        "type": "string"
+      },
+      "status": {
+        "$ref": "#/$defs/GoldenStatus"
+      },
+      "title": {
+        "title": "Title",
+        "type": "string"
+      },
+      "url": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Url"
+      }
+    },
+    "required": [
+      "id",
+      "complexity",
+      "title",
+      "source_page",
+      "url",
+      "filename",
+      "sha256",
+      "status",
+      "note"
+    ],
+    "title": "GoldenEntry",
+    "type": "object"
+  },
+  "bob_killer.contracts.golden.GoldenLock": {
+    "$defs": {
+      "GoldenEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "complexity": {
+            "title": "Complexity",
+            "type": "string"
+          },
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sha256"
+          },
+          "source_page": {
+            "title": "Source Page",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/GoldenStatus"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          }
+        },
+        "required": [
+          "id",
+          "complexity",
+          "title",
+          "source_page",
+          "url",
+          "filename",
+          "sha256",
+          "status",
+          "note"
+        ],
+        "title": "GoldenEntry",
+        "type": "object"
+      },
+      "GoldenStatus": {
+        "enum": [
+          "resolved",
+          "pending-hash",
+          "unresolved"
+        ],
+        "title": "GoldenStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "lock_version": {
+        "title": "Lock Version",
+        "type": "integer"
+      },
+      "workbooks": {
+        "items": {
+          "$ref": "#/$defs/GoldenEntry"
+        },
+        "title": "Workbooks",
+        "type": "array"
+      }
+    },
+    "required": [
+      "lock_version",
+      "workbooks"
+    ],
+    "title": "GoldenLock",
+    "type": "object"
+  },
+  "bob_killer.contracts.runs.Run": {
+    "$defs": {
+      "RunState": {
+        "enum": [
+          "queued",
+          "running",
+          "succeeded",
+          "failed"
+        ],
+        "title": "RunState",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "created_at": {
+        "format": "date-time",
+        "title": "Created At",
+        "type": "string"
+      },
+      "filename": {
+        "title": "Filename",
+        "type": "string"
+      },
+      "run_id": {
+        "title": "Run Id",
+        "type": "string"
+      },
+      "schema_version": {
+        "title": "Schema Version",
+        "type": "integer"
+      },
+      "sha256": {
+        "title": "Sha256",
+        "type": "string"
+      },
+      "state": {
+        "$ref": "#/$defs/RunState"
+      }
+    },
+    "required": [
+      "run_id",
+      "filename",
+      "sha256",
+      "state",
+      "created_at",
+      "schema_version"
+    ],
+    "title": "Run",
+    "type": "object"
+  },
+  "bob_killer.contracts.runs.RunCreated": {
+    "$defs": {
+      "RunState": {
+        "enum": [
+          "queued",
+          "running",
+          "succeeded",
+          "failed"
+        ],
+        "title": "RunState",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "run_id": {
+        "title": "Run Id",
+        "type": "string"
+      },
+      "state": {
+        "$ref": "#/$defs/RunState"
+      }
+    },
+    "required": [
+      "run_id",
+      "state"
+    ],
+    "title": "RunCreated",
+    "type": "object"
+  },
+  "bob_killer.contracts.runs.RunView": {
+    "$defs": {
+      "Run": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "schema_version": {
+            "title": "Schema Version",
+            "type": "integer"
+          },
+          "sha256": {
+            "title": "Sha256",
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/$defs/RunState"
+          }
+        },
+        "required": [
+          "run_id",
+          "filename",
+          "sha256",
+          "state",
+          "created_at",
+          "schema_version"
+        ],
+        "title": "Run",
+        "type": "object"
+      },
+      "RunState": {
+        "enum": [
+          "queued",
+          "running",
+          "succeeded",
+          "failed"
+        ],
+        "title": "RunState",
+        "type": "string"
+      },
+      "StageState": {
+        "enum": [
+          "pending",
+          "running",
+          "succeeded",
+          "failed",
+          "skipped"
+        ],
+        "title": "StageState",
+        "type": "string"
+      },
+      "StageStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/$defs/StageState"
+          }
+        },
+        "required": [
+          "run_id",
+          "stage",
+          "state",
+          "detail"
+        ],
+        "title": "StageStatus",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "run": {
+        "$ref": "#/$defs/Run"
+      },
+      "stages": {
+        "items": {
+          "$ref": "#/$defs/StageStatus"
+        },
+        "title": "Stages",
+        "type": "array"
+      }
+    },
+    "required": [
+      "run",
+      "stages"
+    ],
+    "title": "RunView",
+    "type": "object"
+  },
+  "bob_killer.contracts.runs.StageStatus": {
+    "$defs": {
+      "StageState": {
+        "enum": [
+          "pending",
+          "running",
+          "succeeded",
+          "failed",
+          "skipped"
+        ],
+        "title": "StageState",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "detail": {
+        "title": "Detail",
+        "type": "string"
+      },
+      "run_id": {
+        "title": "Run Id",
+        "type": "string"
+      },
+      "stage": {
+        "title": "Stage",
+        "type": "string"
+      },
+      "state": {
+        "$ref": "#/$defs/StageState"
+      }
+    },
+    "required": [
+      "run_id",
+      "stage",
+      "state",
+      "detail"
+    ],
+    "title": "StageStatus",
+    "type": "object"
+  },
+  "bob_killer.contracts.runs.UploadLimits": {
+    "additionalProperties": false,
+    "description": "Checked against the zip central directory before anything is decompressed.",
+    "properties": {
+      "max_compressed_bytes": {
+        "default": 52428800,
+        "title": "Max Compressed Bytes",
+        "type": "integer"
+      },
+      "max_decompressed_bytes": {
+        "default": 524288000,
+        "title": "Max Decompressed Bytes",
+        "type": "integer"
+      },
+      "max_members": {
+        "default": 10000,
+        "title": "Max Members",
+        "type": "integer"
+      },
+      "max_ratio": {
+        "default": 100,
+        "title": "Max Ratio",
+        "type": "integer"
+      }
+    },
+    "title": "UploadLimits",
+    "type": "object"
+  }
+}

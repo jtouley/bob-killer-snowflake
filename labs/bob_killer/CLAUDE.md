@@ -1,0 +1,46 @@
+# Bob Killer — working agreement
+
+Read SPEC.md before any task. The Workbook IR is the only contract between stages.
+Phase 0 decisions that amend SPEC.md live in
+`../../.context/proposals/ADR-0001_bob-killer-phase0_gh-5.md`; the
+Phase 0 plan is `../../.context/plans/bob-killer-phase0_gh-5.plan.md` (ticket jtouley/sandbox#5).
+
+## Loop (never skip a step)
+1. Pick the lowest unbuilt node in dependency order (runtime fn → step → output).
+2. RED: write the test. Expected values come from cached values, recorded oracle results,
+   or `tests/oracle/*.json` (with `source` + `verified_by`) only.
+   Run it via `scripts/record_run.py`. Confirm it fails for the stated reason. The run record is committed with the red commit.
+3. GREEN: minimum code to pass. Never edit an existing assertion, test function, or `tests/oracle/**` in this phase.
+4. REFACTOR: remove duplication; Excel semantics go in src/bob_killer/runtime/.
+5. Recurse to parents. Commit test and implementation separately, test first.
+   Every commit carries a trailer `TDD-Phase: red|green|refactor|scaffold|gate-change`.
+6. Blocked? Add the node to `unsupported` with a reason, continue with independent nodes.
+
+## Hard rules
+- Parity is exact everywhere. No tolerances anywhere, including integration tests.
+- No literal expected values in `assert` comparisons under `tests/unit` and `tests/integration`.
+- No skip/xfail/approx/isclose without an entry in ALLOWLIST.md (named cell, root-cause class, linked issue).
+- No branching on target or kind in core; use registry.py.
+- LLM output may only fill `description`, or VBA translations behind tests. Names come from workbook.db. Never hand-edit IR YAML.
+- Every type is defined once in contracts/ as a strict Pydantic model.
+- Never execute VBA or macros outside the isolated oracle runner.
+- `.context/` is committed evidence. If a gate fails, report it. Never delete, rewrite or hide logs in .context/.
+- The TDD-order gate reads commit order, so never squash blindly. A squash must be a *verified squash*:
+  push the red/green history as a tag (`archive/<ticket>-tdd-history`), then make one commit with
+  trailers `TDD-Phase: squash` and `TDD-History: <archived sha>`. The gate checks the history exists,
+  descends from the squash's parent, has the identical tree, and passes tdd_order/assertions_frozen.
+
+## Commands (from labs/bob_killer/)
+- uv run pytest -q
+- uv run python scripts/gates.py   # must pass before you stop (the Stop hook enforces it)
+- uv run python scripts/record_run.py --phase red <test paths>   # red evidence; commit it with the red commit
+- uv run python scripts/export_contracts.py   # only after bumping SCHEMA_VERSION
+- uv run python scripts/fetch_golden.py [--accept ID]   # golden workbooks into gitignored golden/
+- Commits that change .context/hooks.log add: --trailer "Hooks-Log-Head=$(uv run python scripts/hooks_log_head.py)"
+- All trailers (TDD-Phase, Hooks-Log-Head, Co-Authored-By) go in ONE final paragraph, or git won't parse them.
+- uv run bob-killer all golden/sgec_tool.xlsm --out build/
+- uv run fastapi dev src/bob_killer/api/main.py
+
+## Start here
+Phase 0 in SPEC.md, following the plan above. First task: scaffold the repo, then write the gate
+scripts and prove each one rejects a deliberately bad commit.
