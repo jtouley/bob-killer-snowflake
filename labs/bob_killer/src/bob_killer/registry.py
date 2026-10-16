@@ -69,3 +69,13 @@ step_kinds: Registry[type] = Registry("step_kinds")
 generators: Registry[object] = Registry("generators")
 detectors: Registry[Callable[..., object]] = Registry("detectors")
 stages: Registry[Stage] = Registry("stages")
+
+
+def excel_function[F: Callable[..., object]](name: str) -> Callable[[F], F]:
+    """Register an Excel function implementation in ``functions`` under its Excel name."""
+
+    def decorator(fn: F) -> F:
+        functions.add(name, fn)
+        return fn
+
+    return decorator
