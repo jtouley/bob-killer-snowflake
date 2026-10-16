@@ -2,12 +2,13 @@
 
 It records every statement as ``(sql, params)`` in call order and answers each statement with the
 scripted rows of the longest matching statement prefix (case-insensitive, leading space ignored).
-A statement with no script returns no rows.
+A statement with no script returns no rows. A handler script (``script_handler``) computes the
+rows from the bound params per statement, so a test can keep table state or raise (fault injection).
 """
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any
 
 from snowflake.snowpark import Row
@@ -15,6 +16,9 @@ from snowflake.snowpark import Row
 # Column names Snowflake uses for DML results.
 ROWS_INSERTED = "number of rows inserted"
 ROWS_UPDATED = "number of rows updated"
+
+type Params = Sequence[Any] | None
+type Handler = Callable[[Params], Sequence[Mapping[str, Any]]]
 
 
 class FakeDataFrame:
@@ -28,7 +32,7 @@ class FakeDataFrame:
 class FakeSession:
     def __init__(self) -> None:
         self.statements: list[tuple[str, Sequence[Any] | None]] = []
-        self._scripts: dict[str, list[Row]] = {}
+        self._scripts: dict[str, list[Row] | Handler] = {}
 
     def script(self, prefix: str, rows: Sequence[Mapping[str, Any]]) -> None:
         """Answer statements that start with ``prefix`` with ``rows`` (one mapping per row)."""
@@ -38,11 +42,20 @@ class FakeSession:
         """Answer a MERGE / INSERT / UPDATE with Snowflake's rows-affected result row."""
         self.script(prefix, [{ROWS_INSERTED: inserted, ROWS_UPDATED: updated}])
 
+    def script_handler(self, prefix: str, handler: Handler) -> None:
+        """Answer statements that start with ``prefix`` with ``handler(params)``, per statement."""
+        self._scripts[prefix.upper()] = handler
+
     def sql(self, query: str, params: Sequence[Any] | None = None) -> FakeDataFrame:
         self.statements.append((query, params))
         key = query.lstrip().upper()
         matches = [p for p in self._scripts if key.startswith(p)]
-        return FakeDataFrame(self._scripts[max(matches, key=len)] if matches else [])
+        if not matches:
+            return FakeDataFrame([])
+        scripted = self._scripts[max(matches, key=len)]
+        if callable(scripted):
+            return FakeDataFrame([Row(**dict(r)) for r in scripted(params)])
+        return FakeDataFrame(scripted)
 
     @property
     def sql_texts(self) -> list[str]:
