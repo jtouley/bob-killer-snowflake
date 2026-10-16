@@ -53,6 +53,9 @@ def test_date_serial_outside_excel_range(case: dict[str, Any]) -> None:
     [
         ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
         ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+        ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+        ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+        ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
         ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
         ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
         ("SUM", [None]),  # an omitted argument

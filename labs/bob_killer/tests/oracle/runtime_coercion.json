@@ -99,6 +99,22 @@
       "verified_by": "Claude Code 2026-10-16: = \"A\"&TRUE produces ATRUE ('Excel converts numbers and logical values such as TRUE and FALSE to text')"
     },
     {
+      "id": "false-to-text",
+      "call": "coercion.to_text",
+      "args": [false],
+      "expected": "FALSE",
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: 'When text is expected, Excel converts numbers and logical values such as TRUE and FALSE to text'"
+    },
+    {
+      "id": "number-to-text-uses-15-digits",
+      "call": "coercion.to_text",
+      "args": [0.30000000000000004],
+      "expected": "0.3",
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Number precision 15 digits' with 'Excel converts numbers ... to text' (calculation operators page, https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a)"
+    },
+    {
       "id": "blank-formula-result-shows-zero",
       "call": "coercion.cell_result",
       "args": [null],
