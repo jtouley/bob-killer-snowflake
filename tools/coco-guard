@@ -12,7 +12,7 @@ CADENCE="$(cd "${CADENCE_HOME:-$HOME/.claude/skills/cadence}" && pwd -P)"
 SAFE_GIT=(git -c core.fsmonitor=false -c core.hooksPath=/dev/null)
 # Paths that Cadence itself rewrites while Claude Code waits (stop guard, session heartbeat).
 # Their integrity is checked by the normalized session line below instead of a raw hash.
-NOISE_RE='^\.context/(coco/|breadcrumbs/|cadence-session[^/]*\.json$|sessions/)'
+NOISE_RE='^\.context/(coco/|breadcrumbs/|cadence-session[^/]*\.json$|sessions/|attest/)'
 
 hash_tree() {  # <label> <dir>
   local label="$1" dir="$2"
@@ -37,7 +37,7 @@ PY
 manifest() {
   hash_tree .context "$root/.context" | awk -v re="$NOISE_RE" '{ if ($2 !~ re) print }'
   session_line
-  hash_tree .claude "$root/.claude"
+  hash_tree .claude "$root/.claude" | grep -v '  \.claude/worktrees/' || true
   hash_tree tools "$root/tools"
   hash_tree git-hooks "$(git -C "$root" rev-parse --path-format=absolute --git-path hooks)"
   hash_tree cadence-skill "$CADENCE"

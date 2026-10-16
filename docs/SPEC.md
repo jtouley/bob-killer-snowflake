@@ -855,7 +855,7 @@ Exit: F2–F6, F8 and F9 are confirmed by live tests or evidence. F1 and F7 are 
 
 ### Phase 3: Contracts and DDL dialects
 
-Allowed paths: `src/bob_killer/contracts/`, `src/bob_killer/hosts/__init__.py`, `src/bob_killer/hosts/snowflake/__init__.py`, `src/bob_killer/hosts/snowflake/ddl.py`, `tests/unit/`, `hosts/snowflake/sql/10_tables.sql`.
+Allowed paths: `src/bob_killer/contracts/`, `src/bob_killer/hosts/__init__.py`, `src/bob_killer/hosts/snowflake/__init__.py`, `src/bob_killer/hosts/snowflake/ddl.py`, `tests/unit/`, `hosts/snowflake/sql/10_tables.sql`. Also `tests/oracle/snowflake_types.json` (P7 F1 oracle; settled 2026-10-16).
 
 - Red: `ddl_dialects["sqlite"]` output for `TABLES` equals `snapshots/v1/ddl.sql`, read from the file.
 - Green: refactor `ddl.py` into the registry. No output change.
