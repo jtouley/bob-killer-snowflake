@@ -29,8 +29,10 @@ __all__ = [
 # en-US number text: sign, optional $, digits with optional comma grouping, fraction, exponent, %.
 _NUMBER_TEXT = re.compile(
     r"\s*(?P<sign>[+-]?)\$?(?=\.?\d)(?P<int>\d{1,3}(?:,\d{3})+|\d*)(?P<frac>\.\d*)?"
-    r"(?P<exp>[eE][+-]?\d+)?(?P<pct>%?)\s*"
+    r"(?P<exp>[eE][+-]?\d+)?(?P<pct>%?)\s*",
+    re.ASCII,  # CHAR(160) and Unicode digits are not number text forms Excel documents
 )
+_NOT_ESTABLISHED = re.compile(r"[^\x00-\x7f]|^\s*\(")
 # Text Excel may read as a date or time ("6/1/2001", "16:48:00", "5 Jan 2020", "4 PM").
 _DATE_OR_TIME_TEXT = re.compile(
     r"\d\s*[/:-]\s*\d|(?i:\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b|\b[ap]m\b)"
@@ -45,6 +47,8 @@ def _scalar(value: Arg) -> CellValue:
 
 def parse_number_text(text: str) -> float | ExcelError:
     """Text as a number, or #VALUE! when it is not number text (VALUE function remarks)."""
+    if re.search(r"\d|\s", text) and _NOT_ESTABLISHED.search(text):
+        raise UnsupportedValue(f"number text form not established: {text!r}")  # pragma: no mutate
     m = _NUMBER_TEXT.fullmatch(text)
     if m is None:
         if re.search(r"\d", text) and _DATE_OR_TIME_TEXT.search(text):
