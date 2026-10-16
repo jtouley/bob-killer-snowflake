@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.427" timestamp="2026-10-16T16:27:15.684915-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.unit.hosts.test_snowflake_store" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-ad802f162609f1377/labs/bob_killer/tests/unit/hosts/test_snowflake_store.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/hosts/test_snowflake_store.py:15: in &lt;module&gt;
+    from bob_killer.hosts.snowflake.store import SnowflakeRunStore
+E   ModuleNotFoundError: No module named 'bob_killer.hosts.snowflake.store'</error></testcase></testsuite></testsuites>

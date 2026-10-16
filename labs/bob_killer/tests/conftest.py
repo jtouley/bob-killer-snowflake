@@ -15,6 +15,7 @@ import pytest
 if TYPE_CHECKING:
     from bob_killer.contracts.runs import Run
     from bob_killer.store import RunRepository
+    from tests.fakes.snowpark import FakeSession
 
 
 @pytest.fixture(autouse=True)
@@ -111,10 +112,86 @@ def _sqlite_store(tmp_path: Path) -> RunRepository:
     return RunStore(tmp_path / "runs.db")
 
 
+def snowflake_tables_session() -> FakeSession:
+    """A FakeSession that keeps RUNS and STAGE_STATUS in memory, rows in ``_seq`` order.
+
+    Each script is the start of one SnowflakeRunStore statement; binds follow model field order.
+    Rows come back with upper-case column names, as Snowflake returns them.
+    """
+    from bob_killer.contracts.runs import Run, RunState, StageStatus
+    from tests.fakes.snowpark import ROWS_INSERTED, ROWS_UPDATED, FakeSession, Params
+
+    runs: list[dict[str, Any]] = []
+    stage_rows: list[dict[str, Any]] = []
+    run_cols, stage_cols = tuple(Run.model_fields), tuple(StageStatus.model_fields)
+    runs_t, stages_t = Run.table_name.upper(), StageStatus.table_name.upper()
+
+    def bound(p: Params) -> list[Any]:
+        return list(p or ())
+
+    def out(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        return [{k.upper(): v for k, v in r.items()} for r in rows]
+
+    def affected(inserted: int = 0, updated: int = 0) -> list[dict[str, Any]]:
+        return [{ROWS_INSERTED: inserted, ROWS_UPDATED: updated}]
+
+    def insert_run(p: Params) -> list[dict[str, Any]]:
+        runs.append(dict(zip(run_cols, bound(p), strict=True)))
+        return affected(inserted=1)
+
+    def get_run(p: Params) -> list[dict[str, Any]]:
+        return out([r for r in runs if r["run_id"] == bound(p)[0]])
+
+    def set_state(p: Params) -> list[dict[str, Any]]:
+        state, run_id = bound(p)
+        hit = [r for r in runs if r["run_id"] == run_id]
+        for r in hit:
+            r["state"] = state
+        return affected(updated=len(hit))
+
+    def claim(p: Params) -> list[dict[str, Any]]:
+        (run_id,) = bound(p)
+        hit = [r for r in runs if r["run_id"] == run_id and r["state"] == RunState.QUEUED.value]
+        for r in hit:
+            r["state"] = RunState.RUNNING.value
+        return affected(updated=len(hit))
+
+    def merge_stage(p: Params) -> list[dict[str, Any]]:
+        new = dict(zip(stage_cols, bound(p), strict=True))
+        hit = [r for r in stage_rows if all(r[k] == new[k] for k in StageStatus.primary_key)]
+        for r in hit:
+            r.update(new)
+        if not hit:
+            stage_rows.append(new)
+        return affected(inserted=0 if hit else 1, updated=len(hit))
+
+    def get_stages(p: Params) -> list[dict[str, Any]]:
+        return out([r for r in stage_rows if r["run_id"] == bound(p)[0]])
+
+    session = FakeSession()
+    for prefix, handler in {
+        f"INSERT INTO {runs_t}": insert_run,
+        f"SELECT {', '.join(run_cols)} FROM {runs_t}": get_run,
+        f"UPDATE {runs_t} SET state = ?": set_state,
+        f"UPDATE {runs_t} SET state = '{RunState.RUNNING.value}'": claim,
+        f"MERGE INTO {stages_t}": merge_stage,
+        f"SELECT {', '.join(stage_cols)} FROM {stages_t}": get_stages,
+    }.items():
+        session.script_handler(prefix, handler)
+    return session
+
+
+def _snowflake_store(tmp_path: Path) -> RunRepository:
+    from bob_killer.hosts.snowflake.store import SnowflakeRunStore
+
+    return SnowflakeRunStore(snowflake_tables_session())
+
+
 # One store factory per RunRepository implementation; every test that takes the
 # ``store`` fixture (the shared contract suite) runs once on each of them.
 STORE_FACTORIES: dict[str, Callable[[Path], RunRepository]] = {
     "sqlite": _sqlite_store,
+    "snowflake": _snowflake_store,
 }
 
 

@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "814b317eb7311c77a2eef92912fc5da5822fda5e4ae1c873b433a6112fbbf857",
+  "nodes": {
+    "::tests.unit.hosts.test_snowflake_store": "error"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_snowflake_store.py"
+  ],
+  "recorded_at": "2026-10-16T20:51:36Z",
+  "run_id": "20261016T205136Z-423addd0",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "a03fac26004ae67ca47eaa0f872de87c7c468f17bff1ce74cf37f5faced9af8e"
+}
