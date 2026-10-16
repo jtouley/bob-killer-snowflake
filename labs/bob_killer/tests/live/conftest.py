@@ -53,3 +53,21 @@ def expected_role() -> str:
     if not role:
         raise RuntimeError("set BK_EXPECTED_ROLE to the role of the bob_killer connection")
     return role
+
+
+@pytest.fixture
+def store(session: Session, schema: str) -> object:
+    """The shared RunRepository suite's ``store``, overridden here with a live SnowflakeRunStore.
+
+    Fresh RUNS and STAGE_STATUS tables (from the snowflake DDL dialect) in this run's TEST_ schema
+    for every test, so tests do not share rows.
+    """
+    from bob_killer.contracts.runs import Run, StageStatus
+    from bob_killer.hosts.snowflake.ddl import table_ddl
+    from bob_killer.hosts.snowflake.store import SnowflakeRunStore
+
+    session.use_schema(schema)
+    for model in (Run, StageStatus):
+        ddl = table_ddl(model).replace("CREATE TABLE IF NOT EXISTS", "CREATE OR REPLACE TABLE", 1)
+        session.sql(ddl).collect()
+    return SnowflakeRunStore(session)
