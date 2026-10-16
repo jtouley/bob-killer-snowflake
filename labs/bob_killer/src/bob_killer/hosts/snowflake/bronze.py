@@ -32,6 +32,7 @@ ALREADY_LANDED = "already landed"
 STAGE_NAME = "land_bronze"
 UPLOADS = "@UPLOADS"
 DEFAULT_BATCH_SIZE = 10_000
+PARSE_JSON = "PARSE_JSON"
 
 # openpyxl data_type values bronze keeps; an inline string is a string.
 _DTYPES = {"inlineStr": "s", "str": "s", "f": "s"}
@@ -111,7 +112,7 @@ def _batch_insert(size: int) -> str:
     names = tuple(BronzeRow.model_fields)
     width = len(names)
     cols = [f"column{i}" for i in range(1, width + 1)]
-    cols[-1] = f"PARSE_JSON({cols[-1]})"  # payload is the last field: JSON text to VARIANT
+    cols[-1] = f"{PARSE_JSON}({cols[-1]})"  # payload is the last field: JSON text to VARIANT
     marks = ", ".join(["(" + ", ".join("?" * width) + ")"] * size)
     return (
         f"INSERT INTO {BronzeRow.table_name.upper()} ({', '.join(names)}) "
