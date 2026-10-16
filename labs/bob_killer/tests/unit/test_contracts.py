@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sqlite3
 from pathlib import Path
 from typing import Any
@@ -13,7 +14,7 @@ from bob_killer.contracts import TABLES
 from bob_killer.contracts.base import StrictModel
 from bob_killer.contracts.bronze import BronzePayload, BronzeRow, LandedFile
 from bob_killer.contracts.ddl import ddl_dialects, schema_ddl, table_ddl
-from bob_killer.contracts.runs import Run, RunRejected, StageStatus
+from bob_killer.contracts.runs import Run, RunCreated, RunRejected, RunView, StageStatus
 from tests.conftest import sample_run
 
 
@@ -169,3 +170,16 @@ def test_new_models_reject_extra_keys(model: type[StrictModel], valid: Any) -> N
 @pytest.mark.parametrize("status", [400, 413, 415])  # docs/SPEC.md §5.2 step 2
 def test_run_rejected_accepts_each_allowed_status(status: int) -> None:
     assert RunRejected(status=status, detail="d").status == status
+
+
+def test_v2_ddl_snapshot_equals_v1() -> None:
+    v1, v2 = ((SNAPSHOTS / v / "ddl.sql").read_text(encoding="utf-8") for v in ("v1", "v2"))
+    assert v2 == v1
+
+
+@pytest.mark.parametrize("model", [RunCreated, RunRejected, RunView], ids=lambda m: m.__name__)
+def test_procedure_results_are_in_the_current_schemas_snapshot(model: type[StrictModel]) -> None:
+    from bob_killer.contracts import SCHEMA_VERSION
+
+    snapshot = json.loads((SNAPSHOTS / f"v{SCHEMA_VERSION}" / "schemas.json").read_text("utf-8"))
+    assert snapshot[f"{model.__module__}.{model.__qualname__}"] == model.model_json_schema()

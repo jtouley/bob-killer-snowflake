@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="29" time="0.409" timestamp="2026-10-16T15:44:10.592377-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_contracts" name="test_every_model_inherits_the_strict_config" time="0.001" /><testcase classname="tests.unit.test_contracts" name="test_extra_fields_rejected" time="0.002" /><testcase classname="tests.unit.test_contracts" name="test_strict_types_reject_coercion" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_models_are_frozen" time="0.001" /><testcase classname="tests.unit.test_contracts" name="test_ddl_columns_match_model_fields" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_ddl_enum_check_rejects_unknown_state" time="0.001" /><testcase classname="tests.unit.test_contracts" name="test_ddl_is_strict_about_types" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_ddl_rejects_unmapped_types" time="0.001" /><testcase classname="tests.unit.test_contracts" name="test_primary_keys_are_model_fields" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_sqlite_dialect_output_equals_the_v1_snapshot" time="0.001" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[BronzePayload-_payload-column_names-a]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[BronzePayload-_payload-data-bad1]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[LandedFile-_landed-size_bytes-10]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[BronzeRow-_bronze_row-row_number-2]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[BronzeRow-_bronze_row-payload-bad4]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[RunRejected-_rejected-status-413]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[RunRejected-_rejected-status-418]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_wrong_types[RunRejected-_rejected-detail-1]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_extra_keys[BronzePayload-_payload]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_extra_keys[BronzeRow-_bronze_row]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_extra_keys[LandedFile-_landed]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_new_models_reject_extra_keys[RunRejected-_rejected]" time="0.001" /><testcase classname="tests.unit.test_contracts" name="test_run_rejected_accepts_each_allowed_status[400]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_run_rejected_accepts_each_allowed_status[413]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_run_rejected_accepts_each_allowed_status[415]" time="0.000" /><testcase classname="tests.unit.test_contracts" name="test_v2_ddl_snapshot_equals_v1" time="0.000"><failure message="FileNotFoundError: [Errno 2] No such file or directory: '/Users/jasontouleyrou/Projects/bob-killer-snowflake-coco-p3/labs/bob_killer/src/bob_killer/contracts/snapshots/v2/ddl.sql'">def test_v2_ddl_snapshot_equals_v1() -&gt; None:
+&gt;       v1, v2 = ((SNAPSHOTS / v / "ddl.sql").read_text(encoding="utf-8") for v in ("v1", "v2"))
+        ^^^^^^
+
+tests/unit/test_contracts.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_contracts.py:176: in &lt;genexpr&gt;
+    v1, v2 = ((SNAPSHOTS / v / "ddl.sql").read_text(encoding="utf-8") for v in ("v1", "v2"))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/Users/jasontouleyrou/Projects/bob-killer-snowflake-coco-p3/labs/bob_killer/src/bob_killer/contracts/snapshots/v2/ddl.sql')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/Users/jasontouleyrou/Projects/bob-killer-snowflake-coco-p3/labs/bob_killer/src/bob_killer/contracts/snapshots/v2/ddl.sql'
+
+../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/pathlib.py:1013: FileNotFoundError</failure></testcase><testcase classname="tests.unit.test_contracts" name="test_procedure_results_are_in_the_current_schemas_snapshot[RunCreated]" time="0.002" /><testcase classname="tests.unit.test_contracts" name="test_procedure_results_are_in_the_current_schemas_snapshot[RunRejected]" time="0.000"><failure message="KeyError: 'bob_killer.contracts.runs.RunRejected'">model = &lt;class 'bob_killer.contracts.runs.RunRejected'&gt;
+
+    @pytest.mark.parametrize("model", [RunCreated, RunRejected, RunView], ids=lambda m: m.__name__)
+    def test_procedure_results_are_in_the_current_schemas_snapshot(model: type[StrictModel]) -&gt; None:
+        from bob_killer.contracts import SCHEMA_VERSION
+    
+        snapshot = json.loads((SNAPSHOTS / f"v{SCHEMA_VERSION}" / "schemas.json").read_text("utf-8"))
+&gt;       assert snapshot[f"{model.__module__}.{model.__qualname__}"] == model.model_json_schema()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'bob_killer.contracts.runs.RunRejected'
+
+tests/unit/test_contracts.py:185: KeyError</failure></testcase><testcase classname="tests.unit.test_contracts" name="test_procedure_results_are_in_the_current_schemas_snapshot[RunView]" time="0.001" /></testsuite></testsuites>
