@@ -16,3 +16,8 @@ build/
 connections.toml
 *.p8
 labs/bob_killer/hosts/snowflake/output/
+# Compiler output from the CLI path (docs/SPEC-compiler-dbt.md §3.4)
+labs/bob_killer/build/
+# dbt parse output of the static hello fixture (L-F1)
+labs/bob_killer/tests/fixtures/dbt_hello/target/
+labs/bob_killer/tests/fixtures/dbt_hello/logs/

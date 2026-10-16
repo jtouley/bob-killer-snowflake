@@ -34,6 +34,17 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --python 3.12 --locked
       - run: uv run python scripts/fetch_golden.py --verify-lock
+      # Golden workbooks (gitignored, hash-pinned in golden.lock), cached by the lock's hash.
+      # fetch_golden.py verifies each download against its pinned SHA-256.
+      - name: Restore golden workbooks
+        id: golden
+        uses: actions/cache@v4
+        with:
+          path: labs/bob_killer/golden
+          key: golden-${{ hashFiles('labs/bob_killer/golden.lock') }}
+      - name: Fetch golden workbooks
+        if: steps.golden.outputs.cache-hit != 'true'
+        run: uv run python scripts/fetch_golden.py
       - name: All PR gates over the change's commit range
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -105,6 +116,16 @@ jobs:
         run: uv sync --locked
       - if: steps.secrets.outputs.present == 'true'
         run: uv sync --python 3.12 --locked
+      - name: Restore golden workbooks
+        id: golden
+        if: steps.secrets.outputs.present == 'true'
+        uses: actions/cache@v4
+        with:
+          path: labs/bob_killer/golden
+          key: golden-${{ hashFiles('labs/bob_killer/golden.lock') }}
+      - name: Fetch golden workbooks
+        if: steps.secrets.outputs.present == 'true' && steps.golden.outputs.cache-hit != 'true'
+        run: uv run python scripts/fetch_golden.py
       - name: Write the key file and the connection (never echoed)
         if: steps.secrets.outputs.present == 'true'
         env:
