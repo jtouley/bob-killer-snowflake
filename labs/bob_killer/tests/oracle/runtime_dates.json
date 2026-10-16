@@ -1,0 +1,132 @@
+{
+  "family": "dates",
+  "encoding": "serials: [year, month, day] <-> serial in the date system named by date1904",
+  "serials": [
+    {
+      "id": "1900-01-01-is-serial-1",
+      "ymd": [1900, 1, 1],
+      "date1904": false,
+      "serial": 1,
+      "source": "https://support.microsoft.com/en-us/office/date-function-e36c0c8c-4104-49da-ab83-82328b832349",
+      "verified_by": "Claude Code 2026-10-16: note 'January 1, 1900 is serial number 1'"
+    },
+    {
+      "id": "2008-01-01",
+      "ymd": [2008, 1, 1],
+      "date1904": false,
+      "serial": 39448,
+      "source": "https://support.microsoft.com/en-us/office/date-function-e36c0c8c-4104-49da-ab83-82328b832349",
+      "verified_by": "Claude Code 2026-10-16: note 'January 1, 2008 is serial number 39448'"
+    },
+    {
+      "id": "2011-07-05",
+      "ymd": [2011, 7, 5],
+      "date1904": false,
+      "serial": 40729,
+      "source": "https://support.microsoft.com/en-us/office/date-systems-in-excel-e7fe7167-48a9-4b96-bb53-5612a800b487",
+      "verified_by": "Claude Code 2026-10-16: 'if you enter July 5, 2011, Excel converts the date to the serial number 40729'"
+    },
+    {
+      "id": "2011-07-05-in-1904",
+      "ymd": [2011, 7, 5],
+      "date1904": true,
+      "serial": 39267,
+      "source": "https://support.microsoft.com/en-us/office/date-systems-in-excel-e7fe7167-48a9-4b96-bb53-5612a800b487",
+      "verified_by": "Claude Code 2026-10-16: 1904 date system 'Excel converts the date to the serial number 39267'"
+    },
+    {
+      "id": "1904-01-01-is-serial-0-in-1904",
+      "ymd": [1904, 1, 1],
+      "date1904": true,
+      "serial": 0,
+      "source": "https://support.microsoft.com/en-us/office/date-systems-in-excel-e7fe7167-48a9-4b96-bb53-5612a800b487",
+      "verified_by": "Claude Code 2026-10-16: the 1904 serial is 'the number of days elapsed since January 1, 1904'; it is 1,462 days less than the 1900 serial (40729 - 39267)"
+    },
+    {
+      "id": "2008-12-08",
+      "ymd": [2008, 12, 8],
+      "date1904": false,
+      "serial": 39790,
+      "source": "https://support.microsoft.com/en-us/office/counta-function-7dc98875-d5c1-46f1-9a82-53f3219e2509",
+      "verified_by": "Claude Code 2026-10-16: the COUNTA example lists 39790 in the row the COUNT page (https://support.microsoft.com/en-us/office/count-function-a59cd7fc-b623-4d93-87a4-d23bf411294c) shows as 12/8/08"
+    },
+    {
+      "id": "1900-02-28-is-serial-59",
+      "ymd": [1900, 2, 28],
+      "date1904": false,
+      "serial": 59,
+      "source": "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/excel/wrongly-assumes-1900-is-leap-year",
+      "verified_by": "Claude Code 2026-10-16: serial 1 is January 1, 1900 (DATE page); 31 January days + 27 = 59; no leap effect before February 29"
+    },
+    {
+      "id": "1900-02-29-is-serial-60",
+      "ymd": [1900, 2, 29],
+      "date1904": false,
+      "serial": 60,
+      "source": "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/excel/wrongly-assumes-1900-is-leap-year",
+      "verified_by": "Claude Code 2026-10-16: 'Microsoft Excel incorrectly assumes that the year 1900 is a leap year', so February 29, 1900 exists and follows serial 59"
+    },
+    {
+      "id": "1900-03-01-is-serial-61",
+      "ymd": [1900, 3, 1],
+      "date1904": false,
+      "serial": 61,
+      "source": "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/excel/wrongly-assumes-1900-is-leap-year",
+      "verified_by": "Claude Code 2026-10-16: follows the phantom February 29, 1900 (serial 60); consistent with 2008-01-01 = 39448"
+    },
+    {
+      "id": "2100-03-01-not-leap",
+      "ymd": [2100, 3, 1],
+      "date1904": false,
+      "serial": 73110,
+      "source": "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/excel/wrongly-assumes-1900-is-leap-year",
+      "verified_by": "Claude Code 2026-10-16: 'Microsoft Excel correctly handles all other leap years, including century years that are not leap years (for example, 2100)'; 73110 is 2008-01-01 (39448) plus the proleptic Gregorian day count to 2100-03-01 (33662)"
+    },
+    {
+      "id": "9999-12-31-is-the-last-date",
+      "ymd": [9999, 12, 31],
+      "date1904": false,
+      "serial": 2958465,
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Latest date allowed for calculation December 31, 9999'; serial = 39448 + Gregorian days from 2008-01-01"
+    },
+    {
+      "id": "9999-12-31-in-1904",
+      "ymd": [9999, 12, 31],
+      "date1904": true,
+      "serial": 2957003,
+      "source": "https://support.microsoft.com/en-us/office/date-systems-in-excel-e7fe7167-48a9-4b96-bb53-5612a800b487",
+      "verified_by": "Claude Code 2026-10-16: 'the serial number of a date in the 1900 date system is always 1,462 days greater than the serial number of the same date in the 1904 date system' (2958465 - 1462)"
+    }
+  ],
+  "out_of_range": [
+    {
+      "id": "serial-0-before-1900-01-01",
+      "serial": 0,
+      "date1904": false,
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Earliest date allowed for calculation January 1, 1900' (serial 1)"
+    },
+    {
+      "id": "serial-after-9999-12-31",
+      "serial": 2958466,
+      "date1904": false,
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Latest date allowed for calculation December 31, 9999' (serial 2958465)"
+    },
+    {
+      "id": "serial-minus-1-before-1904-01-01",
+      "serial": -1,
+      "date1904": true,
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Earliest date ... (January 1, 1904, if 1904 date system is used)' (serial 0)"
+    },
+    {
+      "id": "serial-after-9999-12-31-in-1904",
+      "serial": 2957004,
+      "date1904": true,
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Latest date allowed for calculation December 31, 9999' (1904 serial 2957003)"
+    }
+  ]
+}

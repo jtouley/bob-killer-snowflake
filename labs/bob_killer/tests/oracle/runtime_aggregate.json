@@ -1,0 +1,222 @@
+{
+  "family": "aggregate",
+  "encoding": "args and expected: JSON number = double, string = text, bool = logical, null = blank, {\"error\": \"#N/A\"} = error value, {\"range\": [...]} = a reference or array argument (cells in order). A bare scalar argument is a value typed directly into the argument list.",
+  "cases": [
+    {
+      "id": "sum-golden-sgec-waste-gases-d39",
+      "call": "SUM",
+      "args": [{"range": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 2.5500000000000002E-3]}],
+      "expected": 2.5500000000000002E-3,
+      "source": "golden sgec_v5_1 (golden.lock url https://www.epa.gov/sites/default/files/2018-04/sgec_tool_v5_1.xlsm, downloaded sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd, lock status pending-hash) 'Waste Gases'!D39 =SUM(D22:D38)",
+      "verified_by": "Claude Code 2026-10-16: cached <v> of D39 read from the sheet XML; D22:D37 are t=\"str\" formula cells with an empty cached value (text \"\"), D38 caches 2.5500000000000002E-3"
+    },
+    {
+      "id": "sum-golden-sgec-waste-gases-c39",
+      "call": "SUM",
+      "args": [{"range": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1]}],
+      "expected": 1,
+      "source": "golden sgec_v5_1 (sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd) 'Waste Gases'!C39 =SUM(C22:C38)",
+      "verified_by": "Claude Code 2026-10-16: cached <v> of C39 read from the sheet XML; C22:C37 have no <c> value (empty cells), C38 caches 1"
+    },
+    {
+      "id": "sum-ignores-text-in-a-reference",
+      "call": "SUM",
+      "args": [{"range": [5, "text", 15]}],
+      "expected": 20,
+      "source": "https://support.microsoft.com/en-us/office/sum-function-043e1c7d-7726-4e80-8f32-07b23e057f89",
+      "verified_by": "Claude Code 2026-10-16: page text 'SUM will ignore text values and give you the sum of just the numeric values'"
+    },
+    {
+      "id": "product-range",
+      "call": "PRODUCT",
+      "args": [{"range": [5, 15, 30]}],
+      "expected": 2250,
+      "source": "https://support.microsoft.com/en-us/office/product-function-8e6b5b24-90ee-4650-aeec-80982a0512ce",
+      "verified_by": "Claude Code 2026-10-16: example =PRODUCT(A2:A4) with data 5, 15, 30, result 2250"
+    },
+    {
+      "id": "product-range-and-number",
+      "call": "PRODUCT",
+      "args": [{"range": [5, 15, 30]}, 2],
+      "expected": 4500,
+      "source": "https://support.microsoft.com/en-us/office/product-function-8e6b5b24-90ee-4650-aeec-80982a0512ce",
+      "verified_by": "Claude Code 2026-10-16: example =PRODUCT(A2:A4, 2), result 4500"
+    },
+    {
+      "id": "product-ignores-blank-logical-text-in-a-reference",
+      "call": "PRODUCT",
+      "args": [{"range": [5, null, true, "x", 15]}],
+      "expected": 75,
+      "source": "https://support.microsoft.com/en-us/office/product-function-8e6b5b24-90ee-4650-aeec-80982a0512ce",
+      "verified_by": "Claude Code 2026-10-16: note 'Empty cells, logical values, and text in the array or reference are ignored'"
+    },
+    {
+      "id": "min-range",
+      "call": "MIN",
+      "args": [{"range": [10, 7, 9, 27, 2]}],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: example =MIN(A2:A6) with data 10, 7, 9, 27, 2, result 2"
+    },
+    {
+      "id": "min-range-and-zero",
+      "call": "MIN",
+      "args": [{"range": [10, 7, 9, 27, 2]}, 0],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: example =MIN(A2:A6,0), result 0"
+    },
+    {
+      "id": "min-counts-a-typed-logical",
+      "call": "MIN",
+      "args": [{"range": [10, 7, 9, 27, 2]}, true],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: remark 'Logical values and text representations of numbers that you type directly into the list of arguments are counted'; TRUE is 1 per the N function table (https://support.microsoft.com/en-us/office/n-function-a624cad1-3635-4208-b54a-29733d1278c9)"
+    },
+    {
+      "id": "min-counts-typed-numeric-text",
+      "call": "MIN",
+      "args": [{"range": [10, 7]}, "3"],
+      "expected": 3,
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: remark 'text representations of numbers that you type directly into the list of arguments are counted'"
+    },
+    {
+      "id": "min-typed-untranslatable-text-is-an-error",
+      "call": "MIN",
+      "args": [{"range": [10, 7]}, "abc"],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: remark 'Arguments that are error values or text that cannot be translated into numbers cause errors'; the text-to-number error is #VALUE! per the VALUE function remarks (https://support.microsoft.com/en-us/office/value-function-257d0108-07dc-437d-ae1c-bc2d3953d8c2)"
+    },
+    {
+      "id": "min-error-in-a-reference-is-returned",
+      "call": "MIN",
+      "args": [{"range": [10, {"error": "#N/A"}, 2]}],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: remark 'Arguments that are error values ... cause errors'"
+    },
+    {
+      "id": "max-range",
+      "call": "MAX",
+      "args": [{"range": [10, 7, 9, 27, 2]}],
+      "expected": 27,
+      "source": "https://support.microsoft.com/en-us/office/max-function-e0012414-9ac8-4b34-9a47-73e662c08098",
+      "verified_by": "Claude Code 2026-10-16: example =MAX(A2:A6) with data 10, 7, 9, 27, 2, result 27"
+    },
+    {
+      "id": "max-range-and-thirty",
+      "call": "MAX",
+      "args": [{"range": [10, 7, 9, 27, 2]}, 30],
+      "expected": 30,
+      "source": "https://support.microsoft.com/en-us/office/max-function-e0012414-9ac8-4b34-9a47-73e662c08098",
+      "verified_by": "Claude Code 2026-10-16: example =MAX(A2:A6, 30), result 30"
+    },
+    {
+      "id": "max-ignores-logical-text-blank-in-a-reference",
+      "call": "MAX",
+      "args": [{"range": [true, "30", null, -5.5e-300]}, {"range": ["x"]}],
+      "expected": -5.5e-300,
+      "source": "https://support.microsoft.com/en-us/office/max-function-e0012414-9ac8-4b34-9a47-73e662c08098",
+      "verified_by": "Claude Code 2026-10-16: remark 'Empty cells, logical values, or text in the array or reference are ignored'; the only number is -5.5e-300, so TRUE, \"30\" and blank must not count"
+    },
+    {
+      "id": "max-of-only-ignored-cells-is-zero",
+      "call": "MAX",
+      "args": [{"range": [true, "30", null]}],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/max-function-e0012414-9ac8-4b34-9a47-73e662c08098",
+      "verified_by": "Claude Code 2026-10-16: remarks 'logical values, or text in the array or reference are ignored' and 'If the arguments contain no numbers, MAX returns 0'"
+    },
+    {
+      "id": "min-of-only-ignored-cells-is-zero",
+      "call": "MIN",
+      "args": [{"range": [null, "x"]}],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/min-function-61635d12-920f-4ce2-a70f-96f202dcc152",
+      "verified_by": "Claude Code 2026-10-16: remark 'If the arguments contain no numbers, MIN returns 0'"
+    },
+    {
+      "id": "average-range",
+      "call": "AVERAGE",
+      "args": [{"range": [10, 7, 9, 27, 2]}],
+      "expected": 11,
+      "source": "https://support.microsoft.com/en-us/office/average-function-047bac88-d466-426c-a32b-8f33eb960cf6",
+      "verified_by": "Claude Code 2026-10-16: example =AVERAGE(A2:A6) with data 10, 7, 9, 27, 2, result 11"
+    },
+    {
+      "id": "average-range-and-five",
+      "call": "AVERAGE",
+      "args": [{"range": [10, 7, 9, 27, 2]}, 5],
+      "expected": 10,
+      "source": "https://support.microsoft.com/en-us/office/average-function-047bac88-d466-426c-a32b-8f33eb960cf6",
+      "verified_by": "Claude Code 2026-10-16: example =AVERAGE(A2:A6, 5), result 10"
+    },
+    {
+      "id": "average-row",
+      "call": "AVERAGE",
+      "args": [{"range": [10, 15, 32]}],
+      "expected": 19,
+      "source": "https://support.microsoft.com/en-us/office/average-function-047bac88-d466-426c-a32b-8f33eb960cf6",
+      "verified_by": "Claude Code 2026-10-16: example =AVERAGE(A2:C2) with data 10, 15, 32, result 19"
+    },
+    {
+      "id": "average-counts-zero-ignores-blank-text-logical",
+      "call": "AVERAGE",
+      "args": [{"range": [0, null, "x", true, 4]}],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/average-function-047bac88-d466-426c-a32b-8f33eb960cf6",
+      "verified_by": "Claude Code 2026-10-16: remark 'If a range or cell reference argument contains text, logical values, or empty cells, those values are ignored; however, cells with the value zero are included' (0 and 4 count, so 4/2)"
+    },
+    {
+      "id": "average-error-argument-is-returned",
+      "call": "AVERAGE",
+      "args": [{"range": [1, 3]}, {"error": "#DIV/0!"}],
+      "expected": {"error": "#DIV/0!"},
+      "source": "https://support.microsoft.com/en-us/office/average-function-047bac88-d466-426c-a32b-8f33eb960cf6",
+      "verified_by": "Claude Code 2026-10-16: remark 'Arguments that are error values ... cause errors'"
+    },
+    {
+      "id": "count-range",
+      "call": "COUNT",
+      "args": [{"range": [39790, 19, 22.24, true, {"error": "#DIV/0!"}]}],
+      "expected": 3,
+      "source": "https://support.microsoft.com/en-us/office/count-function-a59cd7fc-b623-4d93-87a4-d23bf411294c",
+      "verified_by": "Claude Code 2026-10-16: example =COUNT(A2:A6) with data 12/8/08 (serial 39790, the same row the COUNTA page lists as 39790), 19, 22.24, TRUE, #DIV/0!, result 3. The page's =COUNT(A5:A6) row (result 1) contradicts its own remark that logical and error values in a reference are not counted, so it is not used"
+    },
+    {
+      "id": "count-range-and-number",
+      "call": "COUNT",
+      "args": [{"range": [39790, 19, 22.24, true, {"error": "#DIV/0!"}]}, 2],
+      "expected": 4,
+      "source": "https://support.microsoft.com/en-us/office/count-function-a59cd7fc-b623-4d93-87a4-d23bf411294c",
+      "verified_by": "Claude Code 2026-10-16: example =COUNT(A2:A6,2), result 4"
+    },
+    {
+      "id": "count-typed-arguments",
+      "call": "COUNT",
+      "args": ["1", true, "abc", {"error": "#DIV/0!"}, 5],
+      "expected": 3,
+      "source": "https://support.microsoft.com/en-us/office/count-function-a59cd7fc-b623-4d93-87a4-d23bf411294c",
+      "verified_by": "Claude Code 2026-10-16: remarks 'a number enclosed in quotation marks, such as \"1\"' and 'Logical values ... that you type directly into the list of arguments are counted' and 'Arguments that are error values or text that cannot be translated into numbers are not counted'"
+    },
+    {
+      "id": "counta-range",
+      "call": "COUNTA",
+      "args": [{"range": [39790, 19, 22.24, true, {"error": "#DIV/0!"}]}],
+      "expected": 5,
+      "source": "https://support.microsoft.com/en-us/office/counta-function-7dc98875-d5c1-46f1-9a82-53f3219e2509",
+      "verified_by": "Claude Code 2026-10-16: example =COUNTA(A2:A6) with data 39790, 19, 22.24, TRUE, #DIV/0!, result 5"
+    },
+    {
+      "id": "counta-counts-empty-text-not-empty-cells",
+      "call": "COUNTA",
+      "args": [{"range": ["", null, "a", null]}],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/counta-function-7dc98875-d5c1-46f1-9a82-53f3219e2509",
+      "verified_by": "Claude Code 2026-10-16: remark 'counts cells containing any type of information, including error values and empty text (\"\") ... does not count empty cells'"
+    }
+  ]
+}

@@ -66,3 +66,18 @@ def test_clear_empties_the_registry() -> None:
     reg.clear()
     assert not reg
     assert reg.names() == ()
+
+
+def test_excel_function_registers_in_functions(monkeypatch: pytest.MonkeyPatch) -> None:
+    import bob_killer.registry as registry
+
+    fresh: Registry[object] = Registry("functions")
+    monkeypatch.setattr(registry, "functions", fresh)
+
+    def total() -> None: ...
+
+    name = total.__name__.upper()
+    assert registry.excel_function(name)(total) is total
+    assert fresh.get(name) is total
+    with pytest.raises(ValueError, match="functions"):
+        registry.excel_function(name)(total)
