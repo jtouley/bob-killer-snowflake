@@ -1,6 +1,6 @@
 # Bob Killer on Snowflake — Build Spec (Claude Code + Cadence orchestrates, CoCo builds)
 
-Oct 16, 2026 · Jason Touleyrou · Status: r7 (P3 r1–r3 and A5 vibe-test blocking gaps applied; see §13)
+Oct 16, 2026 · Jason Touleyrou · Status: r7.1 (adds D12; see §13)
 
 This document is the one handoff for building the Bob Killer Snowflake host. It joins two repositories
 into one service that runs in Snowflake. It holds the operating model, the CLI setup, the scope, the
@@ -605,6 +605,7 @@ tests, and drops the schema in teardown. Without a working connection the live s
 | D8 | App ↔ contracts | JSON Schema snapshot copy, identity-tested. | Import (impossible on 3.11); copy models. |
 | D9 | Code home | New repo `bob-killer-snowflake`. The core is imported at `labs/bob_killer/` with its git history (`git subtree split` from sandbox `40987f0`), so paths, gates and CI work unchanged. Host code goes in the core's `src/` and `tests/`. | Stay in sandbox (the user asked for a new repo); separate host distribution (every gate hard-codes core paths). |
 | D10 | Excel reader | openpyxl `read_only=True, data_only=True`, in the `snowflake` extra. | pandas (forbidden); Polars `read_excel` (adds fastexcel). |
+| D12 | Live tests in CI | While `BOB_KILLER_SVC` holds ACCOUNTADMIN, the private key does **not** go into GitHub secrets (public repo). The CI `live` job is `workflow_dispatch` only and is not a required check. The live suite runs locally in Claude Code's §1.9 step 4 after each phase, and its output is evidence in `.context/evidence/`. When you revoke the grant and choose to add the secrets, the job may become required. Missing secrets are never a hard stop. | Key as a CI secret now (full account control in a public repo's Actions); hard stop on missing secrets (ends the run in Phase 1). |
 | D11 | Mutation scope | Core `[tool.mutmut]` stays `runtime/`. Host tests are scored by Cadence R2 (`/test-benchmark`). | A host mutmut config (a config change during the run). |
 
 ---
