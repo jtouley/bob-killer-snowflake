@@ -42,6 +42,7 @@ from bob_killer.graph.dag import build_graph
 from bob_killer.graph.walk import walk
 from bob_killer.registry import functions
 from bob_killer.runtime.operators import SYMBOLS, UNARY_SYMBOLS
+from bob_killer.runtime.values import Area
 from bob_killer.runtime.coercion import Arg, CellValue, ExcelError, UnsupportedValue, cell_result
 from bob_killer.verify.config import values_equal
 
@@ -165,10 +166,14 @@ class Evaluator:
                 if None in (s.row, s.column, e.row, e.column):
                     raise Ineligible("whole-row or whole-column range")
                 assert s.row and s.column and e.row and e.column
-                return tuple(
-                    self.value(sheet, r, c)
-                    for r in range(min(s.row, e.row), max(s.row, e.row) + 1)
-                    for c in range(min(s.column, e.column), max(s.column, e.column) + 1)
+                first, last = min(s.column, e.column), max(s.column, e.column)
+                return Area(
+                    (
+                        self.value(sheet, r, c)
+                        for r in range(min(s.row, e.row), max(s.row, e.row) + 1)
+                        for c in range(first, last + 1)
+                    ),
+                    columns=last - first + 1,
                 )
             case Call(name=name, args=args):
                 return self.call(name, args, sheet)
