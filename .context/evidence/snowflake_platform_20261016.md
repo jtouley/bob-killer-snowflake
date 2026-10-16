@@ -1630,3 +1630,472 @@ DROP SCHEMA IF EXISTS IDENTIFIER('BOB_KILLER.TEST_2EC42066')
   }
 ]
 ```
+
+## hosts/snowflake/snowflake.yml
+
+_2026-10-16T20:36:31.200003+00:00_
+
+```text
+definition_version: 2
+# Snowflake CLI project for the Bob Killer host (docs/SPEC.md §4 F8, G13).
+# `snow snowpark build` zips the artifacts; `snow snowpark deploy` uploads the zip and creates
+# the procedures. The core ships from ../../src/bob_killer through an artifact src/dest mapping.
+mixins:
+  snowpark_shared:
+    stage: deployments
+    artifacts:
+      - src: ../../src
+        dest: src.zip
+      - src: probe/platform_probe.py
+        dest: platform_probe.py
+  # Hello probe (spec §4 F1, F7): one app, with and without the PyPI integration. Deployed only
+  # into a TEST_<uuid8> schema by tests/live/test_platform.py. Throwaway; not a deploy path.
+  hello_shared:
+    query_warehouse: BOB_KILLER_WH
+    compute_pool: BOB_KILLER_POOL
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    main_file: hello_app/streamlit_app.py
+    artifacts:
+      - hello_app/streamlit_app.py
+      - hello_app/pyproject.toml
+entities:
+  platform_probe:
+    type: procedure
+    identifier:
+      name: PLATFORM_PROBE
+    handler: platform_probe.platform_probe
+    runtime: "3.12"
+    signature:
+      - name: stage_path
+        type: string
+    returns: variant
+    execute_as_caller: false
+    meta:
+      use_mixins:
+        - snowpark_shared
+  hello_eai:
+    type: streamlit
+    identifier:
+      name: HELLO_EAI
+    external_access_integrations:
+      - BOB_KILLER_PYPI_EAI
+    meta:
+      use_mixins:
+        - hello_shared
+  hello_no_eai:
+    type: streamlit
+    identifier:
+      name: HELLO_NO_EAI
+    meta:
+      use_mixins:
+        - hello_shared
+```
+
+## hosts/snowflake/requirements.txt
+
+_2026-10-16T20:36:31.200586+00:00_
+
+```text
+snowflake-snowpark-python
+pydantic>=2.11,<2.12
+```
+
+## $ snow snowpark build -c bob_killer --project hosts/snowflake
+
+_2026-10-16T20:36:55.062230+00:00_
+
+```text
+exit 0
+Resolving dependencies from requirements.txt
+  No external dependencies.
+Preparing artifacts for source code
+  Creating: src.zip
+Build done.
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/Users/jasontouleyrou/Projects/bob-killer-snowflake/.venv` and will be ignored; use `--active` to target the active environment instead
+```
+
+## $ snow snowpark deploy --schema TEST_72B273C6 -c bob_killer --project hosts/snowflake
+
+_2026-10-16T20:37:13.909946+00:00_
+
+```text
+exit 0
+Performing initial validation
+Checking remote state
+Preparing required stages and artifacts
+  Creating (if not exists) stage: deployments
+  Uploading src.zip to @BOB_KILLER.TEST_72B273C6.deployments/src.zip/
+  Uploading platform_probe.py to @BOB_KILLER.TEST_72B273C6.deployments/platform_probe.py/
+Creating Snowpark entities
+  Creating procedure PLATFORM_PROBE
++----------------------------------------------------------------------------------+
+| object                                                     | type      | status  |
+|------------------------------------------------------------+-----------+---------|
+| BOB_KILLER.TEST_72B273C6.PLATFORM_PROBE(stage_path string) | procedure | created |
++----------------------------------------------------------------------------------+
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/Users/jasontouleyrou/Projects/bob-killer-snowflake/.venv` and will be ignored; use `--active` to target the active environment instead
+```
+
+## CALL PLATFORM_PROBE(<staged file>)
+
+_2026-10-16T20:37:23.175515+00:00_
+
+```text
+{
+  "current_schema": "TEST_72B273C6",
+  "run_state": "queued",
+  "sha256": "29a799a6dc41231dd0b2caed863236283b01021b972fd56c338edec15e057cdd",
+  "sys_version": "3.12.13 | packaged by conda-forge | (main, Mar  5 2026, 16:41:49) [GCC 14.3.0]"
+}
+```
+
+## F3 pydantic (3.12, Anaconda channel)
+
+_2026-10-16T20:37:24.798248+00:00_
+
+```text
+1.10.12, 1.10.19, 2.10.3, 2.11.7, 2.11.9, 2.12.2, 2.12.3, 2.12.4, 2.12.5, 2.13.2, 2.13.4, 2.13.5, 2.5.3, 2.8.2
+```
+
+## F3 pydantic-core (3.12, Anaconda channel)
+
+_2026-10-16T20:37:26.419706+00:00_
+
+```text
+2.14.6, 2.20.1, 2.21.0, 2.27.1, 2.33.2, 2.39.0, 2.41.4, 2.41.5, 2.42.0, 2.46.2, 2.46.4, 2.46.5
+```
+
+## F3 annotated-types (3.12, Anaconda channel)
+
+_2026-10-16T20:37:28.550243+00:00_
+
+```text
+0.6.0, 0.7.0
+```
+
+## F3 typing-extensions (3.12, Anaconda channel)
+
+_2026-10-16T20:37:29.925376+00:00_
+
+```text
+3.10.0.0, 3.10.0.2, 3.7.4.2, 3.7.4.3, 4.1.1, 4.11.0, 4.12.2, 4.15.0, 4.16.0, 4.7.1, 4.9.0
+```
+
+## F3 typing-inspection (3.12, Anaconda channel)
+
+_2026-10-16T20:37:31.353191+00:00_
+
+```text
+0.4.0, 0.4.2, 0.4.3
+```
+
+## F3 openpyxl (3.12, Anaconda channel)
+
+_2026-10-16T20:37:33.463998+00:00_
+
+```text
+2.5.14, 2.6.1, 2.6.2, 2.6.3, 3.0.0, 3.0.1, 3.0.10, 3.0.2, 3.0.3, 3.0.4, 3.0.5, 3.0.6, 3.0.7, 3.0.9, 3.1.2, 3.1.5
+```
+
+## F3 et_xmlfile (3.12, Anaconda channel)
+
+_2026-10-16T20:37:34.795911+00:00_
+
+```text
+1.0.1, 1.1.0, 2.0.0
+```
+
+## F3 snowflake-snowpark-python (3.12, Anaconda channel)
+
+_2026-10-16T20:37:36.053095+00:00_
+
+```text
+0.4.0, 0.5.0, 0.5.1, 1.12.1a1, 1.13.0a1, 1.14.0a1, 1.14.0a2, 1.27.0, 1.27.0, 1.27.0, 1.27.0, 1.27.0, 1.28.0, 1.28.0, 1.28.0, 1.28.0, 1.28.0, 1.29.0, 1.29.0, 1.29.0, 1.29.0, 1.29.0, 1.29.1, 1.29.1, 1.29.1, 1.29.1, 1.29.1, 1.30.0, 1.30.0, 1.30.0, 1.30.0, 1.30.0, 1.31.1, 1.31.1, 1.31.1, 1.31.1, 1.31.1, 1.32.0, 1.32.0, 1.32.0, 1.32.0, 1.32.0, 1.33.0, 1.33.0, 1.33.0, 1.33.0, 1.33.0, 1.34.0, 1.34.0, 1.34.0, 1.34.0, 1.34.0, 1.35.0, 1.35.0, 1.35.0, 1.35.0, 1.35.0, 1.35.0, 1.36.0, 1.36.0, 1.36.0, 1.36.0, 1.36.0, 1.36.0, 1.37.0, 1.37.0, 1.37.0, 1.37.0, 1.37.0, 1.38.0, 1.38.0, 1.38.0, 1.38.0, 1.38.0, 1.38.0, 1.39.0, 1.39.0, 1.39.0, 1.39.0, 1.39.0, 1.39.0, 1.39.1, 1.39.1, 1.39.1, 1.39.1, 1.39.1, 1.39.1, 1.41.0, 1.41.0, 1.41.0, 1.41.0, 1.41.0, 1.41.0, 1.42.0, 1.42.0, 1.42.0, 1.42.0, 1.42.0, 1.42.0, 1.43.0, 1.43.0, 1.43.0, 1.43.0, 1.43.0, 1.43.0, 1.44.0, 1.44.0, 1.44.0, 1.44.0, 1.44.0, 1.44.0, 1.47.0, 1.47.0, 1.47.0, 1.47.0, 1.47.0, 1.47.0, 1.48.0, 1.48.0, 1.48.0, 1.48.0, 1.48.0, 1.48.0, 1.48.1, 1.48.1, 1.48.1, 1.48.1, 1.48.1, 1.48.1, 1.49.0, 1.49.0, 1.49.0, 1.49.0, 1.49.0, 1.49.0, 1.49.0, 1.50.0, 1.50.0, 1.50.0, 1.50.0, 1.50.0, 1.50.0, 1.50.0, 1.50.1, 1.50.1, 1.50.1, 1.50.1, 1.50.1, 1.50.1, 1.50.1, 1.51.0, 1.51.0, 1.51.0, 1.51.0, 1.51.0, 1.51.0, 1.51.0, 1.51.1, 1.51.1, 1.51.1, 1.51.1, 1.51.1, 1.51.1, 1.51.1, 1.52.0, 1.52.0, 1.52.0, 1.52.0, 1.52.0, 1.52.0, 1.53.0, 1.53.0, 1.53.0, 1.53.0, 1.53.0, 1.53.0, 1.53.1, 1.53.1, 1.53.1, 1.53.1, 1.53.1, 1.54.0, 1.55.0, 1.55.0, 1.55.0, 1.55.0, 1.55.0, 1.55.0, 1.55.1, 1.55.1, 1.55.1, 1.55.1, 1.55.1
+```
+
+## F4 duplicate PK + NULL into NOT NULL
+
+_2026-10-16T20:37:41.389586+00:00_
+
+```text
+rows after 2 duplicate inserts: 2
+100072 (22000): DML operation to table TEST_72B273C6.F4_PROBE failed on column V with error: NULL result in a non-nullable column
+```
+
+## F6 LIST @UPLOADS
+
+_2026-10-16T20:37:41.693884+00:00_
+
+```text
+[
+  {
+    "name": "uploads/29a799a6dc41231dd0b2caed863236283b01021b972fd56c338edec15e057cdd.xlsx",
+    "size": 265,
+    "md5": "12df8685b07bca5bb177620f19cf18a0",
+    "last_modified": "Fri, 16 Oct 2026 20:37:16 GMT"
+  }
+]
+```
+
+## F8 DESCRIBE PROCEDURE PLATFORM_PROBE(VARCHAR)
+
+_2026-10-16T20:37:41.790522+00:00_
+
+```text
+[
+  {
+    "property": "signature",
+    "value": "(STAGE_PATH VARCHAR)"
+  },
+  {
+    "property": "returns",
+    "value": "VARIANT"
+  },
+  {
+    "property": "language",
+    "value": "PYTHON"
+  },
+  {
+    "property": "null handling",
+    "value": "CALLED ON NULL INPUT"
+  },
+  {
+    "property": "volatility",
+    "value": "VOLATILE"
+  },
+  {
+    "property": "execute as",
+    "value": "OWNER"
+  },
+  {
+    "property": "body",
+    "value": null
+  },
+  {
+    "property": "imports",
+    "value": "[@BOB_KILLER.TEST_72B273C6.DEPLOYMENTS/platform_probe.py/platform_probe.py, @BOB_KILLER.TEST_72B273C6.DEPLOYMENTS/src.zip/src.zip]"
+  },
+  {
+    "property": "handler",
+    "value": "platform_probe.platform_probe"
+  },
+  {
+    "property": "runtime_version",
+    "value": "3.12"
+  },
+  {
+    "property": "packages",
+    "value": "[]"
+  },
+  {
+    "property": "artifact_repository",
+    "value": "snowflake.snowpark.pypi_shared_repository"
+  },
+  {
+    "property": "artifact_repository_packages",
+    "value": "['snowflake-snowpark-python','pydantic<2.12,>=2.11']"
+  },
+  {
+    "property": "installed_packages",
+    "value": "['wheel==0.47.0','readline==8.3','ld_impl_linux-64==2.45.1','libuuid==2.42','liblzma==5.8.3','libxcrypt==4.4.36','icu==78.3','ncurses==6.6','libzlib==1.3.2','libstdcxx==15.2.0','ca-certificates==2026.4.22','libsqlite==3.53.0','libffi==3.5.2','pip==26.0.1','libgcc==15.2.0','bzip2==1.0.8','openssl==3.6.2','setuptools==82.0.1','packaging==26.2','python==3.12.13','_openmp_mutex==4.5','tzdata==2025c','libgomp==15.2.0','libnsl==2.0.1','libgcc-ng==15.2.0','zstd==1.5.7','libexpat==2.7.5','tk==8.6.13','typing_extensions==4.15.0','opentelemetry-api==1.38.0','opentelemetry-sdk==1.38.0','wrapt==2.1.2','python_abi==3.12','typing-extensions==4.15.0','importlib-metadata==8.7.0','opentelemetry-semantic-conventions==0.59b0','zipp==3.23.1','deprecated==1.3.1','snowflake-telemetry-python==0.8.0','ld_impl_linux-aarch64==2.45.1']"
+  },
+  {
+    "property": "artifact_repository_installed_packages",
+    "value": "['annotated-types==0.8.0','asn1crypto==1.5.1','boto3==1.43.114','botocore==1.43.114','certifi==2026.7.22','cffi==2.1.1','charset-normalizer==3.5.2','cloudpickle==3.1.2','cryptography==50.0.2','filelock==3.32.7','idna==3.20','jmespath==1.1.0','packaging==26.3','platformdirs==4.13.3','protobuf==6.33.6','pycparser==3.11','pydantic-core==2.33.2','pydantic==2.11.10','pyjwt==2.15.1','pyopenssl==26.4.0','python-dateutil==2.9.0.post0','pytz==2026.5','pyyaml==6.0.3','requests==2.34.2','s3transfer==0.19.2','setuptools==84.0.0','six==1.17.0','snowflake-connector-python==4.8.0','snowflake-snowpark-python==1.55.2','sortedcontainers==2.4.0','tomlkit==0.15.2','typing-extensions==4.16.0','typing-inspection==0.4.4','tzlocal==5.4.4','urllib3==2.8.0','wheel==0.48.0']"
+  }
+]
+```
+
+## F9 session.call(..., block=False)
+
+_2026-10-16T20:37:46.393548+00:00_
+
+```text
+AsyncJob is_done=True
+{
+  "current_schema": "TEST_72B273C6",
+  "run_state": "queued",
+  "sha256": "29a799a6dc41231dd0b2caed863236283b01021b972fd56c338edec15e057cdd",
+  "sys_version": "3.12.13 | packaged by conda-forge | (main, Mar  5 2026, 16:41:49) [GCC 14.3.0]"
+}
+```
+
+## $ snow streamlit deploy hello_eai --schema TEST_D03E2610 -c bob_killer --project hosts/snowflake
+
+_2026-10-16T20:38:13.023492+00:00_
+
+```text
+exit 0
+Checking if object exists
+Performing a diff between the Snowflake stage: snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_EAI/versions/live and your local deploy_root: /Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/hosts/snowflake/output/bundle/streamlit/hello_eai.
+The following files exist only on the stage:
+hello_app/.streamlit/config.toml
+
+Use the --prune flag to delete them from the stage.
+Local changes to be deployed:
+  modified: hello_app/pyproject.toml -> hello_app/pyproject.toml
+  modified: hello_app/streamlit_app.py -> hello_app/streamlit_app.py
+Uploading files from local /Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/hosts/snowflake/output/bundle/streamlit/hello_eai directory to stage.
+Streamlit successfully deployed and available under https://app.snowflake.com/<ORG>/<ACCOUNT>/#/streamlit-apps/BOB_KILLER.TEST_D03E2610.HELLO_EAI
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/Users/jasontouleyrou/Projects/bob-killer-snowflake/.venv` and will be ignored; use `--active` to target the active environment instead
+```
+
+## F1/F7 DESCRIBE STREAMLIT HELLO_EAI
+
+_2026-10-16T20:38:13.324945+00:00_
+
+```text
+[
+  {
+    "title": null,
+    "main_file": "hello_app/streamlit_app.py",
+    "query_warehouse": "BOB_KILLER_WH",
+    "url_id": "ekjf6y7qz5ekplh22edk",
+    "default_packages": "python==3.11.*,snowflake-snowpark-python,streamlit",
+    "user_packages": "",
+    "import_urls": "[]",
+    "external_access_integrations": "[\"BOB_KILLER_PYPI_EAI\"]",
+    "external_access_secrets": "{}",
+    "compute_pool": "BOB_KILLER_POOL",
+    "runtime_name": "SYSTEM$ST_CONTAINER_RUNTIME_PY3_11",
+    "name": "HELLO_EAI",
+    "comment": null,
+    "default_version": "LAST",
+    "default_version_name": "VERSION$1",
+    "default_version_alias": null,
+    "default_version_location_uri": "snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_EAI/versions/version$1/",
+    "default_version_source_location_uri": null,
+    "default_version_git_commit_hash": null,
+    "last_version_name": "VERSION$1",
+    "last_version_alias": null,
+    "last_version_location_uri": "snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_EAI/versions/version$1/",
+    "last_version_source_location_uri": null,
+    "last_version_git_commit_hash": null,
+    "live_version_location_uri": "snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_EAI/versions/live/"
+  }
+]
+```
+
+## $ snow streamlit deploy hello_no_eai --schema TEST_D03E2610 -c bob_killer --project hosts/snowflake
+
+_2026-10-16T20:38:48.876711+00:00_
+
+```text
+exit 0
+Checking if object exists
+Performing a diff between the Snowflake stage: snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_NO_EAI/versions/live and your local deploy_root: /Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/hosts/snowflake/output/bundle/streamlit/hello_no_eai.
+The following files exist only on the stage:
+hello_app/.streamlit/config.toml
+
+Use the --prune flag to delete them from the stage.
+Local changes to be deployed:
+  modified: hello_app/pyproject.toml -> hello_app/pyproject.toml
+  modified: hello_app/streamlit_app.py -> hello_app/streamlit_app.py
+Uploading files from local /Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/hosts/snowflake/output/bundle/streamlit/hello_no_eai directory to stage.
+Streamlit successfully deployed and available under https://app.snowflake.com/<ORG>/<ACCOUNT>/#/streamlit-apps/BOB_KILLER.TEST_D03E2610.HELLO_NO_EAI
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/Users/jasontouleyrou/Projects/bob-killer-snowflake/.venv` and will be ignored; use `--active` to target the active environment instead
+```
+
+## F1/F7 DESCRIBE STREAMLIT HELLO_NO_EAI
+
+_2026-10-16T20:38:49.275203+00:00_
+
+```text
+[
+  {
+    "title": null,
+    "main_file": "hello_app/streamlit_app.py",
+    "query_warehouse": "BOB_KILLER_WH",
+    "url_id": "xgnxrpp4aadsz6xyazck",
+    "default_packages": "python==3.11.*,snowflake-snowpark-python,streamlit",
+    "user_packages": "",
+    "import_urls": "[]",
+    "external_access_integrations": "[]",
+    "external_access_secrets": "{}",
+    "compute_pool": "BOB_KILLER_POOL",
+    "runtime_name": "SYSTEM$ST_CONTAINER_RUNTIME_PY3_11",
+    "name": "HELLO_NO_EAI",
+    "comment": null,
+    "default_version": "LAST",
+    "default_version_name": "VERSION$1",
+    "default_version_alias": null,
+    "default_version_location_uri": "snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_NO_EAI/versions/version$1/",
+    "default_version_source_location_uri": null,
+    "default_version_git_commit_hash": null,
+    "last_version_name": "VERSION$1",
+    "last_version_alias": null,
+    "last_version_location_uri": "snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_NO_EAI/versions/version$1/",
+    "last_version_source_location_uri": null,
+    "last_version_git_commit_hash": null,
+    "live_version_location_uri": "snow://streamlit/BOB_KILLER.TEST_D03E2610.HELLO_NO_EAI/versions/live/"
+  }
+]
+```
+
+## Compute pool BOB_KILLER_POOL before and after ALTER ... SUSPEND
+
+_2026-10-16T20:38:49.872325+00:00_
+
+```text
+[
+  {
+    "name": "BOB_KILLER_POOL",
+    "state": "SUSPENDED",
+    "min_nodes": 1,
+    "max_nodes": 1,
+    "instance_family": "CPU_X64_XS",
+    "num_services": 0,
+    "num_jobs": 0,
+    "auto_suspend_secs": 300,
+    "auto_resume": "true",
+    "active_nodes": 0,
+    "idle_nodes": 0,
+    "target_nodes": 0,
+    "created_on": "2026-10-16 10:43:57.829000-07:00",
+    "resumed_on": "1969-12-31 16:00:00-08:00",
+    "updated_on": "2026-10-16 13:10:24.573000-07:00",
+    "owner": "ACCOUNTADMIN",
+    "comment": null,
+    "is_exclusive": "false",
+    "application": null,
+    "placement_group": null,
+    "backup_instance_families": ""
+  },
+  {
+    "name": "BOB_KILLER_POOL",
+    "state": "SUSPENDED",
+    "min_nodes": 1,
+    "max_nodes": 1,
+    "instance_family": "CPU_X64_XS",
+    "num_services": 0,
+    "num_jobs": 0,
+    "auto_suspend_secs": 300,
+    "auto_resume": "true",
+    "active_nodes": 0,
+    "idle_nodes": 0,
+    "target_nodes": 0,
+    "created_on": "2026-10-16 10:43:57.829000-07:00",
+    "resumed_on": "1969-12-31 16:00:00-08:00",
+    "updated_on": "2026-10-16 13:38:49.572000-07:00",
+    "owner": "ACCOUNTADMIN",
+    "comment": null,
+    "is_exclusive": "false",
+    "application": null,
+    "placement_group": null,
+    "backup_instance_families": ""
+  }
+]
+```
+
+## 99_teardown.sql
+
+_2026-10-16T20:38:50.101407+00:00_
+
+```text
+DROP SCHEMA IF EXISTS IDENTIFIER('BOB_KILLER.TEST_D03E2610')
+[
+  {
+    "status": "TEST_D03E2610 successfully dropped."
+  }
+]
+```
