@@ -19,6 +19,7 @@ import pytest
 import bob_killer.runtime.functions  # noqa: F401  (registers the Excel functions)
 from bob_killer.contracts.golden import GoldenEntry, GoldenStatus
 from bob_killer.contracts.graph import (
+    BinaryOp,
     Boolean,
     Call,
     CellGraph,
@@ -34,11 +35,13 @@ from bob_killer.contracts.graph import (
     Number,
     RangeRef,
     Text,
+    UnaryOp,
 )
 from bob_killer.contracts.raw import CachedType, RawCell, RawWorkbook
 from bob_killer.graph.dag import build_graph
 from bob_killer.graph.walk import walk
 from bob_killer.registry import functions
+from bob_killer.runtime.operators import SYMBOLS, UNARY_SYMBOLS
 from bob_killer.runtime.coercion import Arg, CellValue, ExcelError, UnsupportedValue, cell_result
 from bob_killer.verify.config import values_equal
 
@@ -168,9 +171,18 @@ class Evaluator:
                     for c in range(min(s.column, e.column), max(s.column, e.column) + 1)
                 )
             case Call(name=name, args=args):
-                result: Arg = functions.get(name)(*(self.eval(a, sheet) for a in args))  # type: ignore[assignment]
-                return result
+                return self.call(name, args, sheet)
+            case UnaryOp(op="+", operand=x):
+                return self.eval(x, sheet)
+            case UnaryOp(op=op, operand=x):
+                return self.call(f"OP_{UNARY_SYMBOLS[op]}", (x,), sheet)
+            case BinaryOp(op=op, left=left, right=right):
+                return self.call(f"OP_{SYMBOLS[op]}", (left, right), sheet)
         raise Ineligible(type(expr).__name__)
+
+    def call(self, name: str, args: tuple[Expr, ...], sheet: str) -> Arg:
+        result: Arg = functions.get(name)(*(self.eval(a, sheet) for a in args))  # type: ignore[assignment]
+        return result
 
     def check(self, node: CellNode) -> None:
         """Raise Ineligible unless the AST is on the supported path."""
@@ -181,7 +193,9 @@ class Evaluator:
                     raise Ineligible(f"function {name} not in the registry")
                 case CellRef(sheet=s) | RangeRef(sheet=s) if s is not None and s != node.key.sheet:
                     raise Ineligible("cross-sheet reference")
-                case Call() | CellRef() | RangeRef():
+                case BinaryOp(op=op) if op not in SYMBOLS:
+                    raise Ineligible(f"reference operator {op!r}")
+                case Call() | CellRef() | RangeRef() | UnaryOp() | BinaryOp():
                     continue
                 case _ if not isinstance(n, _LITERALS):
                     raise Ineligible(f"{type(n).__name__} node")
