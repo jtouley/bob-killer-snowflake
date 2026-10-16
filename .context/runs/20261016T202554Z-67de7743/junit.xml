@@ -1,0 +1,1111 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="52" skipped="0" tests="52" time="1.645" timestamp="2026-10-16T16:25:54.987581-04:00" hostname="Jasons-MacBook-Pro.local"><properties><property name="hypothesis-statistics-tests/unit/test_generate.py::test_non_exact_nodes_always_render_as_udf_calls" value="dGVzdHMvdW5pdC90ZXN0X2dlbmVyYXRlLnB5Ojp0ZXN0X25vbl9leGFjdF9ub2Rlc19hbHdheXNfcmVuZGVyX2FzX3VkZl9jYWxsczoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMDEgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gOG1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMCBwYXNzaW5nLCAxIGZhaWxpbmcsIGFuZCAwIGludmFsaWQgdGVzdCBjYXNlcwogICAgLSBGb3VuZCAxIGRpc3RpbmN0IGVycm9yIGluIHRoaXMgcGhhc2UKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugbm90aGluZyBsZWZ0IHRvIGRv" /></properties><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[source:project and vars]" time="0.004"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'source', 'artifact': 'project and vars', 'files': ['dbt/dbt_project.yml'], 'yaml': [{'file': 'dbt/dbt_pro...256'], 'equals': '{sha256}'}, {'file': 'dbt/dbt_project.yml', 'path': ['models', '+materialized'], 'equals': 'table'}]}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[target:profile (F14)]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'target', 'artifact': 'profile (F14)', 'files': ['dbt/profiles.yml'], 'yaml': [{'file': 'dbt/profiles.yml'...use}'}, {'file': 'dbt/profiles.yml', 'path': ['{project}', 'outputs', 'bk', 'database'], 'equals': '{database}'}, ...]}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[inputs:source and staging model]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'inputs', 'artifact': 'source and staging model', 'files': ['dbt/models/sources.yml', 'dbt/models/staging/stg_input__{id}.sql'], 'contains': ["source('bk', 'WB_INPUT_CELLS')", "var('bk_run_id')", '_row', '_col'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[lookups:seed and staging model]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'lookups', 'artifact': 'seed and staging model', 'files': ['dbt/seeds/lkp_{id}.csv', 'dbt/seeds/_seeds.yml', 'dbt/models/staging/stg_lookup__{id}.sql'], 'contains': ["ref('lkp_{id}')", 'wire_json'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[parameters:vars and one model]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'parameters', 'artifact': 'vars and one model', 'files': ['dbt/dbt_project.yml', 'dbt/models/staging/stg_parameters.sql'], 'contains': ["bk_param('{id}')"], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[step:scalar_expr]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'step', 'kind': 'scalar_expr', 'artifact': 'rows in a level model (D26)', 'files': ['dbt/models/intermediate/int_{sheet}__l*.sql'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[step:column_expr]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'step', 'kind': 'column_expr', 'artifact': 'one model, row-wise over its over input', 'files': ['dbt/models/intermediate/int_{id}.sql'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[step:aggregate]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'step', 'kind': 'aggregate', 'artifact': 'one model, ordered array to the UDF (F23)', 'files': ['dbt/models/intermediate/int_{id}.sql'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[step:lookup]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'step', 'kind': 'lookup', 'artifact': 'one model, the lookup range as an ordered array, never a SQL JOIN', 'files': ['dbt/models/intermediate/int_{id}.sql'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[step:conditional]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'step', 'kind': 'conditional', 'artifact': "one model, bk_fn('IF', ...)", 'files': ['dbt/models/intermediate/int_{id}.sql'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[step:vba_procedure]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'step', 'kind': 'vba_procedure', 'artifact': 'one model per translated_verified procedure, tag vba', 'files': ['dbt/models/intermediate/int_vba__{procedure}.sql'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[outputs:mart]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'outputs', 'artifact': 'mart', 'files': ['dbt/models/marts/mart_{id}.sql', 'dbt/models/marts/_marts.yml'], 'contains': ["'{step}'", 'BK_WIRE_DECODE_NUMBER'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[formula_cells:fact model]" time="0.004"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'formula_cells', 'artifact': 'fact model', 'files': ['dbt/models/marts/fct_formula_cells.sql'], 'contains': ['UNION ALL']}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[oracle:seed]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'oracle', 'artifact': 'seed', 'files': ['dbt/seeds/bk_oracle.csv'], 'contains': ['sheet,row,col,wire_json']}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[parity:generic test]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'parity', 'artifact': 'generic test', 'files': ['dbt/tests/generic/bk_exact_parity.sql', 'dbt/models/marts/_marts.yml'], 'contains': ['FULL OUTER JOIN', 'BK_VALUES_EQUAL', "var('bk_host_schema')"], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[ir_keys:generic tests]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'ir_keys', 'artifact': 'generic tests', 'files': ['dbt/tests/generic/bk_unique_cell.sql'], 'contains': ['GROUP BY', 'IS NULL']}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[descriptions:descriptions]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'descriptions', 'artifact': 'descriptions', 'files': ['dbt/models/overview.md'], 'contains': ['{% docs bk_{node_id} %}']}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[unsupported:nothing generated; docs and report]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'unsupported', 'artifact': 'nothing generated; docs and report', 'files': ['docs/{workbook}.md'], 'contains': ['{reason}'], ...}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[macros:macros]" time="0.003"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'macros', 'artifact': 'macros', 'files': ['dbt/macros/bk_fn.sql', 'dbt/macros/bk_op.sql', 'dbt/macros/bk_p...k_wire.sql', 'dbt/macros/bk_ident.sql'], 'contains': ["var('bk_host_schema')", '.BK_FN_', '.BK_OP_', 'macro bk_ident']}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_ir_node_maps_to_its_dbt_artifact[docs:docs page (\xa74.6)]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">row = {'ir_node': 'docs', 'artifact': 'docs page (§4.6)', 'files': ['docs/{workbook}.md'], 'contains': ['report.md']}
+
+    @pytest.mark.parametrize(
+        "row", ROWS, ids=[f"{r['ir_node']}:{r.get('kind', r['artifact'])}" for r in ROWS]
+    )
+    def test_ir_node_maps_to_its_dbt_artifact(row: Json) -&gt; None:
+        slot_sets = instances(row)
+        assert slot_sets, f"the sample IR has no {row['ir_node']} node"
+        for slots in slot_sets:
+            spec = fill(row, slots)
+            matched: dict[str, str] = {}
+            for pattern in spec["files"]:
+&gt;               found = files_matching(pattern)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_generators_are_registered" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_generators_are_registered() -&gt; None:
+        from bob_killer import registry
+&gt;       from bob_killer.generate.base import Generator
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:226: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_run_generators_iterates_the_registry_in_name_order" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_run_generators_iterates_the_registry_in_name_order() -&gt; None:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:247: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_run_generators_rejects_a_path_written_twice" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_run_generators_rejects_a_path_written_twice() -&gt; None:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:261: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[scalar_expr-dbt]" time="0.001"><failure message="KeyError: &quot;generators: no entry named 'dbt'&quot;">generator = 'dbt', kind = 'scalar_expr'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'dbt'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'dbt'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[scalar_expr-docs]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'docs'&quot;">generator = 'docs', kind = 'scalar_expr'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'docs'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'docs'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[column_expr-dbt]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'dbt'&quot;">generator = 'dbt', kind = 'column_expr'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'dbt'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'dbt'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[column_expr-docs]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'docs'&quot;">generator = 'docs', kind = 'column_expr'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'docs'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'docs'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[aggregate-dbt]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'dbt'&quot;">generator = 'dbt', kind = 'aggregate'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'dbt'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'dbt'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[aggregate-docs]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'docs'&quot;">generator = 'docs', kind = 'aggregate'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'docs'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'docs'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[lookup-dbt]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'dbt'&quot;">generator = 'dbt', kind = 'lookup'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'dbt'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'dbt'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[lookup-docs]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'docs'&quot;">generator = 'docs', kind = 'lookup'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'docs'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'docs'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[conditional-dbt]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'dbt'&quot;">generator = 'dbt', kind = 'conditional'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'dbt'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'dbt'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[conditional-docs]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'docs'&quot;">generator = 'docs', kind = 'conditional'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'docs'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'docs'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[vba_procedure-dbt]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'dbt'&quot;">generator = 'dbt', kind = 'vba_procedure'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'dbt'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'dbt'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_step_kind_has_a_handler[vba_procedure-docs]" time="0.000"><failure message="KeyError: &quot;generators: no entry named 'docs'&quot;">generator = 'docs', kind = 'vba_procedure'
+
+    @pytest.mark.parametrize("generator", MAPPING["generators"])
+    @pytest.mark.parametrize("kind", STEP_KINDS)
+    def test_every_step_kind_has_a_handler(generator: str, kind: str) -&gt; None:
+        from bob_killer import registry
+    
+        _load_generators()
+&gt;       handlers = registry.generators.get(generator).step_handlers  # type: ignore[attr-defined]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x1184a0f50&gt;, name = 'docs'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "generators: no entry named 'docs'"
+
+src/bob_killer/registry.py:33: KeyError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_generation_is_deterministic" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_generation_is_deterministic() -&gt; None:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:283: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_generation_fails_while_an_output_facing_name_needs_review[output]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">where = 'output'
+
+    @pytest.mark.parametrize("where", ["output", "output step"])
+    def test_generation_fails_while_an_output_facing_name_needs_review(where: str) -&gt; None:
+&gt;       from bob_killer.generate.base import NamesNeedReview, run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:304: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_generation_fails_while_an_output_facing_name_needs_review[output step]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">where = 'output step'
+
+    @pytest.mark.parametrize("where", ["output", "output step"])
+    def test_generation_fails_while_an_output_facing_name_needs_review(where: str) -&gt; None:
+&gt;       from bob_killer.generate.base import NamesNeedReview, run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:304: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_non_exact_nodes_always_render_as_udf_calls" time="0.019"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.dbt.generator'&#10;Failing test case: test_non_exact_nodes_always_render_as_udf_calls(&#10;    data=data(...),&#10;)">@settings(max_examples=200, deadline=None)
+&gt;   @given(data=st.data())
+                   ^^^
+
+tests/unit/test_generate.py:370: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = data(...)
+
+    @settings(max_examples=200, deadline=None)
+    @given(data=st.data())
+    def test_non_exact_nodes_always_render_as_udf_calls(data: st.DataObject) -&gt; None:
+        from bob_killer.contracts.ir import CallExpr, OpExpr, iter_expr
+&gt;       from bob_killer.generate.dbt.generator import sql_renderer
+E       ModuleNotFoundError: No module named 'bob_killer.generate.dbt.generator'
+E       Failing test case: test_non_exact_nodes_always_render_as_udf_calls(
+E           data=data(...),
+E       )
+
+tests/unit/test_generate.py:373: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_only_the_sql_exact_set_renders_without_a_udf" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.dbt.generator'">def test_only_the_sql_exact_set_renders_without_a_udf() -&gt; None:
+        from bob_killer.contracts.ir import iter_expr
+&gt;       from bob_killer.generate.dbt.generator import sql_renderer
+E       ModuleNotFoundError: No module named 'bob_killer.generate.dbt.generator'
+
+tests/unit/test_generate.py:388: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_generated_yaml_parses" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_every_generated_yaml_parses() -&gt; None:
+&gt;       docs = yaml_files()
+               ^^^^^^^^^^^^
+
+tests/unit/test_generate.py:404: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:100: in yaml_files
+    return {p: yaml.safe_load(c) for p, c in project().items() if p.endswith((".yml", ".yaml"))}
+                                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_ref_resolves_inside_the_project" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_every_ref_resolves_inside_the_project() -&gt; None:
+&gt;       per_model, _ = _render_all()
+                       ^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:428: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:413: in _render_all
+    for name, sql in model_sql().items():
+                     ^^^^^^^^^^^
+tests/unit/test_generate.py:90: in model_sql
+    for p, c in files_matching("dbt/models/*").items()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_models_read_only_inputs_lookup_seeds_and_other_models" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_models_read_only_inputs_lookup_seeds_and_other_models() -&gt; None:
+&gt;       per_model, _ = _render_all()
+                       ^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:450: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:413: in _render_all
+    for name, sql in model_sql().items():
+                     ^^^^^^^^^^^
+tests/unit/test_generate.py:90: in model_sql
+    for p, c in files_matching("dbt/models/*").items()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_oracle_seed_has_only_test_children" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_oracle_seed_has_only_test_children() -&gt; None:
+&gt;       per_model, _ = _render_all()
+                       ^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:459: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:413: in _render_all
+    for name, sql in model_sql().items():
+                     ^^^^^^^^^^^
+tests/unit/test_generate.py:90: in model_sql
+    for p, c in files_matching("dbt/models/*").items()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_model_seed_and_column_is_described" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_every_model_seed_and_column_is_described() -&gt; None:
+&gt;       models = yaml_entries("models")
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:476: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:105: in yaml_entries
+    lists = [doc.get(section) for doc in yaml_files().values()]
+                                         ^^^^^^^^^^^^
+tests/unit/test_generate.py:100: in yaml_files
+    return {p: yaml.safe_load(c) for p, c in project().items() if p.endswith((".yml", ".yaml"))}
+                                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_every_cell_model_carries_the_cell_key_test" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_every_cell_model_carries_the_cell_key_test() -&gt; None:
+        cell_models = {
+            PurePosixPath(p).stem
+            for d in MAPPING["cell_model_dirs"]
+&gt;           for p in files_matching(f"{d}*.sql")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        }
+
+tests/unit/test_generate.py:490: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_descriptions_render_as_plain_text_in_dbt" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_descriptions_render_as_plain_text_in_dbt() -&gt; None:
+&gt;       _render_all()  # raises on any Jinja that user text injected into SQL or YAML
+        ^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:503: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:413: in _render_all
+    for name, sql in model_sql().items():
+                     ^^^^^^^^^^^
+tests/unit/test_generate.py:90: in model_sql
+    for p, c in files_matching("dbt/models/*").items()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_seed_rows_decode_to_the_cell_values[dbt/seeds/bk_oracle.csv]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">path = 'dbt/seeds/bk_oracle.csv'
+
+    @pytest.mark.parametrize("path", sorted(_seed_cells()))
+    def test_seed_rows_decode_to_the_cell_values(path: str) -&gt; None:
+        from bob_killer.contracts.ir import CellRef, CellValue
+    
+        cells = sample_cells(sample_ir())
+&gt;       rows = list(_csv_rows(path))
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:531: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:507: in _csv_rows
+    yield from csv.DictReader(io.StringIO(project()[path]))
+                                          ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_seed_rows_decode_to_the_cell_values[dbt/seeds/lkp_region_tax.csv]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">path = 'dbt/seeds/lkp_region_tax.csv'
+
+    @pytest.mark.parametrize("path", sorted(_seed_cells()))
+    def test_seed_rows_decode_to_the_cell_values(path: str) -&gt; None:
+        from bob_killer.contracts.ir import CellRef, CellValue
+    
+        cells = sample_cells(sample_ir())
+&gt;       rows = list(_csv_rows(path))
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:531: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:507: in _csv_rows
+    yield from csv.DictReader(io.StringIO(project()[path]))
+                                          ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_seeds_are_text_columns_only" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_seeds_are_text_columns_only() -&gt; None:
+&gt;       for name, entry in yaml_entries("seeds").items():
+                           ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:543: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:105: in yaml_entries
+    lists = [doc.get(section) for doc in yaml_files().values()]
+                                         ^^^^^^^^^^^^
+tests/unit/test_generate.py:100: in yaml_files
+    return {p: yaml.safe_load(c) for p, c in project().items() if p.endswith((".yml", ".yaml"))}
+                                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_docs_page_lists_every_ir_node" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_docs_page_lists_every_ir_node() -&gt; None:
+        ir = sample_ir()
+&gt;       (page,) = files_matching(f"docs/{_base()['workbook']}.md").values()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:553: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_generate" name="test_dbt_docs_blocks_reuse_the_docs_page_text" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.generate.base'">def test_dbt_docs_blocks_reuse_the_docs_page_text() -&gt; None:
+&gt;       (page,) = files_matching(f"docs/{_base()['workbook']}.md").values()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_generate.py:564: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_generate.py:48: in files_matching
+    return {p: c for p, c in project().items() if fnmatch.fnmatchcase(p, pattern)}
+                             ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @cache
+    def project() -&gt; Mapping[str, str]:
+&gt;       from bob_killer.generate.base import run_generators
+E       ModuleNotFoundError: No module named 'bob_killer.generate.base'
+
+tests/unit/test_generate.py:40: ModuleNotFoundError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,186 @@
+{
+  "source": "docs/SPEC-compiler-dbt.md §4",
+  "verified_by": "Claude Code, transcribed from §4.1 (shape, SQL-exact set), §4.2 (IR node -> dbt artifact table), §4.3 (sources, seeds, vars), §4.5 (marts, oracle seed), §4.6 (docs), D20, D21, D22, D26, D28 on 2026-10-16",
+  "generators": ["dbt", "docs"],
+  "sql_exact_expr_types": ["cell", "param", "lit"],
+  "udf_macros": ["bk_fn(", "bk_op("],
+  "bare_arithmetic": ["+", "-", "*", "/", "^", "%", "||"],
+  "model_sources": ["WB_INPUT_CELLS"],
+  "lineage_sources": ["WB_INPUT_CELLS", "BRONZE_ROWS"],
+  "lookup_seed_prefix": "lkp_",
+  "oracle_seed": "bk_oracle",
+  "oracle_header": ["sheet", "row", "col", "wire_json"],
+  "parity_test": "bk_exact_parity",
+  "parity_tag": "bk_parity",
+  "cell_test": "bk_unique_cell",
+  "cell_model_dirs": ["dbt/models/intermediate/", "dbt/models/marts/"],
+  "rows": [
+    {
+      "ir_node": "source",
+      "artifact": "project and vars",
+      "files": ["dbt/dbt_project.yml"],
+      "yaml": [
+        {"file": "dbt/dbt_project.yml", "path": ["name"], "equals": "{project}"},
+        {"file": "dbt/dbt_project.yml", "path": ["profile"], "equals": "{project}"},
+        {"file": "dbt/dbt_project.yml", "path": ["vars", "bk_run_id"], "equals": "{run_id}"},
+        {"file": "dbt/dbt_project.yml", "path": ["vars", "bk_host_schema"], "equals": "{deploy_schema}"},
+        {"file": "dbt/dbt_project.yml", "path": ["vars", "bk_source_sha256"], "equals": "{sha256}"},
+        {"file": "dbt/dbt_project.yml", "path": ["models", "+materialized"], "equals": "table"}
+      ]
+    },
+    {
+      "ir_node": "target",
+      "artifact": "profile (F14)",
+      "files": ["dbt/profiles.yml"],
+      "yaml": [
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "type"], "equals": "snowflake"},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "account"], "equals": ""},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "user"], "equals": ""},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "role"], "equals": "{role}"},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "warehouse"], "equals": "{warehouse}"},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "database"], "equals": "{database}"},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "outputs", "bk", "schema"], "equals": "{deploy_schema}__R_{run_id}"},
+        {"file": "dbt/profiles.yml", "path": ["{project}", "target"], "equals": "bk"}
+      ]
+    },
+    {
+      "ir_node": "inputs",
+      "artifact": "source and staging model",
+      "files": ["dbt/models/sources.yml", "dbt/models/staging/stg_input__{id}.sql"],
+      "contains": ["source('bk', 'WB_INPUT_CELLS')", "var('bk_run_id')", "_row", "_col"],
+      "yaml": [
+        {"file": "dbt/models/sources.yml", "path": ["sources", {"name": "bk"}, "schema"], "equals": "{{ var('bk_host_schema') }}"},
+        {"file": "dbt/models/sources.yml", "path": ["sources", {"name": "bk"}, "tables", {"name": "WB_INPUT_CELLS"}, "name"], "equals": "WB_INPUT_CELLS"},
+        {"file": "dbt/models/sources.yml", "path": ["sources", {"name": "bk"}, "tables", {"name": "BRONZE_ROWS"}, "name"], "equals": "BRONZE_ROWS"}
+      ]
+    },
+    {
+      "ir_node": "lookups",
+      "artifact": "seed and staging model",
+      "files": ["dbt/seeds/lkp_{id}.csv", "dbt/seeds/_seeds.yml", "dbt/models/staging/stg_lookup__{id}.sql"],
+      "contains": ["ref('lkp_{id}')", "wire_json"],
+      "yaml": [
+        {"file": "dbt/seeds/_seeds.yml", "path": ["seeds", {"name": "lkp_{id}"}, "config", "column_types"], "all_values": "varchar"}
+      ]
+    },
+    {
+      "ir_node": "parameters",
+      "artifact": "vars and one model",
+      "files": ["dbt/dbt_project.yml", "dbt/models/staging/stg_parameters.sql"],
+      "contains": ["bk_param('{id}')"],
+      "yaml": [
+        {"file": "dbt/dbt_project.yml", "path": ["vars", "p_{id}"], "equals": "{default_hex}"}
+      ]
+    },
+    {
+      "ir_node": "step",
+      "kind": "scalar_expr",
+      "artifact": "rows in a level model (D26)",
+      "files": ["dbt/models/intermediate/int_{sheet}__l*.sql"],
+      "contains": ["'{id}'"]
+    },
+    {
+      "ir_node": "step",
+      "kind": "column_expr",
+      "artifact": "one model, row-wise over its over input",
+      "files": ["dbt/models/intermediate/int_{id}.sql"],
+      "contains": ["ref('stg_input__{over}')", "'{id}'"]
+    },
+    {
+      "ir_node": "step",
+      "kind": "aggregate",
+      "artifact": "one model, ordered array to the UDF (F23)",
+      "files": ["dbt/models/intermediate/int_{id}.sql"],
+      "contains": ["ARRAY_AGG(", "WITHIN GROUP (ORDER BY", "bk_fn("]
+    },
+    {
+      "ir_node": "step",
+      "kind": "lookup",
+      "artifact": "one model, the lookup range as an ordered array, never a SQL JOIN",
+      "files": ["dbt/models/intermediate/int_{id}.sql"],
+      "contains": ["ARRAY_AGG(", "WITHIN GROUP (ORDER BY", "ref('stg_lookup__{lookup}')"],
+      "excludes": ["JOIN"]
+    },
+    {
+      "ir_node": "step",
+      "kind": "conditional",
+      "artifact": "one model, bk_fn('IF', ...)",
+      "files": ["dbt/models/intermediate/int_{id}.sql"],
+      "contains": ["bk_fn('IF')"]
+    },
+    {
+      "ir_node": "step",
+      "kind": "vba_procedure",
+      "artifact": "one model per translated_verified procedure, tag vba",
+      "files": ["dbt/models/intermediate/int_vba__{procedure}.sql"],
+      "contains": ["'{id}'"],
+      "yaml": [
+        {"file": "dbt/models/intermediate/_intermediate.yml", "path": ["models", {"name": "int_vba__{procedure}"}, "config", "tags"], "includes": "vba"}
+      ]
+    },
+    {
+      "ir_node": "outputs",
+      "artifact": "mart",
+      "files": ["dbt/models/marts/mart_{id}.sql", "dbt/models/marts/_marts.yml"],
+      "contains": ["'{step}'", "BK_WIRE_DECODE_NUMBER"],
+      "yaml": [
+        {"file": "dbt/models/marts/_marts.yml", "path": ["models", {"name": "mart_{id}"}, "description"], "includes": "{label}"}
+      ]
+    },
+    {
+      "ir_node": "formula_cells",
+      "artifact": "fact model",
+      "files": ["dbt/models/marts/fct_formula_cells.sql"],
+      "contains": ["UNION ALL"]
+    },
+    {
+      "ir_node": "oracle",
+      "artifact": "seed",
+      "files": ["dbt/seeds/bk_oracle.csv"],
+      "contains": ["sheet,row,col,wire_json"]
+    },
+    {
+      "ir_node": "parity",
+      "artifact": "generic test",
+      "files": ["dbt/tests/generic/bk_exact_parity.sql", "dbt/models/marts/_marts.yml"],
+      "contains": ["FULL OUTER JOIN", "BK_VALUES_EQUAL", "var('bk_host_schema')"],
+      "yaml": [
+        {"file": "dbt/models/marts/_marts.yml", "path": ["models", {"name": "fct_formula_cells"}, "data_tests", {"key": "bk_exact_parity"}, "config", "tags"], "includes": "bk_parity"},
+        {"file": "dbt/models/marts/_marts.yml", "path": ["models", {"name": "fct_formula_cells"}, "data_tests", {"key": "bk_exact_parity"}, "config", "store_failures"], "equals": true},
+        {"file": "dbt/models/marts/_marts.yml", "path": ["models", {"name": "fct_formula_cells"}, "data_tests", {"key": "bk_exact_parity"}, "arguments", "oracle"], "equals": "bk_oracle"}
+      ]
+    },
+    {
+      "ir_node": "ir_keys",
+      "artifact": "generic tests",
+      "files": ["dbt/tests/generic/bk_unique_cell.sql"],
+      "contains": ["GROUP BY", "IS NULL"]
+    },
+    {
+      "ir_node": "descriptions",
+      "artifact": "descriptions",
+      "files": ["dbt/models/overview.md"],
+      "contains": ["{% docs bk_{node_id} %}"]
+    },
+    {
+      "ir_node": "unsupported",
+      "artifact": "nothing generated; docs and report",
+      "files": ["docs/{workbook}.md"],
+      "contains": ["{reason}"],
+      "absent_from": "dbt/models/**/*.sql",
+      "absent": ["{kind}"]
+    },
+    {
+      "ir_node": "macros",
+      "artifact": "macros",
+      "files": ["dbt/macros/bk_fn.sql", "dbt/macros/bk_op.sql", "dbt/macros/bk_param.sql", "dbt/macros/bk_wire.sql", "dbt/macros/bk_ident.sql"],
+      "contains": ["var('bk_host_schema')", ".BK_FN_", ".BK_OP_", "macro bk_ident"]
+    },
+    {
+      "ir_node": "docs",
+      "artifact": "docs page (§4.6)",
+      "files": ["docs/{workbook}.md"],
+      "contains": ["report.md"]
+    }
+  ]
+}

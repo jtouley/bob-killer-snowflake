@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "bce03bc74f7dc76e4bd5433070c49ba0eef00bd3f966d4fa19f69f50be8af692",
+  "nodes": {
+    "::tests.unit.test_generate": "error"
+  },
+  "pytest_args": [
+    "tests/unit/test_generate.py"
+  ],
+  "recorded_at": "2026-10-16T20:33:17Z",
+  "run_id": "20261016T203317Z-20f7810f",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "94e6220351e8e66b26b313b5bb0df83b3c76612668fc597f326165731ca7791d"
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.718" timestamp="2026-10-16T16:33:18.185857-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.unit.test_generate" time="0.000"><error message="collection failure">tests/unit/test_generate.py:526: in &lt;module&gt;
+    @pytest.mark.parametrize("path", sorted(_seed_cells()))
+                                            ^^^^^^^^^^^^^
+tests/unit/test_generate.py:513: in _seed_cells
+    ir = sample_ir()
+         ^^^^^^^^^^^
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+tests/unit/conftest.py:481: in build_ir
+    return WorkbookIR.model_validate_json(json.dumps(data))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for WorkbookIR
+E     Value error, schema_version 1 != 5 [type=value_error, input_value={'schema_version': 1, 'so...'translated_to': None}]}, input_type=dict]
+E       For further information visit https://errors.pydantic.dev/2.13/v/value_error</error></testcase></testsuite></testsuites>
