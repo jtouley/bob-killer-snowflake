@@ -12,6 +12,8 @@ from collections.abc import Iterator
 import pytest
 from snowflake.snowpark import Session
 
+from bob_killer.hosts.snowflake import session as sf
+
 CONNECTION = os.environ.get("BK_CONNECTION", "bob_killer")
 
 
@@ -28,11 +30,20 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
 
 @pytest.fixture(scope="session")
 def session() -> Iterator[Session]:
-    s = Session.builder.config("connection_name", CONNECTION).create()
+    """The one live session. Before any test, the TEST_ sweep drops schemas older than 24 h."""
+    s = sf.open_session(CONNECTION)
     try:
+        sf.sweep_test_schemas(s)
         yield s
     finally:
         s.close()
+
+
+@pytest.fixture(scope="session")
+def schema(session: Session) -> Iterator[str]:
+    """A TEST_<uuid8> schema for this run, dropped at teardown. Tests qualify names with it."""
+    with sf.test_schema(session) as name:
+        yield name
 
 
 @pytest.fixture(scope="session")
