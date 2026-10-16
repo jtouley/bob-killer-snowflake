@@ -61,7 +61,8 @@ def load_entry_points(registry: Registry[Any], group: str) -> None:
         registry.add(ep.name, ep.load())
 
 
-Stage = Callable[[str], None]
+# A stage gets the run id; the text it returns is its success detail (None gives "") (D3).
+Stage = Callable[[str], str | None]
 
 functions: Registry[Callable[..., object]] = Registry("functions")
 step_kinds: Registry[type] = Registry("step_kinds")

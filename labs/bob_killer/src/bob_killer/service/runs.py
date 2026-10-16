@@ -39,11 +39,11 @@ def execute_run(store: RunRepository, run_id: str) -> RunState:
     for name, stage in registry.stages.items():
         store.upsert_stage(_status(run_id, name, StageState.RUNNING))
         try:
-            stage(run_id)
+            detail = stage(run_id)
         except Exception as exc:  # recorded on the stage, never swallowed silently
             store.upsert_stage(_status(run_id, name, StageState.FAILED, repr(exc)))
             final = RunState.FAILED
             break
-        store.upsert_stage(_status(run_id, name, StageState.SUCCEEDED))
+        store.upsert_stage(_status(run_id, name, StageState.SUCCEEDED, detail or ""))
     store.set_state(run_id, final)
     return final
