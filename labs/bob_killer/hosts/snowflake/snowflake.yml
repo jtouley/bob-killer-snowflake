@@ -1,0 +1,27 @@
+definition_version: 2
+# Snowflake CLI project for the Bob Killer host (docs/SPEC.md §4 F8, G13).
+# `snow snowpark build` zips the artifacts; `snow snowpark deploy` uploads the zip and creates
+# the procedures. The core ships from ../../src/bob_killer through an artifact src/dest mapping.
+mixins:
+  snowpark_shared:
+    stage: deployments
+    artifacts:
+      - src: ../../src
+        dest: src.zip
+      - src: probe/platform_probe.py
+        dest: platform_probe.py
+entities:
+  platform_probe:
+    type: procedure
+    identifier:
+      name: PLATFORM_PROBE
+    handler: platform_probe.platform_probe
+    runtime: "3.12"
+    signature:
+      - name: stage_path
+        type: string
+    returns: variant
+    execute_as_caller: false
+    meta:
+      use_mixins:
+        - snowpark_shared

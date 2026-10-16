@@ -1,0 +1,9 @@
+[project]
+name = "bob-killer-hello"
+version = "0.0.0"
+description = "Container-runtime probe for F1 and F7 (throwaway)"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "streamlit>=1.50",
+  "snowflake-snowpark-python",
+]
