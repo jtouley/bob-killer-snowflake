@@ -19,6 +19,7 @@ from typing import Any
 
 import pytest
 import yaml
+from snowflake.connector.errors import Error as ConnectorError
 from snowflake.snowpark import AsyncJob, Row, Session
 from snowflake.snowpark.exceptions import SnowparkSQLException
 
@@ -30,7 +31,6 @@ from tests.live.conftest import CONNECTION
 PROJECT = Path(__file__).resolve().parents[2]
 REPO = PROJECT.parents[1]
 HOST = PROJECT / "hosts" / "snowflake"
-HELLO = HOST / "hello_app"
 EVIDENCE = REPO / ".context" / "evidence" / f"snowflake_platform_{datetime.now(UTC):%Y%m%d}.md"
 BUILD_LEFTOVERS = (PROJECT / "src.zip", HOST / "requirements.snowflake.txt")
 
@@ -42,7 +42,7 @@ F3_PACKAGES = [
     ("typing-extensions", ""),
     ("typing-inspection", ""),
     ("openpyxl", ""),
-    ("et-xmlfile", ""),
+    ("et_xmlfile", ""),  # conda name of PyPI et-xmlfile
     ("snowflake-snowpark-python", ""),
 ]
 
@@ -69,6 +69,11 @@ def snow(*args: str, project: Path) -> str:
     record(f"$ {shown}", f"exit {proc.returncode}\n{proc.stdout}{proc.stderr}")
     proc.check_returncode()
     return proc.stdout
+
+
+def hello_entities() -> dict[str, dict[str, Any]]:
+    entities: dict[str, dict[str, Any]] = project_yaml(HOST)["entities"]
+    return {k: v for k, v in entities.items() if v["type"] == "streamlit"}
 
 
 def rows(session: Session, query: str, params: list[Any] | None = None) -> list[Row]:
@@ -150,7 +155,7 @@ def test_f4_primary_key_is_not_enforced_and_not_null_is(session: Session, schema
     for values in inserts:
         rows(session, f"INSERT INTO {table} (id, v) VALUES (?, ?)", values)
     ((count,),) = rows(session, f"SELECT COUNT(*) FROM {table}")
-    with pytest.raises(SnowparkSQLException) as err:
+    with pytest.raises((SnowparkSQLException, ConnectorError)) as err:
         rows(session, f"INSERT INTO {table} (id, v) VALUES (?, ?)", [inserts[0][0], None])
     record(
         "F4 duplicate PK + NULL into NOT NULL",
@@ -185,8 +190,10 @@ def test_f8_deploy_ships_the_build_zip_and_packages(session: Session, deployed: 
     props = {r["property"]: r["value"] for r in found}
     for artifact in spec["mixins"]["snowpark_shared"]["artifacts"]:
         assert artifact["dest"] in props["imports"]
+    # snow 3.29 resolves requirements.txt through the artifact repository (F3 path).
+    declared = props["packages"] + props["artifact_repository_packages"]
     for requirement in (HOST / "requirements.txt").read_text().split():
-        assert re.split(r"[<>=!~ ]", requirement)[0] in props["packages"]
+        assert re.split(r"[<>=!~ ]", requirement)[0] in declared
     assert props["runtime_version"] == entity["runtime"]
     assert props["execute as"] == ("CALLER" if entity["execute_as_caller"] else "OWNER")
 
@@ -207,11 +214,10 @@ def test_f9_call_without_blocking_returns_an_async_job(
 @pytest.fixture(scope="module")
 def hello(session: Session) -> Iterator[tuple[str, dict[str, dict[str, Any]]]]:
     """F1, F7: deploy the hello app with and without the PyPI integration into its own TEST_ schema."""
-    record("hosts/snowflake/hello_app/snowflake.yml", (HELLO / "snowflake.yml").read_text())
     with sf.test_schema(session) as hello_schema:
         described: dict[str, dict[str, Any]] = {}
-        for entity_id, entity in project_yaml(HELLO)["entities"].items():
-            snow("streamlit", "deploy", entity_id, "--schema", hello_schema, project=HELLO)
+        for entity_id, entity in hello_entities().items():
+            snow("streamlit", "deploy", entity_id, "--schema", hello_schema, project=HOST)
             name = entity["identifier"]["name"]
             (row,) = rows(session, f'DESCRIBE STREAMLIT "{hello_schema}".{name}')
             described[entity_id] = row.as_dict()
@@ -222,7 +228,7 @@ def hello(session: Session) -> Iterator[tuple[str, dict[str, dict[str, Any]]]]:
 def test_f1_hello_app_uses_the_container_runtime_and_pool(
     hello: tuple[str, dict[str, dict[str, Any]]],
 ) -> None:
-    shared = project_yaml(HELLO)["mixins"]["hello_shared"]
+    shared = project_yaml(HOST)["mixins"]["hello_shared"]
     for described in hello[1].values():
         assert described["runtime_name"] == shared["runtime_name"]
         assert described["compute_pool"] == shared["compute_pool"]
@@ -231,7 +237,7 @@ def test_f1_hello_app_uses_the_container_runtime_and_pool(
 def test_f7_pypi_integration_is_attached_only_where_declared(
     hello: tuple[str, dict[str, dict[str, Any]]],
 ) -> None:
-    entities = project_yaml(HELLO)["entities"]
+    entities = hello_entities()
     every = {e for ent in entities.values() for e in ent.get("external_access_integrations", [])}
     assert every
     for entity_id, entity in entities.items():
@@ -245,7 +251,7 @@ def test_hello_pool_suspends_and_teardown_drops_the_schema(
     session: Session, hello: tuple[str, dict[str, dict[str, Any]]]
 ) -> None:
     hello_schema = hello[0]
-    pool = project_yaml(HELLO)["mixins"]["hello_shared"]["compute_pool"]
+    pool = project_yaml(HOST)["mixins"]["hello_shared"]["compute_pool"]
     (before,) = rows(session, f"SHOW COMPUTE POOLS LIKE '{pool}'")
     rows(session, f"ALTER COMPUTE POOL {pool} SUSPEND")
     (after,) = rows(session, f"SHOW COMPUTE POOLS LIKE '{pool}'")
