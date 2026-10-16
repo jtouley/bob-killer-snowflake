@@ -331,6 +331,22 @@
       "expected": true,
       "source": "https://support.microsoft.com/en-us/excel/filter-by-using-advanced-criteria",
       "verified_by": "Claude Code 2026-10-16: section 'Considering case-sensitivity': 'When filtering text data, Excel doesn't distinguish between uppercase and lowercase characters'; MATCH page: 'MATCH does not distinguish between uppercase and lowercase letters when matching text values'. Indirect: no fetched page states it for the = operator itself"
+    },
+    {
+      "id": "mul-blank-times-blank-golden-mt-costs-e18",
+      "call": "OP_MUL",
+      "args": [{"range": [null]}, {"range": [null]}],
+      "expected": 0,
+      "source": "golden mt_dot_budget (golden.lock sha256 e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047) COSTS!E18 =C18*D18",
+      "verified_by": "Claude Code 2026-10-16: C18 and D18 have no cached value (empty cells); E18 caches 0 in the sheet XML"
+    },
+    {
+      "id": "sub-number-minus-blank-golden-sgec-v41-summary-g55",
+      "call": "OP_SUB",
+      "args": [{"range": [0]}, {"range": [null]}],
+      "expected": 0,
+      "source": "golden sgec_v4_1 (golden.lock sha256 75f5d8a0c660fb37535571ef463195508cc9dae7dc94acf604593dcd5078ac08) Summary!G55 =G49-G51",
+      "verified_by": "Claude Code 2026-10-16: G49 caches 0 and G51 is an empty cell; G55 caches 0"
     }
   ]
 }

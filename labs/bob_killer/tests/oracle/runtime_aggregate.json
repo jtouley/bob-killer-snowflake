@@ -217,6 +217,191 @@
       "expected": 2,
       "source": "https://support.microsoft.com/en-us/office/counta-function-7dc98875-d5c1-46f1-9a82-53f3219e2509",
       "verified_by": "Claude Code 2026-10-16: remark 'counts cells containing any type of information, including error values and empty text (\"\") ... does not count empty cells'"
+    },
+    {
+      "id": "sumif-greater-than-text-criteria",
+      "call": "SUMIF",
+      "args": [{"range": [100000, 200000, 300000, 400000]}, ">160000", {"range": [7000, 14000, 21000, 28000]}],
+      "expected": 63000,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 1 data A2:A5 100000, 200000, 300000, 400000; B2:B5 7000, 14000, 21000, 28000; C2 250000; =SUMIF(A2:A5,\">160000\",B2:B5) gives $63,000"
+    },
+    {
+      "id": "sumif-without-sum-range",
+      "call": "SUMIF",
+      "args": [{"range": [100000, 200000, 300000, 400000]}, ">160000"],
+      "expected": 900000,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 1 data A2:A5 100000, 200000, 300000, 400000; B2:B5 7000, 14000, 21000, 28000; C2 250000; =SUMIF(A2:A5,\">160000\") gives $900,000"
+    },
+    {
+      "id": "sumif-number-criteria",
+      "call": "SUMIF",
+      "args": [{"range": [100000, 200000, 300000, 400000]}, 300000, {"range": [7000, 14000, 21000, 28000]}],
+      "expected": 21000,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 1 data A2:A5 100000, 200000, 300000, 400000; B2:B5 7000, 14000, 21000, 28000; C2 250000; =SUMIF(A2:A5,300000,B2:B5) gives $21,000"
+    },
+    {
+      "id": "sumif-operator-joined-to-a-cell",
+      "call": "SUMIF",
+      "args": [{"range": [100000, 200000, 300000, 400000]}, ">250000", {"range": [7000, 14000, 21000, 28000]}],
+      "expected": 49000,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 1 data A2:A5 100000, 200000, 300000, 400000; B2:B5 7000, 14000, 21000, 28000; C2 250000; =SUMIF(A2:A5,\">\" & C2,B2:B5) gives $49,000 (\">\"&C2 is the text \">250000\")"
+    },
+    {
+      "id": "sumif-text-criteria-fruits",
+      "call": "SUMIF",
+      "args": [{"range": ["Vegetables", "Vegetables", "Fruits", null, "Vegetables", "Fruits"]}, "Fruits", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "expected": 2000,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2:A7 Vegetables, Vegetables, Fruits, (empty), Vegetables, Fruits; B2:B7 Tomatoes, Celery, Oranges, Butter, Carrots, Apples; C2:C7 2300, 5500, 800, 400, 4200, 1200; =SUMIF(A2:A7,\"Fruits\",C2:C7) gives $2,000"
+    },
+    {
+      "id": "sumif-text-criteria-vegetables",
+      "call": "SUMIF",
+      "args": [{"range": ["Vegetables", "Vegetables", "Fruits", null, "Vegetables", "Fruits"]}, "Vegetables", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "expected": 12000,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2:A7 Vegetables, Vegetables, Fruits, (empty), Vegetables, Fruits; B2:B7 Tomatoes, Celery, Oranges, Butter, Carrots, Apples; C2:C7 2300, 5500, 800, 400, 4200, 1200; =SUMIF(A2:A7,\"Vegetables\",C2:C7) gives $12,000"
+    },
+    {
+      "id": "sumif-asterisk-wildcard",
+      "call": "SUMIF",
+      "args": [{"range": ["Tomatoes", "Celery", "Oranges", "Butter", "Carrots", "Apples"]}, "*es", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "expected": 4300,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2:A7 Vegetables, Vegetables, Fruits, (empty), Vegetables, Fruits; B2:B7 Tomatoes, Celery, Oranges, Butter, Carrots, Apples; C2:C7 2300, 5500, 800, 400, 4200, 1200; =SUMIF(B2:B7,\"*es\",C2:C7) gives $4,300 (Tomatoes, Oranges, Apples)"
+    },
+    {
+      "id": "sumif-empty-criteria-matches-blank-cells",
+      "call": "SUMIF",
+      "args": [{"range": ["Vegetables", "Vegetables", "Fruits", null, "Vegetables", "Fruits"]}, "", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "expected": 400,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2:A7 Vegetables, Vegetables, Fruits, (empty), Vegetables, Fruits; B2:B7 Tomatoes, Celery, Oranges, Butter, Carrots, Apples; C2:C7 2300, 5500, 800, 400, 4200, 1200; =SUMIF(A2:A7,\"\",C2:C7) gives $400 (foods with no category)"
+    },
+    {
+      "id": "sumif-question-mark-wildcard",
+      "call": "SUMIF",
+      "args": [{"range": ["Tomatoes", "Celery", "Oranges", "Butter", "Carrots", "Apples"]}, "?ranges", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "expected": 800,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2:A7 Vegetables, Vegetables, Fruits, (empty), Vegetables, Fruits; B2:B7 Tomatoes, Celery, Oranges, Butter, Carrots, Apples; C2:C7 2300, 5500, 800, 400, 4200, 1200; remark 'a question mark (?) to match any single character': only Oranges matches"
+    },
+    {
+      "id": "sumif-criteria-ignore-case",
+      "call": "SUMIF",
+      "args": [{"range": ["Vegetables", "Vegetables", "Fruits", null, "Vegetables", "Fruits"]}, "fruits", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "expected": 2000,
+      "source": "https://support.microsoft.com/en-us/office/countif-function-e0de10c6-f885-4e71-abb4-1f464816df34",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2:A7 Vegetables, Vegetables, Fruits, (empty), Vegetables, Fruits; B2:B7 Tomatoes, Celery, Oranges, Butter, Carrots, Apples; C2:C7 2300, 5500, 800, 400, 4200, 1200 (SUMIF page); COUNTIF best practices: 'Criteria aren't case sensitive. In other words, the string \"apples\" and the string \"APPLES\" match the same cells'"
+    },
+    {
+      "id": "sumif-tilde-makes-asterisk-literal",
+      "call": "SUMIF",
+      "args": [{"range": ["a*", "ab"]}, "a~*", {"range": [1, 2]}],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: remark 'If you want to find an actual question mark or asterisk, type a tilde (~) preceding the character': \"a~*\" matches the text a* only"
+    },
+    {
+      "id": "sumproduct-pairs",
+      "call": "SUMPRODUCT",
+      "args": [{"range": [1, 2], "columns": 1}, {"range": [3, 4], "columns": 1}],
+      "expected": 11,
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-16: Example 1: 'Each cell in column C is multiplied by its corresponding cell in the same row in column D, and the results are added up' (=C2*D2+C3*D3+...): 1*3+2*4"
+    },
+    {
+      "id": "sumproduct-non-numbers-are-zero",
+      "call": "SUMPRODUCT",
+      "args": [{"range": [2, 3, 4], "columns": 1}, {"range": [5, "n/a", 1], "columns": 1}],
+      "expected": 14,
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-16: remark 'SUMPRODUCT treats non-numeric array entries as if they were zeros': 2*5+3*0+4*1"
+    },
+    {
+      "id": "sumproduct-different-dimensions",
+      "call": "SUMPRODUCT",
+      "args": [{"range": [1, 2, 3], "columns": 1}, {"range": [1, 2], "columns": 1}],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-16: remark 'The array arguments must have the same dimensions. If they do not, SUMPRODUCT returns the #VALUE! error value'"
+    },
+    {
+      "id": "sumproduct-same-count-different-shape",
+      "call": "SUMPRODUCT",
+      "args": [{"range": [1, 2], "columns": 1}, {"range": [1, 2], "columns": 2}],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-16: remark 'The array arguments must have the same dimensions': a 2x1 and a 1x2 range differ"
+    }
+  ],
+  "refused": [
+    {
+      "id": "sumif-not-equal-text",
+      "call": "SUMIF",
+      "args": [{"range": ["Vegetables", "Vegetables", "Fruits", null, "Vegetables", "Fruits"]}, "<>Fruits", {"range": [2300, 5500, 800, 400, 4200, 1200]}],
+      "source": "https://support.microsoft.com/en-us/office/countif-function-e0de10c6-f885-4e71-abb4-1f464816df34",
+      "verified_by": "Claude Code 2026-10-16: no fetched page says whether \"<>text\" counts blank cells"
+    },
+    {
+      "id": "sumif-number-text-cell-with-number-criteria",
+      "call": "SUMIF",
+      "args": [{"range": ["5", 5]}, 5],
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: the page does not say whether number text in range meets a number criterion"
+    },
+    {
+      "id": "sumif-sum-range-of-another-size",
+      "call": "SUMIF",
+      "args": [{"range": [1, 2]}, ">0", {"range": [1, 2, 3]}],
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: a sum_range of another size is resized from its first cell; the shape is not known here"
+    },
+    {
+      "id": "sumif-logical-criteria",
+      "call": "SUMIF",
+      "args": [{"range": [true, false]}, true],
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: logical criteria 'must be enclosed in double quotation marks'; matching rules are not given"
+    },
+    {
+      "id": "sumif-blank-cell-and-criteria-meeting-zero",
+      "call": "SUMIF",
+      "args": [{"range": [1, null]}, "<5"],
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: the page does not say whether a blank cell meets a criterion that 0 meets"
+    },
+    {
+      "id": "sumif-error-cell-in-range",
+      "call": "SUMIF",
+      "args": [{"range": [1, {"error": "#N/A"}]}, ">0"],
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: error values in range are not covered by the page"
+    },
+    {
+      "id": "sumif-tilde-before-other-text",
+      "call": "SUMIF",
+      "args": [{"range": ["a~b"]}, "a~b"],
+      "source": "https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b",
+      "verified_by": "Claude Code 2026-10-16: the page documents ~ only before ? and *"
+    },
+    {
+      "id": "sumproduct-unknown-shape",
+      "call": "SUMPRODUCT",
+      "args": [{"range": [1, 2]}, {"range": [3, 4]}],
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-16: the dimensions rule needs the shape of each range; a range without columns has none"
+    },
+    {
+      "id": "sumproduct-error-entry",
+      "call": "SUMPRODUCT",
+      "args": [{"range": [1, {"error": "#N/A"}], "columns": 1}, {"range": [1, 2], "columns": 1}],
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-16: error entries are not covered by 'non-numeric array entries'"
     }
   ]
 }

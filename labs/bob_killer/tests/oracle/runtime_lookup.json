@@ -1,0 +1,116 @@
+{
+  "family": "lookup",
+  "encoding": "as runtime_aggregate.json; {\"range\": [...], \"columns\": n} is a rectangular range of n columns, cells row by row",
+  "cases": [
+    {
+      "id": "vlookup-approximate-default",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 2],
+      "expected": 2.17,
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(1,A2:C10,2) gives 2.17"
+    },
+    {
+      "id": "vlookup-approximate-true",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 3, true],
+      "expected": 100,
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(1,A2:C10,3,TRUE) gives 100"
+    },
+    {
+      "id": "vlookup-exact-not-found",
+      "call": "VLOOKUP",
+      "args": [0.7, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 3, false],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(0.7,A2:C10,3,FALSE) gives #N/A"
+    },
+    {
+      "id": "vlookup-below-smallest",
+      "call": "VLOOKUP",
+      "args": [0.1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 2, true],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(0.1,A2:C10,2,TRUE) gives #N/A"
+    },
+    {
+      "id": "vlookup-above-largest",
+      "call": "VLOOKUP",
+      "args": [2, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 2, true],
+      "expected": 1.71,
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(2,A2:C10,2,TRUE) gives 1.71"
+    },
+    {
+      "id": "vlookup-exact-found",
+      "call": "VLOOKUP",
+      "args": [0.746, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 3, false],
+      "expected": 200,
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0 (topic page); VLOOKUP page: 'Exact match - 0/FALSE searches for the exact value in the first column': 0.746 is in row 6"
+    },
+    {
+      "id": "vlookup-column-beyond-table",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 4, true],
+      "expected": {"error": "#REF!"},
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Common Problems: 'If col_index_num is greater than the number of columns in table-array, you'll get the #REF! error value'"
+    },
+    {
+      "id": "vlookup-column-below-one",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 0, true],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Common Problems: '#VALUE! in cell: If the table_array is less than 1, you'll get the #VALUE! error value' (the argument checked is col_index_num)"
+    },
+    {
+      "id": "vlookup-wildcard-exact",
+      "call": "VLOOKUP",
+      "args": ["Fontan?", {"range": ["Fontana", 1, "Smith", 2], "columns": 2}, 2, false],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Best practices: 'If range_lookup is FALSE and lookup_value is text, you can use the wildcard characters ... =VLOOKUP(\"Fontan?\",B2:E7,2,FALSE) will search for all instances of Fontana with a last letter that could vary'"
+    },
+    {
+      "id": "vlookup-text-ignores-case",
+      "call": "VLOOKUP",
+      "args": ["SMITH", {"range": ["Fontana", 1, "Smith", 2], "columns": 2}, 2, false],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH page: 'MATCH does not distinguish between uppercase and lowercase letters when matching text values'; the lookup family shares the rule. Indirect: the VLOOKUP page does not state it"
+    }
+  ],
+  "refused": [
+    {
+      "id": "vlookup-unsorted-approximate",
+      "call": "VLOOKUP",
+      "args": [2, {"range": [3, "c", 1, "a"], "columns": 2}, 2, true],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: 'If the first column isn't sorted, the return value might be something you don't expect'"
+    },
+    {
+      "id": "vlookup-table-without-shape",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [1, 2, 3, 4]}, 2, false],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: a table without its column count has no first column"
+    },
+    {
+      "id": "vlookup-fractional-column",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 1.5, true],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: the page does not say how a fractional col_index_num is read"
+    },
+    {
+      "id": "vlookup-number-text-in-first-column",
+      "call": "VLOOKUP",
+      "args": [1, {"range": ["1", "a"], "columns": 2}, 2, false],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Best practices: number values stored as text 'might return an incorrect or unexpected value'"
+    }
+  ]
+}

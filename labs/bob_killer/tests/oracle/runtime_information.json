@@ -1,0 +1,79 @@
+{
+  "family": "information",
+  "encoding": "as runtime_aggregate.json",
+  "cases": [
+    {
+      "id": "isblank-text-cell",
+      "call": "ISBLANK",
+      "args": [{"range": ["Gold"]}],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2 Gold, A3 Region1, A4 #REF!, A5 330.92, A6 #N/A; =ISBLANK(A2) gives FALSE"
+    },
+    {
+      "id": "iserror-ref",
+      "call": "ISERROR",
+      "args": [{"range": [{"error": "#REF!"}]}],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2 Gold, A3 Region1, A4 #REF!, A5 330.92, A6 #N/A; =ISERROR(A4) gives TRUE"
+    },
+    {
+      "id": "isna-ref-is-not-na",
+      "call": "ISNA",
+      "args": [{"range": [{"error": "#REF!"}]}],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2 Gold, A3 Region1, A4 #REF!, A5 330.92, A6 #N/A; =ISNA(A4) gives FALSE"
+    },
+    {
+      "id": "isna-na",
+      "call": "ISNA",
+      "args": [{"range": [{"error": "#N/A"}]}],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2 Gold, A3 Region1, A4 #REF!, A5 330.92, A6 #N/A; =ISNA(A6) gives TRUE"
+    },
+    {
+      "id": "isblank-empty-cell",
+      "call": "ISBLANK",
+      "args": [{"range": [null]}],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: table: ISBLANK 'Value refers to an empty cell'"
+    },
+    {
+      "id": "iserror-div0",
+      "call": "ISERROR",
+      "args": [{"error": "#DIV/0!"}],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: table: ISERROR 'Value refers to any error value (#N/A, #VALUE!, #REF!, #DIV/0!, #NUM!, #NAME?, or #NULL!)'"
+    },
+    {
+      "id": "iserror-number",
+      "call": "ISERROR",
+      "args": [{"range": [330.92]}],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: Example 2 data A2 Gold, A3 Region1, A4 #REF!, A5 330.92, A6 #N/A; A5 330.92 is a number, not an error value"
+    },
+    {
+      "id": "isna-text-is-not-converted",
+      "call": "ISNA",
+      "args": ["#N/A"],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: remark 'The value arguments of the IS functions are not converted': the text \"#N/A\" is text"
+    }
+  ],
+  "refused": [
+    {
+      "id": "isblank-multi-cell-reference",
+      "call": "ISBLANK",
+      "args": [{"range": [null, null]}],
+      "source": "https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665",
+      "verified_by": "Claude Code 2026-10-16: the page covers one value; a multi-cell reference is implicit intersection or an array"
+    }
+  ]
+}

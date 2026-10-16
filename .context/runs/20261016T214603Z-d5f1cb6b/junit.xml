@@ -1,0 +1,1320 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="47" skipped="0" tests="227" time="0.423" timestamp="2026-10-16T17:46:04.139043-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sum-golden-sgec-waste-gases-d39]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sum-golden-sgec-waste-gases-c39]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sum-ignores-text-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/product-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/product-range-and-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/product-ignores-blank-logical-text-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-range-and-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-counts-a-typed-logical]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-counts-typed-numeric-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-typed-untranslatable-text-is-an-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-error-in-a-reference-is-returned]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-range-and-thirty]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-ignores-logical-text-blank-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-of-only-ignored-cells-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-of-only-ignored-cells-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-range-and-five]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-row]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-counts-zero-ignores-blank-text-logical]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-error-argument-is-returned]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/count-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/count-range-and-number]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/count-typed-arguments]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/counta-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/counta-counts-empty-text-not-empty-cells]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-greater-than-text-criteria]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-greater-than-text-criteria', 'call': 'SUMIF', 'args': [{'range': [100000, 200000, 300000, 400000]}, '&gt;160000', {'range': [7000, 14000, 21000, 28000]}], 'expected': 63000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-without-sum-range]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-without-sum-range', 'call': 'SUMIF', 'args': [{'range': [100000, 200000, 300000, 400000]}, '&gt;160000'], 'expected': 900000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-number-criteria]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-number-criteria', 'call': 'SUMIF', 'args': [{'range': [100000, 200000, 300000, 400000]}, 300000, {'range': [7000, 14000, 21000, 28000]}], 'expected': 21000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-operator-joined-to-a-cell]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-operator-joined-to-a-cell', 'call': 'SUMIF', 'args': [{'range': [100000, 200000, 300000, 400000]}, '&gt;250000', {'range': [7000, 14000, 21000, 28000]}], 'expected': 49000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-text-criteria-fruits]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-text-criteria-fruits', 'call': 'SUMIF', 'args': [{'range': ['Vegetables', 'Vegetables', 'Fruits', None, 'Vegetables', 'Fruits']}, 'Fruits', {'range': [2300, 5500, 800, 400, 4200, 1200]}], 'expected': 2000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-text-criteria-vegetables]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-text-criteria-vegetables', 'call': 'SUMIF', 'args': [{'range': ['Vegetables', 'Vegetables', 'Fruits', None, 'Vegetables', 'Fruits']}, 'Vegetables', {'range': [2300, 5500, 800, 400, 4200, 1200]}], 'expected': 12000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-asterisk-wildcard]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-asterisk-wildcard', 'call': 'SUMIF', 'args': [{'range': ['Tomatoes', 'Celery', 'Oranges', 'Butter', 'Carrots', 'Apples']}, '*es', {'range': [2300, 5500, 800, 400, 4200, 1200]}], 'expected': 4300, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-empty-criteria-matches-blank-cells]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-empty-criteria-matches-blank-cells', 'call': 'SUMIF', 'args': [{'range': ['Vegetables', 'Vegetables', 'Fruits', None, 'Vegetables', 'Fruits']}, '', {'range': [2300, 5500, 800, 400, 4200, 1200]}], 'expected': 400, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-question-mark-wildcard]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-question-mark-wildcard', 'call': 'SUMIF', 'args': [{'range': ['Tomatoes', 'Celery', 'Oranges', 'Butter', 'Carrots', 'Apples']}, '?ranges', {'range': [2300, 5500, 800, 400, 4200, 1200]}], 'expected': 800, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-criteria-ignore-case]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-criteria-ignore-case', 'call': 'SUMIF', 'args': [{'range': ['Vegetables', 'Vegetables', 'Fruits', None, 'Vegetables', 'Fruits']}, 'fruits', {'range': [2300, 5500, 800, 400, 4200, 1200]}], 'expected': 2000, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumif-tilde-makes-asterisk-literal]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-tilde-makes-asterisk-literal', 'call': 'SUMIF', 'args': [{'range': ['a*', 'ab']}, 'a~*', {'range': [1, 2]}], 'expected': 1, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumproduct-pairs]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'sumproduct-pairs', 'call': 'SUMPRODUCT', 'args': [{'range': [1, 2], 'columns': 1}, {'range': [3, 4], 'columns': 1}], 'expected': 11, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [1, 2], 'columns': 1}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumproduct-non-numbers-are-zero]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'sumproduct-non-numbers-are-zero', 'call': 'SUMPRODUCT', 'args': [{'range': [2, 3, 4], 'columns': 1}, {'range': [5, 'n/a', 1], 'columns': 1}], 'expected': 14, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [2, 3, 4], 'columns': 1}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumproduct-different-dimensions]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'sumproduct-different-dimensions', 'call': 'SUMPRODUCT', 'args': [{'range': [1, 2, 3], 'columns': 1}, {'range': [1, 2], 'columns': 1}], 'expected': {'error': '#VALUE!'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [1, 2, 3], 'columns': 1}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sumproduct-same-count-different-shape]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'sumproduct-same-count-different-shape', 'call': 'SUMPRODUCT', 'args': [{'range': [1, 2], 'columns': 1}, {'range': [1, 2], 'columns': 2}], 'expected': {'error': '#VALUE!'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [1, 2], 'columns': 1}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-2.15-1]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-2.149-1]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-minus-1.475-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-21.5-minus-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-626.3-minus-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-1.98-minus-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-minus-50.55-minus-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-golden-sgec-unit-conversions-c56]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-golden-sgec-heat-content-d7]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-3.2-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-76.9-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-3.14159-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-minus-3.14159-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-31415.92654-minus-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-3.2-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-76.9-0]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-3.14159-3]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-minus-3.14159-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-31415.92654-minus-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-text-argument-is-converted]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-error-argument-is-returned]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-true-returns-value-if-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-false-returns-value-if-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-golden-sgec-waste-gases-d22]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-golden-sgec-waste-gases-d38]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-all-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-one-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-ignores-text-and-empty-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-no-logical-values-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-one-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-all-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-ignores-text-and-empty-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-no-logical-values-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/not-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/not-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-no-error-returns-value]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-div0-returns-value-if-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-na]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-value]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-ref]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-num]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-name]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-null]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-empty-value-is-empty-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-empty-value-if-error-is-empty-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-1-to-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-currency-to-number]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-currency-thousands-to-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-expression-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/empty-text-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/word-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/true-is-one]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/false-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/blank-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/number-is-itself]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/error-is-itself]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/true-to-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/false-to-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/number-to-text-uses-15-digits]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/blank-formula-result-shows-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-formula-result-is-kept]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/fifteen-digit-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/largest-number-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/largest-negative-number-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-3-plus-3]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/sub-3-minus-1]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/neg-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/mul-3-times-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/div-3-by-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/percent-20]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/pow-2-to-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/sub-3-minus-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/neg-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/percent-30]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/pow-3-to-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/concat-north-wind]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-number-texts]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-currency-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/concat-text-and-logical]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-text-not-a-number-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/div-by-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/subnormal-result-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-negative-numbers]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-number-before-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/gt-text-after-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/eq-number-and-number-text-differ]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-text-a-before-z]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-text-before-logical]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-false-before-true]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/gt-true-after-false]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/ge-equal-numbers]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/le-smaller-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/ne-different-numbers]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/eq-ignores-case]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/mul-blank-times-blank-golden-mt-costs-e18]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/sub-number-minus-blank-golden-sgec-v41-summary-g55]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/isblank-text-cell]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISBLANK'&quot;">case = {'id': 'isblank-text-cell', 'call': 'ISBLANK', 'args': [{'range': ['Gold']}], 'expected': False, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISBLANK'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISBLANK'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/iserror-ref]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISERROR'&quot;">case = {'id': 'iserror-ref', 'call': 'ISERROR', 'args': [{'range': [{'error': '#REF!'}]}], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISERROR'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISERROR'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/isna-ref-is-not-na]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISNA'&quot;">case = {'id': 'isna-ref-is-not-na', 'call': 'ISNA', 'args': [{'range': [{'error': '#REF!'}]}], 'expected': False, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISNA'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISNA'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/isna-na]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISNA'&quot;">case = {'id': 'isna-na', 'call': 'ISNA', 'args': [{'range': [{'error': '#N/A'}]}], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISNA'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISNA'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/isblank-empty-cell]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISBLANK'&quot;">case = {'id': 'isblank-empty-cell', 'call': 'ISBLANK', 'args': [{'range': [None]}], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISBLANK'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISBLANK'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/iserror-div0]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISERROR'&quot;">case = {'id': 'iserror-div0', 'call': 'ISERROR', 'args': [{'error': '#DIV/0!'}], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISERROR'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISERROR'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/iserror-number]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISERROR'&quot;">case = {'id': 'iserror-number', 'call': 'ISERROR', 'args': [{'range': [330.92]}], 'expected': False, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISERROR'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISERROR'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_information/isna-text-is-not-converted]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISNA'&quot;">case = {'id': 'isna-text-is-not-converted', 'call': 'ISNA', 'args': ['#N/A'], 'expected': False, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISNA'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISNA'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-approximate-default]" time="0.001"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-approximate-default', 'call': 'VLOOKUP', 'args': [1, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 2], 'expected': 2.17, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-approximate-true]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-approximate-true', 'call': 'VLOOKUP', 'args': [1, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 3, True], 'expected': 100, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-exact-not-found]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-exact-not-found', 'call': 'VLOOKUP', 'args': [0.7, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 3, False], 'expected': {'error': '#N/A'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-below-smallest]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-below-smallest', 'call': 'VLOOKUP', 'args': [0.1, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 2, True], 'expected': {'error': '#N/A'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-above-largest]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-above-largest', 'call': 'VLOOKUP', 'args': [2, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 2, True], 'expected': 1.71, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-exact-found]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-exact-found', 'call': 'VLOOKUP', 'args': [0.746, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 3, False], 'expected': 200, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-column-beyond-table]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-column-beyond-table', 'call': 'VLOOKUP', 'args': [1, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 4, True], 'expected': {'error': '#REF!'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-column-below-one]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-column-below-one', 'call': 'VLOOKUP', 'args': [1, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}, 0, True], 'expected': {'error': '#VALUE!'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-wildcard-exact]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-wildcard-exact', 'call': 'VLOOKUP', 'args': ['Fontan?', {'range': ['Fontana', 1, 'Smith', 2], 'columns': 2}, 2, False], 'expected': 1, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': ['Fontana', 1, 'Smith', 2], 'columns': 2}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_lookup/vlookup-text-ignores-case]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-text-ignores-case', 'call': 'VLOOKUP', 'args': ['SMITH', {'range': ['Fontana', 1, 'Smith', 2], 'columns': 2}, 2, False], 'expected': 2, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': ['Fontana', 1, 'Smith', 2], 'columns': 2}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-not-equal-text]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-not-equal-text', 'call': 'SUMIF', 'args': [{'range': ['Vegetables', 'Vegetables', 'Fruits', None, 'Veget...]}], 'source': 'https://support.microsoft.com/en-us/office/countif-function-e0de10c6-f885-4e71-abb4-1f464816df34', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-number-text-cell-with-number-criteria]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-number-text-cell-with-number-criteria', 'call': 'SUMIF', 'args': [{'range': ['5', 5]}, 5], 'source': 'https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-sum-range-of-another-size]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-sum-range-of-another-size', 'call': 'SUMIF', 'args': [{'range': [1, 2]}, '&gt;0', {'range': [1, 2, 3]}], 'source': 'https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-logical-criteria]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-logical-criteria', 'call': 'SUMIF', 'args': [{'range': [True, False]}, True], 'source': 'https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-blank-cell-and-criteria-meeting-zero]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-blank-cell-and-criteria-meeting-zero', 'call': 'SUMIF', 'args': [{'range': [1, None]}, '&lt;5'], 'source': 'https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-error-cell-in-range]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-error-cell-in-range', 'call': 'SUMIF', 'args': [{'range': [1, {'error': '#N/A'}]}, '&gt;0'], 'source': 'https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumif-tilde-before-other-text]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMIF'&quot;">case = {'id': 'sumif-tilde-before-other-text', 'call': 'SUMIF', 'args': [{'range': ['a~b']}, 'a~b'], 'source': 'https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMIF'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMIF'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumproduct-unknown-shape]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'SUMPRODUCT'&quot;">case = {'id': 'sumproduct-unknown-shape', 'call': 'SUMPRODUCT', 'args': [{'range': [1, 2]}, {'range': [3, 4]}], 'source': 'https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'SUMPRODUCT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'SUMPRODUCT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_aggregate/sumproduct-error-entry]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'sumproduct-error-entry', 'call': 'SUMPRODUCT', 'args': [{'range': [1, {'error': '#N/A'}], 'columns': 1}, {'ran..., 'source': 'https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [1, {'error': '#N/A'}], 'columns': 1}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_information/isblank-multi-cell-reference]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'ISBLANK'&quot;">case = {'id': 'isblank-multi-cell-reference', 'call': 'ISBLANK', 'args': [{'range': [None, None]}], 'source': 'https://support.microsoft.com/en-us/office/is-functions-0f2d7971-6019-40a0-a171-f2d869135665', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'ISBLANK'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'ISBLANK'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_lookup/vlookup-unsorted-approximate]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-unsorted-approximate', 'call': 'VLOOKUP', 'args': [2, {'range': [3, 'c', 1, 'a'], 'columns': 2}, 2, True], 'source': 'https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [3, 'c', 1, 'a'], 'columns': 2}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_lookup/vlookup-table-without-shape]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'VLOOKUP'&quot;">case = {'id': 'vlookup-table-without-shape', 'call': 'VLOOKUP', 'args': [1, {'range': [1, 2, 3, 4]}, 2, False], 'source': 'https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(case["call"])(*args)
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:35: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x106393920&gt;, name = 'VLOOKUP'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'VLOOKUP'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_lookup/vlookup-fractional-column]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-fractional-column', 'call': 'VLOOKUP', 'args': [1, {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...]...ue], 'source': 'https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': [0.457, 3.55, 500, 0.525, 3.25, 400, ...], 'columns': 3}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_oracle_refusal_is_not_guessed[runtime_lookup/vlookup-number-text-in-first-column]" time="0.000"><failure message="ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)">case = {'id': 'vlookup-number-text-in-first-column', 'call': 'VLOOKUP', 'args': [1, {'range': ['1', 'a'], 'columns': 2}, 2, False], 'source': 'https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+    def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -&gt; None:
+&gt;       args = [decode_cell(a) for a in case["args"]]
+                ^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'range': ['1', 'a'], 'columns': 2}
+
+    def decode_cell(raw: Any) -&gt; Any:
+        """Oracle JSON to a runtime value.
+    
+        JSON number -&gt; float (Excel stores doubles), string -&gt; text, bool -&gt; logical, null -&gt; blank,
+        ``{"error": "#N/A"}`` -&gt; ``ExcelError``, ``{"range": [...]}`` -&gt; a range (tuple of cells),
+        ``{"range": [...], "columns": n}`` -&gt; a rectangular ``Area`` of n columns (cells row by row).
+        """
+        from bob_killer.runtime.coercion import ExcelError
+    
+        if isinstance(raw, bool) or raw is None or isinstance(raw, str):
+            return raw
+        if isinstance(raw, int | float):
+            return float(raw)
+        if isinstance(raw, dict) and set(raw) == {"error"}:
+            return ExcelError(raw["error"])
+        if isinstance(raw, dict) and set(raw) == {"range"}:
+            return tuple(decode_cell(v) for v in raw["range"])
+        if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+&gt;           from bob_killer.runtime.values import Area
+E           ImportError: cannot import name 'Area' from 'bob_killer.runtime.values' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bed86766c5aa127/labs/bob_killer/src/bob_killer/runtime/values.py)
+
+tests/conftest.py:69: ImportError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[ADD]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[SUB]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[MUL]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[DIV]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[POW]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[CONCAT]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[EQ]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[NE]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[LT]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[GT]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[LE]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[GE]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[NEG]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[PERCENT]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-01-01-is-serial-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2008-01-01]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2011-07-05]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2011-07-05-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1904-01-01-is-serial-0-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2008-12-08]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-02-28-is-serial-59]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-02-29-is-serial-60]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-03-01-is-serial-61]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2100-03-01-not-leap]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/9999-12-31-is-the-last-date]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/9999-12-31-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-0-before-1900-01-01]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-after-9999-12-31]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-minus-1-before-1904-01-01]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-after-9999-12-31-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args2]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_logical-args4]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[rounding.number_to_text-args5]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[AVERAGE-args6]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[SUM-args7]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[ROUND-args8]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[IF-args9]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[NOT-args10]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[AND-args11]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args12]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args13]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args14]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_SUB-args15]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_ADD-args16]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_MUL-args17]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_POW-args18]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_POW-args19]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_POW-args20]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_ADD-args21]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_EQ-args22]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_LT-args23]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_EQ-args24]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_EQ-args25]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_CONCAT-args26]" time="0.000" /></testsuite></testsuites>

@@ -52,7 +52,8 @@ def decode_cell(raw: Any) -> Any:
     """Oracle JSON to a runtime value.
 
     JSON number -> float (Excel stores doubles), string -> text, bool -> logical, null -> blank,
-    ``{"error": "#N/A"}`` -> ``ExcelError``, ``{"range": [...]}`` -> a range (tuple of cells).
+    ``{"error": "#N/A"}`` -> ``ExcelError``, ``{"range": [...]}`` -> a range (tuple of cells),
+    ``{"range": [...], "columns": n}`` -> a rectangular ``Area`` of n columns (cells row by row).
     """
     from bob_killer.runtime.coercion import ExcelError
 
@@ -64,6 +65,10 @@ def decode_cell(raw: Any) -> Any:
         return ExcelError(raw["error"])
     if isinstance(raw, dict) and set(raw) == {"range"}:
         return tuple(decode_cell(v) for v in raw["range"])
+    if isinstance(raw, dict) and set(raw) == {"range", "columns"}:
+        from bob_killer.runtime.values import Area
+
+        return Area((decode_cell(v) for v in raw["range"]), columns=raw["columns"])
     raise ValueError(f"cannot decode oracle value {raw!r}")
 
 

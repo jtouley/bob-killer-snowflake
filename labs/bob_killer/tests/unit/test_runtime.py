@@ -22,7 +22,11 @@ FAMILIES = (
     "runtime_logical",
     "runtime_coercion",
     "runtime_operators",
+    "runtime_information",
+    "runtime_lookup",
 )
+# Oracle files whose "refused" list holds inputs no fetched source settles (never guessed).
+REFUSALS = ("runtime_aggregate", "runtime_information", "runtime_lookup")
 
 
 def resolve(call: str) -> Callable[..., Any]:
@@ -38,6 +42,13 @@ def test_matches_oracle(case: dict[str, Any]) -> None:
     expected = decode_cell(case["expected"])
     actual = resolve(case["call"])(*args)
     assert values_equal(expected, actual), f"{case['call']}{tuple(args)} = {actual!r}"
+
+
+@pytest.mark.parametrize("case", oracle_params(*REFUSALS, key="refused"))
+def test_oracle_refusal_is_not_guessed(case: dict[str, Any]) -> None:
+    args = [decode_cell(a) for a in case["args"]]
+    with pytest.raises(UnsupportedValue):
+        resolve(case["call"])(*args)
 
 
 @pytest.mark.parametrize("op", list(Operator))
