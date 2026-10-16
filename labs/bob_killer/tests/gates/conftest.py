@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import subprocess
+import sys
 import uuid
 from collections.abc import Mapping
 from pathlib import Path
@@ -142,3 +144,15 @@ def copy_project(tmp_path: Path, files: Mapping[str, str] | None = None) -> Path
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content)
     return copy
+
+
+def lint_imports(copy: Path) -> subprocess.CompletedProcess[str]:
+    """Run this environment's import-linter on a ``copy_project`` copy (its own pyproject.toml)."""
+    return subprocess.run(
+        [str(Path(sys.executable).with_name("lint-imports"))],
+        cwd=copy,
+        capture_output=True,
+        text=True,
+        check=False,
+        env={**os.environ, "PYTHONPATH": str(copy / "src")},
+    )
