@@ -6,6 +6,7 @@ a range adds an edge to every formula cell inside it. Excel semantics are not ev
 
 from __future__ import annotations
 
+from collections import deque
 from collections.abc import Hashable, Iterable, Mapping
 from typing import Final
 
@@ -59,10 +60,10 @@ def toposort[K: Hashable](
     for n in remaining:
         for m in pending[n]:
             dependents[m].append(n)
-    ready = [n for n in remaining if not pending[n]]
+    ready = deque(n for n in remaining if not pending[n])
     order: list[K] = []
     while ready:
-        n = ready.pop(0)
+        n = ready.popleft()
         order.append(n)
         for d in dependents[n]:
             pending[d].discard(n)
