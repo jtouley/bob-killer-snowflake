@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "e3ecc25e59a0905fad8d49920de8742249c1605322b5b6a8de0a9d785e52ccf7",
+  "nodes": {
+    "::tests.unit.test_extract_stage": "error"
+  },
+  "pytest_args": [
+    "tests/unit/test_extract_stage.py"
+  ],
+  "recorded_at": "2026-10-16T20:11:09Z",
+  "run_id": "20261016T201109Z-4f458dac",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "9ea7970f72cc527fa240b85a5a9b7355e9445326d263a1122950c10c0a9f851c"
+}
