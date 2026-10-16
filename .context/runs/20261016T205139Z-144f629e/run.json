@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "97e71498ad20a94a919b1184a792347bc97472fa3ad4a19efdcd87aa5aa1c35f",
+  "nodes": {
+    "::tests.unit.hosts.test_bronze": "error"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_bronze.py"
+  ],
+  "recorded_at": "2026-10-16T20:51:39Z",
+  "run_id": "20261016T205139Z-144f629e",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "fe00b873e3cc8c41a355649579280ba219a86897260d54fa50db4d6ca7209bb3"
+}
