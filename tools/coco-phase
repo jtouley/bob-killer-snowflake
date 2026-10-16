@@ -1,28 +1,44 @@
 #!/usr/bin/env bash
 # coco-phase <prompt-file> <log-file>
-# Run one CoCo build call (one phase or one fix) in the CoCo worktree, from labs/bob_killer/.
-# Claude Code starts this in the background and waits with Monitor until the log has COCO_EXIT.
-set -euo pipefail
-here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=coco-flags.sh
-source "$here/coco-flags.sh"
+# One CoCo build call (one phase or one fix) in the isolated clone, from labs/bob_killer/.
+# Always ends the log with "COCO_EXIT <code>", also on timeout or kill, so a Monitor wait always ends.
+# Claude Code: run_in_background=true, timeout=7200000; wait with Monitor until COCO_EXIT is in the log.
+set -uo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$here/coco-flags.sh"
+prompt="${1:?usage: coco-phase <prompt-file> <log-file>}"; log="${2:?usage}"
+lock="$COCO_CLONE.lock"; child=""; watchdog=""; code=99
 
-prompt="${1:?usage: coco-phase <prompt-file> <log-file>}"
-log="${2:?usage: coco-phase <prompt-file> <log-file>}"
-[[ -f "$prompt" ]] || { echo "no prompt file: $prompt" >&2; exit 2; }
-[[ -d "$COCO_WORKTREE/labs/bob_killer" ]] || { echo "no CoCo worktree at $COCO_WORKTREE (run tools/coco-worktree)" >&2; exit 2; }
-command -v cortex >/dev/null || { echo "cortex not on PATH" >&2; exit 2; }
+finish() {
+  [[ -n "$watchdog" ]] && kill "$watchdog" 2>/dev/null
+  [[ -n "$child" ]] && kill -TERM -- "-$child" 2>/dev/null
+  echo "COCO_EXIT $code" >> "$log"
+  rmdir "$lock" 2>/dev/null
+}
+die() { echo "COCO_ERROR $1" >> "$log"; code="$2"; exit "$code"; }
 
-mkdir -p "$(dirname "$log")"
-{
-  echo "COCO_START $(date -u +%Y-%m-%dT%H:%M:%SZ) $(cortex --version 2>/dev/null) prompt=$prompt"
-  echo "COCO_HEAD $(git -C "$COCO_WORKTREE" rev-parse HEAD) branch=$(git -C "$COCO_WORKTREE" branch --show-current)"
-} > "$log"
+mkdir -p "$(dirname "$log")"; : > "$log"
+mkdir "$lock" 2>/dev/null || { echo "COCO_ERROR another CoCo call holds $lock" >> "$log"; echo "COCO_EXIT 3" >> "$log"; exit 3; }
+trap finish EXIT
+trap 'code=143; exit 143' TERM INT HUP
 
-set +e
-cortex exec -c "$COCO_CONNECTION" -w "$COCO_WORKTREE/labs/bob_killer" "${COCO_FLAGS[@]}" \
-  --file "$prompt" -o "$log.last.md" >> "$log" 2>&1 </dev/null
-code=$?
-set -e
-echo "COCO_EXIT $code" >> "$log"
+[[ -f "$prompt" ]] || die "no prompt file: $prompt" 2
+[[ -d "$COCO_CLONE/labs/bob_killer" ]] || die "no CoCo clone at $COCO_CLONE (run tools/coco-clone)" 2
+command -v cortex >/dev/null || die "cortex not on PATH" 2
+have="$(cortex --version 2>/dev/null | head -1)"
+ev="$(ls -1 "$(git rev-parse --show-toplevel)"/.context/evidence/coco_cli_*.txt 2>/dev/null | tail -1)"
+[[ -n "$ev" ]] && grep -qxF "$have" "$ev" \
+  || die "CoCo version '$have' is not in the newest evidence file ($ev): run tools/record-cli-evidence and review the flags" 4
+
+echo "COCO_START $(date -u +%Y-%m-%dT%H:%M:%SZ) $have prompt=$prompt" >> "$log"
+echo "COCO_HEAD $(git -C "$COCO_CLONE" rev-parse HEAD) branch=$(git -C "$COCO_CLONE" branch --show-current)" >> "$log"
+
+set -m   # cortex gets its own process group, so a kill reaches its children
+cortex exec -c "$COCO_CONNECTION" -w "$COCO_CLONE/labs/bob_killer" "${COCO_FLAGS[@]}" \
+  --file "$prompt" -o "$log.last.md" >> "$log" 2>&1 </dev/null &
+child=$!
+set +m
+( sleep "$COCO_TIMEOUT_S"; echo "COCO_ERROR timeout after ${COCO_TIMEOUT_S}s" >> "$log"; kill -TERM -- "-$child" 2>/dev/null ) &
+watchdog=$!
+wait "$child"; code=$?
+child=""
 exit "$code"

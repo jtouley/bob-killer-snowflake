@@ -27,10 +27,12 @@ tools/smoke-test
 
 | Tool | Does |
 | --- | --- |
-| `tools/coco-flags.sh` | The flags for every CoCo call (verified against `cortex exec --help`, v1.2.14). Human review to change. |
-| `tools/coco-worktree <run-branch>` | Makes the isolated CoCo worktree `../bob-killer-snowflake-coco` on `coco/<run-branch>`. |
-| `tools/coco-phase <prompt> <log>` | One CoCo build call in that worktree. Appends `COCO_EXIT <code>` to the log. |
+| `tools/coco-flags.sh` | Connection, clone path, timeout and flags of every CoCo call (verified against `cortex exec --help`, v1.2.14). Human review to change. |
+| `tools/coco-clone <run-branch>` | Makes CoCo's isolated clone `../bob-killer-snowflake-coco` on `coco/<run-branch>`, with no remotes. `--sync` fast-forwards it. |
+| `tools/coco-phase <prompt> <log>` | One CoCo build call in the clone: lock, version check, watchdog. The log always ends with `COCO_EXIT <code>`. |
+| `tools/coco-guard` | `snapshot` / `verify` the state CoCo must not touch; `clone-check` the clone. |
+| `tools/coco-probe` | Proves what the flags allow and block, in a throwaway repo. |
 | `tools/record-cli-evidence` | Records CLI versions and help output. Re-run after each CoCo update. |
-| `tools/smoke-test` | Checks the `bob_killer` connection with `snow` and with CoCo. |
+| `tools/smoke-test` | Checks the `bob_killer` connection with `snow` and with CoCo's real flags. |
 
-Start order: `docs/SPEC.md` §1.3 → §1.4 → §1.5 → §1.6 (gate-change PR) → §1.9 (`/cadence`).
+Start order: `docs/SPEC.md` §1.3 → §1.4 → §1.5 → §1.6 (gate-change PR) → §1.7 (probe) → §1.10 (`/cadence`).

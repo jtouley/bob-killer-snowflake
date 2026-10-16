@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# coco-clone <run-branch>      : make CoCo's isolated clone on branch coco/<run-branch> (no remote).
+# coco-clone --sync <run-branch>: fast-forward the clone to the run branch (after a phase close).
+set -euo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$here/coco-flags.sh"
+root="$(git rev-parse --show-toplevel)"
+if [[ "${1:-}" == "--sync" ]]; then
+  run="${2:?usage: coco-clone --sync <run-branch>}"
+  git -C "$COCO_CLONE" pull --ff-only --no-rebase "$root" "$run"
+  exit 0
+fi
+run="${1:?usage: coco-clone <run-branch>}"
+[[ -e "$COCO_CLONE" ]] && { echo "exists: $COCO_CLONE" >&2; exit 1; }
+git clone --no-hardlinks --quiet --branch "$run" "$root" "$COCO_CLONE"
+git -C "$COCO_CLONE" remote remove origin           # nothing to push to
+git -C "$COCO_CLONE" switch --quiet -c "coco/$run"
+echo "CoCo clone: $COCO_CLONE on coco/$run (no remotes)"

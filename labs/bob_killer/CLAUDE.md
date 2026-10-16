@@ -2,8 +2,8 @@
 
 Read SPEC.md before any task. The Workbook IR is the only contract between stages.
 Phase 0 decisions that amend SPEC.md live in
-`../../.context/proposals/ADR-0001_bob-killer-phase0_gh-5.md`; the
-Phase 0 plan is `../../.context/plans/bob-killer-phase0_gh-5.plan.md` (ticket jtouley/sandbox#5).
+`../../docs/history/sandbox-gh-5/ADR-0001_bob-killer-phase0_gh-5.md`; the
+Phase 0 plan is `../../docs/history/sandbox-gh-5/bob-killer-phase0_gh-5.plan.md` (ticket jtouley/sandbox#5).
 
 ## Loop (never skip a step)
 1. Pick the lowest unbuilt node in dependency order (runtime fn → step → output).

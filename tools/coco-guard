@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# coco-guard snapshot <manifest>      : record the state CoCo must not change; print its digest.
+# coco-guard verify <manifest> <digest>: recompute; list changed entries; exit 1 on any change.
+# coco-guard clone-check              : CoCo clone is clean, has no remotes, has no hooks.
+# Claude Code keeps the printed digest in its own transcript, so a rewritten manifest is caught.
+set -euo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$here/coco-flags.sh"
+root="$(git rev-parse --show-toplevel)"
+CADENCE="${CADENCE_HOME:-$HOME/.claude/skills/cadence}"
+# Paths that Claude Code's own hooks write during a wait. Fill from the Step 0e dry run; keep it short.
+NOISE_RE='^(\.context/coco/)'
+
+hash_tree() {  # <label> <dir> : one line per file
+  local label="$1" dir="$2"
+  [[ -d "$dir" ]] || { echo "$label MISSING"; return; }
+  (cd "$dir" && find . -type f ! -path '*/__pycache__/*' ! -path './.venv/*' -print0 | sort -z \
+     | xargs -0 shasum -a 256 2>/dev/null) | sed "s|  \./|  $label/|"
+}
+
+manifest() {
+  hash_tree .context "$root/.context" | grep -Ev "  \.context/coco/" || true
+  hash_tree .claude "$root/.claude"
+  hash_tree tools "$root/tools"
+  hash_tree git-hooks "$(git -C "$root" rev-parse --git-path hooks)"
+  hash_tree cadence-skill "$CADENCE"
+  shasum -a 256 "$(git -C "$root" rev-parse --git-path config)" | sed 's|  .*|  git/config|'
+  [[ -f "$HOME/.claude/settings.json" ]] && shasum -a 256 "$HOME/.claude/settings.json" | sed 's|  .*|  home/.claude/settings.json|'
+  git -C "$root" for-each-ref --format='%(objectname) ref/%(refname)' | grep -v ' ref/refs/coco/' || true
+  git -C "$root" status --porcelain=v1 | sed 's/^/status /' | grep -Ev "^status .. $NOISE_RE" || true
+  if git -C "$root" remote get-url origin >/dev/null 2>&1; then
+    git -C "$root" ls-remote origin | sed 's/^/remote /'
+  else
+    echo "remote NONE"
+  fi
+}
+
+case "${1:-}" in
+  snapshot)
+    out="${2:?manifest path}"; manifest > "$out"; shasum -a 256 "$out" | cut -d' ' -f1 ;;
+  verify)
+    out="${2:?manifest path}"; want="${3:?digest}"
+    got="$(shasum -a 256 "$out" | cut -d' ' -f1)"
+    [[ "$got" == "$want" ]] || { echo "MANIFEST TAMPERED: $out" >&2; exit 1; }
+    if diff <(cat "$out") <(manifest) > "$out.diff"; then echo "guard OK"; rm -f "$out.diff"
+    else echo "GUARD FAIL: protected state changed:" >&2; cat "$out.diff" >&2; exit 1; fi ;;
+  clone-check)
+    fail=0
+    [[ -z "$(git -C "$COCO_CLONE" status --porcelain)" ]] || { echo "clone not clean" >&2; git -C "$COCO_CLONE" status --short >&2; fail=1; }
+    [[ -z "$(git -C "$COCO_CLONE" remote)" ]] || { echo "clone has remotes: $(git -C "$COCO_CLONE" remote)" >&2; fail=1; }
+    hooks="$(find "$(git -C "$COCO_CLONE" rev-parse --absolute-git-dir)/hooks" -type f ! -name '*.sample' 2>/dev/null)"
+    [[ -z "$hooks" ]] || { echo "clone has active git hooks: $hooks" >&2; fail=1; }
+    [[ -z "$(git -C "$COCO_CLONE" config --get core.hooksPath || true)" ]] || { echo "clone sets core.hooksPath" >&2; fail=1; }
+    [[ $fail -eq 0 ]] && echo "clone OK"; exit $fail ;;
+  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | clone-check" >&2; exit 2 ;;
+esac
