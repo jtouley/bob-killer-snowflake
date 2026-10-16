@@ -1,6 +1,6 @@
 # Bob Killer on Snowflake — Build Spec (Claude Code + Cadence orchestrates, CoCo builds)
 
-Oct 16, 2026 · Jason Touleyrou · Status: r7.5 (D13 ODCS v3.2.0 data contracts)
+Oct 16, 2026 · Jason Touleyrou · Status: r7.6 (AGENTS.md test-DRY rules)
 
 This document is the one handoff for building the Bob Killer Snowflake host. It joins two repositories
 into one service that runs in Snowflake. It holds the operating model, the CLI setup, the scope, the
@@ -327,6 +327,12 @@ Exception: for commit subjects, .context/ paths and hooks.log, this file wins ov
 - Every type is defined once, in src/bob_killer/contracts/, as a strict Pydantic model. No second copy of
   a type in the app or in SQL. DDL and JSON Schema are generated from the contracts.
 - pandas is not a dependency anywhere.
+- Tests stay DRY and extensible; no sprawl:
+  - one fake Snowflake session (`tests/fakes/snowpark.py` `FakeSession`); extend it, never write a second fake;
+  - one live session fixture (`tests/live/conftest.py`); extend it, never open a second connection per file;
+  - a new case for an existing rule is a new row in that test's `parametrize` table or oracle file, not a new test;
+  - shared builders live in the nearest `conftest.py`; a helper used by two test files moves there;
+  - no new test file when an existing file for the same unit exists.
 - No credentials or passwords in files. Never use an admin role.
 - Do not push, add remotes, rebase, amend, squash, reset, switch branches, or edit anything under .git/.
 - Touch only the paths that the phase allows. In ../../.context/ touch only runs/ and evidence/.
