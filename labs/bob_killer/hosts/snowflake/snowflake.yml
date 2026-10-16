@@ -10,6 +10,16 @@ mixins:
         dest: src.zip
       - src: probe/platform_probe.py
         dest: platform_probe.py
+  # Hello probe (spec §4 F1, F7): one app, with and without the PyPI integration. Deployed only
+  # into a TEST_<uuid8> schema by tests/live/test_platform.py. Throwaway; not a deploy path.
+  hello_shared:
+    query_warehouse: BOB_KILLER_WH
+    compute_pool: BOB_KILLER_POOL
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    main_file: hello_app/streamlit_app.py
+    artifacts:
+      - hello_app/streamlit_app.py
+      - hello_app/pyproject.toml
 entities:
   platform_probe:
     type: procedure
@@ -25,3 +35,19 @@ entities:
     meta:
       use_mixins:
         - snowpark_shared
+  hello_eai:
+    type: streamlit
+    identifier:
+      name: HELLO_EAI
+    external_access_integrations:
+      - BOB_KILLER_PYPI_EAI
+    meta:
+      use_mixins:
+        - hello_shared
+  hello_no_eai:
+    type: streamlit
+    identifier:
+      name: HELLO_NO_EAI
+    meta:
+      use_mixins:
+        - hello_shared
