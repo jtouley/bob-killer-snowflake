@@ -1,0 +1,19 @@
+{
+  "junit_sha256": "dcdc9c5db247b1d492ba75b040913a60dd6cbefa3f9ade3fa5adfa353719ef92",
+  "nodes": {
+    "tests.gates.test_phase1_gates::test_app_package_importing_core_is_rejected": "failed",
+    "tests.gates.test_phase1_gates::test_green_edit_of_live_assertion_is_rejected": "passed",
+    "tests.gates.test_phase1_gates::test_literal_in_live_test_is_rejected": "failed",
+    "tests.gates.test_phase1_gates::test_new_contract_module_is_discovered": "failed",
+    "tests.gates.test_phase1_gates::test_red_commit_under_host_tests_passes_tdd_order": "passed",
+    "tests.gates.test_phase1_gates::test_stop_with_blocked_marker_is_allowed_and_logged": "failed",
+    "tests.gates.test_phase1_gates::test_stop_without_marker_still_refuses": "passed"
+  },
+  "pytest_args": [
+    "tests/gates/test_phase1_gates.py"
+  ],
+  "recorded_at": "2026-10-16T19:13:32Z",
+  "run_id": "20261016T191332Z-1c589e6c",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "be4918c317dcdf9555ce48881185e0a2040b53ea6acc6d276a6291082410b6fd"
+}
