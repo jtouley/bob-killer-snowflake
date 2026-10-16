@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterator
+from collections import deque
+from collections.abc import Callable, Iterator, Mapping
 from typing import Any
 
 from bob_killer.contracts.ir import (
@@ -74,9 +75,8 @@ def referenced_cells(step: Step) -> Iterator[CellRef]:
                 yield from node.as_range().cells()
 
 
-def precedents(ir: WorkbookIR, step: Step) -> tuple[str, ...]:
+def precedents(step: Step, owner: Mapping[CellRef, Node]) -> tuple[str, ...]:
     """The ids of the nodes a step reads: owners of its cells, then its parameters."""
-    owner = owners(ir)
     ids: set[str] = set()
     for ref in referenced_cells(step):
         if ref not in owner:
@@ -88,22 +88,38 @@ def precedents(ir: WorkbookIR, step: Step) -> tuple[str, ...]:
     return tuple(sorted(ids))
 
 
+def precedent_map(ir: WorkbookIR) -> dict[str, tuple[str, ...]]:
+    """Precedents of every step, with the cell owners computed once."""
+    owner = owners(ir)
+    return {s.id: precedents(s, owner) for s in ir.steps}
+
+
 def levels(ir: WorkbookIR) -> dict[str, int]:
-    """Topological level of each generated step: 1 + the deepest step it reads (inputs are 0)."""
-    steps = {s.id: s for s in generated_steps(ir)}
-    deps = {sid: [p for p in precedents(ir, s) if p in steps] for sid, s in steps.items()}
-    done: dict[str, int] = {}
+    """Topological level of each generated step: 1 + the deepest step it reads (inputs are 0).
 
-    def visit(sid: str, path: tuple[str, ...]) -> int:
-        if sid in path:
-            raise ValueError(f"cycle through steps {' -> '.join((*path, sid))}")
-        if sid not in done:
-            done[sid] = 1 + max((visit(d, (*path, sid)) for d in deps[sid]), default=0)
-        return done[sid]
-
-    for sid in steps:
-        visit(sid, ())
-    return done
+    Iterative (Kahn), so a deep calculation chain cannot exhaust the Python stack.
+    """
+    reads = precedent_map(ir)
+    steps = [s.id for s in generated_steps(ir)]
+    generated = set(steps)
+    deps = {sid: [p for p in reads[sid] if p in generated] for sid in steps}
+    waiting = {sid: set(d) for sid, d in deps.items()}
+    users: dict[str, list[str]] = {sid: [] for sid in steps}
+    for sid, ds in deps.items():
+        for d in ds:
+            users[d].append(sid)
+    ready = deque(sid for sid in steps if not waiting[sid])
+    level: dict[str, int] = {}
+    while ready:
+        sid = ready.popleft()
+        level[sid] = 1 + max((level[d] for d in deps[sid]), default=0)
+        for user in users[sid]:
+            waiting[user].discard(sid)
+            if not waiting[user]:
+                ready.append(user)
+    if len(level) != len(steps):
+        raise ValueError(f"cycle among steps {sorted(set(steps) - set(level))}")
+    return level
 
 
 def intersect(a: CellRange, b: CellRange) -> CellRange | None:

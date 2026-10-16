@@ -24,7 +24,7 @@ from bob_killer.contracts.ir import (
     TargetConfig,
     WorkbookIR,
 )
-from bob_killer.ir.analysis import expr_text, precedents
+from bob_killer.ir.analysis import expr_text, precedent_map
 from bob_killer.registry import Registry
 
 CellValues = Mapping[CellRef, CellValue]
@@ -98,9 +98,10 @@ def node_views(ir: WorkbookIR) -> dict[str, NodeView]:
             "expr": "",
             "precedents": "",
         }
+    reads = precedent_map(ir)
     for step in ir.steps:
         views[step.id]["expr"] = "; ".join(expr_text(e) for e in step.exprs())
-        views[step.id]["precedents"] = ", ".join(precedents(ir, step))
+        views[step.id]["precedents"] = ", ".join(reads[step.id])
     return views
 
 
