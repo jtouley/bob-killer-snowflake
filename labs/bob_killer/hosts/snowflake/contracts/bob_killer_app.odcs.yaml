@@ -2,7 +2,7 @@ apiVersion: v3.2.0
 kind: DataContract
 id: bob_killer_app
 name: Bob Killer app tables
-version: 4.0.0
+version: 5.0.0
 status: active
 servers:
 - server: bob_killer_app

@@ -7,6 +7,8 @@ from contextlib import contextmanager
 from importlib.metadata import entry_points
 from typing import Any
 
+from bob_killer.contracts.ir import STEP_MODELS
+
 
 class Registry[T]:
     def __init__(self, kind: str) -> None:
@@ -79,3 +81,7 @@ def excel_function[F: Callable[..., object]](name: str) -> Callable[[F], F]:
         return fn
 
     return decorator
+
+
+for _model in STEP_MODELS:  # the closed step-kind union of the IR (core IR rules)
+    step_kinds.add(_model.model_fields["kind"].default, _model)
