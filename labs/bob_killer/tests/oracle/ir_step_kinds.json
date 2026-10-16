@@ -1,0 +1,5 @@
+{
+  "source": "labs/bob_killer/SPEC.md \"Workbook IR\" / IR rules: \"Step kinds form a closed registry: scalar_expr, column_expr, aggregate, lookup, conditional, vba_procedure.\"",
+  "verified_by": "Claude Code, read from SPEC.md on 2026-10-16 (docs/SPEC-compiler-dbt.md Phase 13)",
+  "step_kinds": ["scalar_expr", "column_expr", "aggregate", "lookup", "conditional", "vba_procedure"]
+}
