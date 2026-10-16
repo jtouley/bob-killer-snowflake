@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import io
+import zipfile
 from collections.abc import Iterator
 from datetime import date, datetime, time
 
@@ -26,6 +27,8 @@ from bob_killer.contracts.raw import (
     RawWorkbook,
     SheetState,
 )
+from bob_killer.extract import vba
+from bob_killer.extract.detectors import detect
 
 # openpyxl keeps t="str" on a formula cell whose cached result is the empty string.
 _EMPTY_STRING_RESULT = "str"
@@ -38,6 +41,8 @@ def load(data: bytes, *, data_only: bool) -> Workbook:
 def extract_workbook(data: bytes) -> RawWorkbook:
     formulas = load(data, data_only=False)
     values = load(data, data_only=True)
+    with zipfile.ZipFile(io.BytesIO(data)) as zf:
+        vba_modules, vba_unsupported = vba.inventory(zf)
     return RawWorkbook(
         source=RawSource(sha256=hashlib.sha256(data).hexdigest()),
         sheets=tuple(
@@ -51,8 +56,8 @@ def extract_workbook(data: bytes) -> RawWorkbook:
             for ws in formulas.worksheets
             for t in ws.tables.values()
         ),
-        vba_modules=(),
-        unsupported=(),
+        vba_modules=vba_modules,
+        unsupported=detect(formulas) + vba_unsupported,
     )
 
 
