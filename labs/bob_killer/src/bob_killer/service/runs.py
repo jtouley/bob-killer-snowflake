@@ -34,16 +34,29 @@ def create_run(store: RunRepository, filename: str, data: bytes, limits: UploadL
 
 
 def execute_run(store: RunRepository, run_id: str) -> RunState:
-    store.set_state(run_id, RunState.RUNNING)
-    final = RunState.SUCCEEDED
-    for name, stage in registry.stages.items():
-        store.upsert_stage(_status(run_id, name, StageState.RUNNING))
-        try:
-            detail = stage(run_id)
-        except Exception as exc:  # recorded on the stage, never swallowed silently
-            store.upsert_stage(_status(run_id, name, StageState.FAILED, repr(exc)))
-            final = RunState.FAILED
-            break
-        store.upsert_stage(_status(run_id, name, StageState.SUCCEEDED, detail or ""))
-    store.set_state(run_id, final)
+    """Run the stages if this call wins the claim; else return the stored state (G24).
+
+    After a won claim, an error outside a stage sets the run ``failed`` and re-raises (G9a).
+    A call that lost the claim writes nothing.
+    """
+    if not store.claim_run(run_id):
+        run = store.get_run(run_id)
+        if run is None:
+            raise KeyError(run_id)
+        return run.state
+    try:
+        final = RunState.SUCCEEDED
+        for name, stage in registry.stages.items():
+            store.upsert_stage(_status(run_id, name, StageState.RUNNING))
+            try:
+                detail = stage(run_id)
+            except Exception as exc:  # recorded on the stage, never swallowed silently
+                store.upsert_stage(_status(run_id, name, StageState.FAILED, repr(exc)))
+                final = RunState.FAILED
+                break
+            store.upsert_stage(_status(run_id, name, StageState.SUCCEEDED, detail or ""))
+        store.set_state(run_id, final)
+    except Exception:
+        store.set_state(run_id, RunState.FAILED)
+        raise
     return final
