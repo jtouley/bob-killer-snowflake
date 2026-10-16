@@ -114,7 +114,8 @@ def registered() -> Iterator[None]:
     yield
 
 
-GOOD_SHA = hashlib.sha256(workbook_like()).hexdigest()
+WORKBOOK = workbook_like()  # zip timestamps vary per build, so build it once
+GOOD_SHA = hashlib.sha256(WORKBOOK).hexdigest()
 INSERT_RUN, GET_RUN, CLAIM_RUN, SET_STATE, STAGES = (
     m.__name__
     for m in (
@@ -143,7 +144,7 @@ INSERT_RUN, GET_RUN, CLAIM_RUN, SET_STATE, STAGES = (
 def test_bad_sha_or_stage_file_is_rejected_and_reads_nothing(
     world: World, sha256: str, stage_file: str | None
 ) -> None:
-    world.stage(workbook_like())
+    world.stage(WORKBOOK)
     result = world.create(sha256, stage_file)
     assert isinstance(result, RunRejected)
     assert result.status == HTTPStatus.BAD_REQUEST
@@ -154,7 +155,7 @@ def test_bad_sha_or_stage_file_is_rejected_and_reads_nothing(
 
 def test_sha_mismatch_is_rejected_and_the_staged_file_removed(world: World) -> None:
     claimed = hashlib.sha256(b"other bytes").hexdigest()
-    world.stage(workbook_like(), claimed)
+    world.stage(WORKBOOK, claimed)
     result = world.create(claimed)
     assert result == RunRejected(status=HTTPStatus.BAD_REQUEST, detail=procedure.SHA_MISMATCH)
     assert world.removes() == [(procedure.REMOVE_SQL, (procedure.staged_path(claimed),))]
@@ -187,7 +188,7 @@ def test_upload_rejected_maps_to_run_rejected_and_removes_the_file(
 
 
 def test_accepted_upload_creates_a_queued_run_and_keeps_the_file(world: World) -> None:
-    created = world.created(workbook_like())
+    created = world.created(WORKBOOK)
     run = world.plain.get_run(created.run_id)
     assert run is not None
     assert created.state == run.state == RunState.QUEUED
@@ -203,7 +204,7 @@ def test_register_stages_is_idempotent() -> None:
 
 
 def test_handlers_register_the_landing_stage_first(world: World) -> None:
-    created = world.created(workbook_like())
+    created = world.created(WORKBOOK)
     first, *_ = world.plain.stages(created.run_id)
     assert first.stage == procedure.LANDING_STAGE
     assert first.state == StageState.PENDING
@@ -211,14 +212,14 @@ def test_handlers_register_the_landing_stage_first(world: World) -> None:
 
 @pytest.mark.usefixtures("registered")
 def test_execute_runs_the_landing_stage_and_returns_the_run_view(world: World) -> None:
-    created = world.created(workbook_like())
+    created = world.created(WORKBOOK)
     view = world.execute(created.run_id)
     run = world.plain.get_run(created.run_id)
     assert run is not None
     assert view == RunView(run=run, stages=world.plain.stages(created.run_id))
     assert view.run.state == RunState.SUCCEEDED
     ((landed, data),) = world.land.calls
-    assert data == workbook_like()
+    assert data == WORKBOOK
     assert landed == LandedFile(
         file_sha256=run.sha256,
         filename=run.filename,
@@ -232,7 +233,7 @@ def test_execute_runs_the_landing_stage_and_returns_the_run_view(world: World) -
 
 @pytest.mark.usefixtures("registered")
 def test_execute_on_a_run_that_is_not_queued_runs_no_stage(world: World) -> None:
-    created = world.created(workbook_like())
+    created = world.created(WORKBOOK)
     first = world.execute(created.run_id)
     landed_once = list(world.land.calls)
     second = world.execute(created.run_id)
@@ -247,7 +248,7 @@ def test_execute_on_a_missing_run_raises_key_error(world: World) -> None:
 
 
 def test_error_after_the_core_call_propagates_and_writes_nothing(world: World) -> None:
-    created = world.created(workbook_like())
+    created = world.created(WORKBOOK)
     world.store = Recording(world.plain, fail=STAGES)
     with pytest.raises(RuntimeError):
         world.execute(created.run_id)
@@ -266,11 +267,11 @@ def _schema(model: type) -> Any:
 
 def _outcomes(world: World) -> list[tuple[type, dict[str, Any]]]:
     claimed = hashlib.sha256(b"x").hexdigest()
+    world.stage(WORKBOOK, claimed)
     rejected = procedure.create_run_procedure(
         world.session, f"{claimed}.xlsx", "x.xlsx", claimed, host_factory=world.host
     )
-    data = workbook_like()
-    sha = world.stage(data)
+    sha = world.stage(WORKBOOK)
     created = procedure.create_run_procedure(
         world.session, f"{sha}.xlsx", "book.xlsx", sha, host_factory=world.host
     )
