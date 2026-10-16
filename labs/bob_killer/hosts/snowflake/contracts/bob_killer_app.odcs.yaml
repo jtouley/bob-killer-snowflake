@@ -1,0 +1,227 @@
+apiVersion: v3.2.0
+kind: DataContract
+id: bob_killer_app
+name: Bob Killer app tables
+version: 1.0.0
+status: active
+servers:
+- server: bob_killer_app
+  type: snowflake
+  account: ${SNOWFLAKE_ACCOUNT}
+  database: BOB_KILLER
+  schema: APP
+schema:
+- name: runs
+  physicalName: RUNS
+  physicalType: table
+  logicalType: object
+  description: Run
+  properties:
+  - name: run_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+    description: Run.run_id
+    primaryKeyPosition: 1
+  - name: filename
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: Run.filename
+  - name: sha256
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: Run.sha256
+  - name: state
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: Run.state
+  - name: created_at
+    logicalType: timestamp
+    physicalType: TIMESTAMP_TZ
+    required: true
+    primaryKey: false
+    description: Run.created_at
+  - name: schema_version
+    logicalType: integer
+    physicalType: NUMBER(38,0)
+    required: true
+    primaryKey: false
+    description: Run.schema_version
+  - name: _seq
+    logicalType: integer
+    physicalType: NUMBER
+    required: false
+    primaryKey: false
+    description: Insert order (dialect column).
+  - name: _written_at
+    logicalType: timestamp
+    physicalType: TIMESTAMP_TZ
+    required: false
+    primaryKey: false
+    description: Write time; landed_at for LANDED_FILES (dialect column).
+- name: stage_status
+  physicalName: STAGE_STATUS
+  physicalType: table
+  logicalType: object
+  description: StageStatus
+  properties:
+  - name: run_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+    description: StageStatus.run_id
+    primaryKeyPosition: 1
+  - name: stage
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+    description: StageStatus.stage
+    primaryKeyPosition: 2
+  - name: state
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: StageStatus.state
+  - name: detail
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: StageStatus.detail
+  - name: _seq
+    logicalType: integer
+    physicalType: NUMBER
+    required: false
+    primaryKey: false
+    description: Insert order (dialect column).
+  - name: _written_at
+    logicalType: timestamp
+    physicalType: TIMESTAMP_TZ
+    required: false
+    primaryKey: false
+    description: Write time; landed_at for LANDED_FILES (dialect column).
+- name: landed_files
+  physicalName: LANDED_FILES
+  physicalType: table
+  logicalType: object
+  description: LandedFile
+  properties:
+  - name: file_sha256
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+    description: LandedFile.file_sha256
+    primaryKeyPosition: 1
+  - name: filename
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: LandedFile.filename
+  - name: stage_file
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: LandedFile.stage_file
+  - name: size_bytes
+    logicalType: integer
+    physicalType: NUMBER(38,0)
+    required: true
+    primaryKey: false
+    description: LandedFile.size_bytes
+  - name: first_run_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: LandedFile.first_run_id
+  - name: _seq
+    logicalType: integer
+    physicalType: NUMBER
+    required: false
+    primaryKey: false
+    description: Insert order (dialect column).
+  - name: _written_at
+    logicalType: timestamp
+    physicalType: TIMESTAMP_TZ
+    required: false
+    primaryKey: false
+    description: Write time; landed_at for LANDED_FILES (dialect column).
+- name: bronze_rows
+  physicalName: BRONZE_ROWS
+  physicalType: table
+  logicalType: object
+  description: BronzeRow
+  properties:
+  - name: file_sha256
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+    description: BronzeRow.file_sha256
+    primaryKeyPosition: 1
+  - name: sheet
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+    description: BronzeRow.sheet
+    primaryKeyPosition: 2
+  - name: row_number
+    logicalType: integer
+    physicalType: NUMBER(38,0)
+    required: true
+    primaryKey: true
+    description: BronzeRow.row_number
+    primaryKeyPosition: 3
+  - name: run_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: false
+    description: BronzeRow.run_id
+  - name: payload
+    logicalType: object
+    physicalType: VARIANT
+    required: true
+    primaryKey: false
+    description: BronzeRow.payload
+    properties:
+    - name: column_names
+      logicalType: array
+      required: true
+      description: BronzePayload.column_names
+      items:
+        logicalType: string
+    - name: dtypes
+      logicalType: object
+      required: true
+      description: BronzePayload.dtypes
+    - name: data
+      logicalType: object
+      required: true
+      description: BronzePayload.data
+  - name: _seq
+    logicalType: integer
+    physicalType: NUMBER
+    required: false
+    primaryKey: false
+    description: Insert order (dialect column).
+  - name: _written_at
+    logicalType: timestamp
+    physicalType: TIMESTAMP_TZ
+    required: false
+    primaryKey: false
+    description: Write time; landed_at for LANDED_FILES (dialect column).
