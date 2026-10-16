@@ -116,8 +116,8 @@ layers = [
   "bob_killer.service",
   "bob_killer.extract | bob_killer.graph | bob_killer.lift | bob_killer.generate | bob_killer.verify",
   "bob_killer.store",
-  "bob_killer.registry",
   "bob_killer.ir | bob_killer.runtime",
+  "bob_killer.registry",
   "bob_killer.contracts",
 ]
 
