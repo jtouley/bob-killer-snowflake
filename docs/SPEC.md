@@ -1,6 +1,6 @@
 # Bob Killer on Snowflake — Build Spec (Claude Code + Cadence orchestrates, CoCo builds)
 
-Oct 16, 2026 · Jason Touleyrou · Status: r9-scope (user goal: Bob Killer features + dbt project in Snowflake; D14–D16; §8a Phases 9–16 to plan)
+Oct 16, 2026 · Jason Touleyrou · Status: r8 (plan settled decisions folded; goal §2.0; D11–D16)
 
 This document is the one handoff for building the Bob Killer Snowflake host. It joins two repositories
 into one service that runs in Snowflake. It holds the operating model, the CLI setup, the scope, the
@@ -69,16 +69,24 @@ shell. So the controls for E1 are these:
    the fetched commits before it merges. They catch a cheating commit no matter who made it.
 5. **Path allowlist.** Each phase in §8 lists the paths it may touch. A commit outside the list fails the phase.
 6. **No gate changes by CoCo.** All gate, CI, tooling, dependency and import-linter changes are Phase 1,
-   made by Claude Code and reviewed by you at the PR. A CoCo commit with `TDD-Phase: gate-change`, or one that touches `tools/`,
-   `scripts/bk_gates/`, `scripts/gates.py`, `scripts/record_run.py`, `.github/`, `pyproject.toml` or
-   `uv.lock`, fails the phase as a Cadence hard stop `security`.
+   made by Claude Code and reviewed by you at the PR. Claude Code runs `git diff --name-only <run-branch>..$S`
+   (§1.9 step 3) and compares each **full repo path** with the list below. It does not match by basename.
+   A CoCo commit that touches a listed path, or that has `TDD-Phase: gate-change`, is a Cadence hard stop `security`.
+   - Files: `pyproject.toml` and `uv.lock` (repo root); `labs/bob_killer/pyproject.toml`, `labs/bob_killer/uv.lock`;
+     `labs/bob_killer/src/bob_killer_sis/pyproject.toml`; `labs/bob_killer/src/bob_killer_sis/ruff.toml`;
+     `labs/bob_killer/scripts/gates.py`, `labs/bob_killer/scripts/record_run.py`, `labs/bob_killer/scripts/hook_stop.py`.
+   - Directories (every path below them): `tools/`, `.github/`, `labs/bob_killer/scripts/bk_gates/`.
+   - Not on the list, and allowed in Phase 2: `labs/bob_killer/hosts/snowflake/hello_app/pyproject.toml`.
 7. **Tool allowlist and blocklist.** `tools/coco-flags.sh` allows 18 named tools (no `ask_user_question`,
    no cron, no teams) and blocks git push, remote, reset, rebase, amend, worktree,
    checkout, switch, branch, tag, update-ref, config, stash, clean, filter-branch, gc and recursive `rm`. This
    is a speed bump only: a blocklist cannot list every command, and file writes into `.git/` cannot be
    blocked. Controls 1–3 are the guard.
-8. **CI.** Phase 1 makes the workflow run on pushes to every branch and on PRs. Claude Code pushes the run
-   branch after each phase close (Cadence E4 owns the PR).
+8. **CI.** Phase 1 makes the workflow run the offline jobs on pushes to every branch and on PRs
+   (`push.branches: ["**"]`). The `paths:` filters on `push` and `pull_request` stay as they are, so a push that
+   changes only files outside them runs no CI. The `live` job runs automatically only when the `SNOWFLAKE_*`
+   secrets exist (D12). It never runs on the nightly `schedule`. It is never a required check. Claude Code pushes
+   the run branch after each phase close (Cadence E4 owns the PR).
 
 ### 1.3 Step 0a — the CLIs and their evidence (done 2026-10-16)
 
@@ -197,18 +205,69 @@ any of these files (§1.2 control 6).
    `snowflake-snowpark-python`, `openpyxl`, `types-openpyxl`, `streamlit>=1.50`, `jsonschema`,
    `types-jsonschema`, `pyyaml`, `types-PyYAML`. Vendor `tests/oracle/odcs-json-schema-v3.2.0.json` from
    `bitol-io/open-data-contract-standard@v3.2.0` with `tests/oracle/odcs_schema.source.json` (url, tag, sha256) (D13). `uv lock`. No phase may change dependencies; a phase that needs one stops blocked.
-6. **3.11 check for the app**: `src/bob_killer_sis/ruff.toml` with `target-version = "py311"`; CI step
-   `uv run --no-project --python 3.11 python -m compileall -q src/bob_killer_sis` (works: uv fetches 3.11).
-7. **CI** (`.github/workflows/bob-killer.yml`): `push` on all branches; a `live` job (manual dispatch, PRs,
-   pushes) that runs `uv run pytest -m live tests/live` with a key-pair secret, required before merge. Phase 1
-   adds one live test, `tests/live/test_connection.py`: `CURRENT_ROLE()` equals the role named in the
-   `BK_EXPECTED_ROLE` environment variable (not a literal), so the job has a real test from day one.
-8. **Gate tests** in `tests/gates/` (tmp-repo pattern of `test_evasions.py`): a red commit under
-   `tests/unit/hosts/` passes `tdd_order`; a green commit that edits an assertion in `tests/live/` fails
-   `assertions_frozen`; a literal expected value in `tests/live/` fails `no_oracle_literals`; an
-   `import bob_killer` in `src/bob_killer_sis/` fails `boundaries`.
+6. **3.11 check and config for the app** (G19, G20, G21):
+   - `src/bob_killer_sis/ruff.toml` with `extend = "../../pyproject.toml"` and `target-version = "py311"`.
+   - `src/bob_killer_sis/pyproject.toml` with the app runtime deps (`streamlit>=1.50`, `snowflake-snowpark-python`,
+     `openpyxl`, `jsonschema`) and `requires-python = ">=3.11,<3.12"`. It is on the control 6 list. No later phase
+     may change it.
+   - `[tool.coverage.run] source = ["src/bob_killer", "src/bob_killer_sis"]`, so a plain `pytest --cov` run covers
+     the app. The `coverage` gate already runs `pytest --cov=src`, so the gate covers the app either way.
+   - CI steps `uv run --no-project --python 3.11 python -m compileall -q src/bob_killer_sis` (uv fetches 3.11) and
+     `uv run mypy --strict --python-version 3.11 src/bob_killer_sis`.
+7. **CI** (`.github/workflows/bob-killer.yml`, D12):
+   - Triggers are workflow-level: `pull_request` and `push` (with `branches: ["**"]`), both with the existing
+     `paths:` filters; `schedule` (kept for the `mutation` job); `workflow_dispatch`. Only `push.branches` changes,
+     from `[main]` to `["**"]`.
+   - The offline jobs run on pushes and PRs, with the two 3.11 steps of item 6.
+   - The `live` job has the job-level `if: github.event_name != 'schedule'`, so it runs on pushes, PRs and manual
+     dispatch, and never on the nightly schedule. Its checkout uses the PR head commit, the same as `gates`:
+     `actions/checkout@v4` with `fetch-depth: 0` and `ref: ${{ github.event.pull_request.head.sha || github.sha }}`.
+   - `concurrency:` on the `live` job: `group: bk-live-${{ github.head_ref || github.ref_name }}`,
+     `cancel-in-progress: false`. One run and at most one pending run per group. GitHub cancels an older pending
+     run when a newer one queues, so the newest commit is tested. That is not a lost run.
+   - Step `id: secrets` reads `SNOWFLAKE_ACCOUNT`, `SNOWFLAKE_USER` and `SNOWFLAKE_PRIVATE_KEY` through `env:`
+     (a job-level `if:` cannot read `secrets`). It never echoes a value. It writes `present=true` or `present=false`.
+     - All three empty (no secrets, or a fork PR): `::notice::live job skipped: no SNOWFLAKE_* secrets; see
+       tools/setup-ci-secrets.sh`, exit 0. The job ends green.
+     - One or two empty: `::error::` with the names of the empty secrets, exit 1. This is a misconfiguration.
+     - All three present: it also reads `SNOWFLAKE_ROLE`, `SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_DATABASE` and
+       `BK_EXPECTED_ROLE` from `vars.*` and writes one `::warning::` per empty name. It does not fail for them.
+       `SNOWFLAKE_SCHEMA` is not checked; live tests make their own `TEST_<uuid8>` schema.
+   - Every later step has `if: steps.secrets.outputs.present == 'true'`: root `uv sync --locked`,
+     `uv sync --python 3.12 --locked` in `labs/bob_killer`, the key file and `[bob_killer]` connection file
+     (`umask 077`, `chmod 600`, no echo of a secret), then `uv run pytest -m live tests/live`.
+   - The skip is a workflow step condition, not `pytest.skip` and not a marker skip. `no_silent_skips` stays true.
+   - The `live` job is never a required check. Missing secrets are never a hard stop.
+   - Phase 1 adds one live test, `tests/live/test_connection.py`: `CURRENT_ROLE()` equals the role named in the
+     `BK_EXPECTED_ROLE` environment variable (not a literal). `tests/live/conftest.py` has only the connection and
+     session setup. It has **no** TEST_ sweep (Phase 2 owns the sweep).
+   - Phase 1 does not change `tools/setup-ci-secrets.sh`. It is a user change (`e504f06`, `TDD-Phase: scaffold`).
+8. **Gate tests** in `tests/gates/` (tmp-repo pattern of `test_evasions.py`), each red before its gate change:
+   a red commit under `tests/unit/hosts/` passes `tdd_order`; a green commit that edits an assertion in
+   `tests/live/` fails `assertions_frozen`; a literal expected value in `tests/live/` fails `no_oracle_literals`;
+   an `import bob_killer` in `src/bob_killer_sis/` fails `boundaries`; `gates.py --base 0000…` uses the
+   merge-base (G17).
+9. **Secrets record** (item 0a of the plan, information only): `gh secret list` and `gh variable list` on
+   `jtouley/bob-killer-snowflake`, names only, to `.context/evidence/gh_secrets_<date>.txt`, with whether the next
+   push runs, skips or fails the `live` job. No stop and no fix call for a missing name. Claude Code sets no secret.
 
-Exit: `gates.py`, `lint-imports` and the offline suite pass; the live job passes on the run branch.
+**Local live runs (Phases 1 to 8).** Before each local live run, Claude Code reads the `role` key of the
+`[bob_killer]` entry in `~/.snowflake/connections.toml` and exports it as `BK_EXPECTED_ROLE` in the same shell
+command. No repo file names the role as a literal (§10.4). The output of each run goes to
+`.context/evidence/live_phase<n>_<date>.txt`. A phase exit that says "live suite passes" means this local run
+and this file. No phase exit depends on the CI `live` job.
+
+Exit:
+- `uv run python scripts/gates.py --base <run-base-sha>` exits 0.
+- `uv run python scripts/gates.py --only boundaries` exits 0.
+- `uv run pytest -q` passes and reports the live tests as deselected.
+- The local live run passes, with output in `.context/evidence/live_phase1_<date>.txt`.
+- The first push after item 7 shows the `live` job with the skip notice or a pass. The run URL and result go to
+  `.context/evidence/live_ci_phase1_<date>.txt`. A skip is a pass for this check. A failure is not.
+- Then the close commit `git -c core.hooksPath=/dev/null commit --allow-empty -m "phase 1: Gate and dependency
+  prep verified" --trailer "TDD-Phase: scaffold"`, and push. No other Phase 1 subject has "phase" followed by a
+  number. Gate-change subjects use the prefix `p1/gate-change:`.
+- After the close: `tools/coco-clone snowflake-host`.
 
 ### 1.7 Step 0e — the probe and the dry run
 
@@ -516,7 +575,7 @@ Repo root: `tools/` (CLI tooling, Step 0 only), `pyproject.toml` (root uv projec
 | `src/bob_killer/hosts/snowflake/ddl.py` | 3.12 | Registers the `snowflake` dialect |
 | `.../hosts/snowflake/store.py` | 3.12 | `SnowflakeRunStore(session)` |
 | `.../hosts/snowflake/bronze.py` | 3.12 | `rows_from_workbook(data) -> Iterator[BronzeRow]` (pure); `BronzeWriter` (MERGE + batched INSERT) |
-| `.../hosts/snowflake/procedure.py` | 3.12 | Handlers `create_run_handler`, `execute_run_handler`; registers `land_bronze` once at import |
+| `.../hosts/snowflake/procedure.py` | 3.12 | Handlers `create_run_handler`, `execute_run_handler`; idempotent `register_stages()` adds `land_bronze`, at import and at each handler entry (D4) |
 | `src/bob_killer_sis/streamlit_app.py` | **3.11** | The app; never imports `bob_killer` (Phase 1 contract) |
 | `src/bob_killer_sis/schemas.json` | — | Copy of the core JSON Schema snapshot; a test checks it is identical |
 | `tests/unit/hosts/`, `tests/unit/sis/` | | Offline tests: fake session that records SQL text and binds; AppTest |
@@ -532,18 +591,61 @@ runs the offline suite, so the host reaches 90% through fake-session unit tests,
 1. The app reads the bytes and computes SHA-256. It puts them at `@UPLOADS/<sha256>.xlsx`
    (`auto_compress=False`, `overwrite=False`; an existing file with the same name has the same bytes).
    The path has only the hex digest, so the user's filename cannot change the path.
-2. The app calls `CREATE_RUN(stage_file, filename, sha256)` (blocking, short). The handler reads the staged
-   bytes with `session.file.get_stream`, checks the SHA-256, and calls core `create_run`. It returns
-   a `RunCreated` (`run_id`, `state`) or a `RunRejected` (`status` 413 or 415, `detail`). A rejection writes no run row.
+2. The app calls `CREATE_RUN(stage_file, filename, sha256)` (blocking, short). The handler checks, in order:
+   - `sha256` matches `^[0-9a-f]{64}$` and `stage_file == f"{sha256}.xlsx"` (G10). Else it returns
+     `RunRejected(status=400, detail=…)` and reads nothing.
+   - It reads the staged bytes with `session.file.get_stream` and computes their SHA-256. If the result is not
+     `sha256`, it returns `RunRejected(status=400, detail="sha256 mismatch")`, removes `@UPLOADS/<sha256>.xlsx`
+     by the bound path built from the checked `sha256`, and writes no `RUNS` row.
+   - It calls core `create_run`. When the core rejects the file (`UploadRejected`), it returns `RunRejected`
+     (413 or 415) and removes `@UPLOADS/<sha256>.xlsx` by the same bound path (G11).
+   It returns a `RunCreated` (`run_id`, `state`) or a `RunRejected` (`status` 400, 413 or 415, `detail`).
+   A rejection writes no run row and leaves no staged file. `.xlsm` is stored as `<sha>.xlsx` on purpose: the
+   core checks the zip content, not the extension.
 3. The app calls `EXECUTE_RUN(run_id)` with `block=False`, keeps the `AsyncJob` in `st.session_state`, and
    polls `RUNS` and `STAGE_STATUS` by `run_id` every 2 s until the run state is final or the job is done.
-4. `execute_run` runs the stages. `land_bronze(run_id)` resolves `run_id → sha256 → stage file`, then:
-   `BEGIN; MERGE INTO LANDED_FILES …` on `file_sha256`. If the MERGE inserted 0 rows, `COMMIT` and return
-   detail `already landed`. If it inserted 1, insert `BRONZE_ROWS` in batches of `batch_size` with
-   `INSERT … SELECT PARSE_JSON(?) …`, then `COMMIT`. Any error: `ROLLBACK`, raise. Snowflake serializes the
-   two MERGE statements on one table, so parallel uploads land the rows once (the live test proves it).
+   When the job is done and the run state is not final, the app shows an error with the run id (G9c).
+   The app shows "recent runs": the last 20 rows of `RUNS` by `_seq` descending, for all users, so a
+   reload can find a run (G9b).
+4. The `EXECUTE_RUN` handler calls `register_stages()` (D4), then core `execute_run(store, run_id) -> RunState`.
+   - **Claim (G24).** Core `execute_run` first calls `store.claim_run(run_id)`, in place of the first
+     `set_state(run_id, RUNNING)`. `claim_run` runs `UPDATE … SET state = 'running' WHERE run_id = ? AND
+     state = 'queued'` and returns `True` when one row changed.
+   - **Lost claim.** If the claim returns `False`, `execute_run` runs no stage and writes nothing. It reads
+     `run = store.get_run(run_id)`, raises `KeyError(run_id)` when `run is None`, and else returns `run.state`.
+     An error on this path propagates and writes nothing.
+   - **Won claim (G9a).** The stage loop and the final `store.set_state(run_id, final)` are inside one `try`.
+     The `except Exception` block calls `store.set_state(run_id, RunState.FAILED)` and re-raises. A stage error
+     inside the loop does not change: it is recorded on the stage and gives `failed` with no raise.
+   - **Handler.** The handler writes no run state. It never calls `claim_run` or `set_state`. After the core
+     call it runs `run = store.get_run(run_id)`, raises `KeyError(run_id)` on `None`, and returns
+     `RunView(run=run, stages=store.stages(run_id))`. It does not use the `RunState` return value.
+   - **Landing.** `land_bronze(run_id)` resolves `run_id → sha256 → stage file`, then calls `BronzeWriter.land`.
+     The writer runs, in order: `BEGIN`; `MERGE INTO LANDED_FILES …` on `file_sha256`; `after_claim()` if set;
+     the `BRONZE_ROWS` batches of `batch_size` with `INSERT … SELECT PARSE_JSON(?) …`; `COMMIT`. It decides
+     `landed` or `already landed` from the rows-inserted count of that `MERGE` only. It runs no `SELECT` on
+     `LANDED_FILES` before the `MERGE`. If the `MERGE` inserted 0 rows, it writes no batch, runs `COMMIT`, and
+     returns detail `already landed`. Any error: `ROLLBACK`, raise. `after_claim` is keyword-only and is a test
+     seam for the concurrency live test. Production callers pass nothing.
+   - **Parallel uploads (D5, G15).** Snowflake serializes the two `LANDED_FILES` `MERGE` statements, so parallel
+     uploads land the rows once. The Phase 5 two-writer live test proves it and records, in
+     `.context/evidence/parallel_landing_<date>.txt`, the `LANDED_FILES` and `BRONZE_ROWS` row counts for the sha
+     and the result of each `land` call. On a failure:
+     - **Case 1:** `LANDED_FILES` has 1 row and `BRONZE_ROWS` has more than N rows. The fallback applies, sent
+       as the fix prompt: bronze rows go in with `MERGE INTO BRONZE_ROWS … ON (file_sha256, sheet, row_number)
+       WHEN NOT MATCHED THEN INSERT`.
+     - **Case 2:** `LANDED_FILES` has 2 rows. No fix prompt. Cadence hard stop `retries` with the reason
+       "D5 false: Snowflake MERGE on LANDED_FILES does not serialize; see
+       .context/evidence/parallel_landing_<date>.txt". The user makes a new design decision.
+     - Any other failure is a normal §1.9 step 7 fix prompt. The test stays unchanged in all cases.
+   - A landing holds one `LANDED_FILES` transaction from `BEGIN` to `COMMIT`. Snowflake can hold a table lock
+     for the `MERGE` until `COMMIT`, so a landing of a different file can wait for the full landing time of a
+     large file.
 5. Every row the app reads is validated against the JSON Schema snapshot after the column names are
-   lowercased. A failed row shows an error, not a crash.
+   lowercased. A failed row shows an error, not a crash. Every app query names its columns (no `SELECT *`), so
+   `_seq` and `_written_at` do not come back (G7). The app converts `datetime` values with `isoformat()` before
+   the check. It uses `jsonschema.Draft202012Validator` with no `FormatChecker`. `SnowflakeRunStore` also names
+   its columns.
 
 ### 5.3 Boundary rules
 
@@ -589,6 +691,16 @@ class BronzeRow(StrictModel):
 Header rules: the first non-empty row of a sheet is the header. A blank header becomes
 `column_<letter>`; a duplicate becomes `<name>_2`, `<name>_3`. Blank cells are `null`. Cell values are not coerced.
 
+Bronze row rules (G18):
+
+- (a) Rows above the header row are ignored.
+- (b) A **blank data row** is a row after the header row where every cell value is `None` or the empty string.
+  It writes no bronze row. Excel row numbers do not shift.
+- (c) `dtypes` is per row: for each column key, the openpyxl `data_type` of that row's cell. A blank cell has
+  value `null` and dtype `n`.
+- (d) `datetime` and `date` give ISO-8601 text, `time` gives `isoformat()` text, all with dtype `d`.
+  `timedelta` gives `total_seconds()` as a float with dtype `d`.
+
 ### 6.2 Tables and dialects (D2)
 
 - `TABLES` (SQLite) stays `(Run, StageStatus)`. SQLite DDL does not change.
@@ -624,6 +736,21 @@ The first run also made schemas `CORE` and `BRONZE`; D7 uses one schema per depl
 
 A session fixture creates `TEST_<uuid8>`, deploys tables, stage and both procedures into it, runs the
 tests, and drops the schema in teardown. Without a working connection the live suite **fails**; it never skips.
+The CI `live` job skip (§1.6 item 7) is a workflow step condition, not a test skip.
+
+- **Local runs.** Claude Code runs the live suite locally in §1.9 step 4, with `BK_EXPECTED_ROLE` exported as in
+  §1.6. The output goes to `.context/evidence/live_phase<n>_<date>.txt`.
+- **TEST_ sweep (Phase 2 owns it).** Before the session starts, the live session fixture calls the sweep in
+  `src/bob_killer/hosts/snowflake/session.py`:
+  - It runs `SELECT CURRENT_DATABASE()`. If the result is `NULL`, it drops nothing and logs
+    `sweep skipped: no current database`.
+  - Else it runs `SHOW SCHEMAS IN DATABASE "<db>"` and reads `name` and `created_on`. It never runs
+    `SHOW SCHEMAS IN ACCOUNT`.
+  - It selects a schema only when `name.startswith("TEST_")` in Python (no SQL `LIKE`) and `created_on` is more
+    than 24 h before `datetime.now(UTC)`. A `created_on` value with no `tzinfo` raises `ValueError`.
+  - It drops with `DROP SCHEMA IF EXISTS "<db>"."<schema>"`. The quoted-name builder doubles each `"` in both
+    names. It logs each dropped name. It never touches a schema without the `TEST_` prefix.
+- An interrupted run (local or CI) leaves a `TEST_` schema. The sweep drops it at the next live session.
 
 ---
 
@@ -634,7 +761,7 @@ tests, and drops the schema in teardown. Without a working connection the live s
 | D1 | Where does the core run? | Two 3.12 owner's-rights procedures, `CREATE_RUN` and `EXECUTE_RUN`, in-process (core decision 7). | SPCS FastAPI service (infra with no load to justify it); backport to 3.11 (rewrites PEP 695 code). |
 | D2 | Snowflake DDL | Dialect registry in `contracts/ddl.py`; SQLite output byte-identical; Snowflake set adds bronze models and dialect columns. If `contracts_versioned` reports a snapshot diff (for example, new schemas in `schemas.json`), bump `SCHEMA_VERSION` to 2; a test asserts `v2/ddl.sql == v1/ddl.sql`. | Hand-written SQL (second type definition). `StageStatus.ordinal` (changes SQLite DDL and every `StageStatus` call site). |
 | D3 | Stage contract | `Stage = Callable[[str], str | None]`; `execute_run` writes the returned text as the success detail. Existing stages return `None` (detail `""`, unchanged). | A side channel for the detail. |
-| D4 | Bronze placement | Stage `land_bronze`, registered once at `procedure.py` import (`if "land_bronze" not in registry.stages`). A context variable carries the session and config per call. A test asserts it is the first stage. | A step before `create_run` (no status, no run lineage). |
+| D4 | Bronze placement | Stage `land_bronze`. `procedure.py` exposes an idempotent `register_stages()`; it runs at import and at each handler entry. It adds `land_bronze` only `if "land_bronze" not in registry.stages`. A context variable carries the session and config per call. A test asserts it is the first stage. | A step before `create_run` (no status, no run lineage). |
 | D5 | Dedup | SHA-256, by `MERGE` inside a transaction (§5.2 step 4). | Filename; check-then-insert. |
 | D6 | Bronze table type | Standard table, VARIANT. Iceberg is a later option. | Iceberg default (needs an external volume). |
 | D7 | One schema per deployment | Unqualified table names; the procedure's schema decides. Test isolation is a TEST_ schema. | CORE/BRONZE split (procedures could not be pointed at test tables). |
@@ -661,37 +788,70 @@ Do the phases in order. "Allowed paths" are relative to `labs/bob_killer/`, plus
 Done by Claude Code itself, not CoCo. Allowed paths: `scripts/hook_stop.py`, `../../tools/`, `pyproject.toml`, `uv.lock`, `scripts/bk_gates/`,
 `tests/gates/`, `tests/live/test_connection.py`, `tests/live/conftest.py`, `src/bob_killer/hosts/__init__.py`,
 `src/bob_killer/hosts/snowflake/__init__.py`, `src/bob_killer_sis/__init__.py`, `src/bob_killer_sis/ruff.toml`,
-`../../.github/workflows/bob-killer.yml`, `../../.gitignore`.
+`src/bob_killer_sis/pyproject.toml` (G21), `tests/oracle/odcs-json-schema-v3.2.0.json`,
+`tests/oracle/odcs_schema.source.json` (D13), `../../.github/workflows/bob-killer.yml`, `../../.gitignore`,
+`../../docs/SPEC.md`. Phase 1 is the only phase that may touch `src/bob_killer_sis/ruff.toml` and
+`src/bob_killer_sis/pyproject.toml`. `tools/setup-ci-secrets.sh` is not changed.
 
-- Every item of §1.6, as `TDD-Phase: gate-change` commits (the gate tests in item 8 first).
+- Every item of §1.6, as `TDD-Phase: gate-change` commits (the gate tests in item 8 first, each red before its
+  gate change: `uv run python scripts/record_run.py --phase red tests/gates/<file>`).
+- `tests/live/conftest.py` has only the connection and session setup. No TEST_ sweep in Phase 1.
 - (P7 F3) `[tool.mutmut] paths_to_mutate` adds `src/bob_killer/service/`, `src/bob_killer/store/`,
   `src/bob_killer/hosts/snowflake/` (D11); test selection stays `tests/unit`.
 - `tools/coco-guard`: tolerate and archive the hook output named in §1.2 control 3.
 - One probe CoCo call in a throwaway clone: one `edit` of a test file. Record whether `PostToolUse` fired
   (a `.context/runs/<id>/hook-run.json` appears) in `.context/evidence/coco_hooks_<date>.txt`.
+- Spec r8: commit this file with subject `docs: spec r8 folds plan settled decisions` and trailer
+  `TDD-Phase: scaffold`.
+- Trace check, after the close and before the first Phase 2 prompt: Claude Code writes
+  `.context/evidence/spec_r8_trace_<date>.md` with one row per settled item and its r8 section and line, and a
+  section "Replaced text, must be absent" with a `grep -n` count of 0 for each replaced phrase. A missing row or
+  a count above 0 stops E1 before Phase 2. Claude Code fixes this file first. No CoCo call runs on a spec that
+  fails this check.
 - Exit: §1.6 exit.
 
 ### Phase 2: Platform proof
 
-Allowed paths: `hosts/snowflake/`, `src/bob_killer/hosts/snowflake/session.py`, `tests/live/test_platform.py`, `tests/live/conftest.py`, `tests/unit/hosts/test_session.py`, `.context/evidence/`.
+Allowed paths: `hosts/snowflake/` (with `hosts/snowflake/hello_app/`), `src/bob_killer/hosts/snowflake/session.py`, `tests/live/test_platform.py`, `tests/live/conftest.py`, `tests/unit/hosts/test_session.py`, `tests/fakes/`, `.context/evidence/`.
 
 - The bootstrap is already applied (Step 0b, in a CoCo Snowsight session; its text is not on disk). Write
   `hosts/snowflake/sql/00_admin_bootstrap.sql` from §6.3, with the header line `-- RECONSTRUCTED from docs/SPEC.md §6.3;
   applied 2026-10-16`, a placeholder for the public key body, and no ACCOUNTADMIN grant to `BOB_KILLER_SVC`. Do not
-  run it. Write `99_teardown.sql`. If the `BOB_KILLER_OWNER` role is missing, stop with status blocked.
+  run it. Write `99_teardown.sql <schema>`. If the `BOB_KILLER_OWNER` role is missing, stop with status blocked.
 - Red first: tests import `bob_killer.hosts.snowflake.session` (not yet written), so they fail for a stated
   reason. Green: `session.py` with `open_session(connection_name)` and the `test_schema()` context manager
   (create `TEST_<uuid8>`, yield, drop). The F2, F4, F5, F6, F9 checks are live tests that use them.
 - (P7 F2) Create the one shared fake: `tests/fakes/snowpark.py` with `FakeSession`. It records `(sql, params)` in
   order, returns scripted results keyed by a statement prefix, and exposes the rows-affected value (MERGE rows
-  inserted, UPDATE rows updated). Phases 4–7 **extend** this class; they never write a second fake. Allowed path:
-  `tests/fakes/`.
+  inserted, UPDATE rows updated). Phases 4–7 **extend** this class; they never write a second fake.
+- **TEST_ sweep.** Phase 2 is the only owner. The logic is in `session.py`; `tests/live/conftest.py` calls it
+  before the live session starts. The rules are in §6.4:
+  - `SELECT CURRENT_DATABASE()`. A `NULL` result drops nothing and logs `sweep skipped: no current database`.
+  - Else `SHOW SCHEMAS IN DATABASE "<db>"`, columns `name` and `created_on`. Never `IN ACCOUNT`.
+  - Select by `name.startswith("TEST_")` in Python (no SQL `LIKE`) and `created_on` more than 24 h before
+    `datetime.now(UTC)`. A `created_on` with no `tzinfo` raises `ValueError`.
+  - Drop with `DROP SCHEMA IF EXISTS "<db>"."<schema>"`. The quoted-name builder doubles each `"`. Log each name.
+  - Red first, in `tests/unit/hosts/test_session.py` with `FakeSession`: the prefix rule and the age rule;
+    `TESTX_OLD` older than 24 h is kept; no statement contains `IN ACCOUNT`; each `DROP` has the quoted
+    `"<db>"."<schema>"` form; `CURRENT_DATABASE()` is `NULL` gives no `SHOW` and no `DROP`; `created_on` values in
+    UTC and in UTC-08:00, one older and one newer than 24 h, drop only the older; `TEST_A"B` older than 24 h gives
+    `DROP SCHEMA IF EXISTS "<db>"."TEST_A""B"`; a `created_on` with no `tzinfo` raises `ValueError`.
 - Evidence for F1, F3, F7, F8: the commands and outputs in `.context/evidence/snowflake_platform_<date>.md`.
+  - F3 records which package path works for 3.12 (Anaconda channel or artifact repository).
+  - F8 uses the real packing layout (G13): `hosts/snowflake/snowflake.yml` packs `../../src/bob_killer` with an
+    artifact `src`/`dest` mapping. The evidence records the exact `snowflake.yml` that works. Wheels bundled from
+    the Mac are forbidden. If no layout and no package path works, stop blocked.
+- **Hello app** (F1, F7): a throwaway probe in `hosts/snowflake/hello_app/` with `streamlit_app.py` and its own
+  `pyproject.toml`. It deploys with the container runtime, the compute pool and the PyPI integration into a
+  `TEST_<uuid8>` schema. `99_teardown.sql <schema>` drops it. After the `DESCRIBE STREAMLIT` check, the test runs
+  `ALTER COMPUTE POOL <pool> SUSPEND`, or the evidence shows `AUTO_SUSPEND_SECS` of 600 or less. It is outside
+  `src/`, so `types_lint` and `coverage` do not read it. No later phase imports it. Phase 8 does not document it.
 
 Exit: F2–F6, F8 and F9 are confirmed by live tests or evidence. F1 and F7 are confirmed at deploy level: a hello
   app deploys with the container runtime, the compute pool and the PyPI integration, and `DESCRIBE STREAMLIT` shows
   them (a container app starts only when a person opens it; the runtime check is in the post-merge step of Phase 7).
-  F10 is proven in Phase 5. A false fact stops the phase blocked, with the fact named.
+  F10 is proven in Phase 5. A false fact stops the phase blocked, with the fact named. The offline suite and the
+  gates pass. The local live run passes (`.context/evidence/live_phase2_<date>.txt`).
 
 ### Phase 3: Contracts and DDL dialects
 
@@ -700,8 +860,9 @@ Allowed paths: `src/bob_killer/contracts/`, `src/bob_killer/hosts/__init__.py`, 
 - Red: `ddl_dialects["sqlite"]` output for `TABLES` equals `snapshots/v1/ddl.sql`, read from the file.
 - Green: refactor `ddl.py` into the registry. No output change.
 - Red/green: strict-model tests for `BronzePayload`, `LandedFile`, `BronzeRow`, and `RunRejected(status: int, detail: str)`
-  in `contracts/runs.py` (wrong type, extra key rejected). `CREATE_RUN` returns `RunCreated` or `RunRejected`;
-  `EXECUTE_RUN` returns `RunView`. All three are in `schemas.json`, so Phase 6 adds no contract.
+  in `contracts/runs.py` (wrong type, extra key rejected). `RunRejected.status` is 400, 413 or 415 (§5.2 step 2).
+  `CREATE_RUN` returns `RunCreated` or `RunRejected`; `EXECUTE_RUN` returns `RunView`. All three are in
+  `schemas.json`, so Phase 6 adds no contract.
 - (P7 F1) Red/green: one parametrized test per §6.2 type-map row, expected Snowflake type read from
   `tests/oracle/snowflake_types.json` (`source: docs/SPEC.md §6.2`, `verified_by`), plus asserts for `NOT NULL`, the
   informational PK, `_seq` and `_written_at`. The golden file below is a drift guard only, never the oracle.
@@ -712,27 +873,74 @@ Allowed paths: `src/bob_killer/contracts/`, `src/bob_killer/hosts/__init__.py`, 
   table and property; golden `hosts/snowflake/contracts/bob_killer_app.odcs.yaml`, regenerated by
   `uv run python -m bob_killer.hosts.snowflake.odcs`. Allowed paths add `src/bob_killer/hosts/snowflake/odcs.py`
   and `hosts/snowflake/contracts/`.
-- Run `contracts_versioned`. On a diff: bump to v2, run `scripts/export_contracts.py`, add the
-  `v2/ddl.sql == v1/ddl.sql` test.
+- Run `uv run python scripts/gates.py --only contracts_versioned`. On a diff: bump `SCHEMA_VERSION` to 2, run
+  `scripts/export_contracts.py`, add the `v2/ddl.sql == v1/ddl.sql` test.
 
-Exit: SQLite DDL unchanged; `contracts_versioned` green.
+Exit: SQLite DDL unchanged; `contracts_versioned` green; `RunCreated`, `RunRejected` and `RunView` are in `schemas.json`.
 
 ### Phase 4: Repository Protocol, stage detail, SnowflakeRunStore
 
 Allowed paths: `src/bob_killer/store/`, `src/bob_killer/service/runs.py`, `src/bob_killer/registry.py`, `src/bob_killer/api/main.py`, `src/bob_killer/cli.py`, `src/bob_killer/hosts/snowflake/store.py`, `tests/conftest.py`, `tests/unit/`, `tests/integration/`, `tests/live/`.
 
-- Red: a shared `RunRepository` suite (insert, get missing → None, set_state, upsert twice → one row,
-  stages in insert order after `create_run` + `execute_run`). It takes a store factory.
-- Green: extract the Protocol; type `service/runs.py`, `api/main.py`, `cli.py` against it; the suite runs on `RunStore`.
+- Red: a shared `RunRepository` suite that takes a store factory: insert; get missing → `None`; `set_state`;
+  upsert twice → one row; stages in insert order after `create_run` + `execute_run`; a failed stage keeps the
+  registry order (G8); two `claim_run` calls on one queued run give `True` then `False` (G24).
+- Green: extract the Protocol, with `claim_run(run_id) -> bool`. Type `service/runs.py` against it. In `cli.py`
+  and `api/main.py` change only the store type hint. The suite runs on `RunStore`.
+- Green (G8): the SQLite upsert changes from `INSERT OR REPLACE` to
+  `INSERT … ON CONFLICT(run_id, stage) DO UPDATE SET state, detail`, which keeps the `rowid`. The DDL does not change.
+- Green (G24): `RunStore.claim_run` runs `UPDATE runs SET state = 'running' WHERE run_id = ? AND state = 'queued'`
+  and returns `rowcount == 1`.
 - Red/green (D3): a stage that returns `"x"` gets detail `"x"`; a stage that returns `None` gets `""`.
-- Red/green (G1): `Registry.snapshot()` returns a context manager that restores the entries on exit. A
-  `tests/conftest.py` autouse fixture wraps every test in `registry.stages.snapshot()`, so a test that imports
-  `procedure.py` (which registers `land_bronze`) cannot change `tests/integration/test_api.py:38`'s empty-stage case.
-- Red/green: `SnowflakeRunStore` with the fake session (SQL text, binds, MERGE shape, read validation:
-  a bad enum value from the database raises).
-- Live: the shared suite on `SnowflakeRunStore` in the TEST_ schema.
+- Red/green (G1): `Registry.snapshot()` returns a context manager that saves the entries on entry and restores them
+  on exit. `Registry.clear()` removes all entries. Tests in `tests/unit/test_registry.py`: `snapshot()` restores an
+  entry added inside the block and an entry removed inside the block; `clear()` empties the registry; `len()` is 0
+  after `clear()`.
+- Fixture (G1): the `tests/conftest.py` autouse fixture runs
+  `with registry.stages.snapshot(): registry.stages.clear(); yield`. Each test starts with an empty
+  `registry.stages` (the core baseline). Keep the existing builders in `tests/conftest.py`.
+- Collection-order regression test (G1): a new file `tests/unit/test_registry_isolation.py` calls
+  `registry.stages.add("_import_probe", lambda run_id: None)` at module level. Its test asserts
+  `"_import_probe" not in registry.stages` and `len(registry.stages) == 0`.
+- Core `execute_run(store, run_id) -> RunState` (G24, G9a), as in §5.2 step 4. It keeps its signature and
+  return type. CoCo must not change the return type.
+  - It calls `store.claim_run(run_id)` first, in place of the first `store.set_state(run_id, RunState.RUNNING)`.
+  - Lost claim: no stage, no write; `run = store.get_run(run_id)`; `KeyError(run_id)` when `run is None`; else
+    return `run.state`. No G9a `try` on this path.
+  - Won claim: the stage loop and the final `set_state` are inside one `try`. `except Exception`:
+    `store.set_state(run_id, RunState.FAILED)`, then re-raise. The stage-error path inside the loop does not change.
+- Red/green (G24), SQLite store: `create_run`, then `execute_run` two times on one run. The first call returns
+  `RunState.SUCCEEDED`. The second call returns `RunState.SUCCEEDED` (the stored state), runs no stage (a counting
+  stage registered in the test is called one time only), and `store.stages(run_id)` is equal before and after it.
+  A second test: `execute_run(store, "missing")` raises `KeyError`.
+- Red/green (G9a), SQLite store, in `tests/unit/`:
+  - (a) A store wrapper whose `upsert_stage` raises `RuntimeError` after the claim, with one counting stage.
+    `execute_run` re-raises `RuntimeError`, and `store.get_run(run_id).state` is `RunState.FAILED`.
+  - (b) `create_run`, then `execute_run` (returns `SUCCEEDED`). Then a second `execute_run` with a store wrapper
+    whose `get_run` raises `RuntimeError`. The call re-raises, and the plain store still reads `RunState.SUCCEEDED`.
+  - (c) A store wrapper whose final `set_state(run_id, SUCCEEDED)` raises. `execute_run` re-raises, and the stored
+    state is `FAILED`.
+- Red/green: `SnowflakeRunStore(session)` with `FakeSession`: SQL text, binds, MERGE shape, named columns with no
+  `SELECT *` (G7), and read validation (a bad enum value from the database raises). `claim_run` sends exactly one
+  `UPDATE … SET state = 'running' WHERE run_id = ? AND state = 'queued'`, reads the rows-updated count, and sends
+  no `BEGIN`, `COMMIT` or `ROLLBACK`.
+- Live: the shared suite on `SnowflakeRunStore` in a `TEST_<uuid8>` schema.
+- Live overlap test for `claim_run`, in `tests/live/`, one `queued` run, one `threading.Barrier(2)`, two Snowpark
+  sessions (one per thread). Claim first in A, then the barrier:
+  - Session A: `BEGIN`; `a = store_a.claim_run(run_id)`; `barrier.wait()`; sleep 5 s; record `t_commit`; `COMMIT`.
+  - Session B: `ALTER SESSION SET LOCK_TIMEOUT = 60`; `barrier.wait()`; `b = store_b.claim_run(run_id)`; record
+    `t_b_end`.
+  - Assert `a is True`, `b is False`, `t_b_end >= t_commit`, and the stored state is `running`.
+  - Join both threads with `join(timeout=120)`. A thread still alive fails the test with
+    `overlap test exceeded 120 s`. A lock timeout error on B fails the test; its text goes to the evidence file.
+  - `b is True`: no fix prompt. Run `activate_session.py --hard-stop retries --reason "claim_run does not serialize"`.
+  - `b is False` and `t_b_end < t_commit`: the test fails. Record the timings in
+    `.context/evidence/live_phase4_<date>.txt`. Phase 4 stops `blocked` with the timings. No fix prompt.
+- `tests/integration/test_cli.py` and `tests/integration/test_api.py` do not change and pass unchanged.
 
-Exit: shared suite green on both stores, offline and live; coverage ≥ 90%.
+Exit: the shared suite is green on both stores, offline and live; coverage ≥ 90%;
+`uv run pytest -q tests/unit tests/integration/test_api.py` passes in one process; the local live run passes
+(`.context/evidence/live_phase4_<date>.txt`).
 
 ### Phase 5: Bronze landing
 
@@ -740,49 +948,114 @@ Allowed paths: `src/bob_killer/hosts/snowflake/bronze.py`, `tests/unit/`, `tests
 
 - Bronze reads literal cell values only, so its fixtures hold **no formulas** and need no Excel cached values.
   A committed script `tests/fixtures/make_bronze_fixtures.py` writes them with openpyxl: two sheets; blanks; an
-  error value (`#DIV/0!` as data type `e`); a date; duplicate and blank headers; an empty sheet. The script is the
-  source of truth; a test regenerates each fixture and compares bytes of the cell XML. Expected values come from
-  `tests/oracle/bronze_*.json` with `source` and `verified_by`. No literal expected values. (Formula fixtures for
-  the compiler stages still need real Excel; that is core work, not this run.)
-- Red/green: `rows_from_workbook`: all sheets, Excel row numbers, header rules, dtypes, nulls, errors, empty sheet → no rows.
-- Red/green: `BronzeWriter` with the fake session: MERGE then batches (batch size 2 in the test), bound
-  values, `ROLLBACK` on error.
+  error value (`#DIV/0!` as data type `e`); a date; a time; duplicate and blank headers; rows above the header; a
+  fully blank row; an empty sheet. The script is the source of truth; a test regenerates each fixture and compares
+  bytes of the cell XML. Expected values come from `tests/oracle/bronze_*.json` with `source` and `verified_by`.
+  No literal expected values. (Formula fixtures for the compiler stages still need real Excel; that is core work.)
+- Red/green: `rows_from_workbook`: all sheets, Excel row numbers, header rules, the G18 rules (a) to (d) of §6.1,
+  dtypes, nulls, errors, empty sheet → no rows.
+- Red/green: `BronzeWriter` with `FakeSession`: MERGE then batches (batch size 2 in the test), bound values,
+  `ROLLBACK` on error.
+- `BronzeWriter.land(..., *, after_claim: Callable[[], None] | None = None)`. The docstring says: "after_claim is a
+  test seam for the concurrency live test; production callers pass nothing." The order is `BEGIN`, the
+  `LANDED_FILES` `MERGE`, `after_claim()` if set, the bronze batches, `COMMIT` (§5.2 step 4). The writer decides
+  `landed` or `already landed` from the rows-inserted count of that `MERGE` only, with no `SELECT` before it.
+  - Unit test: the recorded call order is `BEGIN`, `MERGE`, hook, batches, `COMMIT`.
+  - Unit test: a `MERGE` that reports 0 rows inserted gives `already landed`, no bronze batch, and `COMMIT`.
 - (P7 F1) Every live landing test asserts the exact `BRONZE_ROWS` count for the file SHA-256, read from
   `tests/oracle/bronze_*.json`, and the fault-injection test asserts zero rows in **both** `LANDED_FILES` and `BRONZE_ROWS`.
-- Live: first landing writes rows; second landing of the same bytes writes zero and returns `already landed`;
-  two parallel landings write the rows once; a writer that raises after batch 1 leaves zero rows.
+- Live: first landing writes rows; second landing of the same bytes writes zero and returns `already landed`; a
+  writer that raises after batch 1 leaves zero rows.
+- Live two-writer test, in a `TEST_<uuid8>` schema, on one generated workbook:
+  - Session A calls `land` with `after_claim` that waits on a `threading.Barrier(2)` and then sleeps 5 s.
+  - Session B, in a second thread, waits on the same barrier and then calls `land` on the same bytes with no hook.
+  - Assert: exactly one call returns `landed` and one returns `already landed`; `LANDED_FILES` has 1 row for the
+    sha; `BRONZE_ROWS` has N rows for the sha, with N from `tests/oracle/`; B's `land` ends at or after A's `COMMIT`.
+  - `.context/evidence/parallel_landing_<date>.txt` records the start and end time of each statement in each
+    session, the `LANDED_FILES` and `BRONZE_ROWS` row counts for the sha, and the result of each `land` call.
+  - On a failure, Claude Code reads that file and applies the G15 cases of §5.2 step 4: case 1 gets the bronze
+    `MERGE` fallback as the fix prompt; case 2 is hard stop `retries` with no fix prompt; any other failure is a
+    normal fix prompt. The test stays unchanged.
+- Live batch size (G14): `batch_size` defaults to 10 000. A live test lands a generated 30 000-row workbook (made in
+  the test, not `sample.xlsx`) with the default. If the default fails on a Snowflake limit, the fix prompt halves
+  the default (10 000, 5 000, 2 500, 1 250, 625, then the floor 500) until the test passes. If 500 fails, Phase 5
+  stops `blocked` with the error. The test records the landing time (start, end, seconds) in
+  `.context/evidence/live_phase5_<date>.txt`. No assert on the time.
 
-Exit: offline and live suites green.
+Exit: offline and live suites green. The evidence records each batch-size try and its result, and the landing
+time. The local live run output is in `.context/evidence/live_phase5_<date>.txt`.
 
 ### Phase 6: Procedures and deployment
 
 Allowed paths: `src/bob_killer/hosts/snowflake/procedure.py`, `hosts/snowflake/snowflake.yml`, `hosts/snowflake/sql/`, `tests/unit/`, `tests/live/`, `tests/fixtures/workbooks/`.
 
-- Red/green with the fake session: SHA mismatch fails; `UploadRejected` → the `rejected` JSON; `land_bronze`
-  is the first stage; registration twice in one interpreter does not raise; returned JSON validates
-  against `schemas.json`.
-- `snowflake.yml` for both procedures: runtime 3.12, packages per the F3 evidence, the build zip as import.
-- Live: deploy into the TEST_ schema with `snow snowpark build` + `snow snowpark deploy`; `CREATE_RUN` then
-  `EXECUTE_RUN` on a staged fixture → `succeeded` with the exact `BRONZE_ROWS` count from `tests/oracle/` (P7 F1); `.xls` → 415, zip-bomb fixture → 413,
-  51 MB → 413, and no run row in each case.
+- **Registration (D4, G1).** `procedure.py` defines `register_stages() -> None`. It adds `land_bronze` only if
+  `"land_bronze" not in registry.stages`. `procedure.py` calls it at import. `create_run_handler` and
+  `execute_run_handler` call it at entry, before the core call. Host tests in `tests/unit/hosts/` may import
+  `procedure.py` at the top of the file. Each test that needs `land_bronze` uses a fixture that calls
+  `register_stages()`.
+- **`EXECUTE_RUN` handler (G24, G9a).** Call core `execute_run(store, run_id)`. Then `run = store.get_run(run_id)`;
+  if `run is None`, raise `KeyError(run_id)`; return `RunView(run=run, stages=store.stages(run_id))` (the
+  `api/main.py:53-56` pattern). The handler does not call `claim_run` or `set_state` and has no G9a code. A
+  `KeyError` from the core call (no such run) propagates and writes no row.
+- Red/green with `FakeSession`:
+  - a bad `sha256` or a `stage_file` that is not `f"{sha256}.xlsx"` gives `RunRejected` 400 and reads nothing (G10)
+  - staged bytes whose SHA-256 is not `sha256` give `RunRejected` 400 with detail `sha256 mismatch`, one `REMOVE`
+    on the bound path, and no `RUNS` insert (G10)
+  - `UploadRejected` gives `RunRejected` and one `REMOVE` of `@UPLOADS/<sha256>.xlsx` on the bound path (G11). The
+    51 MB and zip-bomb inputs are generated in the test, in `tmp_path`, and are not committed.
+  - with the `register_stages()` fixture, `land_bronze` is the first stage
+  - `register_stages()` called two times gives `registry.stages.names() == ("land_bronze",)` and no error
+  - G9a: `store.stages(run_id)` raises after the core `execute_run` call returns. The error propagates from
+    `execute_run_handler`, and the fake session receives no `UPDATE` on `RUNS` after the core call.
+  - G24: `EXECUTE_RUN` on a run that is not `queued` runs no stage and returns the stored `RunView`
+  - a missing run raises `KeyError`
+  - the returned JSON validates against `schemas.json`.
+- `snowflake.yml` for both procedures: runtime 3.12, packages per the F3 evidence (no wheels bundled from the Mac),
+  the build zip as import, the packing layout from the F8 evidence (G13).
+- Live: deploy into a `TEST_<uuid8>` schema with `uv run --project ../.. snow snowpark build` and
+  `snow snowpark deploy`; `CREATE_RUN` then `EXECUTE_RUN` on a staged fixture → `succeeded` with the exact
+  `BRONZE_ROWS` count from `tests/oracle/` (P7 F1).
+- Live rejections: `.xls` → 415, a generated zip bomb → 413, a generated 51 MB file → 413, and wrong bytes
+  `PUT` as `@UPLOADS/<sha>.xlsx` → 400. Each rejection writes no `RUNS` row for the sha, and `LIST @UPLOADS`
+  shows no file for the sha. The 415 output is the evidence for the `.xls` §2.4 signal (G12).
+- (D11) After the close, `gates.py --only mutation` runs once; the kill rate goes to
+  `.context/evidence/mutation_phase6_<date>.txt`.
 
-Exit: one build+deploy command pair deploys to any schema; live suite green.
+Exit: one build and deploy command pair deploys to any schema; the local live run passes
+(`.context/evidence/live_phase6_<date>.txt`); `uv run pytest -q tests/unit/hosts tests/integration/test_api.py`
+passes in one process; Claude Code tags the close commit `deploy/6-<short-sha>`.
 
 ### Phase 7: Streamlit app
 
-Allowed paths: `src/bob_killer_sis/`, `hosts/snowflake/snowflake.yml`, `tests/unit/sis/`, `tests/live/`.
+Allowed paths: `src/bob_killer_sis/` except `src/bob_killer_sis/pyproject.toml` and `src/bob_killer_sis/ruff.toml`, `hosts/snowflake/snowflake.yml`, `tests/unit/sis/`, `tests/live/`.
+Both excluded files are on the control 6 list. The §1.9 step 3 check rejects a commit that touches either. CoCo
+may not change the dependency list of the app (G21).
 
-- `streamlit_app.py`: upload (`.xlsx`, `.xlsm`, many files); preview of the first 5 rows per sheet with
-  openpyxl; SHA-256; `put_stream` (`auto_compress=False`); `CREATE_RUN`; `EXECUTE_RUN` with `block=False`;
-  polling; run and stage display; the `rejected` message.
-- AppTest with an injected fake session: stage path, bound args, rejected message, a row that fails JSON
-  Schema shows an error.
-- Test: `src/bob_killer_sis/schemas.json` equals the core snapshot file.
+- `streamlit_app.py` does these things:
+  - upload (`.xlsx`, `.xlsm`, many files; G12)
+  - preview the first 5 rows per sheet with openpyxl
+  - compute the SHA-256
+  - `put_stream` with `auto_compress=False` and `overwrite=False`
+  - call `CREATE_RUN`, then `EXECUTE_RUN` with `block=False`
+  - poll every 2 s and show the run and its stages
+  - show the `rejected` message
+  - show "recent runs": the last 20 rows of `RUNS` by `_seq` descending, for all users (G9b). The label says
+    "recent runs".
+  - when the `AsyncJob` is done and the run state is not final, show an error with the run id (G9c).
+- Every query names its columns (no `SELECT *`). `datetime` values go through `isoformat()` before the JSON Schema
+  check. The check uses `jsonschema.Draft202012Validator` with no `FormatChecker` (G7).
+- AppTest with an injected fake session: stage path, bound args, rejected message, a row that fails JSON Schema
+  shows an error, a converted timestamp row passes, the recent-runs list, and the stuck-run message.
+- Test: `src/bob_killer_sis/schemas.json` equals the core snapshot file byte for byte.
 - `snowflake.yml` app entry: container runtime, compute pool, the PyPI integration (F7), `streamlit>=1.50`.
-- Live: deploy into the TEST_ schema with `snow streamlit deploy`; check that the app object exists and its URL resolves.
+- Live: `snow streamlit deploy` into a `TEST_<uuid8>` schema. Then the G22 check: `snow streamlit get-url` returns a
+  URL, and `DESCRIBE STREAMLIT` shows the object, the compute pool and the integration.
 
-Exit: deploy works in a TEST_ schema. After the merge, you deploy to `APP`, open the app, and check the
-§2.4 signals; the query outputs go to `.context/evidence/`.
+Exit: deploy works in a TEST_ schema. The 3.11 `compileall` and mypy steps pass. Coverage includes
+`src/bob_killer_sis` and stays ≥ 90%. The local live run passes (`.context/evidence/live_phase7_<date>.txt`).
+Claude Code tags the close commit `deploy/7-<short-sha>`. After the merge, you deploy to `APP`, open the app,
+check the §2.4 signals and the F1 runtime (`sys.version`, role); the query outputs go to `.context/evidence/`.
 
 ### Phase 8: Docs
 
@@ -790,11 +1063,29 @@ Allowed paths: `hosts/snowflake/README.md`, `README.md` (the bob_killer one).
 
 - Setup, bootstrap, deploy, teardown, rollback (§11), the donor payload mapping: old `metadata.dtypes`
   held Python class names per cell (`int`, `float`, `str`, `bool`, `Timestamp`, `Timedelta`, `NoneType`); new
-  `dtypes` hold openpyxl codes (`n`, `s`, `b`, `d`, `e`). The old `data.id` (DataFrame index) is gone; use
-  `(file_sha256, sheet, row_number)`.
+  `dtypes` hold openpyxl codes (`n`, `s`, `b`, `d`, `e`) per row (G18c). The old `data.id` (DataFrame index) is
+  gone; use `(file_sha256, sheet, row_number)`.
+- The `.xls` note (G12): the app accepts `.xlsx` and `.xlsm`. The procedure rejects `.xls` with 415. The README
+  names the evidence for this §2.4 signal: the Phase 6 live test output for the 415, and one direct
+  `CALL CREATE_RUN` in `APP` after the merge, with its output in `.context/evidence/xls_415_app_<date>.txt`.
+- The ACCOUNTADMIN revoke line (§6.3).
+- A section "Stuck runs":
+  - A procedure that a statement timeout or a warehouse suspend kills cannot run the G9a `except` path in core
+    `execute_run`, so the run stays `running`. G24 makes a second `EXECUTE_RUN` on that run do nothing.
+  - If the app stops between `CREATE_RUN` and `EXECUTE_RUN`, the run stays `queued`. "Recent runs" shows it. No
+    path starts it.
+  - Recovery in both cases is manual: upload the file again. The new run gets a new `run_id`. `land_bronze`
+    returns `already landed` only if the first landing committed. No code change.
+- A section "Concurrent landings": each landing holds one `LANDED_FILES` transaction from `BEGIN` to `COMMIT`
+  (§5.2 step 4). Snowflake can hold a table-level lock for the `MERGE` until `COMMIT`. A landing of a different
+  file can wait for the full landing time of a large file. The Phase 5 evidence file gives the measured 30 000-row
+  landing time.
+- The Phase 2 hello app is not a deploy path and is not documented.
 - A separate PR to the donor repo adds a README pointer. Claude Code opens it, not CoCo.
 
-Exit: a clean clone deploys to a new TEST_ schema by following the README.
+Exit: in the §1.9 step 4 checks, Claude Code follows the README in the clone to deploy into a new `TEST_<uuid8>`
+schema, runs one upload by `CREATE_RUN` and `EXECUTE_RUN`, then runs `99_teardown.sql`. The output goes to
+`.context/evidence/readme_deploy_<date>.txt`.
 
 ---
 
@@ -950,3 +1241,13 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 
 | User scope change 2026-10-16 | — | Bob Killer extract/graph/lift/generate/verify/VBA + a dbt project in Snowflake; the run fails without them | §2 rewritten (goal 2.0), D14–D16, §8a phases to be planned by a fresh Cadence run |
 
+| Round | Reviewer | Verdict | Result |
+| --- | --- | --- | --- |
+| r8 (2026-10-16) | Cadence plan-update (P4), plan `.context/plans/snowflake-host.plan.md` | Plan item 0b | Plan cycle 1 MF-1 to MF-6 folded: settled items G7 to G24 (as amended) in §5.2, §6.1, §6.4 and §8; control 6 as exact paths (MF-2); hello app path (MF-2); forced-overlap and two-writer landing tests (MF-4, cycle 2 MF-1); SHA mismatch 400 (MF-5); Phase 1 close commit (MF-6). §2 (goal 2.0) and D11–D16 unchanged. |
+| Attested P3 on r7.1 | Cadence plan-review | READY WITH CHANGES (MF-1, MF-2) | MF-1: local live runs with `live_phase<n>_<date>.txt` evidence (§1.6, §6.4); G17 drops the branch-protection rule. MF-2: Phase 2 is the only owner of the TEST_ sweep; Phase 1 `conftest.py` has no sweep (§1.6 item 7, §8 Phases 1 and 2). NTH-1: core `execute_run` calls `claim_run` (§5.2 step 4, §8 Phase 4). |
+| D12 r7.2 | User change `e504f06` | — | `live` CI job is automatic when the `SNOWFLAKE_*` secrets exist, skips with a notice that names `tools/setup-ci-secrets.sh`, fails on partial secrets, is never a required check; the local live run is the phase evidence (§1.2 control 8, §1.6 item 7, §1.6 exit). |
+| P3 cycle 3 (attested, on r7.2) | Cadence plan-review | READY WITH CHANGES (MF-1) | `live` job triggers, `id: secrets` step, skip notice, partial-secrets failure, `concurrency:` group (§1.6 item 7); §1.6 exit uses the local live run and the first CI result (§1.6 exit). |
+| P3 cycle 4 (attested, on r7.2) | Cadence plan-review | READY WITH CHANGES (MF-1) | Workflow-level triggers; job-level `if: github.event_name != 'schedule'`; PR-head checkout; `paths:` filters kept; `vars.*` warnings; pending-run note (§1.2 control 8, §1.6 item 7). |
+| P6 plan-gate round 1 | de-adversarial-reviewer | REQUEST CHANGES (B-1, C-1 to C-4) | B-1: core `execute_run` keeps `-> RunState`; lost claim returns the stored state or raises `KeyError`; `EXECUTE_RUN` builds the `RunView` (§5.2 step 4, §8 Phases 4 and 6). C-1: `claim_run` live overlap test (§8 Phase 4). C-2: sweep scoped to the current database, prefix in Python (§6.4, §8 Phase 2). C-3: spec r8 trace file (§8 Phase 1). C-4: README "Stuck runs" (§8 Phase 8). |
+| P6 plan-gate rounds 2 and 3 | de-adversarial-reviewer | REQUEST CHANGES (r2 B-1, C-1, C-2); APPROVE WITH CONDITIONS (r3 C-1) | r2 B-1: A claims, then the barrier; `claim_run` sends no transaction statements. r2 C-1: handler narrows `Run \| None`. r2 C-2: `SHOW SCHEMAS IN DATABASE "<db>"`, `NULL` database drops nothing. r3 C-1: `LOCK_TIMEOUT = 60`, `join(timeout=120)` (§6.4, §8 Phases 2, 4, 6). |
+| P6 plan-gate round 4 (carry) | de-adversarial-reviewer | REQUEST CHANGES (B-1, B-2, C-1 to C-3) | B-1: `Registry.clear()`, autouse fixture snapshot + clear, collection-order test, idempotent `register_stages()` (D4, §8 Phases 4 and 6). B-2: G9a in core `execute_run` after a won claim; the handler writes no run state (§5.2 step 4, §8 Phases 4 and 6). C-1: trace file "Replaced text, must be absent" (§8 Phase 1). C-2: `datetime.now(UTC)`, doubled `"` in quoted names (§6.4, §8 Phase 2). C-3: landing time evidence, README "Stuck runs" queued case and "Concurrent landings" (§5.2 step 4, §8 Phases 5 and 8). |
