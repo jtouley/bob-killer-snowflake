@@ -1,6 +1,6 @@
 # Bob Killer on Snowflake — Build Spec (Claude Code + Cadence orchestrates, CoCo builds)
 
-Oct 16, 2026 · Jason Touleyrou · Status: r7.4 (P7 F1–F3 written into §8; D11)
+Oct 16, 2026 · Jason Touleyrou · Status: r7.5 (D13 ODCS v3.2.0 data contracts)
 
 This document is the one handoff for building the Bob Killer Snowflake host. It joins two repositories
 into one service that runs in Snowflake. It holds the operating model, the CLI setup, the scope, the
@@ -193,9 +193,10 @@ any of these files (§1.2 control 6).
    package with `pkgutil.iter_modules`, not a fixed list. It works before `contracts/bronze.py` exists and
    picks it up after.
 4. **`no_oracle_literals` scope**: `SCOPES = ("tests/unit", "tests/integration", "tests/live")`.
-5. **Dependencies**: optional extra `snowflake = ["snowflake-snowpark-python", "openpyxl"]`; dev group adds
+5. **Dependencies**: optional extra `snowflake = ["snowflake-snowpark-python", "openpyxl", "pyyaml"]`; dev group adds
    `snowflake-snowpark-python`, `openpyxl`, `types-openpyxl`, `streamlit>=1.50`, `jsonschema`,
-   `types-jsonschema`. `uv lock`. No phase may change dependencies; a phase that needs one stops blocked.
+   `types-jsonschema`, `pyyaml`, `types-PyYAML`. Vendor `tests/oracle/odcs-json-schema-v3.2.0.json` from
+   `bitol-io/open-data-contract-standard@v3.2.0` with `tests/oracle/odcs_schema.source.json` (url, tag, sha256) (D13). `uv lock`. No phase may change dependencies; a phase that needs one stops blocked.
 6. **3.11 check for the app**: `src/bob_killer_sis/ruff.toml` with `target-version = "py311"`; CI step
    `uv run --no-project --python 3.11 python -m compileall -q src/bob_killer_sis` (works: uv fetches 3.11).
 7. **CI** (`.github/workflows/bob-killer.yml`): `push` on all branches; a `live` job (manual dispatch, PRs,
@@ -606,6 +607,7 @@ tests, and drops the schema in teardown. Without a working connection the live s
 | D9 | Code home | New repo `bob-killer-snowflake`. The core is imported at `labs/bob_killer/` with its git history (`git subtree split` from sandbox `40987f0`), so paths, gates and CI work unchanged. Host code goes in the core's `src/` and `tests/`. | Stay in sandbox (the user asked for a new repo); separate host distribution (every gate hard-codes core paths). |
 | D10 | Excel reader | openpyxl `read_only=True, data_only=True`, in the `snowflake` extra. | pandas (forbidden); Polars `read_excel` (adds fastexcel). |
 | D12 | Live tests in CI | **This run needs no CI secret.** The live suite runs locally in Claude Code's §1.9 step 4 after each phase (connection `bob_killer` on this Mac); its output is evidence in `.context/evidence/`. CI always runs the offline suite (fake sessions and the stub). The CI `live` job is automatic: it runs on pushes and PRs **when** the `SNOWFLAKE_*` secrets exist, and otherwise skips with a notice that names `tools/setup-ci-secrets.sh`. Anyone sets the secrets with `tools/setup-ci-secrets.sh [--connection NAME] [--dry-run]`: it reads a key-pair connection from `~/.snowflake/connections.toml`, pipes the key to `gh secret set` on stdin, sets the variables, and refuses when the Snowflake user holds an admin role unless `--accept-admin-risk`. The `live` job is never a required check in this run, and missing secrets are never a hard stop. | Key as a required CI secret now (full account control in a public repo's Actions while the grant exists); hard stop on missing secrets (ends the run in Phase 1). |
+| D13 | Data contracts (ODCS) | The Snowflake tables get an **Open Data Contract Standard v3.2.0** contract, generated from the Pydantic contracts and the `snowflake` DDL dialect (one type definition, D2/decision 8). `bob_killer.hosts.snowflake.odcs` writes `hosts/snowflake/contracts/bob_killer_app.odcs.yaml`: `apiVersion: v3.2.0`, `kind: DataContract`, one `servers` entry (`type: snowflake`, database `BOB_KILLER`, schema `APP`; account taken from no file), one `schema` object per table in `SNOWFLAKE_TABLES` with `physicalName`, and per property `logicalType`, `physicalType` (from the dialect), `required`, `primaryKey`/`primaryKeyPosition`, and `description`. Nested models (`BronzePayload`) become `logicalType: object` with their own `properties`. Dialect columns `_seq` and `_written_at` are listed. Tests: the generated file validates against the vendored `tests/oracle/odcs-json-schema-v3.2.0.json` (pinned SHA-256 in `tests/oracle/odcs_schema.source.json`); one parametrized test per table and property checks the ODCS property against the model field; the committed YAML is a drift guard. A contract change without a regenerated YAML fails. | Hand-written ODCS YAML (a second type definition); datacontract-cli as a runtime dependency (heavy; only the JSON Schema is needed to validate). |
 | D11 | Mutation scope | Phase 1 adds `src/bob_killer/service/`, `src/bob_killer/store/` and `src/bob_killer/hosts/snowflake/` to `[tool.mutmut] paths_to_mutate` (test selection stays `tests/unit`, offline, fake sessions; `session.py` live I/O may be excluded with `do_not_mutate`). After Phase 6, `gates.py --only mutation` runs once and its kill rate goes to `.context/evidence/mutation_phase6_<date>.txt` (P7 F3). | Core mutation on `runtime/` only (this run's new logic would have no mutation gate). |
 
 ---
@@ -667,6 +669,11 @@ Allowed paths: `src/bob_killer/contracts/`, `src/bob_killer/hosts/__init__.py`, 
   informational PK, `_seq` and `_written_at`. The golden file below is a drift guard only, never the oracle.
 - Red/green: the `snowflake` dialect; an unmapped type raises `TypeError`; golden test against
   `hosts/snowflake/sql/10_tables.sql`, generated by `uv run python -m bob_killer.hosts.snowflake.ddl`.
+- (D13) Red/green: `bob_killer.hosts.snowflake.odcs` builds the ODCS v3.2.0 contract from `SNOWFLAKE_TABLES` and the
+  `snowflake` dialect; it validates against `tests/oracle/odcs-json-schema-v3.2.0.json`; one parametrized test per
+  table and property; golden `hosts/snowflake/contracts/bob_killer_app.odcs.yaml`, regenerated by
+  `uv run python -m bob_killer.hosts.snowflake.odcs`. Allowed paths add `src/bob_killer/hosts/snowflake/odcs.py`
+  and `hosts/snowflake/contracts/`.
 - Run `contracts_versioned`. On a diff: bump to v2, run `scripts/export_contracts.py`, add the
   `v2/ddl.sql == v1/ddl.sql` test.
 
@@ -900,4 +907,6 @@ Exit: a clean clone deploys to a new TEST_ schema by following the README.
 | G23 timeout code | Fixed |
 
 | P7 test-benchmark (plan) | Cadence test-benchmark | FAIL (mean 7.0; F1–F3 must-fix) | F1–F3 written into §8 Phases 1, 2, 3, 5, 6 and D11 (r7.4). The P4 peer did not read the benchmark file and could not be pointed at it (lean-prompt rule), so the spec carries them. F1–F3 stay open in `.context/findings.jsonl` until R5. |
+
+| User request 2026-10-16 | — | Add ODCS data contracts | D13; Phase 1 vendors the schema and adds PyYAML; Phase 3 generates and tests the contract |
 
