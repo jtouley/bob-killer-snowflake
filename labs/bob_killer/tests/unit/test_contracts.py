@@ -183,3 +183,16 @@ def test_procedure_results_are_in_the_current_schemas_snapshot(model: type[Stric
 
     snapshot = json.loads((SNAPSHOTS / f"v{SCHEMA_VERSION}" / "schemas.json").read_text("utf-8"))
     assert snapshot[f"{model.__module__}.{model.__qualname__}"] == model.model_json_schema()
+
+
+def test_current_snapshot_lists_every_shipped_model() -> None:
+    """A new contracts module needs a SCHEMA_VERSION bump and an exported snapshot (decision 8)."""
+    from bk_gates.contracts_versioned import default_models, snapshot_dir
+    from bk_gates.tdd_common import PROJECT_ROOT
+    from bob_killer.contracts import SCHEMA_VERSION
+
+    snapshot = json.loads(
+        (snapshot_dir(PROJECT_ROOT, SCHEMA_VERSION) / "schemas.json").read_text(encoding="utf-8")
+    )
+    shipped = {f"{m.__module__}.{m.__qualname__}" for m in default_models()}
+    assert shipped <= set(snapshot), sorted(shipped - set(snapshot))
