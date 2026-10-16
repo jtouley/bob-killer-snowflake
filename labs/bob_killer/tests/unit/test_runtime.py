@@ -8,6 +8,7 @@ from typing import Any
 import pytest
 
 import bob_killer.runtime.functions  # noqa: F401  (registers the Excel functions)
+from bob_killer.contracts.ir import Operator
 from bob_killer.registry import functions
 from bob_killer.runtime import coercion, dates, rounding
 from bob_killer.runtime.coercion import UnsupportedValue
@@ -15,7 +16,13 @@ from bob_killer.verify.config import values_equal
 from tests.conftest import decode_cell, oracle_params
 
 MODULES = {"coercion": coercion, "rounding": rounding}
-FAMILIES = ("runtime_aggregate", "runtime_round", "runtime_logical", "runtime_coercion")
+FAMILIES = (
+    "runtime_aggregate",
+    "runtime_round",
+    "runtime_logical",
+    "runtime_coercion",
+    "runtime_operators",
+)
 
 
 def resolve(call: str) -> Callable[..., Any]:
@@ -31,6 +38,12 @@ def test_matches_oracle(case: dict[str, Any]) -> None:
     expected = decode_cell(case["expected"])
     actual = resolve(case["call"])(*args)
     assert values_equal(expected, actual), f"{case['call']}{tuple(args)} = {actual!r}"
+
+
+@pytest.mark.parametrize("op", list(Operator))
+def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -> None:
+    # The dbt generator renders bk_op('<op.value>'), the BK_OP_<op.value> UDF (SPEC-compiler-dbt §4.4).
+    assert f"OP_{op.value}" in functions
 
 
 @pytest.mark.parametrize("case", oracle_params("runtime_dates", key="serials"))
@@ -69,6 +82,19 @@ def test_date_serial_outside_excel_range(case: dict[str, Any]) -> None:
             "coercion.to_number",
             ["(5)"],
         ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+        # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+        ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+        ("OP_ADD", [0.1, -0.1 + 2e-17]),
+        ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+        ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+        ("OP_POW", [0.0, -1.0]),
+        ("OP_POW", [-8.0, 1 / 3]),
+        ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+        ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+        ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+        ("OP_EQ", [None, False]),  # blank against a logical: not documented
+        ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+        ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
     ],
 )
 def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -> None:
