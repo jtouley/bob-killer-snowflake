@@ -4,12 +4,24 @@ from __future__ import annotations
 
 import io
 import zipfile
-from collections.abc import Mapping
+from collections.abc import Iterator, Mapping
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
+import pytest
+
 if TYPE_CHECKING:
     from bob_killer.contracts.runs import Run
+
+
+@pytest.fixture(autouse=True)
+def _empty_stages() -> Iterator[None]:
+    """Each test starts from the empty core stage baseline; entries come back after it (G1)."""
+    from bob_killer import registry
+
+    with registry.stages.snapshot():
+        registry.stages.clear()
+        yield
 
 
 def make_zip(members: Mapping[str, bytes]) -> bytes:

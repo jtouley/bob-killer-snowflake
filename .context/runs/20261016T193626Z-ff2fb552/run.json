@@ -1,0 +1,14 @@
+{
+  "junit_sha256": "55fe8528be4064ccb202973f4887a4cd102853a2634bf5d53de19e9866340335",
+  "nodes": {
+    "::tests.unit.test_registry": "error"
+  },
+  "pytest_args": [
+    "tests/unit/test_registry.py",
+    "tests/unit/test_registry_isolation.py"
+  ],
+  "recorded_at": "2026-10-16T19:36:26Z",
+  "run_id": "20261016T193626Z-ff2fb552",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "76d86fc030a47e41aa115704cd40e8e076383caa7b8ef130e9e4a20290d956c8"
+}

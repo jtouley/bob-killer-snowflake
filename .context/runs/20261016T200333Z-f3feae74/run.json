@@ -1,0 +1,21 @@
+{
+  "junit_sha256": "ab78683cb867e4470e71f2000fea4127cec4316e0323039f7f7ae7f8514e2b39",
+  "nodes": {
+    "tests.unit.test_registry::test_clear_empties_the_registry": "error",
+    "tests.unit.test_registry::test_duplicate_name_rejected": "error",
+    "tests.unit.test_registry::test_entry_points_register": "error",
+    "tests.unit.test_registry::test_register_and_get": "error",
+    "tests.unit.test_registry::test_snapshot_restores_entries[entry-added]": "error",
+    "tests.unit.test_registry::test_snapshot_restores_entries[entry-removed]": "error",
+    "tests.unit.test_registry::test_unknown_name_names_the_registry": "error",
+    "tests.unit.test_registry_isolation::test_stage_added_at_import_is_not_visible": "error"
+  },
+  "pytest_args": [
+    "tests/unit/test_registry.py",
+    "tests/unit/test_registry_isolation.py"
+  ],
+  "recorded_at": "2026-10-16T20:03:33Z",
+  "run_id": "20261016T200333Z-f3feae74",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "ae7de66ef5ad03b37ad2057e7f2b018f4ee846532429231bdebc3c2bdad19a30"
+}

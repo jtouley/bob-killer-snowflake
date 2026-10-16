@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from types import SimpleNamespace
 
 import pytest
@@ -42,3 +43,26 @@ def test_entry_points_register(monkeypatch: pytest.MonkeyPatch) -> None:
     reg: Registry[object] = Registry("generators")
     load_entry_points(reg, "grp")
     assert reg.get("fake") is target
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [lambda reg: reg.add("added", object()), lambda reg: reg.clear()],
+    ids=["entry-added", "entry-removed"],
+)
+def test_snapshot_restores_entries(mutate: Callable[[Registry[object]], None]) -> None:
+    reg: Registry[object] = Registry("things")
+    reg.add("kept", object())
+    before = reg.items()
+    with reg.snapshot():
+        mutate(reg)
+        assert reg.items() != before
+    assert reg.items() == before
+
+
+def test_clear_empties_the_registry() -> None:
+    reg: Registry[object] = Registry("things")
+    reg.add("x", object())
+    reg.clear()
+    assert not reg
+    assert reg.names() == ()
