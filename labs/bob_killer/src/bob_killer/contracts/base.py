@@ -6,7 +6,7 @@ from typing import ClassVar, Final
 
 from pydantic import BaseModel, ConfigDict
 
-SCHEMA_VERSION: Final = 1
+SCHEMA_VERSION: Final = 2
 
 
 class StrictModel(BaseModel):
