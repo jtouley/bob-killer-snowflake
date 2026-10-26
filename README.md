@@ -5,6 +5,8 @@
 
 *A Snowflake hackathon entry.* No Bobs are harmed. Only the key-person risk is.
 
+▶️ **[Watch the demo](https://youtu.be/9QzEWlntLJI)**
+
 ## The problem
 
 The pricing model, the budget, the emissions report. Somewhere there's a 40-tab `.xlsm` with VLOOKUPs into
