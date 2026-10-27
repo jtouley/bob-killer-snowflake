@@ -347,6 +347,85 @@
       "expected": 0,
       "source": "golden sgec_v4_1 (golden.lock sha256 75f5d8a0c660fb37535571ef463195508cc9dae7dc94acf604593dcd5078ac08) Summary!G55 =G49-G51",
       "verified_by": "Claude Code 2026-10-16: G49 caches 0 and G51 is an empty cell; G55 caches 0"
+    },
+    {
+      "id": "eq-array-against-a-value",
+      "call": "OP_EQ",
+      "args": [
+        {
+          "range": [
+            "Apples",
+            "Pears",
+            "apples"
+          ],
+          "columns": 1
+        },
+        "Apples"
+      ],
+      "expected": {
+        "range": [
+          true,
+          false,
+          true
+        ],
+        "columns": 1
+      },
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-27: Example 3 (B2:B9=B12)*(C2:C9=C12)*D2:D9: a comparison of a range with one value gives an array of TRUE/FALSE, element by element (text compared without case)"
+    },
+    {
+      "id": "mul-two-arrays-element-by-element",
+      "call": "OP_MUL",
+      "args": [
+        {
+          "range": [
+            true,
+            false,
+            true
+          ],
+          "columns": 1
+        },
+        {
+          "range": [
+            2,
+            3,
+            4
+          ],
+          "columns": 1
+        }
+      ],
+      "expected": {
+        "range": [
+          2,
+          0,
+          4
+        ],
+        "columns": 1
+      },
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-27: 'replace the commas separating the array arguments with the arithmetic operators you want (*, /, +, -)'; TRUE and FALSE multiply as 1 and 0"
+    },
+    {
+      "id": "neg-neg-array-to-numbers",
+      "call": "OP_NEG",
+      "args": [
+        {
+          "range": [
+            true,
+            false
+          ],
+          "columns": 1
+        }
+      ],
+      "expected": {
+        "range": [
+          -1,
+          0
+        ],
+        "columns": 1
+      },
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-27: an operator on an array works element by element (as * above); -TRUE is -1, -FALSE is 0 (logicals as numbers, operators page)"
     }
   ]
 }

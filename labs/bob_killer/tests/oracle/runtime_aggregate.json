@@ -337,6 +337,22 @@
       "expected": {"error": "#VALUE!"},
       "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
       "verified_by": "Claude Code 2026-10-16: remark 'The array arguments must have the same dimensions': a 2x1 and a 1x2 range differ"
+    },
+    {
+      "id": "sumifs-two-criteria-wildcard",
+      "call": "SUMIFS",
+      "args": [{"range": [5, 4, 15, 3, 22, 12, 10, 33], "columns": 1}, {"range": ["Apples", "Apples", "Artichokes", "Artichokes", "Bananas", "Bananas", "Carrots", "Carrots"], "columns": 1}, "=A*", {"range": ["Tom", "Sarah", "Tom", "Sarah", "Tom", "Sarah", "Tom", "Sarah"], "columns": 1}, "Tom"],
+      "expected": 20,
+      "source": "https://support.microsoft.com/en-us/office/sumifs-function-c9e748f5-7ea7-455d-9406-611cebce642b",
+      "verified_by": "Claude Code 2026-10-27: example =SUMIFS(A2:A9, B2:B9, \"=A*\", C2:C9, \"Tom\") on the Quantity Sold / Product / Salesperson table gives 20"
+    },
+    {
+      "id": "sumifs-one-criteria",
+      "call": "SUMIFS",
+      "args": [{"range": [5, 4, 15, 3, 22, 12, 10, 33], "columns": 1}, {"range": ["Tom", "Sarah", "Tom", "Sarah", "Tom", "Sarah", "Tom", "Sarah"], "columns": 1}, "Sarah"],
+      "expected": 52,
+      "source": "https://support.microsoft.com/en-us/office/sumifs-function-c9e748f5-7ea7-455d-9406-611cebce642b",
+      "verified_by": "Claude Code 2026-10-27: one criteria_range1/criteria1 pair, the SUMIF criteria rules; Sarah's quantities 4 + 3 + 12 + 33"
     }
   ],
   "refused": [
@@ -402,6 +418,13 @@
       "args": [{"range": [1, {"error": "#N/A"}], "columns": 1}, {"range": [1, 2], "columns": 1}],
       "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
       "verified_by": "Claude Code 2026-10-16: error entries are not covered by 'non-numeric array entries'"
+    },
+    {
+      "id": "sumifs-criteria-range-of-another-size",
+      "call": "SUMIFS",
+      "args": [{"range": [5, 4, 15, 3, 22, 12, 10, 33], "columns": 1}, {"range": ["Tom"], "columns": 1}, "Tom"],
+      "source": "https://support.microsoft.com/en-us/office/sumifs-function-c9e748f5-7ea7-455d-9406-611cebce642b",
+      "verified_by": "Claude Code 2026-10-27: 'The Criteria_range argument must contain the same number of rows and columns as the Sum_range argument'; the page does not give the result when it does not"
     }
   ]
 }

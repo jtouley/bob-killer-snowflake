@@ -15,6 +15,7 @@ from bob_killer.contracts.ir import Operator
 from bob_killer.registry import functions
 from bob_killer.runtime import coercion, dates, rounding
 from bob_killer.runtime.coercion import UnsupportedValue
+from bob_killer.runtime.values import Area
 from bob_killer.verify.config import values_equal
 from tests.conftest import decode_cell, oracle_params
 
@@ -109,6 +110,8 @@ def test_date_serial_outside_excel_range(case: dict[str, Any]) -> None:
         ("OP_EQ", [None, False]),  # blank against a logical: not documented
         ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
         ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        # arrays of different dimensions: SUMPRODUCT says #VALUE!, no page says what + gives
+        ("OP_ADD", [Area((1.0, 2.0), columns=1), Area((1.0, 2.0, 3.0), columns=1)]),
     ],
 )
 def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -> None:

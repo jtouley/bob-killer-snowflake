@@ -153,6 +153,14 @@
       "expected": "-9.99999999999999E+307",
       "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
       "verified_by": "Claude Code 2026-10-16: the page writes 'Largest allowed negative number -9.99999999999999E+307'"
+    },
+    {
+      "id": "text-with-a-word-like-a-month-is-not-a-number",
+      "call": "coercion.to_number",
+      "args": ["Scope 2 - Market-Based"],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/value-function-257d0108-07dc-437d-ae1c-bc2d3953d8c2",
+      "verified_by": "Claude Code 2026-10-27: 'If text is not in one of these formats, VALUE returns the #VALUE! error value'; the text is no number, date or time form ('Market' is not a month name); golden sgec_current Offsets!D29 =SUMIF($C$11:$C$20,$B29,$D$11:$D$20) reads it as text criteria"
     }
   ]
 }
