@@ -88,6 +88,12 @@ explicit_package_bases = true
 module = ["oletools", "oletools.*"]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+# numpy's stubs use PEP 695 syntax; the 3.11 app check must not parse them.
+module = ["numpy", "numpy.*"]
+follow_imports = "skip"
+follow_imports_for_stubs = true
+
 [tool.pytest.ini_options]
 addopts = "-q --strict-markers -m 'not live'"
 markers = [
