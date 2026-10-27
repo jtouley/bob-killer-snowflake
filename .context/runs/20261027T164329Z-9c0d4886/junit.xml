@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.272" timestamp="2026-10-27T12:43:30.545831-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.live.test_udfs_live" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/tests/live/test_udfs_live.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/live/test_udfs_live.py:20: in &lt;module&gt;
+    from bob_killer.hosts.snowflake import udfs
+E   ImportError: cannot import name 'udfs' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)</error></testcase></testsuite></testsuites>

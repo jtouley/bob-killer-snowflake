@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import json
 from collections.abc import Callable
 from typing import Any
 
 import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 
 import bob_killer.runtime.functions  # noqa: F401  (registers the Excel functions)
 from bob_killer.contracts.ir import Operator
@@ -111,3 +114,48 @@ def test_date_serial_outside_excel_range(case: dict[str, Any]) -> None:
 def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -> None:
     with pytest.raises(UnsupportedValue):
         resolve(call)(*args)
+
+
+# --- the wire codec (D21): runtime values <-> CellValue wire objects -------------------------------
+
+
+def _wire_cases() -> list[Any]:
+    return [
+        pytest.param(arg, id=f"{case['id']}/{i}")
+        for case in (p.values[0] for p in oracle_params(*FAMILIES))
+        for i, arg in enumerate([*case["args"], case.get("expected")])
+    ]
+
+
+@pytest.mark.parametrize("raw", _wire_cases())
+def test_wire_round_trips_every_oracle_value(raw: Any) -> None:
+    from bob_killer.runtime import wire
+
+    value = decode_cell(raw)
+    back = wire.decode_arg(json.loads(json.dumps(wire.encode(value))))
+    assert type(back) is type(value)
+    if isinstance(value, tuple):
+        assert len(back) == len(value)
+        assert all(values_equal(x, y) for x, y in zip(back, value, strict=True))
+        assert getattr(back, "columns", None) == getattr(value, "columns", None)
+    else:
+        assert values_equal(back, value)
+
+
+@given(st.floats(allow_nan=False, allow_infinity=False))
+def test_wire_keeps_every_double_bit_for_bit(x: float) -> None:
+    from bob_killer.contracts.ir import CellValue
+    from bob_killer.runtime import wire
+
+    encoded = wire.encode(x)
+    assert CellValue.model_validate(encoded) == CellValue.number(x)
+    assert wire.decode_arg(encoded).hex() == x.hex()  # type: ignore[union-attr]
+
+
+@pytest.mark.parametrize("error", list(coercion.ExcelError))
+def test_wire_maps_each_runtime_error_to_the_contract_error(error: coercion.ExcelError) -> None:
+    from bob_killer.contracts.ir import CellValue, ExcelError
+    from bob_killer.runtime import wire
+
+    assert CellValue.model_validate(wire.encode(error)) == CellValue.error(ExcelError(error.value))
+    assert wire.decode_arg(wire.encode(error)) is error

@@ -1,0 +1,15 @@
+{
+  "junit_sha256": "e5ae4a84b7673fba9c2518fb87c2ad15fade87ebad7f8a6f169f0627fa64ce40",
+  "nodes": {
+    "::tests.live.test_udfs_live": "error"
+  },
+  "pytest_args": [
+    "-m",
+    "live",
+    "tests/live/test_udfs_live.py"
+  ],
+  "recorded_at": "2026-10-27T16:43:29Z",
+  "run_id": "20261027T164329Z-9c0d4886",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "6df676662f525337f1fdfda64cd4b8f94de176e730f4bf355864dba3efbd4b0d"
+}

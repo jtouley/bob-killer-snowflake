@@ -103,3 +103,32 @@ def write_evidence(name: str, title: str, body: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as f:
         f.write(f"\n== {title} ({datetime.now(UTC).isoformat()})\n{redact(body).rstrip()}\n")
+
+
+@pytest.fixture(scope="session")
+def host_schema(session: Session) -> Iterator[str]:
+    """A TEST_<uuid8> schema holding the deployed host and compiler (procedures, UDFs, DBT_SRC).
+
+    Its own schema, so the per-test fresh tables of ``schema`` never touch a pipeline run. The
+    core zip and procedures come from ``snow snowpark build`` / ``deploy`` (F8); then
+    10_tables.sql, 20_compiler_objects.sql and 30_udfs.sql run in it. Teardown runs
+    99_teardown.sql, which also drops the run output schemas ``<schema>__R_%``.
+    """
+    from tests.live.test_platform import BUILD_LEFTOVERS, HOST, snow, sql_file
+
+    with sf.test_schema(session) as name:
+        try:
+            try:
+                snow("snowpark", "build", project=HOST)
+                snow("snowpark", "deploy", "--schema", name, project=HOST)
+            finally:
+                for leftover in BUILD_LEFTOVERS:
+                    leftover.unlink(missing_ok=True)
+            session.use_schema(name)
+            for script in ("10_tables.sql", "20_compiler_objects.sql", "30_udfs.sql"):
+                for statement in sql_file(HOST / "sql" / script):
+                    session.sql(statement).collect()
+            yield name
+        finally:
+            for statement in sql_file(HOST / "sql" / "99_teardown.sql", schema=name):
+                session.sql(statement).collect()
