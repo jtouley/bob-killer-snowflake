@@ -161,3 +161,32 @@ def test_a_missing_argument_lifts_to_a_blank_literal(
     for key in with_missing:
         literals = [e for e in iter_expr(steps[key].expr) if isinstance(e, LiteralExpr)]
         assert CellValue.blank() in [e.value for e in literals]
+
+
+@pytest.mark.parametrize("workbook_id", ["mt_dot_budget", "sgec_current"])
+def test_input_cells_lift_as_maximal_rectangles(
+    workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+) -> None:
+    """Inputs are disjoint rectangles covering exactly the read constant cells. Each column of a
+    rectangle is a whole run of consecutive read rows; a neighbour to the right has another run."""
+    from bob_killer.contracts.ir import CellRef, InputKind, InputShape
+    from bob_killer.lift.core import _reads
+
+    ir = _lift_with_names(pinned_raw(workbook_id))
+    computed = {c for s in ir.steps for c in s.cells()}
+    wanted = {c for s in ir.steps for c in _reads(s.expr)} - computed
+    inputs = [i for i in ir.inputs if i.kind is InputKind.INPUT]
+    owner = {c: i.ranges()[0] for i in inputs for c in i.cells()}
+    assert sum(len(i.cells()) for i in inputs) == len(owner)
+    assert set(owner) == wanted
+    for i in inputs:
+        r = i.ranges()[0]
+        assert (i.shape is InputShape.SCALAR) == (len(i.cells()) == len(i.columns) == r.height)
+        assert len(i.columns) == r.width
+        for col in range(r.col, r.last_col + 1):
+            outside = (CellRef(sheet=r.sheet, row=n, col=col) for n in (r.row - 1, r.last_row + 1))
+            assert not [c for c in outside if c in wanted], (i.id, col)
+        right = owner.get(CellRef(sheet=r.sheet, row=r.row, col=r.last_col + 1))
+        if right is not None:
+            assert (right.row, right.last_row) != (r.row, r.last_row), i.id
+    assert len(inputs) < len(wanted)

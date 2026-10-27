@@ -737,3 +737,24 @@ def test_staging_models_read_the_input_cells_by_their_contract_columns() -> None
         for name in WbInputCell.model_fields:
             if name != "node_id":
                 assert f"bk_ident('{name.upper()}')" in text, name
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_a_range_over_step_cells_reads_each_owning_model_once(golden_id: str) -> None:
+    """One select per model that owns cells of the range, not one per owning step."""
+    from bob_killer.contracts.ir import Input, RangeExpr, iter_expr
+    from bob_killer.generate.dbt.generator import sql_renderer
+
+    io = RecordingIO(golden_id)
+    renderer = sql_renderer(io.ir)
+    checked = 0
+    for step in io.ir.steps:
+        for e in iter_expr(step.expr):
+            if not isinstance(e, RangeExpr):
+                continue
+            owners = {renderer.owner_of(c) for c in e.as_range().cells()}
+            models = {renderer.model_of[o.id] for o in owners if not isinstance(o, Input)}
+            sql = renderer.scalar(e)
+            assert sql.count("SELECT m.") == len(models), step.origin
+            checked += len(models)
+    assert checked

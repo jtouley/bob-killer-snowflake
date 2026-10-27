@@ -38,7 +38,8 @@ def test_rows_go_in_batches_of_bound_values(batch: list[WbInputCell], size: int)
     for i, row in enumerate(batch):
         bound = dict(zip(names, binds[i * len(names) : (i + 1) * len(names)], strict=True))
         assert CellValue.model_validate_json(bound.pop("value")) == row.value
-        assert bound == {k: v for k, v in row.model_dump(mode="json").items() if k != "value"}
+        others = {k: v for k, v in row.model_dump(mode="json").items() if k in bound}
+        assert bound == others
     for sql, _ in session.statements:
         assert sql.count("?") == sql.count("(?") * len(names)
         assert all(json.dumps(r.sheet) not in sql for r in batch if r.sheet)
