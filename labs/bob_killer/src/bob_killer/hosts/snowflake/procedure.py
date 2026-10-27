@@ -235,4 +235,9 @@ def execute_run_procedure(session: Session, run_id: str) -> dict[str, Any]:
     return execute_run_handler(session, run_id, default_host).model_dump(mode="json")
 
 
+def run_pipeline_procedure(session: Session, run_id: str) -> dict[str, Any]:
+    """RUN_PIPELINE(VARCHAR) RETURNS VARIANT, EXECUTE AS CALLER (run_pipeline.py)."""
+    return run_pipeline_handler(session, run_id, default_host).model_dump(mode="json")
+
+
 register_stages()

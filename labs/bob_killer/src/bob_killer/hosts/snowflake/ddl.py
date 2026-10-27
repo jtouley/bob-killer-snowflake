@@ -48,6 +48,10 @@ DBT_SRC_STAGE = (
     "CREATE STAGE IF NOT EXISTS DBT_SRC\n"
     "  ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE')\n"
     "  DIRECTORY = (ENABLE = TRUE);\n"
+    "-- UPLOADS holds the uploaded workbooks as <sha256>.xlsx (docs/SPEC.md §6.3).\n"
+    "CREATE STAGE IF NOT EXISTS UPLOADS\n"
+    "  ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE')\n"
+    "  DIRECTORY = (ENABLE = TRUE);\n"
 )
 
 
