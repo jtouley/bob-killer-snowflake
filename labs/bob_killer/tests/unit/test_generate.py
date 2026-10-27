@@ -758,3 +758,17 @@ def test_a_range_over_step_cells_reads_each_owning_model_once(golden_id: str) ->
             assert sql.count("SELECT m.") == len(models), step.origin
             checked += len(models)
     assert checked
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_no_model_calls_more_udfs_than_one_snowflake_query_runs(golden_id: str) -> None:
+    from bob_killer.generate.base import run_generators
+    from bob_killer.generate.dbt.generator import MAX_UDF_CALLS
+    from bob_killer.ir.reviews import apply_reviews
+
+    io = RecordingIO(golden_id)
+    files = run_generators(apply_reviews(io.ir, io.review), io.target(RUN_ID), io.values)
+    models = {p: t for p, t in files.by_path().items() if p.startswith("dbt/models/")}
+    for path, text in models.items():
+        bare = STRING_LITERAL.sub("''", text)
+        assert bare.count("bk_fn(") + bare.count("bk_op(") <= MAX_UDF_CALLS, path
