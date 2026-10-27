@@ -11,13 +11,13 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from bob_killer.contracts.ir import RANGE_CELLS, RANGE_COLUMNS, ValueKind
 from bob_killer.contracts.ir import CellValue as Wire
 from bob_killer.contracts.ir import ExcelError as WireError
-from bob_killer.contracts.ir import ValueKind
 from bob_killer.runtime.values import Area, Arg, CellValue, ExcelError
 
-COLUMNS = "cols"
-CELLS = "cells"
+COLUMNS = RANGE_COLUMNS
+CELLS = RANGE_CELLS
 
 
 def to_wire(value: CellValue) -> Wire:

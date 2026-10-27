@@ -36,7 +36,7 @@ from bob_killer.generate.base import (
     template_env,
     workbook_slug,
 )
-from bob_killer.generate.dbt.render import Scope, SqlRenderer, ident, sql_string
+from bob_killer.generate.dbt.render import Scope, SqlRenderer, cell_value, ident, sql_string
 from bob_killer.ir.analysis import generated_steps, levels
 from bob_killer.registry import Registry
 
@@ -110,7 +110,7 @@ class Context:
             "row": str(ref.row),
             "col": str(ref.col),
             "node_id": sql_string(node_id),
-            "value": value,
+            "value": cell_value(value),
         }
 
 

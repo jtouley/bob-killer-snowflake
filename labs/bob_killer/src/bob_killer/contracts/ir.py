@@ -198,6 +198,11 @@ class CellValue(StrictModel):
         return json.dumps(self.model_dump(mode="json"), separators=(",", ":"), ensure_ascii=False)
 
 
+# A shaped range on the wire (D21 extension for the BK_* UDFs): {"cols": <columns>, "cells": [...]}.
+RANGE_COLUMNS = "cols"
+RANGE_CELLS = "cells"
+
+
 # --- expressions --------------------------------------------------------------------------------
 
 

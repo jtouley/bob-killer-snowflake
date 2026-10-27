@@ -1,9 +1,16 @@
 """Expression renderer: IR expression AST -> Snowflake SQL with dbt macro calls (§4.1, D20, D21).
 
 Only the SQL-exact set renders as plain SQL: cell references, parameter references and literals.
-Every function call renders as ``{{ bk_fn('<NAME>') }}(<args>)`` and every operator as
-``{{ bk_op('<OP>') }}(<args>)``; each macro emits a qualified ``BK_*`` UDF name built from
-``runtime/``. Ranges reach a UDF as an ordered ``ARRAY_AGG`` of wire objects (F23).
+Every function call renders as ``{{ bk_fn('<NAME>') }}(ARRAY_CONSTRUCT(<args>))`` and every
+operator as ``{{ bk_op('<OP>') }}(ARRAY_CONSTRUCT(<args>))``: each BK_* UDF built from
+``runtime/`` takes its positional arguments as one array (hosts/snowflake/udfs.py). A one-cell
+reference argument is a one-element array (a reference, which Excel functions treat apart from a
+typed value); a range is ``{"cols": <columns>, "cells": ARRAY_AGG(...)}`` in Excel order (F23).
+
+IF is lazy, as in Excel: a scalar subquery binds ``IF(<condition>, m1, m2)`` once (the runtime
+IF returns marker m1 or m2 for the chosen branch, or the condition's error), and a ``CASE``
+evaluates only the chosen branch. A branch Excel never evaluates can then never fail the model.
+``cell_value`` gives a step's cell value: a one-cell reference unwrapped, a blank shown as 0.
 """
 
 from __future__ import annotations
@@ -13,11 +20,15 @@ from dataclasses import dataclass
 from typing import Any
 
 from bob_killer.contracts.ir import (
+    RANGE_CELLS,
+    RANGE_COLUMNS,
     CellExpr,
     CellRange,
     CellRef,
+    CellValue,
     Expr,
     Input,
+    LiteralExpr,
     Node,
     RangeExpr,
     WorkbookIR,
@@ -43,6 +54,21 @@ def ref(model: str) -> str:
 
 
 SHEET, ROW, COL, NODE_ID, VALUE = (ident(c) for c in ("sheet", "row", "col", "node_id", "value"))
+ARGS = "ARRAY_CONSTRUCT"  # every UDF call's one argument: its positional arguments
+IF_BRANCHES = (1.0, 2.0)  # markers: IF returns the chosen one unchanged
+
+
+def _wire(value: CellValue) -> str:
+    return f"PARSE_JSON({sql_string(value.wire())})"
+
+
+def cell_value(sql: str) -> str:
+    """A step's cell value: a one-cell reference unwrapped, a blank result shown as 0 (IF page)."""
+    zero = _wire(CellValue.number(0.0))
+    return (
+        f"(SELECT IFF(_c:k::VARCHAR = 'z', {zero}, _c) FROM (SELECT IFF(IS_ARRAY(_v) "
+        f"AND ARRAY_SIZE(_v) = 1, _v[0], _v) AS _c FROM (SELECT {sql} AS _v)))"
+    )
 
 
 @dataclass(frozen=True)
@@ -143,7 +169,9 @@ def _cell(r: SqlRenderer, e: CellExpr, scope: Scope) -> str:
 @node_renderers.register("range")
 def _range(r: SqlRenderer, e: RangeExpr, scope: Scope) -> str:
     union = " UNION ALL ".join(r.pieces(e.as_range()))
-    return f"(SELECT ARRAY_AGG(p._v) WITHIN GROUP (ORDER BY p._r, p._c) FROM ({union}) AS p)"
+    cells = f"(SELECT ARRAY_AGG(p._v) WITHIN GROUP (ORDER BY p._r, p._c) FROM ({union}) AS p)"
+    width = e.as_range().width
+    return f"OBJECT_CONSTRUCT('{RANGE_COLUMNS}', {width}, '{RANGE_CELLS}', {cells})"
 
 
 @node_renderers.register("param")
@@ -153,16 +181,40 @@ def _param(r: SqlRenderer, e: Any, scope: Scope) -> str:
 
 @node_renderers.register("lit")
 def _literal(r: SqlRenderer, e: Any, scope: Scope) -> str:
-    return f"PARSE_JSON({sql_string(e.value.wire())})"
+    return _wire(e.value)
+
+
+def _arg(r: SqlRenderer, a: Expr, scope: Scope) -> str:
+    """An argument as the runtime receives it: a one-cell reference is a one-element array."""
+    sql = r.render(a, scope)
+    return f"{ARGS}({sql})" if isinstance(a, CellExpr) else sql
 
 
 def _udf(macro: str, name: str, r: SqlRenderer, args: tuple[Expr, ...], scope: Scope) -> str:
-    rendered = ", ".join(r.render(a, scope) for a in args)
-    return "{{ " + macro + "(" + sql_string(name) + ") }}(" + rendered + ")"
+    rendered = ", ".join(_arg(r, a, scope) for a in args)
+    return "{{ " + macro + "(" + sql_string(name) + ") }}(" + f"{ARGS}({rendered}))"
+
+
+def _if(r: SqlRenderer, e: Any, scope: Scope) -> str:
+    choose = _udf("bk_fn", e.name, r, (e.args[0], *_marks()), scope)
+    false = LiteralExpr(value=CellValue.boolean(False))  # IF's value_if_false when omitted
+    when_true, when_false = (_arg(r, a, scope) for a in (*e.args[1:3], false, false)[:2])
+    hex_true, hex_false = (sql_string(m.hex()) for m in IF_BRANCHES)
+    return (
+        f"(SELECT CASE _if:h::VARCHAR WHEN {hex_true} THEN {when_true} "
+        f"WHEN {hex_false} THEN {when_false} ELSE _if END FROM (SELECT {choose} AS _if))"
+    )
+
+
+def _marks() -> tuple[LiteralExpr, ...]:
+    return tuple(LiteralExpr(value=CellValue.number(m)) for m in IF_BRANCHES)
 
 
 @node_renderers.register("call")
 def _call(r: SqlRenderer, e: Any, scope: Scope) -> str:
+    # IF(c, m1, m2) is the choice itself: its branches are literals, so nothing is skipped.
+    if e.name == "IF" and len(e.args) >= 2 and tuple(e.args[1:]) != _marks():
+        return _if(r, e, scope)
     return _udf("bk_fn", e.name, r, e.args, scope)
 
 
