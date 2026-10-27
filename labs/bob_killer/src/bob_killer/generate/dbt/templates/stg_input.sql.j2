@@ -5,12 +5,12 @@ WITH spine AS (
     FROM TABLE(GENERATOR(ROWCOUNT => [[ height ]]))
 ),
 cells AS (
-    SELECT [[ ident('row') ]] AS _r, [[ ident('col') ]] AS _c, [[ ident('value') ]] AS _v
+    SELECT [[ src.cell_row ]] AS _r, [[ src.cell_col ]] AS _c, [[ src.value ]] AS _v
     FROM {{ source('bk', 'WB_INPUT_CELLS') }}
-    WHERE [[ ident('run_id') ]] = '{{ var('bk_run_id') }}'
-        AND [[ ident('sheet') ]] = [[ sheet ]]
-        AND [[ ident('row') ]] BETWEEN [[ first_row ]] AND [[ last_row ]]
-        AND [[ ident('col') ]] BETWEEN [[ first_col ]] AND [[ last_col ]]
+    WHERE [[ src.run_id ]] = '{{ var('bk_run_id') }}'
+        AND [[ src.sheet ]] = [[ sheet ]]
+        AND [[ src.cell_row ]] BETWEEN [[ first_row ]] AND [[ last_row ]]
+        AND [[ src.cell_col ]] BETWEEN [[ first_col ]] AND [[ last_col ]]
 ),
 pivot AS (
     SELECT spine._row, OBJECT_AGG(TO_VARCHAR(cells._c), cells._v) AS _cells

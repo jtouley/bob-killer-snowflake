@@ -13961,5 +13961,249 @@
     },
     "title": "UploadLimits",
     "type": "object"
+  },
+  "bob_killer.contracts.workbook.NameReview": {
+    "additionalProperties": false,
+    "properties": {
+      "fingerprint": {
+        "title": "Fingerprint",
+        "type": "string"
+      },
+      "label": {
+        "title": "Label",
+        "type": "string"
+      },
+      "node_id": {
+        "maxLength": 63,
+        "pattern": "^[a-z][a-z0-9_]*$",
+        "title": "Node Id",
+        "type": "string"
+      },
+      "origin": {
+        "title": "Origin",
+        "type": "string"
+      },
+      "reason": {
+        "title": "Reason",
+        "type": "string"
+      },
+      "reviewer": {
+        "title": "Reviewer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "node_id",
+      "origin",
+      "fingerprint",
+      "label",
+      "reviewer",
+      "reason"
+    ],
+    "title": "NameReview",
+    "type": "object"
+  },
+  "bob_killer.contracts.workbook.ReviewFile": {
+    "$defs": {
+      "NameReview": {
+        "additionalProperties": false,
+        "properties": {
+          "fingerprint": {
+            "title": "Fingerprint",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "node_id": {
+            "maxLength": 63,
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "title": "Node Id",
+            "type": "string"
+          },
+          "origin": {
+            "title": "Origin",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "reviewer": {
+            "title": "Reviewer",
+            "type": "string"
+          }
+        },
+        "required": [
+          "node_id",
+          "origin",
+          "fingerprint",
+          "label",
+          "reviewer",
+          "reason"
+        ],
+        "title": "NameReview",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "reviews": {
+        "items": {
+          "$ref": "#/$defs/NameReview"
+        },
+        "title": "Reviews",
+        "type": "array"
+      },
+      "workbook_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Workbook Sha256",
+        "type": "string"
+      }
+    },
+    "required": [
+      "workbook_sha256",
+      "reviews"
+    ],
+    "title": "ReviewFile",
+    "type": "object"
+  },
+  "bob_killer.contracts.workbook.WbInputCell": {
+    "$defs": {
+      "CellValue": {
+        "additionalProperties": false,
+        "description": "One Excel value. ``wire()`` is the D21 wire text: ``{\"k\":\"n\",\"h\":\"<float.hex()>\"}``.",
+        "properties": {
+          "b": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "B"
+          },
+          "e": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExcelError"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "h": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "H"
+          },
+          "k": {
+            "$ref": "#/$defs/ValueKind"
+          },
+          "t": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "T"
+          }
+        },
+        "required": [
+          "k"
+        ],
+        "title": "CellValue",
+        "type": "object"
+      },
+      "ExcelError": {
+        "enum": [
+          "#NULL!",
+          "#DIV/0!",
+          "#VALUE!",
+          "#REF!",
+          "#NAME?",
+          "#NUM!",
+          "#N/A",
+          "#GETTING_DATA",
+          "#SPILL!",
+          "#CALC!",
+          "#FIELD!",
+          "#BLOCKED!",
+          "#CONNECT!",
+          "#BUSY!",
+          "#UNKNOWN!",
+          "#PYTHON!"
+        ],
+        "title": "ExcelError",
+        "type": "string"
+      },
+      "ValueKind": {
+        "enum": [
+          "n",
+          "s",
+          "b",
+          "e",
+          "z"
+        ],
+        "title": "ValueKind",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "cell_col": {
+        "title": "Cell Col",
+        "type": "integer"
+      },
+      "cell_row": {
+        "title": "Cell Row",
+        "type": "integer"
+      },
+      "node_id": {
+        "maxLength": 63,
+        "pattern": "^[a-z][a-z0-9_]*$",
+        "title": "Node Id",
+        "type": "string"
+      },
+      "run_id": {
+        "pattern": "^[0-9a-f]{32}$",
+        "title": "Run Id",
+        "type": "string"
+      },
+      "sheet": {
+        "title": "Sheet",
+        "type": "string"
+      },
+      "value": {
+        "$ref": "#/$defs/CellValue"
+      }
+    },
+    "required": [
+      "run_id",
+      "sheet",
+      "cell_row",
+      "cell_col",
+      "node_id",
+      "value"
+    ],
+    "title": "WbInputCell",
+    "type": "object"
   }
 }

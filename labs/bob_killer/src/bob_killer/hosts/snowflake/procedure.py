@@ -26,8 +26,10 @@ from snowflake.snowpark import Session
 from bob_killer.contracts.bronze import LandedFile
 from bob_killer.contracts.runs import RunCreated, RunRejected, RunView, UploadLimits
 from bob_killer.extract import stage as extract_stage
+from bob_killer.generate import stage as generate_stage
 from bob_killer.graph import stage as graph_stage
 from bob_killer.hosts.snowflake import bronze
+from bob_killer.hosts.snowflake.compiler import CompilerIO
 from bob_killer.hosts.snowflake.store import SnowflakeRunStore
 from bob_killer.lift import stage as lift_stage
 from bob_killer.service import workspace
@@ -89,15 +91,20 @@ def register_stages() -> None:
     bronze.register_stages()
 
 
-class _BoundWorkspace:
-    """The graph and lift stages' IO: the workspace bound to the current handler call."""
+class _Bound:
+    """A stage IO that resolves to the object bound for the current handler call."""
+
+    def __init__(self, var: ContextVar[Any]) -> None:
+        self._var = var
 
     def __getattr__(self, name: str) -> Any:
-        return getattr(_workspace.get(), name)
+        return getattr(self._var.get(), name)
 
 
 _workspace: ContextVar[Workspace] = ContextVar("workspace")
-_BOUND = _BoundWorkspace()
+_compiler: ContextVar[CompilerIO] = ContextVar("compiler")
+_BOUND = _Bound(_workspace)
+_BOUND_COMPILER = _Bound(_compiler)
 
 
 def register_pipeline() -> None:
@@ -106,6 +113,7 @@ def register_pipeline() -> None:
     extract_stage.register_stages()
     graph_stage.register_stages(_BOUND)
     lift_stage.register_stages(_BOUND)
+    generate_stage.register_stages(_BOUND_COMPILER)
 
 
 def create_run_handler(
@@ -166,12 +174,14 @@ def _read_upload(host: Host) -> Callable[[str], bytes]:
 @contextmanager
 def _compiler_context(host: Host) -> Iterator[None]:
     token = _workspace.set(host.workspace)
+    compiler = _compiler.set(CompilerIO(host.session, host.workspace))
     try:
         with extract_stage.bind_inputs(
             read_workbook=_read_upload(host), raw_db=host.workspace.raw_db
         ):
             yield
     finally:
+        _compiler.reset(compiler)
         _workspace.reset(token)
 
 

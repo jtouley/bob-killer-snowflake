@@ -1,0 +1,3014 @@
+workbook_sha256: 47bd1b100597d0972049425c3686a6edf50f6b7518de2551749363fef34fe8f9
+reviews:
+- node_id: business_travel_e17
+  origin: '''Business Travel''!E17'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Business Travel''!E17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_e17
+  origin: '''Business Travel''!E17'
+  fingerprint: ''
+  label: '''Business Travel''!E17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_f17
+  origin: '''Business Travel''!F17'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Business Travel''!F17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_f17
+  origin: '''Business Travel''!F17'
+  fingerprint: ''
+  label: '''Business Travel''!F17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_g17
+  origin: '''Business Travel''!G17'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false}),RC4))
+  label: '''Business Travel''!G17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_g17
+  origin: '''Business Travel''!G17'
+  fingerprint: ''
+  label: '''Business Travel''!G17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_e60
+  origin: '''Business Travel''!E60'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Business Travel''!E60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_e60
+  origin: '''Business Travel''!E60'
+  fingerprint: ''
+  label: '''Business Travel''!E60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_f60
+  origin: '''Business Travel''!F60'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Business Travel''!F60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_f60
+  origin: '''Business Travel''!F60'
+  fingerprint: ''
+  label: '''Business Travel''!F60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_g60
+  origin: '''Business Travel''!G60'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false}),RC4))
+  label: '''Business Travel''!G60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_g60
+  origin: '''Business Travel''!G60'
+  fingerprint: ''
+  label: '''Business Travel''!G60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_e14
+  origin: '''Commuting''!E14'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Commuting''!E14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_e14
+  origin: '''Commuting''!E14'
+  fingerprint: ''
+  label: '''Commuting''!E14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_f14
+  origin: '''Commuting''!F14'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Commuting''!F14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_f14
+  origin: '''Commuting''!F14'
+  fingerprint: ''
+  label: '''Commuting''!F14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_g14
+  origin: '''Commuting''!G14'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false}),RC4))
+  label: '''Commuting''!G14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_g14
+  origin: '''Commuting''!G14'
+  fingerprint: ''
+  label: '''Commuting''!G14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_e57
+  origin: '''Commuting''!E57'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Commuting''!E57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_e57
+  origin: '''Commuting''!E57'
+  fingerprint: ''
+  label: '''Commuting''!E57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_f57
+  origin: '''Commuting''!F57'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Commuting''!F57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_f57
+  origin: '''Commuting''!F57'
+  fingerprint: ''
+  label: '''Commuting''!F57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_g57
+  origin: '''Commuting''!G57'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R355C1:R366C4,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false}),RC4))
+  label: '''Commuting''!G57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_g57
+  origin: '''Commuting''!G57'
+  fingerprint: ''
+  label: '''Commuting''!G57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_n2
+  origin: '''DropDown''!N2'
+  fingerprint: ='Emission Factors'!R[356]C[-13]
+  label: '''DropDown''!N2'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_n2
+  origin: '''DropDown''!N2'
+  fingerprint: ''
+  label: '''DropDown''!N2'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_w2
+  origin: '''DropDown''!W2'
+  fingerprint: ='Unit Conversions'!R[10]C[-22]
+  label: '''DropDown''!W2'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_w2
+  origin: '''DropDown''!W2'
+  fingerprint: ''
+  label: '''DropDown''!W2'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_n3
+  origin: '''DropDown''!N3'
+  fingerprint: ='Emission Factors'!R[356]C[-13]
+  label: '''DropDown''!N3'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_n3
+  origin: '''DropDown''!N3'
+  fingerprint: ''
+  label: '''DropDown''!N3'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_w3
+  origin: '''DropDown''!W3'
+  fingerprint: ='Unit Conversions'!R[10]C[-22]
+  label: '''DropDown''!W3'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_w3
+  origin: '''DropDown''!W3'
+  fingerprint: ''
+  label: '''DropDown''!W3'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_n4
+  origin: '''DropDown''!N4'
+  fingerprint: ='Emission Factors'!R[356]C[-13]
+  label: '''DropDown''!N4'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_n4
+  origin: '''DropDown''!N4'
+  fingerprint: ''
+  label: '''DropDown''!N4'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_w4
+  origin: '''DropDown''!W4'
+  fingerprint: ='Unit Conversions'!R[10]C[-22]
+  label: '''DropDown''!W4'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_w4
+  origin: '''DropDown''!W4'
+  fingerprint: ''
+  label: '''DropDown''!W4'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_n5
+  origin: '''DropDown''!N5'
+  fingerprint: ='Emission Factors'!R[356]C[-13]
+  label: '''DropDown''!N5'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_n5
+  origin: '''DropDown''!N5'
+  fingerprint: ''
+  label: '''DropDown''!N5'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_w5
+  origin: '''DropDown''!W5'
+  fingerprint: ='Unit Conversions'!R[10]C[-22]
+  label: '''DropDown''!W5'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_w5
+  origin: '''DropDown''!W5'
+  fingerprint: ''
+  label: '''DropDown''!W5'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_n6
+  origin: '''DropDown''!N6'
+  fingerprint: ='Emission Factors'!R[356]C[-13]
+  label: '''DropDown''!N6'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_n6
+  origin: '''DropDown''!N6'
+  fingerprint: ''
+  label: '''DropDown''!N6'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_w6
+  origin: '''DropDown''!W6'
+  fingerprint: ='Unit Conversions'!R[10]C[-22]
+  label: '''DropDown''!W6'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_w6
+  origin: '''DropDown''!W6'
+  fingerprint: ''
+  label: '''DropDown''!W6'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: dropdown_n7
+  origin: '''DropDown''!N7'
+  fingerprint: ='Emission Factors'!R[356]C[-13]
+  label: '''DropDown''!N7'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_dropdown_n7
+  origin: '''DropDown''!N7'
+  fingerprint: ''
+  label: '''DropDown''!N7'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: electricity_e58
+  origin: '''Electricity''!E58'
+  fingerprint: =SUM(R21C5:R57C5)
+  label: '''Electricity''!E58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_electricity_e58
+  origin: '''Electricity''!E58'
+  fingerprint: ''
+  label: '''Electricity''!E58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: emission_factors_iw378
+  origin: '''Emission Factors''!IW378'
+  fingerprint: =SUM(R378C3:R378C256)
+  label: '''Emission Factors''!IW378'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_emission_factors_iw378
+  origin: '''Emission Factors''!IW378'
+  fingerprint: ''
+  label: '''Emission Factors''!IW378'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: heat_content_d12
+  origin: '''Heat Content''!D12'
+  fingerprint: =DIV({"k":"n","h":"0x1.0000000000000p+0"},'Unit Conversions'!R[14]C[-1])
+  label: '''Heat Content''!D12'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_heat_content_d12
+  origin: '''Heat Content''!D12'
+  fingerprint: ''
+  label: '''Heat Content''!D12'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_l43
+  origin: '''Help - Market-Based Method''!L43'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!L43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_l43
+  origin: '''Help - Market-Based Method''!L43'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!L43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_m43
+  origin: '''Help - Market-Based Method''!M43'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.4000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!M43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_m43
+  origin: '''Help - Market-Based Method''!M43'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!M43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_n43
+  origin: '''Help - Market-Based Method''!N43'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.8000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!N43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_n43
+  origin: '''Help - Market-Based Method''!N43'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!N43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_l44
+  origin: '''Help - Market-Based Method''!L44'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!L44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_l44
+  origin: '''Help - Market-Based Method''!L44'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!L44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_m44
+  origin: '''Help - Market-Based Method''!M44'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.4000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!M44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_m44
+  origin: '''Help - Market-Based Method''!M44'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!M44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_n44
+  origin: '''Help - Market-Based Method''!N44'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.8000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!N44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_n44
+  origin: '''Help - Market-Based Method''!N44'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!N44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_l45
+  origin: '''Help - Market-Based Method''!L45'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!L45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_l45
+  origin: '''Help - Market-Based Method''!L45'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!L45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_m45
+  origin: '''Help - Market-Based Method''!M45'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.4000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!M45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_m45
+  origin: '''Help - Market-Based Method''!M45'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!M45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_n45
+  origin: '''Help - Market-Based Method''!N45'
+  fingerprint: =VLOOKUP(RC4,'Emission Factors'!R245C1:R272C6,{"k":"n","h":"0x1.8000000000000p+2"},{"k":"b","b":false})
+  label: '''Help - Market-Based Method''!N45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_n45
+  origin: '''Help - Market-Based Method''!N45'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!N45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g22
+  origin: '''Mobile Sources''!G22'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G22'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g22
+  origin: '''Mobile Sources''!G22'
+  fingerprint: ''
+  label: '''Mobile Sources''!G22'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_h22
+  origin: '''Mobile Sources''!H22'
+  fingerprint: =MUL(R[85]C[-3],RC[-2])
+  label: '''Mobile Sources''!H22'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_h22
+  origin: '''Mobile Sources''!H22'
+  fingerprint: ''
+  label: '''Mobile Sources''!H22'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g23
+  origin: '''Mobile Sources''!G23'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G23'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g23
+  origin: '''Mobile Sources''!G23'
+  fingerprint: ''
+  label: '''Mobile Sources''!G23'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g24
+  origin: '''Mobile Sources''!G24'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G24'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g24
+  origin: '''Mobile Sources''!G24'
+  fingerprint: ''
+  label: '''Mobile Sources''!G24'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g25
+  origin: '''Mobile Sources''!G25'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g25
+  origin: '''Mobile Sources''!G25'
+  fingerprint: ''
+  label: '''Mobile Sources''!G25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g26
+  origin: '''Mobile Sources''!G26'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g26
+  origin: '''Mobile Sources''!G26'
+  fingerprint: ''
+  label: '''Mobile Sources''!G26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g27
+  origin: '''Mobile Sources''!G27'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G27'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g27
+  origin: '''Mobile Sources''!G27'
+  fingerprint: ''
+  label: '''Mobile Sources''!G27'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g28
+  origin: '''Mobile Sources''!G28'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G28'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g28
+  origin: '''Mobile Sources''!G28'
+  fingerprint: ''
+  label: '''Mobile Sources''!G28'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g29
+  origin: '''Mobile Sources''!G29'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G29'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g29
+  origin: '''Mobile Sources''!G29'
+  fingerprint: ''
+  label: '''Mobile Sources''!G29'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g30
+  origin: '''Mobile Sources''!G30'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G30'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g30
+  origin: '''Mobile Sources''!G30'
+  fingerprint: ''
+  label: '''Mobile Sources''!G30'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g31
+  origin: '''Mobile Sources''!G31'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G31'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g31
+  origin: '''Mobile Sources''!G31'
+  fingerprint: ''
+  label: '''Mobile Sources''!G31'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g32
+  origin: '''Mobile Sources''!G32'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G32'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g32
+  origin: '''Mobile Sources''!G32'
+  fingerprint: ''
+  label: '''Mobile Sources''!G32'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g33
+  origin: '''Mobile Sources''!G33'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G33'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g33
+  origin: '''Mobile Sources''!G33'
+  fingerprint: ''
+  label: '''Mobile Sources''!G33'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g34
+  origin: '''Mobile Sources''!G34'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G34'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g34
+  origin: '''Mobile Sources''!G34'
+  fingerprint: ''
+  label: '''Mobile Sources''!G34'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g35
+  origin: '''Mobile Sources''!G35'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G35'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g35
+  origin: '''Mobile Sources''!G35'
+  fingerprint: ''
+  label: '''Mobile Sources''!G35'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g36
+  origin: '''Mobile Sources''!G36'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G36'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g36
+  origin: '''Mobile Sources''!G36'
+  fingerprint: ''
+  label: '''Mobile Sources''!G36'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g37
+  origin: '''Mobile Sources''!G37'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G37'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g37
+  origin: '''Mobile Sources''!G37'
+  fingerprint: ''
+  label: '''Mobile Sources''!G37'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g38
+  origin: '''Mobile Sources''!G38'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G38'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g38
+  origin: '''Mobile Sources''!G38'
+  fingerprint: ''
+  label: '''Mobile Sources''!G38'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g39
+  origin: '''Mobile Sources''!G39'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G39'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g39
+  origin: '''Mobile Sources''!G39'
+  fingerprint: ''
+  label: '''Mobile Sources''!G39'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g40
+  origin: '''Mobile Sources''!G40'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G40'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g40
+  origin: '''Mobile Sources''!G40'
+  fingerprint: ''
+  label: '''Mobile Sources''!G40'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g41
+  origin: '''Mobile Sources''!G41'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G41'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g41
+  origin: '''Mobile Sources''!G41'
+  fingerprint: ''
+  label: '''Mobile Sources''!G41'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g42
+  origin: '''Mobile Sources''!G42'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G42'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g42
+  origin: '''Mobile Sources''!G42'
+  fingerprint: ''
+  label: '''Mobile Sources''!G42'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g43
+  origin: '''Mobile Sources''!G43'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g43
+  origin: '''Mobile Sources''!G43'
+  fingerprint: ''
+  label: '''Mobile Sources''!G43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g44
+  origin: '''Mobile Sources''!G44'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g44
+  origin: '''Mobile Sources''!G44'
+  fingerprint: ''
+  label: '''Mobile Sources''!G44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g45
+  origin: '''Mobile Sources''!G45'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g45
+  origin: '''Mobile Sources''!G45'
+  fingerprint: ''
+  label: '''Mobile Sources''!G45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g46
+  origin: '''Mobile Sources''!G46'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G46'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g46
+  origin: '''Mobile Sources''!G46'
+  fingerprint: ''
+  label: '''Mobile Sources''!G46'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g47
+  origin: '''Mobile Sources''!G47'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G47'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g47
+  origin: '''Mobile Sources''!G47'
+  fingerprint: ''
+  label: '''Mobile Sources''!G47'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g48
+  origin: '''Mobile Sources''!G48'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G48'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g48
+  origin: '''Mobile Sources''!G48'
+  fingerprint: ''
+  label: '''Mobile Sources''!G48'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g49
+  origin: '''Mobile Sources''!G49'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G49'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g49
+  origin: '''Mobile Sources''!G49'
+  fingerprint: ''
+  label: '''Mobile Sources''!G49'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g50
+  origin: '''Mobile Sources''!G50'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G50'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g50
+  origin: '''Mobile Sources''!G50'
+  fingerprint: ''
+  label: '''Mobile Sources''!G50'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g51
+  origin: '''Mobile Sources''!G51'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g51
+  origin: '''Mobile Sources''!G51'
+  fingerprint: ''
+  label: '''Mobile Sources''!G51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g52
+  origin: '''Mobile Sources''!G52'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g52
+  origin: '''Mobile Sources''!G52'
+  fingerprint: ''
+  label: '''Mobile Sources''!G52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g53
+  origin: '''Mobile Sources''!G53'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g53
+  origin: '''Mobile Sources''!G53'
+  fingerprint: ''
+  label: '''Mobile Sources''!G53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g54
+  origin: '''Mobile Sources''!G54'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G54'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g54
+  origin: '''Mobile Sources''!G54'
+  fingerprint: ''
+  label: '''Mobile Sources''!G54'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g55
+  origin: '''Mobile Sources''!G55'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G55'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g55
+  origin: '''Mobile Sources''!G55'
+  fingerprint: ''
+  label: '''Mobile Sources''!G55'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g56
+  origin: '''Mobile Sources''!G56'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g56
+  origin: '''Mobile Sources''!G56'
+  fingerprint: ''
+  label: '''Mobile Sources''!G56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g57
+  origin: '''Mobile Sources''!G57'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g57
+  origin: '''Mobile Sources''!G57'
+  fingerprint: ''
+  label: '''Mobile Sources''!G57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g58
+  origin: '''Mobile Sources''!G58'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g58
+  origin: '''Mobile Sources''!G58'
+  fingerprint: ''
+  label: '''Mobile Sources''!G58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g59
+  origin: '''Mobile Sources''!G59'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G59'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g59
+  origin: '''Mobile Sources''!G59'
+  fingerprint: ''
+  label: '''Mobile Sources''!G59'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g60
+  origin: '''Mobile Sources''!G60'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g60
+  origin: '''Mobile Sources''!G60'
+  fingerprint: ''
+  label: '''Mobile Sources''!G60'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g61
+  origin: '''Mobile Sources''!G61'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G61'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g61
+  origin: '''Mobile Sources''!G61'
+  fingerprint: ''
+  label: '''Mobile Sources''!G61'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g62
+  origin: '''Mobile Sources''!G62'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G62'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g62
+  origin: '''Mobile Sources''!G62'
+  fingerprint: ''
+  label: '''Mobile Sources''!G62'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g63
+  origin: '''Mobile Sources''!G63'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G63'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g63
+  origin: '''Mobile Sources''!G63'
+  fingerprint: ''
+  label: '''Mobile Sources''!G63'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g64
+  origin: '''Mobile Sources''!G64'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G64'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g64
+  origin: '''Mobile Sources''!G64'
+  fingerprint: ''
+  label: '''Mobile Sources''!G64'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g65
+  origin: '''Mobile Sources''!G65'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G65'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g65
+  origin: '''Mobile Sources''!G65'
+  fingerprint: ''
+  label: '''Mobile Sources''!G65'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g66
+  origin: '''Mobile Sources''!G66'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G66'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g66
+  origin: '''Mobile Sources''!G66'
+  fingerprint: ''
+  label: '''Mobile Sources''!G66'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g67
+  origin: '''Mobile Sources''!G67'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G67'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g67
+  origin: '''Mobile Sources''!G67'
+  fingerprint: ''
+  label: '''Mobile Sources''!G67'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g68
+  origin: '''Mobile Sources''!G68'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G68'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g68
+  origin: '''Mobile Sources''!G68'
+  fingerprint: ''
+  label: '''Mobile Sources''!G68'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g69
+  origin: '''Mobile Sources''!G69'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G69'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g69
+  origin: '''Mobile Sources''!G69'
+  fingerprint: ''
+  label: '''Mobile Sources''!G69'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g70
+  origin: '''Mobile Sources''!G70'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G70'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g70
+  origin: '''Mobile Sources''!G70'
+  fingerprint: ''
+  label: '''Mobile Sources''!G70'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g71
+  origin: '''Mobile Sources''!G71'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G71'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g71
+  origin: '''Mobile Sources''!G71'
+  fingerprint: ''
+  label: '''Mobile Sources''!G71'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g72
+  origin: '''Mobile Sources''!G72'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G72'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g72
+  origin: '''Mobile Sources''!G72'
+  fingerprint: ''
+  label: '''Mobile Sources''!G72'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g73
+  origin: '''Mobile Sources''!G73'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G73'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g73
+  origin: '''Mobile Sources''!G73'
+  fingerprint: ''
+  label: '''Mobile Sources''!G73'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g74
+  origin: '''Mobile Sources''!G74'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G74'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g74
+  origin: '''Mobile Sources''!G74'
+  fingerprint: ''
+  label: '''Mobile Sources''!G74'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g75
+  origin: '''Mobile Sources''!G75'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G75'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g75
+  origin: '''Mobile Sources''!G75'
+  fingerprint: ''
+  label: '''Mobile Sources''!G75'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g76
+  origin: '''Mobile Sources''!G76'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G76'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g76
+  origin: '''Mobile Sources''!G76'
+  fingerprint: ''
+  label: '''Mobile Sources''!G76'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g77
+  origin: '''Mobile Sources''!G77'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G77'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g77
+  origin: '''Mobile Sources''!G77'
+  fingerprint: ''
+  label: '''Mobile Sources''!G77'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g78
+  origin: '''Mobile Sources''!G78'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G78'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g78
+  origin: '''Mobile Sources''!G78'
+  fingerprint: ''
+  label: '''Mobile Sources''!G78'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g79
+  origin: '''Mobile Sources''!G79'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G79'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g79
+  origin: '''Mobile Sources''!G79'
+  fingerprint: ''
+  label: '''Mobile Sources''!G79'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g80
+  origin: '''Mobile Sources''!G80'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G80'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g80
+  origin: '''Mobile Sources''!G80'
+  fingerprint: ''
+  label: '''Mobile Sources''!G80'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g81
+  origin: '''Mobile Sources''!G81'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G81'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g81
+  origin: '''Mobile Sources''!G81'
+  fingerprint: ''
+  label: '''Mobile Sources''!G81'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g82
+  origin: '''Mobile Sources''!G82'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G82'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g82
+  origin: '''Mobile Sources''!G82'
+  fingerprint: ''
+  label: '''Mobile Sources''!G82'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g83
+  origin: '''Mobile Sources''!G83'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G83'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g83
+  origin: '''Mobile Sources''!G83'
+  fingerprint: ''
+  label: '''Mobile Sources''!G83'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g84
+  origin: '''Mobile Sources''!G84'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G84'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g84
+  origin: '''Mobile Sources''!G84'
+  fingerprint: ''
+  label: '''Mobile Sources''!G84'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g85
+  origin: '''Mobile Sources''!G85'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G85'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g85
+  origin: '''Mobile Sources''!G85'
+  fingerprint: ''
+  label: '''Mobile Sources''!G85'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g86
+  origin: '''Mobile Sources''!G86'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G86'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g86
+  origin: '''Mobile Sources''!G86'
+  fingerprint: ''
+  label: '''Mobile Sources''!G86'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g87
+  origin: '''Mobile Sources''!G87'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G87'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g87
+  origin: '''Mobile Sources''!G87'
+  fingerprint: ''
+  label: '''Mobile Sources''!G87'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g88
+  origin: '''Mobile Sources''!G88'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G88'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g88
+  origin: '''Mobile Sources''!G88'
+  fingerprint: ''
+  label: '''Mobile Sources''!G88'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g89
+  origin: '''Mobile Sources''!G89'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G89'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g89
+  origin: '''Mobile Sources''!G89'
+  fingerprint: ''
+  label: '''Mobile Sources''!G89'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g90
+  origin: '''Mobile Sources''!G90'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G90'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g90
+  origin: '''Mobile Sources''!G90'
+  fingerprint: ''
+  label: '''Mobile Sources''!G90'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g91
+  origin: '''Mobile Sources''!G91'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G91'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g91
+  origin: '''Mobile Sources''!G91'
+  fingerprint: ''
+  label: '''Mobile Sources''!G91'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g92
+  origin: '''Mobile Sources''!G92'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G92'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g92
+  origin: '''Mobile Sources''!G92'
+  fingerprint: ''
+  label: '''Mobile Sources''!G92'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g93
+  origin: '''Mobile Sources''!G93'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G93'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g93
+  origin: '''Mobile Sources''!G93'
+  fingerprint: ''
+  label: '''Mobile Sources''!G93'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g94
+  origin: '''Mobile Sources''!G94'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G94'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g94
+  origin: '''Mobile Sources''!G94'
+  fingerprint: ''
+  label: '''Mobile Sources''!G94'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g95
+  origin: '''Mobile Sources''!G95'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G95'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g95
+  origin: '''Mobile Sources''!G95'
+  fingerprint: ''
+  label: '''Mobile Sources''!G95'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g96
+  origin: '''Mobile Sources''!G96'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G96'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g96
+  origin: '''Mobile Sources''!G96'
+  fingerprint: ''
+  label: '''Mobile Sources''!G96'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g97
+  origin: '''Mobile Sources''!G97'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g97
+  origin: '''Mobile Sources''!G97'
+  fingerprint: ''
+  label: '''Mobile Sources''!G97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g98
+  origin: '''Mobile Sources''!G98'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G98'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g98
+  origin: '''Mobile Sources''!G98'
+  fingerprint: ''
+  label: '''Mobile Sources''!G98'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g99
+  origin: '''Mobile Sources''!G99'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G99'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g99
+  origin: '''Mobile Sources''!G99'
+  fingerprint: ''
+  label: '''Mobile Sources''!G99'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g100
+  origin: '''Mobile Sources''!G100'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G100'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g100
+  origin: '''Mobile Sources''!G100'
+  fingerprint: ''
+  label: '''Mobile Sources''!G100'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g101
+  origin: '''Mobile Sources''!G101'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G101'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g101
+  origin: '''Mobile Sources''!G101'
+  fingerprint: ''
+  label: '''Mobile Sources''!G101'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g102
+  origin: '''Mobile Sources''!G102'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G102'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g102
+  origin: '''Mobile Sources''!G102'
+  fingerprint: ''
+  label: '''Mobile Sources''!G102'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: mobile_sources_g103
+  origin: '''Mobile Sources''!G103'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC4,{"k":"s","t":"Light-Duty Cars
+    - CNG"}),EQ(RC4,{"k":"s","t":"Light-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Medium-Duty Trucks -
+    CNG"}),EQ(RC4,{"k":"s","t":"Heavy-Duty Trucks - CNG"}),EQ(RC4,{"k":"s","t":"Buses - CNG"})),{"k":"s","t":"scf"},{"k":"s","t":"gal"}))
+  label: '''Mobile Sources''!G103'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_mobile_sources_g103
+  origin: '''Mobile Sources''!G103'
+  fingerprint: ''
+  label: '''Mobile Sources''!G103'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: offsets_d24
+  origin: '''Offsets''!D24'
+  fingerprint: =SUM(R11C4:R20C4)
+  label: '''Offsets''!D24'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_offsets_d24
+  origin: '''Offsets''!D24'
+  fingerprint: ''
+  label: '''Offsets''!D24'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e15
+  origin: '''Stationary Combustion''!E15'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E15'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e15
+  origin: '''Stationary Combustion''!E15'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E15'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e16
+  origin: '''Stationary Combustion''!E16'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E16'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e16
+  origin: '''Stationary Combustion''!E16'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E16'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e17
+  origin: '''Stationary Combustion''!E17'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e17
+  origin: '''Stationary Combustion''!E17'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E17'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e18
+  origin: '''Stationary Combustion''!E18'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E18'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e18
+  origin: '''Stationary Combustion''!E18'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E18'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e19
+  origin: '''Stationary Combustion''!E19'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E19'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e19
+  origin: '''Stationary Combustion''!E19'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E19'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e20
+  origin: '''Stationary Combustion''!E20'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e20
+  origin: '''Stationary Combustion''!E20'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e21
+  origin: '''Stationary Combustion''!E21'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E21'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e21
+  origin: '''Stationary Combustion''!E21'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E21'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e22
+  origin: '''Stationary Combustion''!E22'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E22'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e22
+  origin: '''Stationary Combustion''!E22'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E22'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e23
+  origin: '''Stationary Combustion''!E23'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E23'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e23
+  origin: '''Stationary Combustion''!E23'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E23'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e24
+  origin: '''Stationary Combustion''!E24'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E24'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e24
+  origin: '''Stationary Combustion''!E24'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E24'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e25
+  origin: '''Stationary Combustion''!E25'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e25
+  origin: '''Stationary Combustion''!E25'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e26
+  origin: '''Stationary Combustion''!E26'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e26
+  origin: '''Stationary Combustion''!E26'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e27
+  origin: '''Stationary Combustion''!E27'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E27'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e27
+  origin: '''Stationary Combustion''!E27'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E27'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e28
+  origin: '''Stationary Combustion''!E28'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E28'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e28
+  origin: '''Stationary Combustion''!E28'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E28'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e29
+  origin: '''Stationary Combustion''!E29'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E29'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e29
+  origin: '''Stationary Combustion''!E29'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E29'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e30
+  origin: '''Stationary Combustion''!E30'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E30'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e30
+  origin: '''Stationary Combustion''!E30'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E30'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e31
+  origin: '''Stationary Combustion''!E31'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E31'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e31
+  origin: '''Stationary Combustion''!E31'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E31'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e32
+  origin: '''Stationary Combustion''!E32'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E32'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e32
+  origin: '''Stationary Combustion''!E32'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E32'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e33
+  origin: '''Stationary Combustion''!E33'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E33'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e33
+  origin: '''Stationary Combustion''!E33'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E33'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e34
+  origin: '''Stationary Combustion''!E34'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E34'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e34
+  origin: '''Stationary Combustion''!E34'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E34'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e35
+  origin: '''Stationary Combustion''!E35'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E35'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e35
+  origin: '''Stationary Combustion''!E35'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E35'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e36
+  origin: '''Stationary Combustion''!E36'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E36'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e36
+  origin: '''Stationary Combustion''!E36'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E36'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e37
+  origin: '''Stationary Combustion''!E37'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E37'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e37
+  origin: '''Stationary Combustion''!E37'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E37'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e38
+  origin: '''Stationary Combustion''!E38'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E38'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e38
+  origin: '''Stationary Combustion''!E38'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E38'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e39
+  origin: '''Stationary Combustion''!E39'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E39'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e39
+  origin: '''Stationary Combustion''!E39'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E39'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e40
+  origin: '''Stationary Combustion''!E40'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E40'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e40
+  origin: '''Stationary Combustion''!E40'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E40'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e41
+  origin: '''Stationary Combustion''!E41'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E41'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e41
+  origin: '''Stationary Combustion''!E41'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E41'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e42
+  origin: '''Stationary Combustion''!E42'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E42'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e42
+  origin: '''Stationary Combustion''!E42'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E42'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e43
+  origin: '''Stationary Combustion''!E43'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e43
+  origin: '''Stationary Combustion''!E43'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v43
+  origin: '''Stationary Combustion''!V43'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v43
+  origin: '''Stationary Combustion''!V43'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e44
+  origin: '''Stationary Combustion''!E44'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e44
+  origin: '''Stationary Combustion''!E44'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v44
+  origin: '''Stationary Combustion''!V44'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v44
+  origin: '''Stationary Combustion''!V44'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V44'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e45
+  origin: '''Stationary Combustion''!E45'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e45
+  origin: '''Stationary Combustion''!E45'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v45
+  origin: '''Stationary Combustion''!V45'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v45
+  origin: '''Stationary Combustion''!V45'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e46
+  origin: '''Stationary Combustion''!E46'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E46'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e46
+  origin: '''Stationary Combustion''!E46'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E46'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v46
+  origin: '''Stationary Combustion''!V46'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V46'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v46
+  origin: '''Stationary Combustion''!V46'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V46'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e47
+  origin: '''Stationary Combustion''!E47'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E47'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e47
+  origin: '''Stationary Combustion''!E47'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E47'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v47
+  origin: '''Stationary Combustion''!V47'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V47'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v47
+  origin: '''Stationary Combustion''!V47'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V47'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e48
+  origin: '''Stationary Combustion''!E48'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E48'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e48
+  origin: '''Stationary Combustion''!E48'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E48'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v48
+  origin: '''Stationary Combustion''!V48'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V48'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v48
+  origin: '''Stationary Combustion''!V48'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V48'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e49
+  origin: '''Stationary Combustion''!E49'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E49'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e49
+  origin: '''Stationary Combustion''!E49'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E49'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v49
+  origin: '''Stationary Combustion''!V49'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V49'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v49
+  origin: '''Stationary Combustion''!V49'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V49'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e50
+  origin: '''Stationary Combustion''!E50'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E50'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e50
+  origin: '''Stationary Combustion''!E50'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E50'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v50
+  origin: '''Stationary Combustion''!V50'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V50'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v50
+  origin: '''Stationary Combustion''!V50'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V50'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e51
+  origin: '''Stationary Combustion''!E51'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e51
+  origin: '''Stationary Combustion''!E51'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v51
+  origin: '''Stationary Combustion''!V51'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v51
+  origin: '''Stationary Combustion''!V51'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e52
+  origin: '''Stationary Combustion''!E52'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e52
+  origin: '''Stationary Combustion''!E52'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v52
+  origin: '''Stationary Combustion''!V52'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v52
+  origin: '''Stationary Combustion''!V52'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e53
+  origin: '''Stationary Combustion''!E53'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e53
+  origin: '''Stationary Combustion''!E53'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v53
+  origin: '''Stationary Combustion''!V53'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v53
+  origin: '''Stationary Combustion''!V53'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e54
+  origin: '''Stationary Combustion''!E54'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E54'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e54
+  origin: '''Stationary Combustion''!E54'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E54'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v54
+  origin: '''Stationary Combustion''!V54'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V54'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v54
+  origin: '''Stationary Combustion''!V54'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V54'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e55
+  origin: '''Stationary Combustion''!E55'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E55'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e55
+  origin: '''Stationary Combustion''!E55'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E55'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v55
+  origin: '''Stationary Combustion''!V55'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V55'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v55
+  origin: '''Stationary Combustion''!V55'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V55'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e56
+  origin: '''Stationary Combustion''!E56'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e56
+  origin: '''Stationary Combustion''!E56'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v56
+  origin: '''Stationary Combustion''!V56'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v56
+  origin: '''Stationary Combustion''!V56'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e57
+  origin: '''Stationary Combustion''!E57'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e57
+  origin: '''Stationary Combustion''!E57'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v57
+  origin: '''Stationary Combustion''!V57'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v57
+  origin: '''Stationary Combustion''!V57'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e58
+  origin: '''Stationary Combustion''!E58'
+  fingerprint: =IF(EQ(RC[-1],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-1],'DropDown'!R2C18:R29C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!E58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e58
+  origin: '''Stationary Combustion''!E58'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_v58
+  origin: '''Stationary Combustion''!V58'
+  fingerprint: =IF(EQ(RC[-18],{"k":"s","t":""}),{"k":"s","t":""},VLOOKUP(RC[-18],'DropDown'!R2C18:R12C19,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}))
+  label: '''Stationary Combustion''!V58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_v58
+  origin: '''Stationary Combustion''!V58'
+  fingerprint: ''
+  label: '''Stationary Combustion''!V58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: unit_conversions_c57
+  origin: '''Unit Conversions''!C57'
+  fingerprint: =ROUND(DIV({"k":"n","h":"0x1.0000000000000p+0"},R[-2]C),{"k":"n","h":"0x1.8000000000000p+1"})
+  label: '''Unit Conversions''!C57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_unit_conversions_c57
+  origin: '''Unit Conversions''!C57'
+  fingerprint: ''
+  label: '''Unit Conversions''!C57'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_e14
+  origin: '''Upstream Trans and Dist''!E14'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R279C1:R281C4,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Upstream Trans and Dist''!E14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_e14
+  origin: '''Upstream Trans and Dist''!E14'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!E14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_f14
+  origin: '''Upstream Trans and Dist''!F14'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R279C1:R281C4,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Upstream Trans and Dist''!F14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_f14
+  origin: '''Upstream Trans and Dist''!F14'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!F14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_g14
+  origin: '''Upstream Trans and Dist''!G14'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC3,'Emission Factors'!R279C1:R281C4,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false}),RC4))
+  label: '''Upstream Trans and Dist''!G14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_g14
+  origin: '''Upstream Trans and Dist''!G14'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!G14'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_e58
+  origin: '''Upstream Trans and Dist''!E58'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC[-2],'Emission Factors'!R282C1:R285C4,{"k":"n","h":"0x1.0000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Upstream Trans and Dist''!E58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_e58
+  origin: '''Upstream Trans and Dist''!E58'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!E58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_f58
+  origin: '''Upstream Trans and Dist''!F58'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC[-3],'Emission Factors'!R282C1:R285C4,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),RC4))
+  label: '''Upstream Trans and Dist''!F58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_f58
+  origin: '''Upstream Trans and Dist''!F58'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!F58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_g58
+  origin: '''Upstream Trans and Dist''!G58'
+  fingerprint: =IF(EQ(RC3,{"k":"s","t":""}),{"k":"s","t":""},MUL(VLOOKUP(RC[-4],'Emission Factors'!R282C1:R285C4,{"k":"n","h":"0x1.0000000000000p+2"},{"k":"b","b":false}),RC4))
+  label: '''Upstream Trans and Dist''!G58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_g58
+  origin: '''Upstream Trans and Dist''!G58'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!G58'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_e56
+  origin: '''Business Travel''!E56'
+  fingerprint: =SUM(R18C5:R55C5)
+  label: '''Business Travel''!E56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_e56
+  origin: '''Business Travel''!E56'
+  fingerprint: ''
+  label: '''Business Travel''!E56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_f56
+  origin: '''Business Travel''!F56'
+  fingerprint: =SUM(R18C6:R55C6)
+  label: '''Business Travel''!F56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_f56
+  origin: '''Business Travel''!F56'
+  fingerprint: ''
+  label: '''Business Travel''!F56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_g56
+  origin: '''Business Travel''!G56'
+  fingerprint: =SUM(R18C7:R55C7)
+  label: '''Business Travel''!G56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_g56
+  origin: '''Business Travel''!G56'
+  fingerprint: ''
+  label: '''Business Travel''!G56'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_e109
+  origin: '''Business Travel''!E109'
+  fingerprint: =SUM(R61C5:R108C5)
+  label: '''Business Travel''!E109'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_e109
+  origin: '''Business Travel''!E109'
+  fingerprint: ''
+  label: '''Business Travel''!E109'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_f109
+  origin: '''Business Travel''!F109'
+  fingerprint: =SUM(R61C6:R108C6)
+  label: '''Business Travel''!F109'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_f109
+  origin: '''Business Travel''!F109'
+  fingerprint: ''
+  label: '''Business Travel''!F109'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_g109
+  origin: '''Business Travel''!G109'
+  fingerprint: =SUM(R61C7:R108C7)
+  label: '''Business Travel''!G109'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_g109
+  origin: '''Business Travel''!G109'
+  fingerprint: ''
+  label: '''Business Travel''!G109'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_e146
+  origin: '''Business Travel''!E146'
+  fingerprint: =SUM(R114C5:R145C5)
+  label: '''Business Travel''!E146'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_e146
+  origin: '''Business Travel''!E146'
+  fingerprint: ''
+  label: '''Business Travel''!E146'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_f146
+  origin: '''Business Travel''!F146'
+  fingerprint: =SUM(R114C6:R145C6)
+  label: '''Business Travel''!F146'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_f146
+  origin: '''Business Travel''!F146'
+  fingerprint: ''
+  label: '''Business Travel''!F146'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: business_travel_g146
+  origin: '''Business Travel''!G146'
+  fingerprint: =SUM(R114C7:R145C7)
+  label: '''Business Travel''!G146'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_business_travel_g146
+  origin: '''Business Travel''!G146'
+  fingerprint: ''
+  label: '''Business Travel''!G146'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_e53
+  origin: '''Commuting''!E53'
+  fingerprint: =SUM(R15C5:R52C5)
+  label: '''Commuting''!E53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_e53
+  origin: '''Commuting''!E53'
+  fingerprint: ''
+  label: '''Commuting''!E53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_f53
+  origin: '''Commuting''!F53'
+  fingerprint: =SUM(R15C6:R52C6)
+  label: '''Commuting''!F53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_f53
+  origin: '''Commuting''!F53'
+  fingerprint: ''
+  label: '''Commuting''!F53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_g53
+  origin: '''Commuting''!G53'
+  fingerprint: =SUM(R15C7:R52C7)
+  label: '''Commuting''!G53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_g53
+  origin: '''Commuting''!G53'
+  fingerprint: ''
+  label: '''Commuting''!G53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_e106
+  origin: '''Commuting''!E106'
+  fingerprint: =SUM(R58C5:R105C5)
+  label: '''Commuting''!E106'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_e106
+  origin: '''Commuting''!E106'
+  fingerprint: ''
+  label: '''Commuting''!E106'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_f106
+  origin: '''Commuting''!F106'
+  fingerprint: =SUM(R58C6:R105C6)
+  label: '''Commuting''!F106'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_f106
+  origin: '''Commuting''!F106'
+  fingerprint: ''
+  label: '''Commuting''!F106'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: commuting_g106
+  origin: '''Commuting''!G106'
+  fingerprint: =SUM(R58C7:R105C7)
+  label: '''Commuting''!G106'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_commuting_g106
+  origin: '''Commuting''!G106'
+  fingerprint: ''
+  label: '''Commuting''!G106'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: electricity_i20
+  origin: '''Electricity''!I20'
+  fingerprint: =IFERROR(IF(OR(ISBLANK(RC[-3]),EQ(RC[-3],{"k":"s","t":"<enter factor>"})),RC[3],MUL(DIV(RC5,{"k":"n","h":"0x1.f400000000000p+9"}),RC[-3])),{"k":"s","t":""})
+  label: '''Electricity''!I20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_electricity_i20
+  origin: '''Electricity''!I20'
+  fingerprint: ''
+  label: '''Electricity''!I20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: electricity_j20
+  origin: '''Electricity''!J20'
+  fingerprint: =IFERROR(IF(OR(ISBLANK(RC[-3]),EQ(RC[-3],{"k":"s","t":"<enter factor>"})),RC[3],MUL(DIV(RC5,{"k":"n","h":"0x1.f400000000000p+9"}),RC[-3])),{"k":"s","t":""})
+  label: '''Electricity''!J20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_electricity_j20
+  origin: '''Electricity''!J20'
+  fingerprint: ''
+  label: '''Electricity''!J20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: electricity_k20
+  origin: '''Electricity''!K20'
+  fingerprint: =IFERROR(IF(OR(ISBLANK(RC[-3]),EQ(RC[-3],{"k":"s","t":"<enter factor>"})),RC[3],MUL(DIV(RC5,{"k":"n","h":"0x1.f400000000000p+9"}),RC[-3])),{"k":"s","t":""})
+  label: '''Electricity''!K20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_electricity_k20
+  origin: '''Electricity''!K20'
+  fingerprint: ''
+  label: '''Electricity''!K20'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: fire_suppression_f68
+  origin: '''Fire Suppression''!F68'
+  fingerprint: =IF(EQ(RC2,{"k":"s","t":"Fixed"}),MUL(MUL(RC4,R108C2),RC5),IF(EQ(RC2,{"k":"s","t":"Portable"}),MUL(MUL(RC4,R109C2),RC5),{"k":"s","t":""}))
+  label: '''Fire Suppression''!F68'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_fire_suppression_f68
+  origin: '''Fire Suppression''!F68'
+  fingerprint: ''
+  label: '''Fire Suppression''!F68'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: heat_content_d13
+  origin: '''Heat Content''!D13'
+  fingerprint: =MUL(R[-6]C,DIV('Unit Conversions'!R[28]C[-1],{"k":"n","h":"0x1.e848000000000p+19"}))
+  label: '''Heat Content''!D13'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_heat_content_d13
+  origin: '''Heat Content''!D13'
+  fingerprint: ''
+  label: '''Heat Content''!D13'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: heat_content_d43
+  origin: '''Heat Content''!D43'
+  fingerprint: =MUL(R[1]C,{"k":"n","h":"0x1.f400000000000p+9"})
+  label: '''Heat Content''!D43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_heat_content_d43
+  origin: '''Heat Content''!D43'
+  fingerprint: ''
+  label: '''Heat Content''!D43'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: refrigeration_and_ac_i77
+  origin: '''Refrigeration and AC''!I77'
+  fingerprint: =IF(EQ(RC4,{"k":"s","t":""}),{"k":"s","t":""},MUL(ADD(MUL(RC5,XLOOKUP(RC[-7],R121C1:R131C1,R121C4:R131C4)),ADD(MUL(MUL(RC7,XLOOKUP(RC[-7],R121C1:R131C1,R121C5:R131C5)),DIV(RC[-3],{"k":"n","h":"0x1.8000000000000p+3"})),MUL(MUL(RC8,XLOOKUP(RC[-7],R121C1:R131C1,R121C6:R131C6)),SUB({"k":"n","h":"0x1.0000000000000p+0"},XLOOKUP(RC[-7],R121C1:R131C1,R121C7:R131C7))))),RC4))
+  label: '''Refrigeration and AC''!I77'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_refrigeration_and_ac_i77
+  origin: '''Refrigeration and AC''!I77'
+  fingerprint: ''
+  label: '''Refrigeration and AC''!I77'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: steam_p25
+  origin: '''Steam''!P25'
+  fingerprint: =IF(EQ(RC6,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC[-3],{"k":"s","t":"<enter factor>"}),EQ(RC[-3],{"k":"s","t":""})),RC[-6],DIV(MUL(RC[-3],RC6),IF(EQ(RC5,{"k":"s","t":""}),{"k":"n","h":"0x1.999999999999ap-1"},DIV(RC5,{"k":"n","h":"0x1.9000000000000p+6"})))))
+  label: '''Steam''!P25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_steam_p25
+  origin: '''Steam''!P25'
+  fingerprint: ''
+  label: '''Steam''!P25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: steam_q25
+  origin: '''Steam''!Q25'
+  fingerprint: =IF(EQ(RC6,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC[-3],{"k":"s","t":"<enter factor>"}),EQ(RC[-3],{"k":"s","t":""})),RC[-6],DIV(MUL(RC[-3],RC6),IF(EQ(RC5,{"k":"s","t":""}),{"k":"n","h":"0x1.999999999999ap-1"},DIV(RC5,{"k":"n","h":"0x1.9000000000000p+6"})))))
+  label: '''Steam''!Q25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_steam_q25
+  origin: '''Steam''!Q25'
+  fingerprint: ''
+  label: '''Steam''!Q25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: steam_r25
+  origin: '''Steam''!R25'
+  fingerprint: =IF(EQ(RC6,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC[-3],{"k":"s","t":"<enter factor>"}),EQ(RC[-3],{"k":"s","t":""})),RC[-6],DIV(MUL(RC[-3],RC6),IF(EQ(RC5,{"k":"s","t":""}),{"k":"n","h":"0x1.999999999999ap-1"},DIV(RC5,{"k":"n","h":"0x1.9000000000000p+6"})))))
+  label: '''Steam''!R25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_steam_r25
+  origin: '''Steam''!R25'
+  fingerprint: ''
+  label: '''Steam''!R25'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: steam_p26
+  origin: '''Steam''!P26'
+  fingerprint: =IF(EQ(RC6,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC[-3],{"k":"s","t":"<enter factor>"}),EQ(RC[-3],{"k":"s","t":""})),RC[-6],DIV(MUL(RC[-3],RC6),IF(EQ(RC5,{"k":"s","t":""}),{"k":"n","h":"0x1.999999999999ap-1"},DIV(RC5,{"k":"n","h":"0x1.9000000000000p+6"})))))
+  label: '''Steam''!P26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_steam_p26
+  origin: '''Steam''!P26'
+  fingerprint: ''
+  label: '''Steam''!P26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: steam_q26
+  origin: '''Steam''!Q26'
+  fingerprint: =IF(EQ(RC6,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC[-3],{"k":"s","t":"<enter factor>"}),EQ(RC[-3],{"k":"s","t":""})),RC[-6],DIV(MUL(RC[-3],RC6),IF(EQ(RC5,{"k":"s","t":""}),{"k":"n","h":"0x1.999999999999ap-1"},DIV(RC5,{"k":"n","h":"0x1.9000000000000p+6"})))))
+  label: '''Steam''!Q26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_steam_q26
+  origin: '''Steam''!Q26'
+  fingerprint: ''
+  label: '''Steam''!Q26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: steam_r26
+  origin: '''Steam''!R26'
+  fingerprint: =IF(EQ(RC6,{"k":"s","t":""}),{"k":"s","t":""},IF(OR(EQ(RC[-3],{"k":"s","t":"<enter factor>"}),EQ(RC[-3],{"k":"s","t":""})),RC[-6],DIV(MUL(RC[-3],RC6),IF(EQ(RC5,{"k":"s","t":""}),{"k":"n","h":"0x1.999999999999ap-1"},DIV(RC5,{"k":"n","h":"0x1.9000000000000p+6"})))))
+  label: '''Steam''!R26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_steam_r26
+  origin: '''Steam''!R26'
+  fingerprint: ''
+  label: '''Steam''!R26'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: heat_content_d45
+  origin: '''Heat Content''!D45'
+  fingerprint: =DIV(R[-1]C,'Unit Conversions'!R[-30]C[-1])
+  label: '''Heat Content''!D45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_heat_content_d45
+  origin: '''Heat Content''!D45'
+  fingerprint: ''
+  label: '''Heat Content''!D45'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_e53
+  origin: '''Upstream Trans and Dist''!E53'
+  fingerprint: =SUM(R15C5:R52C5)
+  label: '''Upstream Trans and Dist''!E53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_e53
+  origin: '''Upstream Trans and Dist''!E53'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!E53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_f53
+  origin: '''Upstream Trans and Dist''!F53'
+  fingerprint: =SUM(R15C6:R52C6)
+  label: '''Upstream Trans and Dist''!F53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_f53
+  origin: '''Upstream Trans and Dist''!F53'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!F53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_g53
+  origin: '''Upstream Trans and Dist''!G53'
+  fingerprint: =SUM(R15C7:R52C7)
+  label: '''Upstream Trans and Dist''!G53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_g53
+  origin: '''Upstream Trans and Dist''!G53'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!G53'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_e97
+  origin: '''Upstream Trans and Dist''!E97'
+  fingerprint: =SUM(R59C5:R96C5)
+  label: '''Upstream Trans and Dist''!E97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_e97
+  origin: '''Upstream Trans and Dist''!E97'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!E97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_f97
+  origin: '''Upstream Trans and Dist''!F97'
+  fingerprint: =SUM(R59C6:R96C6)
+  label: '''Upstream Trans and Dist''!F97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_f97
+  origin: '''Upstream Trans and Dist''!F97'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!F97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: upstream_trans_and_dist_g97
+  origin: '''Upstream Trans and Dist''!G97'
+  fingerprint: =SUM(R59C7:R96C7)
+  label: '''Upstream Trans and Dist''!G97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_upstream_trans_and_dist_g97
+  origin: '''Upstream Trans and Dist''!G97'
+  fingerprint: ''
+  label: '''Upstream Trans and Dist''!G97'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_e51
+  origin: '''Help - Market-Based Method''!E51'
+  fingerprint: =DIV(MUL(ADD(ADD(R46C15,MUL(R46C16,'Emission Factors'!R372C3)),MUL(R46C17,'Emission Factors'!R373C3)),'Unit
+    Conversions'!R9C3),{"k":"n","h":"0x1.f400000000000p+9"})
+  label: '''Help - Market-Based Method''!E51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_e51
+  origin: '''Help - Market-Based Method''!E51'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!E51'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_g81
+  origin: '''Summary''!G81'
+  fingerprint: ='Mobile Sources'!R[236]C[-2]
+  label: '''Summary''!G81'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_g81
+  origin: '''Summary''!G81'
+  fingerprint: ''
+  label: '''Summary''!G81'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: waste_g12
+  origin: '''Waste''!G12'
+  fingerprint: =IF(EQ(RC5,{"k":"s","t":""}),{"k":"s","t":""},MUL(MUL(RC[-2],MUL(VLOOKUP(RC6,'Unit Conversions'!R12C1:R16C3,{"k":"n","h":"0x1.8000000000000p+1"},{"k":"b","b":false}),INDEX('Emission
+    Factors'!R289C2:R350C8,MATCH(RC[-4],'Emission Factors'!R289C2:R350C2,{"k":"n","h":"0x0.0p+0"}),MATCH(RC[-3],'Emission
+    Factors'!R289C2:R289C8,{"k":"n","h":"0x0.0p+0"})))),{"k":"n","h":"0x1.f400000000000p+9"}))
+  label: '''Waste''!G12'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_waste_g12
+  origin: '''Waste''!G12'
+  fingerprint: ''
+  label: '''Waste''!G12'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: help_market_based_method_e52
+  origin: '''Help - Market-Based Method''!E52'
+  fingerprint: =DIV(MUL(ADD(ADD(R46C9,MUL(R46C10,'Emission Factors'!R372C3)),MUL(R46C11,'Emission Factors'!R373C3)),'Unit
+    Conversions'!R9C3),{"k":"n","h":"0x1.f400000000000p+9"})
+  label: '''Help - Market-Based Method''!E52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_help_market_based_method_e52
+  origin: '''Help - Market-Based Method''!E52'
+  fingerprint: ''
+  label: '''Help - Market-Based Method''!E52'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_i72
+  origin: '''Summary''!I72'
+  fingerprint: =IF(LT(SUB(RC[-2],RC[-1]),{"k":"n","h":"0x0.0p+0"}),{"k":"n","h":"0x0.0p+0"},SUB(RC[-2],RC[-1]))
+  label: '''Summary''!I72'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_i72
+  origin: '''Summary''!I72'
+  fingerprint: ''
+  label: '''Summary''!I72'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_i73
+  origin: '''Summary''!I73'
+  fingerprint: =IF(LT(SUB(RC[-2],RC[-1]),{"k":"n","h":"0x0.0p+0"}),{"k":"n","h":"0x0.0p+0"},SUB(RC[-2],RC[-1]))
+  label: '''Summary''!I73'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_i73
+  origin: '''Summary''!I73'
+  fingerprint: ''
+  label: '''Summary''!I73'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_i74
+  origin: '''Summary''!I74'
+  fingerprint: =IF(LT(SUB(RC[-2],RC[-1]),{"k":"n","h":"0x0.0p+0"}),{"k":"n","h":"0x0.0p+0"},SUB(RC[-2],RC[-1]))
+  label: '''Summary''!I74'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_i74
+  origin: '''Summary''!I74'
+  fingerprint: ''
+  label: '''Summary''!I74'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_c138
+  origin: '''Stationary Combustion''!C138'
+  fingerprint: =ADD(R[-12]C,R[-1]C)
+  label: '''Stationary Combustion''!C138'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_c138
+  origin: '''Stationary Combustion''!C138'
+  fingerprint: ''
+  label: '''Stationary Combustion''!C138'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_d138
+  origin: '''Stationary Combustion''!D138'
+  fingerprint: =ADD(R[-12]C,R[-1]C)
+  label: '''Stationary Combustion''!D138'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_d138
+  origin: '''Stationary Combustion''!D138'
+  fingerprint: ''
+  label: '''Stationary Combustion''!D138'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: stationary_combustion_e138
+  origin: '''Stationary Combustion''!E138'
+  fingerprint: =ADD(R[-12]C,R[-1]C)
+  label: '''Stationary Combustion''!E138'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_stationary_combustion_e138
+  origin: '''Stationary Combustion''!E138'
+  fingerprint: ''
+  label: '''Stationary Combustion''!E138'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_i75
+  origin: '''Summary''!I75'
+  fingerprint: =IF(LT(SUB(RC[-2],RC[-1]),{"k":"n","h":"0x0.0p+0"}),{"k":"n","h":"0x0.0p+0"},SUB(RC[-2],RC[-1]))
+  label: '''Summary''!I75'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_i75
+  origin: '''Summary''!I75'
+  fingerprint: ''
+  label: '''Summary''!I75'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_g80
+  origin: '''Summary''!G80'
+  fingerprint: ='Stationary Combustion'!R[63]C[-2]
+  label: '''Summary''!G80'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_g80
+  origin: '''Summary''!G80'
+  fingerprint: ''
+  label: '''Summary''!G80'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_g65
+  origin: '''Summary''!G65'
+  fingerprint: =SUM(R32C7:R36C7,R45C7:R46C7)
+  label: '''Summary''!G65'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_g65
+  origin: '''Summary''!G65'
+  fingerprint: ''
+  label: '''Summary''!G65'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_g66
+  origin: '''Summary''!G66'
+  fingerprint: =SUM(R32C7:R36C7,R54C7:R55C7)
+  label: '''Summary''!G66'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_g66
+  origin: '''Summary''!G66'
+  fingerprint: ''
+  label: '''Summary''!G66'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_h65
+  origin: '''Summary''!H65'
+  fingerprint: =SUM(R[-25]C[1],R[-15]C[1])
+  label: '''Summary''!H65'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_h65
+  origin: '''Summary''!H65'
+  fingerprint: ''
+  label: '''Summary''!H65'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: summary_h66
+  origin: '''Summary''!H66'
+  fingerprint: =SUM(R[-26]C[1],R[-7]C[1])
+  label: '''Summary''!H66'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_summary_h66
+  origin: '''Summary''!H66'
+  fingerprint: ''
+  label: '''Summary''!H66'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26

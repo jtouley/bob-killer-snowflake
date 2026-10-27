@@ -1,0 +1,50 @@
+workbook_sha256: e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047
+reviews:
+- node_id: revenue_c13
+  origin: '''REVENUE''!C13'
+  fingerprint: =IF(NE(RC[-1],SUM(R17C2:R19C2)),{"k":"s","t":"Please complete Status"},{"k":"s","t":""})
+  label: '''REVENUE''!C13'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_revenue_c13
+  origin: '''REVENUE''!C13'
+  fingerprint: ''
+  label: '''REVENUE''!C13'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: costs_f15
+  origin: '''COSTS''!F15'
+  fingerprint: =TEXT(RC[-1],{"k":"z"})
+  label: '''COSTS''!F15'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_costs_f15
+  origin: '''COSTS''!F15'
+  fingerprint: ''
+  label: '''COSTS''!F15'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: revenue_b16
+  origin: '''REVENUE''!B16'
+  fingerprint: =SUB(R[-1]C,R[1]C)
+  label: '''REVENUE''!B16'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_revenue_b16
+  origin: '''REVENUE''!B16'
+  fingerprint: ''
+  label: '''REVENUE''!B16'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: revenue_d16
+  origin: '''REVENUE''!D16'
+  fingerprint: =SUB(R[-1]C[-2],SUM(R17C2:R19C2))
+  label: '''REVENUE''!D16'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26
+- node_id: out_revenue_d16
+  origin: '''REVENUE''!D16'
+  fingerprint: ''
+  label: '''REVENUE''!D16'
+  reviewer: jtouley
+  reason: MVP pre-approval 2026-10-26

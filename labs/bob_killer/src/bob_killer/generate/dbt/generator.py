@@ -28,6 +28,7 @@ from bob_killer.contracts.ir import (
     WorkbookIR,
     iter_expr,
 )
+from bob_killer.contracts.workbook import WbInputCell
 from bob_killer.generate.base import (
     CellValues,
     dbt_text,
@@ -67,6 +68,9 @@ CELL_TEST = "bk_unique_cell"
 PARITY_TEST = "bk_exact_parity"
 PARITY_TAG = "bk_parity"
 FACT_MODEL = "fct_formula_cells"
+# WB_INPUT_CELLS columns: the host DDL is unquoted, so Snowflake stores the contract field names
+# in upper case; generated SQL quotes them as stored (one quoting function, §3.5).
+SOURCE_COLUMNS = {name: ident(name.upper()) for name in WbInputCell.model_fields}
 MACROS = ("bk_fn", "bk_op", "bk_param", "bk_wire", "bk_ident")
 
 
@@ -313,6 +317,7 @@ class _Build:
                 last_col=rng.last_col,
                 height=rng.height,
                 columns=[{"name": c.name, "col": rng.col + i} for i, c in enumerate(inp.columns)],
+                src=SOURCE_COLUMNS,
             )
             docs = {"_row": "Excel row, 1-based.", "_col": "Excel column of the first IR column."}
             docs |= {c.name: f"{c.label} ({c.dtype.value}) as a wire object." for c in inp.columns}
