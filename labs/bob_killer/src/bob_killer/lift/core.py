@@ -3,7 +3,9 @@
 This first cut lifts every formula cell as a ``scalar_expr`` with an R1C1 fingerprint, every
 non-formula cell a formula reads as a scalar input, volatile cells as ``frozen_volatile`` inputs
 (D24), and formula cells nothing reads as outputs. Names use the sheet+address fallback of core
-decision 3 and are ``needs_review``. A formula whose AST has no IR form is ``unsupported``.
+decision 3 and are ``needs_review``. A defined name becomes the cell or range it refers to
+(sheet scope first, then workbook scope); a missing argument is a blank literal, the value the
+golden probe evaluates it to. A formula whose AST has no IR form is ``unsupported``.
 """
 
 from __future__ import annotations
@@ -82,10 +84,32 @@ def slug(text: str) -> str:
     return s if s[:1].isalpha() else f"s_{s}"
 
 
+Names = Mapping[tuple[str, str], str]
+"""(scope, casefolded name) -> refers_to; scope is "" for workbook scope, else the sheet."""
+
+
 class _Converter:
-    def __init__(self, sheet: str, sheets: Mapping[str, str]) -> None:
+    def __init__(self, sheet: str, sheets: Mapping[str, str], names: Names) -> None:
         self.sheet = sheet
         self.sheets = sheets
+        self.names = names
+
+    def _name(self, sheet: str | None, name: str) -> Expr:
+        scope = self._sheet(sheet) if sheet is not None else self.sheet
+        key = name.casefold()
+        target = self.names.get((scope, key), self.names.get(("", key)))
+        if target is None:
+            raise NotLiftable(f"unknown name {name!r}")
+        try:
+            r = cell_range(target)
+        except ValueError:
+            raise NotLiftable(f"name {name!r} refers to {target!r}") from None
+        sheet_name = self._sheet(r.sheet)
+        if r.height == 1 and r.width == 1:
+            return CellExpr(sheet=sheet_name, row=r.row, col=r.col, row_abs=True, col_abs=True)
+        return RangeExpr(
+            sheet=sheet_name, row=r.row, col=r.col, last_row=r.last_row, last_col=r.last_col
+        )
 
     def _sheet(self, name: str | None) -> str:
         if name is None:
@@ -105,6 +129,10 @@ class _Converter:
                 return LiteralExpr(value=CellValue.boolean(v))
             case g.ErrorLiteral(value=v):
                 return LiteralExpr(value=CellValue.error(ExcelError(v.value)))
+            case g.Missing():
+                return LiteralExpr(value=CellValue.blank())
+            case g.NameRef(sheet=s, name=n):
+                return self._name(s, n)
             case g.CellRef(sheet=s, at=at) if at.row is not None and at.column is not None:
                 return CellExpr(
                     sheet=self._sheet(s),
@@ -196,6 +224,7 @@ def lift(raw: RawWorkbook, graph: g.CellGraph, *, file: str = "workbook.xlsx") -
         sheet_ids[sh.name] = sid
         sheets.append(Sheet(id=sid, name=sh.name, index=sh.position))
     by_fold = {name.casefold(): name for name in sheet_ids}
+    names = {(d.scope, d.name.casefold()): d.refers_to for d in raw.defined_names}
 
     def node_id(ref: CellRef) -> str:
         return f"{sheet_ids[ref.sheet]}_{_letters(ref.col).lower()}{ref.row}"
@@ -214,7 +243,7 @@ def lift(raw: RawWorkbook, graph: g.CellGraph, *, file: str = "workbook.xlsx") -
                 raise NotLiftable(node.error or "no AST")
             if node.unresolved_names or node.dynamic:
                 raise NotLiftable("unresolved names or dynamic references")
-            expr = _Converter(key.sheet, by_fold).convert(node.ast)
+            expr = _Converter(key.sheet, by_fold, names).convert(node.ast)
         except NotLiftable as exc:
             unsupported.append(Unsupported(kind=FORMULA, origin=a1(ref), reason=str(exc)))
             continue
