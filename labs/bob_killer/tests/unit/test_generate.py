@@ -571,3 +571,77 @@ def test_dbt_docs_blocks_reuse_the_docs_page_text() -> None:
     for name, body in blocks:
         shown = Recorder().render(body)  # dbt renders a docs block as Jinja
         assert shown.strip() and shown in page, name
+
+
+# --- the UDF calling convention (hosts/snowflake/udfs.py) and lazy IF ------------------------------
+
+
+def _render() -> Any:
+    from bob_killer.generate.dbt import render
+
+    return render
+
+
+@settings(max_examples=200, deadline=None)
+@given(data=st.data())
+def test_every_udf_call_takes_its_arguments_as_one_array(data: st.DataObject) -> None:
+    from bob_killer.contracts.ir import CallExpr, OpExpr, iter_expr
+    from bob_killer.generate.dbt.generator import sql_renderer
+
+    expr = data.draw(_exprs())
+    bare = STRING_LITERAL.sub("''", sql_renderer(sample_ir()).scalar(expr))
+    calls = sum(isinstance(n, CallExpr | OpExpr) for n in iter_expr(expr))
+    assert bare.count("}}(" + _render().ARGS + "(") == calls
+
+
+def test_a_one_cell_reference_argument_is_a_one_element_array() -> None:
+    from bob_killer.contracts.ir import CallExpr, CellExpr
+    from bob_killer.generate.dbt.generator import sql_renderer
+
+    renderer = sql_renderer(sample_ir())
+    ref = next(c for s in sample_ir().steps for c in s.cells())
+    cell = CellExpr(sheet=ref.sheet, row=ref.row, col=ref.col)
+    args = _render().ARGS
+    sql = renderer.scalar(CallExpr(name="SUM", args=(cell,)))
+    assert sql.endswith(f"({args}({args}({renderer.scalar(cell)})))")
+
+
+def test_a_range_argument_carries_its_column_count() -> None:
+    from bob_killer.contracts.ir import RANGE_CELLS, RANGE_COLUMNS, RangeExpr
+    from bob_killer.generate.dbt.generator import sql_renderer
+
+    rng = next(r for s in sample_ir().steps for r in s.ranges())
+    expr = RangeExpr(
+        sheet=rng.sheet, row=rng.row, col=rng.col, last_row=rng.last_row, last_col=rng.last_col
+    )
+    sql = sql_renderer(sample_ir()).scalar(expr)
+    assert sql.startswith(f"OBJECT_CONSTRUCT('{RANGE_COLUMNS}', {rng.width}, '{RANGE_CELLS}', ")
+
+
+def test_if_binds_its_choice_once_and_renders_each_branch_once() -> None:
+    from bob_killer.contracts.ir import CallExpr, CellValue, LiteralExpr
+    from bob_killer.generate.dbt.generator import sql_renderer
+
+    render = _render()
+    renderer = sql_renderer(sample_ir())
+    test, yes, no = (LiteralExpr(value=CellValue.text(t)) for t in ("test", "yes", "no"))
+    marks = tuple(LiteralExpr(value=CellValue.number(m)) for m in render.IF_BRANCHES)
+    sql = renderer.scalar(CallExpr(name="IF", args=(test, yes, no)))
+    choose = renderer.scalar(CallExpr(name="IF", args=(test, *marks)))
+    assert sql.count(choose) == 1
+    assert sql.count("bk_fn(") == 1
+    for branch in (yes, no):
+        assert sql.count(renderer.scalar(branch)) == 1
+    then = [sql.index(f"THEN {renderer.scalar(b)}") for b in (yes, no)]
+    assert all(i > 0 for i in then)
+
+
+def test_every_step_cell_value_is_unwrapped_and_shows_blank_as_zero() -> None:
+    from bob_killer.generate.dbt.generator import sql_renderer
+
+    renderer = sql_renderer(sample_ir())
+    files = project()
+    text = "\n".join(v for k, v in files.items() if k.startswith("dbt/models/intermediate/"))
+    for step in sample_ir().steps:
+        if step.kind == "scalar_expr":
+            assert _render().cell_value(renderer.scalar(step.expr)) in text, step.id

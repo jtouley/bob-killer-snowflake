@@ -105,7 +105,9 @@ def test_every_formula_cell_of_the_goal_set_lifts(
     raw = pinned_raw(workbook_id)
     ir = _lift_with_names(raw)
     formulas = [c for c in raw.cells if c.formula]
-    assert [u for u in ir.unsupported if u.kind == "formula"] == []
+    from bob_killer.lift.core import FORMULA
+
+    assert [u for u in ir.unsupported if u.kind == FORMULA] == []
     assert len(ir.steps) == len(formulas)
 
 
