@@ -95,3 +95,10 @@ def test_compiler_objects_file_is_the_generated_ddl() -> None:
 
     assert WbInputCell in COMPILER_TABLES
     assert COMPILER_OBJECTS.read_text(encoding="utf-8") == compiler_objects_sql()
+
+
+def test_compiler_tables_hold_the_equivalence_report() -> None:
+    from bob_killer.contracts.report import EquivalenceReport
+    from bob_killer.hosts.snowflake.ddl import COMPILER_TABLES
+
+    assert EquivalenceReport in COMPILER_TABLES

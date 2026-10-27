@@ -485,3 +485,13 @@ def test_register_pipeline_builds_with_dbt_after_generate() -> None:
     procedure.register_pipeline()
     expected = (*PIPELINE, generate_stage.STAGE_NAME, dbt.STAGE_NAME)
     assert registry.stages.names()[: len(expected)] == expected
+
+
+def test_register_pipeline_verifies_after_dbt() -> None:
+    from bob_killer.generate import stage as generate_stage
+    from bob_killer.hosts.snowflake import dbt
+    from bob_killer.verify import stage as verify_stage
+
+    procedure.register_pipeline()
+    expected = (*PIPELINE, generate_stage.STAGE_NAME, dbt.STAGE_NAME, verify_stage.STAGE_NAME)
+    assert registry.stages.names() == expected
