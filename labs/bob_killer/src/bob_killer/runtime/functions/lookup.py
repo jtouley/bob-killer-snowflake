@@ -6,8 +6,8 @@ wildcards, case ignored). A number never matches text, number text included: the
 "you try to have VLOOKUP reference a number, but the source data is stored as text" as a cause
 of #N/A. A blank lookup value is answered only when every reading of it (as 0, as empty text,
 or as matching no cell) gives #N/A, that is when the column holds no 0, no empty text and no
-blank cell; otherwise it is refused. Approximate match needs a first column sorted ascending and of the
-lookup value's type; it returns the last row whose value is less than or equal to the lookup
+blank cell; otherwise it is refused. Approximate match needs a first column sorted ascending
+and of the lookup value's type; it returns the last row whose value is less than or equal to the lookup
 value, #N/A below the smallest. An unsorted column, mixed types or a duplicate at the match are
 refused: Excel's answer then depends on its search order, which is not documented.
 """
