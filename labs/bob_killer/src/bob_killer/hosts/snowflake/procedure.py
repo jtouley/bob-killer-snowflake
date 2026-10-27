@@ -28,7 +28,7 @@ from bob_killer.contracts.runs import RunCreated, RunRejected, RunView, UploadLi
 from bob_killer.extract import stage as extract_stage
 from bob_killer.generate import stage as generate_stage
 from bob_killer.graph import stage as graph_stage
-from bob_killer.hosts.snowflake import bronze
+from bob_killer.hosts.snowflake import bronze, dbt
 from bob_killer.hosts.snowflake.compiler import CompilerIO
 from bob_killer.hosts.snowflake.store import SnowflakeRunStore
 from bob_killer.lift import stage as lift_stage
@@ -114,6 +114,7 @@ def register_pipeline() -> None:
     graph_stage.register_stages(_BOUND)
     lift_stage.register_stages(_BOUND)
     generate_stage.register_stages(_BOUND_COMPILER)
+    dbt.register_stages(_BOUND_COMPILER)
 
 
 def create_run_handler(
