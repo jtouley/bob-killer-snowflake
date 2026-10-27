@@ -1,0 +1,106 @@
+
+== mt_dot_budget RUN_PIPELINE (2026-10-27T20:04:55.882344+00:00)
+{
+  "run_id": "b03d62500896493bb5a33be436b13dc7",
+  "stages": [
+    [
+      "land_bronze",
+      "succeeded",
+      "landed"
+    ],
+    [
+      "extract",
+      "succeeded",
+      ""
+    ],
+    [
+      "graph",
+      "succeeded",
+      ""
+    ],
+    [
+      "lift",
+      "succeeded",
+      ""
+    ],
+    [
+      "generate",
+      "succeeded",
+      "47 files, 48 input cells"
+    ],
+    [
+      "dbt_build",
+      "succeeded",
+      "{\"build\": {\"archive\": null, \"success\": true}, \"dbt_version\": \"1.12.3\", \"parity\": {\"archive\": null, \"success\": true}, \"project\": \"BK_B03D6250\"}"
+    ],
+    [
+      "verify",
+      "succeeded",
+      "31 of 31 cells match (denominator 31)"
+    ]
+  ],
+  "report": {
+    "DENOMINATOR": 31,
+    "CELLS_CHECKED": 31,
+    "CELLS_MATCHED": 31,
+    "CHANNELS_AGREE": true,
+    "PARITY_TEST_FAILURES": 0
+  },
+  "files_on_stage": 49,
+  "docs": [
+    "b03d62500896493bb5a33be436b13dc7/docs/workbook.md"
+  ]
+}
+
+== mt_dot_budget RUN_PIPELINE (2026-10-27T21:32:47.898223+00:00)
+{
+  "run_id": "0df6f99670b549c49ca2c4fbcb0d0868",
+  "stages": [
+    [
+      "land_bronze",
+      "succeeded",
+      "landed"
+    ],
+    [
+      "extract",
+      "succeeded",
+      ""
+    ],
+    [
+      "graph",
+      "succeeded",
+      ""
+    ],
+    [
+      "lift",
+      "succeeded",
+      ""
+    ],
+    [
+      "generate",
+      "succeeded",
+      "47 files, 48 input cells"
+    ],
+    [
+      "dbt_build",
+      "succeeded",
+      "{\"build\": {\"archive\": null, \"success\": true}, \"dbt_version\": \"1.12.3\", \"parity\": {\"archive\": null, \"success\": true}, \"project\": \"BK_0DF6F996\"}"
+    ],
+    [
+      "verify",
+      "succeeded",
+      "31 of 31 cells match (denominator 31)"
+    ]
+  ],
+  "report": {
+    "DENOMINATOR": 31,
+    "CELLS_CHECKED": 31,
+    "CELLS_MATCHED": 31,
+    "CHANNELS_AGREE": true,
+    "PARITY_TEST_FAILURES": 0
+  },
+  "files_on_stage": 49,
+  "docs": [
+    "0df6f99670b549c49ca2c4fbcb0d0868/docs/workbook.md"
+  ]
+}

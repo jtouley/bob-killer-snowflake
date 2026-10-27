@@ -1,0 +1,18 @@
+{
+  "junit_sha256": "687dc3501530333279f04ece1760cb51c5ae76d3d625a2c2ce29fd4566cc1d1a",
+  "nodes": {
+    "tests.live.test_pipeline::test_one_upload_runs_the_whole_pipeline_inside_snowflake[mt_dot_budget]": "passed",
+    "tests.live.test_pipeline::test_one_upload_runs_the_whole_pipeline_inside_snowflake[sgec_current]": "failed"
+  },
+  "pytest_args": [
+    "-m",
+    "live",
+    "-p",
+    "no:warnings",
+    "tests/live/test_pipeline.py"
+  ],
+  "recorded_at": "2026-10-27T21:28:34Z",
+  "run_id": "20261027T212834Z-1af8b7d2",
+  "tdd_phase": "green",
+  "tests_tree_sha256": "babe32e25810a5ffa1c290dde09681b483fe51d211440394800ebfb4a0f1f23c"
+}

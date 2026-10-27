@@ -13,7 +13,7 @@ Claude Code runs the Cadence pipeline; Snowflake CoCo (Cortex Code CLI) builds e
 | --- | --- |
 | MVP: one upload, one `RUN_PIPELINE(run_id)` call inside Snowflake | `land_bronze → extract → graph → lift → generate → dbt_build → verify`; deployed in `APP` (`BOB_KILLER_APP`) and proven end to end in `TEST_` schemas (PR #4) |
 | mt_dot_budget (MT DOT budget worksheet) | 31 / 31 formula cells exact in Snowflake (dbt 1.12.3 `build` SUCCESS, `bk_exact_parity` 0 failures, both parity channels agree) |
-| sgec_current (EPA SGEC tool 2022-09) | 2,796 / 2,796 formula cells lift and match Excel's cached values exactly in the offline IR corpus test; live: see PR #4 |
+| sgec_current (EPA SGEC tool 2022-09) | 2,796 / 2,796 formula cells lift and match Excel's cached values exactly in the offline IR corpus test. **Live: blocked** — RUN_PIPELINE runs through `generate`, but a dbt build longer than about 5 minutes aborts inside a procedure with an internal incident ([evidence](.context/evidence/mvp_blocked_sgec_20261027.md)) |
 | Compiler | Extract, Graph (defined names), Lift (names, missing args, table inputs), Excel runtime (+ MATCH, INDEX, XLOOKUP, SUMIFS, TEXT, array operators), 42 Python UDFs (40 runtime functions and operators, 2 host), dbt + docs generators, contracts v7 |
 | Deploy | `bash labs/bob_killer/hosts/snowflake/deploy.sh [schema]`; teardown `teardown.sh <schema>` ([host README](labs/bob_killer/hosts/snowflake/README.md)) |
 | Known limits | Snowflake allows 128 Python UDF call sites per query and charges ~1.7 s per call site, so sgec_current's dbt build is slow (hours); next: one UDF call site per model. Not done: VBA translation, `jedi_wind`, `warm_v16`, mirroring every workbook.db table, the IronCalc oracle |
