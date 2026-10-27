@@ -52,6 +52,10 @@ DBT_SRC_STAGE = (
     "CREATE STAGE IF NOT EXISTS UPLOADS\n"
     "  ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE')\n"
     "  DIRECTORY = (ENABLE = TRUE);\n"
+    "-- APP_SRC holds the Streamlit app's files for 50_app.sql (hosts/snowflake/app.py).\n"
+    "CREATE STAGE IF NOT EXISTS APP_SRC\n"
+    "  ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE')\n"
+    "  DIRECTORY = (ENABLE = TRUE);\n"
 )
 
 
