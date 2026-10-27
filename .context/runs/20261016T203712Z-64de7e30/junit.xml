@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="124.675" timestamp="2026-10-16T16:37:16.894529-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[iwarm]" time="0.494"><failure message="ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)">workbook_id = 'iwarm'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x11280c860&gt;
+
+    @pytest.mark.parametrize("workbook_id", GOLDENS)
+    def test_golden_lifts_to_a_valid_ir_that_round_trips(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        from bob_killer.contracts.ir import InputKind
+        from bob_killer.ir import dump_ir, load_ir
+    
+        raw = pinned_raw(workbook_id)
+&gt;       ir = _lift(raw)
+             ^^^^^^^^^^
+
+tests/unit/test_lift.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = RawWorkbook(source=RawSource(sha256='69aee51c5bf2e56ce67e07a55c4df5778a271580bc467d673485c63e594f67fe'), sheets=(RawSh...source', origin='Sheet9', reason='VBA source extraction needs oletools, which is not a dependency; inventoried only')))
+
+    def _lift(raw: RawWorkbook) -&gt; WorkbookIR:
+        from bob_killer.contracts.graph import FormulaCell, GraphInput
+        from bob_killer.graph.dag import build_graph
+&gt;       from bob_killer.lift import lift
+E       ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)
+
+tests/unit/test_lift.py:41: ImportError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[mt_dot_budget]" time="0.048"><failure message="ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)">workbook_id = 'mt_dot_budget'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x11280c860&gt;
+
+    @pytest.mark.parametrize("workbook_id", GOLDENS)
+    def test_golden_lifts_to_a_valid_ir_that_round_trips(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        from bob_killer.contracts.ir import InputKind
+        from bob_killer.ir import dump_ir, load_ir
+    
+        raw = pinned_raw(workbook_id)
+&gt;       ir = _lift(raw)
+             ^^^^^^^^^^
+
+tests/unit/test_lift.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = RawWorkbook(source=RawSource(sha256='e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047'), sheets=(RawSh...', cached_type=&lt;CachedType.BLANK: 'blank'&gt;, style_id=81)), defined_names=(), tables=(), vba_modules=(), unsupported=())
+
+    def _lift(raw: RawWorkbook) -&gt; WorkbookIR:
+        from bob_killer.contracts.graph import FormulaCell, GraphInput
+        from bob_killer.graph.dag import build_graph
+&gt;       from bob_killer.lift import lift
+E       ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)
+
+tests/unit/test_lift.py:41: ImportError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_current]" time="15.853"><failure message="ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)">workbook_id = 'sgec_current'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x11280c860&gt;
+
+    @pytest.mark.parametrize("workbook_id", GOLDENS)
+    def test_golden_lifts_to_a_valid_ir_that_round_trips(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        from bob_killer.contracts.ir import InputKind
+        from bob_killer.ir import dump_ir, load_ir
+    
+        raw = pinned_raw(workbook_id)
+&gt;       ir = _lift(raw)
+             ^^^^^^^^^^
+
+tests/unit/test_lift.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = RawWorkbook(source=RawSource(sha256='47bd1b100597d0972049425c3686a6edf50f6b7518de2551749363fef34fe8f9'), sheets=(RawSh...ource', origin='Sheet36', reason='VBA source extraction needs oletools, which is not a dependency; inventoried only')))
+
+    def _lift(raw: RawWorkbook) -&gt; WorkbookIR:
+        from bob_killer.contracts.graph import FormulaCell, GraphInput
+        from bob_killer.graph.dag import build_graph
+&gt;       from bob_killer.lift import lift
+E       ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)
+
+tests/unit/test_lift.py:41: ImportError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v4_1]" time="25.831"><failure message="ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)">workbook_id = 'sgec_v4_1'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x11280c860&gt;
+
+    @pytest.mark.parametrize("workbook_id", GOLDENS)
+    def test_golden_lifts_to_a_valid_ir_that_round_trips(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        from bob_killer.contracts.ir import InputKind
+        from bob_killer.ir import dump_ir, load_ir
+    
+        raw = pinned_raw(workbook_id)
+&gt;       ir = _lift(raw)
+             ^^^^^^^^^^
+
+tests/unit/test_lift.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = RawWorkbook(source=RawSource(sha256='75f5d8a0c660fb37535571ef463195508cc9dae7dc94acf604593dcd5078ac08'), sheets=(RawSh...ource', origin='Module2', reason='VBA source extraction needs oletools, which is not a dependency; inventoried only')))
+
+    def _lift(raw: RawWorkbook) -&gt; WorkbookIR:
+        from bob_killer.contracts.graph import FormulaCell, GraphInput
+        from bob_killer.graph.dag import build_graph
+&gt;       from bob_killer.lift import lift
+E       ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)
+
+tests/unit/test_lift.py:41: ImportError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v5_1]" time="57.747"><failure message="ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)">workbook_id = 'sgec_v5_1'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x11280c860&gt;
+
+    @pytest.mark.parametrize("workbook_id", GOLDENS)
+    def test_golden_lifts_to_a_valid_ir_that_round_trips(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        from bob_killer.contracts.ir import InputKind
+        from bob_killer.ir import dump_ir, load_ir
+    
+        raw = pinned_raw(workbook_id)
+&gt;       ir = _lift(raw)
+             ^^^^^^^^^^
+
+tests/unit/test_lift.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = RawWorkbook(source=RawSource(sha256='b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd'), sheets=(RawSh...ource', origin='Sheet36', reason='VBA source extraction needs oletools, which is not a dependency; inventoried only')))
+
+    def _lift(raw: RawWorkbook) -&gt; WorkbookIR:
+        from bob_killer.contracts.graph import FormulaCell, GraphInput
+        from bob_killer.graph.dag import build_graph
+&gt;       from bob_killer.lift import lift
+E       ImportError: cannot import name 'lift' from 'bob_killer.lift' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a3bc33a998771a29a/labs/bob_killer/src/bob_killer/lift/__init__.py)
+
+tests/unit/test_lift.py:41: ImportError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_register_stages_is_idempotent" time="0.094"><failure message="ModuleNotFoundError: No module named 'bob_killer.lift.stage'">def test_register_stages_is_idempotent() -&gt; None:
+        from bob_killer import registry
+&gt;       from bob_killer.lift.stage import STAGE_NAME, register_stages
+E       ModuleNotFoundError: No module named 'bob_killer.lift.stage'
+
+tests/unit/test_lift.py:76: ModuleNotFoundError</failure></testcase></testsuite></testsuites>

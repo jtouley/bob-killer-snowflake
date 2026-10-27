@@ -1,0 +1,14 @@
+{
+  "junit_sha256": "e25eabad7c3d5e64f899903ac341601a68961157301dd84e6ac285d7f3ed9939",
+  "nodes": {
+    "::tests.unit.sis.test_app": "error"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_snowflake_yml.py",
+    "tests/unit/sis/test_app.py"
+  ],
+  "recorded_at": "2026-10-16T21:39:09Z",
+  "run_id": "20261016T213909Z-41efb06c",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "f925b53560d4c75c5054b5dbc742a241fb64c28fd88b10cb23bf67572e3c6598"
+}

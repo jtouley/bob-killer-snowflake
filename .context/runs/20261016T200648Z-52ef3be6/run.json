@@ -1,0 +1,42 @@
+{
+  "junit_sha256": "6816fb8ccd51c881a57c02115c16de7485cc69e2f5a287a3bb621d31d6c816ed",
+  "nodes": {
+    "tests.unit.test_contracts::test_current_snapshot_lists_every_shipped_model": "failed",
+    "tests.unit.test_contracts::test_ddl_columns_match_model_fields": "passed",
+    "tests.unit.test_contracts::test_ddl_enum_check_rejects_unknown_state": "passed",
+    "tests.unit.test_contracts::test_ddl_is_strict_about_types": "passed",
+    "tests.unit.test_contracts::test_ddl_rejects_unmapped_types": "passed",
+    "tests.unit.test_contracts::test_every_model_inherits_the_strict_config": "passed",
+    "tests.unit.test_contracts::test_extra_fields_rejected": "passed",
+    "tests.unit.test_contracts::test_models_are_frozen": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_extra_keys[BronzePayload-_payload]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_extra_keys[BronzeRow-_bronze_row]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_extra_keys[LandedFile-_landed]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_extra_keys[RunRejected-_rejected]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[BronzePayload-_payload-column_names-a]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[BronzePayload-_payload-data-bad1]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[BronzeRow-_bronze_row-payload-bad4]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[BronzeRow-_bronze_row-row_number-2]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[LandedFile-_landed-size_bytes-10]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[RunRejected-_rejected-detail-1]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[RunRejected-_rejected-status-413]": "passed",
+    "tests.unit.test_contracts::test_new_models_reject_wrong_types[RunRejected-_rejected-status-418]": "passed",
+    "tests.unit.test_contracts::test_primary_keys_are_model_fields": "passed",
+    "tests.unit.test_contracts::test_procedure_results_are_in_the_current_schemas_snapshot[RunCreated]": "passed",
+    "tests.unit.test_contracts::test_procedure_results_are_in_the_current_schemas_snapshot[RunRejected]": "passed",
+    "tests.unit.test_contracts::test_procedure_results_are_in_the_current_schemas_snapshot[RunView]": "passed",
+    "tests.unit.test_contracts::test_run_rejected_accepts_each_allowed_status[400]": "passed",
+    "tests.unit.test_contracts::test_run_rejected_accepts_each_allowed_status[413]": "passed",
+    "tests.unit.test_contracts::test_run_rejected_accepts_each_allowed_status[415]": "passed",
+    "tests.unit.test_contracts::test_sqlite_dialect_output_equals_the_v1_snapshot": "passed",
+    "tests.unit.test_contracts::test_strict_types_reject_coercion": "passed",
+    "tests.unit.test_contracts::test_v2_ddl_snapshot_equals_v1": "passed"
+  },
+  "pytest_args": [
+    "tests/unit/test_contracts.py"
+  ],
+  "recorded_at": "2026-10-16T20:06:48Z",
+  "run_id": "20261016T200648Z-52ef3be6",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "ba90052bfcaec95e32e03aa0a1aec718ebfd287c5a5f6844842b6b4075f0d93d"
+}

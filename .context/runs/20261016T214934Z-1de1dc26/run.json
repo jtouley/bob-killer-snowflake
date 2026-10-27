@@ -1,0 +1,16 @@
+{
+  "junit_sha256": "68c0cc9be22b28616d330fd1f652c3170fb98062ea229b0b772a8be05dd8628b",
+  "nodes": {
+    "tests.unit.hosts.test_snowflake_yml::test_app_entity_ships_the_sis_package_on_the_container_runtime": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_procedure_entity_resolves_to_its_handler[CREATE_RUN]": "failed",
+    "tests.unit.hosts.test_snowflake_yml::test_procedure_entity_resolves_to_its_handler[EXECUTE_RUN]": "failed",
+    "tests.unit.hosts.test_snowflake_yml::test_the_procedure_entities_are_exactly_the_handlers": "passed"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_snowflake_yml.py"
+  ],
+  "recorded_at": "2026-10-16T21:49:34Z",
+  "run_id": "20261016T214934Z-1de1dc26",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "184bdd2696b7bf0200759f282a88e9a1c19a4674b894828a349f46953b974eab"
+}

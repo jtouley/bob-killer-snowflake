@@ -1,0 +1,9 @@
+{
+  "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+  "quote": "Total number of rows and columns on a worksheet: 1,048,576 rows by 16,384 columns",
+  "verified_by": "Claude Code, fetched the Microsoft Support page on 2026-10-16; column XFD = 24*26^2 + 6*26 + 4 = 16384, so XFE is the first column past the sheet",
+  "max_rows": 1048576,
+  "max_columns": 16384,
+  "last_column": "XFD",
+  "first_column_past": "XFE"
+}

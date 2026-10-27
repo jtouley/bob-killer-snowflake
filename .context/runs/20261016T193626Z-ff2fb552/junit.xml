@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.324" timestamp="2026-10-16T15:36:27.322623-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.unit.test_registry" time="0.000"><error message="collection failure">tests/unit/test_registry.py:50: in &lt;module&gt;
+    [lambda reg: reg.add("added", object()), Registry.clear],
+                                             ^^^^^^^^^^^^^^
+E   AttributeError: type object 'Registry' has no attribute 'clear'</error></testcase></testsuite></testsuites>

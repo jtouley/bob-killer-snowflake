@@ -10,14 +10,14 @@ from bob_killer import registry
 from bob_killer.contracts import SCHEMA_VERSION
 from bob_killer.contracts.runs import Run, RunState, StageState, StageStatus, UploadLimits
 from bob_killer.service.uploads import inspect_upload
-from bob_killer.store.db import RunStore
+from bob_killer.store import RunRepository
 
 
 def _status(run_id: str, stage: str, state: StageState, detail: str = "") -> StageStatus:
     return StageStatus(run_id=run_id, stage=stage, state=state, detail=detail)
 
 
-def create_run(store: RunStore, filename: str, data: bytes, limits: UploadLimits) -> Run:
+def create_run(store: RunRepository, filename: str, data: bytes, limits: UploadLimits) -> Run:
     inspect_upload(data, limits)
     run = Run(
         run_id=uuid.uuid4().hex,
@@ -33,17 +33,34 @@ def create_run(store: RunStore, filename: str, data: bytes, limits: UploadLimits
     return run
 
 
-def execute_run(store: RunStore, run_id: str) -> RunState:
-    store.set_state(run_id, RunState.RUNNING)
-    final = RunState.SUCCEEDED
+def _run_stages(store: RunRepository, run_id: str) -> RunState:
+    """The stage loop. A stage error is recorded on the stage and gives ``failed``, no raise."""
     for name, stage in registry.stages.items():
         store.upsert_stage(_status(run_id, name, StageState.RUNNING))
         try:
-            stage(run_id)
+            detail = stage(run_id)
         except Exception as exc:  # recorded on the stage, never swallowed silently
             store.upsert_stage(_status(run_id, name, StageState.FAILED, repr(exc)))
-            final = RunState.FAILED
-            break
-        store.upsert_stage(_status(run_id, name, StageState.SUCCEEDED))
-    store.set_state(run_id, final)
+            return RunState.FAILED
+        store.upsert_stage(_status(run_id, name, StageState.SUCCEEDED, detail or ""))
+    return RunState.SUCCEEDED
+
+
+def execute_run(store: RunRepository, run_id: str) -> RunState:
+    """Run the stages if this call wins the claim; else return the stored state (G24).
+
+    After a won claim, an error outside a stage sets the run ``failed`` and re-raises (G9a).
+    A call that lost the claim writes nothing.
+    """
+    if not store.claim_run(run_id):
+        run = store.get_run(run_id)
+        if run is None:
+            raise KeyError(run_id)
+        return run.state
+    try:
+        final = _run_stages(store, run_id)
+        store.set_state(run_id, final)
+    except Exception:
+        store.set_state(run_id, RunState.FAILED)
+        raise
     return final

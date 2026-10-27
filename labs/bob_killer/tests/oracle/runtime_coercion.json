@@ -1,0 +1,166 @@
+{
+  "family": "coercion",
+  "encoding": "as runtime_aggregate.json; call is <runtime module>.<function>",
+  "cases": [
+    {
+      "id": "text-1-to-number",
+      "call": "coercion.to_number",
+      "args": ["1"],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: table 'How Excel converts values in formulas': = \"1\"+\"2\" produces 3"
+    },
+    {
+      "id": "text-currency-to-number",
+      "call": "coercion.to_number",
+      "args": ["$4.00"],
+      "expected": 4,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: = 1+\"$4.00\" produces 5"
+    },
+    {
+      "id": "text-currency-thousands-to-number",
+      "call": "coercion.to_number",
+      "args": ["$1,000"],
+      "expected": 1000,
+      "source": "https://support.microsoft.com/en-us/office/value-function-257d0108-07dc-437d-ae1c-bc2d3953d8c2",
+      "verified_by": "Claude Code 2026-10-16: example =VALUE(\"$1,000\"), result 1000"
+    },
+    {
+      "id": "text-expression-is-value-error",
+      "call": "coercion.to_number",
+      "args": ["8+1"],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: =SQRT(\"8+1\") produces #VALUE! because 'the text \"8+1\" cannot be converted to a number'"
+    },
+    {
+      "id": "empty-text-is-value-error",
+      "call": "coercion.to_number",
+      "args": [""],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/value-function-257d0108-07dc-437d-ae1c-bc2d3953d8c2",
+      "verified_by": "Claude Code 2026-10-16: remark 'If text is not in one of these formats, VALUE returns the #VALUE! error value'; empty text is no number, date or time format"
+    },
+    {
+      "id": "word-is-value-error",
+      "call": "coercion.to_number",
+      "args": ["Even"],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/value-function-257d0108-07dc-437d-ae1c-bc2d3953d8c2",
+      "verified_by": "Claude Code 2026-10-16: remark 'If text is not in one of these formats, VALUE returns the #VALUE! error value'"
+    },
+    {
+      "id": "true-is-one",
+      "call": "coercion.to_number",
+      "args": [true],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/n-function-a624cad1-3635-4208-b54a-29733d1278c9",
+      "verified_by": "Claude Code 2026-10-16: N table 'TRUE 1'"
+    },
+    {
+      "id": "false-is-zero",
+      "call": "coercion.to_number",
+      "args": [false],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/n-function-a624cad1-3635-4208-b54a-29733d1278c9",
+      "verified_by": "Claude Code 2026-10-16: N table 'FALSE 0'"
+    },
+    {
+      "id": "blank-is-zero",
+      "call": "coercion.to_number",
+      "args": [null],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: example =IFERROR(A4/B4, ...) with A4 empty and B4 23 'finds no error, and then returns the results of the formula. 0'"
+    },
+    {
+      "id": "number-is-itself",
+      "call": "coercion.to_number",
+      "args": [-7.25],
+      "expected": -7.25,
+      "source": "https://support.microsoft.com/en-us/office/n-function-a624cad1-3635-4208-b54a-29733d1278c9",
+      "verified_by": "Claude Code 2026-10-16: N table 'A number: That number'"
+    },
+    {
+      "id": "error-is-itself",
+      "call": "coercion.to_number",
+      "args": [{"error": "#DIV/0!"}],
+      "expected": {"error": "#DIV/0!"},
+      "source": "https://support.microsoft.com/en-us/office/n-function-a624cad1-3635-4208-b54a-29733d1278c9",
+      "verified_by": "Claude Code 2026-10-16: N table 'An error value, such as #DIV/0!: The error value'"
+    },
+    {
+      "id": "true-to-text",
+      "call": "coercion.to_text",
+      "args": [true],
+      "expected": "TRUE",
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: = \"A\"&TRUE produces ATRUE ('Excel converts numbers and logical values such as TRUE and FALSE to text')"
+    },
+    {
+      "id": "false-to-text",
+      "call": "coercion.to_text",
+      "args": [false],
+      "expected": "FALSE",
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: 'When text is expected, Excel converts numbers and logical values such as TRUE and FALSE to text'"
+    },
+    {
+      "id": "number-to-text-uses-15-digits",
+      "call": "coercion.to_text",
+      "args": [0.30000000000000004],
+      "expected": "0.3",
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Number precision 15 digits' with 'Excel converts numbers ... to text' (calculation operators page, https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a)"
+    },
+    {
+      "id": "blank-formula-result-shows-zero",
+      "call": "coercion.cell_result",
+      "args": [null],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/if-function-69aed7c9-4e8a-4755-a9bc-aa8bbff73be2",
+      "verified_by": "Claude Code 2026-10-16: common problem '0 (zero) in cell: There was no argument for either value_if_true or value_if_False arguments'"
+    },
+    {
+      "id": "text-formula-result-is-kept",
+      "call": "coercion.cell_result",
+      "args": [""],
+      "expected": "",
+      "source": "golden sgec_v5_1 (sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd) 'Waste Gases'!D22",
+      "verified_by": "Claude Code 2026-10-16: D22's formula result \"\" is cached as t=\"str\" with an empty <v/>, not as 0"
+    },
+    {
+      "id": "fifteen-digit-text",
+      "call": "rounding.number_to_text",
+      "args": [0.30000000000000004],
+      "expected": "0.3",
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: 'Number precision 15 digits'; 0.1+0.2 is 0.300000000000000 to 15 significant digits"
+    },
+    {
+      "id": "largest-number-text",
+      "call": "rounding.number_to_text",
+      "args": [9.99999999999999E+307],
+      "expected": "9.99999999999999E+307",
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: the page writes 'Largest allowed positive number 9.99999999999999E+307' in Excel's notation"
+    },
+    {
+      "id": "largest-negative-number-text",
+      "call": "rounding.number_to_text",
+      "args": [-9.99999999999999E+307],
+      "expected": "-9.99999999999999E+307",
+      "source": "https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3",
+      "verified_by": "Claude Code 2026-10-16: the page writes 'Largest allowed negative number -9.99999999999999E+307'"
+    },
+    {
+      "id": "text-with-a-word-like-a-month-is-not-a-number",
+      "call": "coercion.to_number",
+      "args": ["Scope 2 - Market-Based"],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/value-function-257d0108-07dc-437d-ae1c-bc2d3953d8c2",
+      "verified_by": "Claude Code 2026-10-27: 'If text is not in one of these formats, VALUE returns the #VALUE! error value'; the text is no number, date or time form ('Market' is not a month name); golden sgec_current Offsets!D29 =SUMIF($C$11:$C$20,$B29,$D$11:$D$20) reads it as text criteria"
+    }
+  ]
+}

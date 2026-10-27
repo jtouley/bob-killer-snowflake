@@ -1,0 +1,431 @@
+{
+  "family": "operators",
+  "encoding": "as runtime_aggregate.json; call is OP_<contracts.ir.Operator value>, the registered runtime operator",
+  "cases": [
+    {
+      "id": "add-3-plus-3",
+      "call": "OP_ADD",
+      "args": [
+        3,
+        3
+      ],
+      "expected": 6,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: + (plus sign) Addition, example =3+3"
+    },
+    {
+      "id": "sub-3-minus-1",
+      "call": "OP_SUB",
+      "args": [
+        3,
+        1
+      ],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: - (minus sign) Subtraction, example =3-1"
+    },
+    {
+      "id": "neg-1",
+      "call": "OP_NEG",
+      "args": [
+        1
+      ],
+      "expected": -1,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: - (minus sign) Negation, example =-1"
+    },
+    {
+      "id": "mul-3-times-3",
+      "call": "OP_MUL",
+      "args": [
+        3,
+        3
+      ],
+      "expected": 9,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: * (asterisk) Multiplication, example =3*3"
+    },
+    {
+      "id": "div-3-by-3",
+      "call": "OP_DIV",
+      "args": [
+        3,
+        3
+      ],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: / (forward slash) Division, example =3/3"
+    },
+    {
+      "id": "percent-20",
+      "call": "OP_PERCENT",
+      "args": [
+        20
+      ],
+      "expected": 0.2,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: % (percent sign) Percent, example =20%"
+    },
+    {
+      "id": "pow-2-to-3",
+      "call": "OP_POW",
+      "args": [
+        2,
+        3
+      ],
+      "expected": 8,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: ^ (caret) Exponentiation, example =2^3"
+    },
+    {
+      "id": "sub-3-minus-3",
+      "call": "OP_SUB",
+      "args": [
+        3,
+        3
+      ],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/using-calculation-operators-in-excel-formulas-78be92ad-563c-4d62-b081-ae6da5c2ca69",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: Subtraction example =3-3"
+    },
+    {
+      "id": "neg-3",
+      "call": "OP_NEG",
+      "args": [
+        3
+      ],
+      "expected": -3,
+      "source": "https://support.microsoft.com/en-us/office/using-calculation-operators-in-excel-formulas-78be92ad-563c-4d62-b081-ae6da5c2ca69",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: Negation example =-3"
+    },
+    {
+      "id": "percent-30",
+      "call": "OP_PERCENT",
+      "args": [
+        30
+      ],
+      "expected": 0.3,
+      "source": "https://support.microsoft.com/en-us/office/using-calculation-operators-in-excel-formulas-78be92ad-563c-4d62-b081-ae6da5c2ca69",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: Percent example 30%"
+    },
+    {
+      "id": "pow-3-to-3",
+      "call": "OP_POW",
+      "args": [
+        3,
+        3
+      ],
+      "expected": 27,
+      "source": "https://support.microsoft.com/en-us/office/using-calculation-operators-in-excel-formulas-78be92ad-563c-4d62-b081-ae6da5c2ca69",
+      "verified_by": "Claude Code 2026-10-16: arithmetic operator table: Exponentiation example =3^3"
+    },
+    {
+      "id": "concat-north-wind",
+      "call": "OP_CONCAT",
+      "args": [
+        "North",
+        "wind"
+      ],
+      "expected": "Northwind",
+      "source": "https://support.microsoft.com/en-us/office/using-calculation-operators-in-excel-formulas-78be92ad-563c-4d62-b081-ae6da5c2ca69",
+      "verified_by": "Claude Code 2026-10-16: text concatenation operator: =\"North\"&\"wind\" results in \"Northwind\""
+    },
+    {
+      "id": "add-number-texts",
+      "call": "OP_ADD",
+      "args": [
+        "1",
+        "2"
+      ],
+      "expected": 3,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: table 'How Excel converts values in formulas': =\"1\"+\"2\" produces 3"
+    },
+    {
+      "id": "add-currency-text",
+      "call": "OP_ADD",
+      "args": [
+        1,
+        "$4.00"
+      ],
+      "expected": 5,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: table 'How Excel converts values in formulas': =1+\"$4.00\" produces 5"
+    },
+    {
+      "id": "concat-text-and-logical",
+      "call": "OP_CONCAT",
+      "args": [
+        "A",
+        true
+      ],
+      "expected": "ATRUE",
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: table 'How Excel converts values in formulas': =\"A\"&TRUE produces ATRUE"
+    },
+    {
+      "id": "add-text-not-a-number-is-value-error",
+      "call": "OP_ADD",
+      "args": [
+        "abc",
+        1
+      ],
+      "expected": {
+        "error": "#VALUE!"
+      },
+      "source": "https://learn.microsoft.com/en-us/office/client-developer/excel/excel-worksheet-and-expression-evaluation",
+      "verified_by": "Claude Code 2026-10-16: section #VALUE!: 'Excel returns the #VALUE! error if a function or operator argument cannot be converted to the required type'"
+    },
+    {
+      "id": "div-by-zero",
+      "call": "OP_DIV",
+      "args": [
+        1,
+        0
+      ],
+      "expected": {
+        "error": "#DIV/0!"
+      },
+      "source": "https://learn.microsoft.com/en-us/office/client-developer/excel/excel-worksheet-and-expression-evaluation",
+      "verified_by": "Claude Code 2026-10-16: section #DIV/0!: 'The Excel division operator returns the #DIV/0! error when the denominator evaluates to zero'"
+    },
+    {
+      "id": "subnormal-result-is-zero",
+      "call": "OP_DIV",
+      "args": [
+        2.2250738585072014e-308,
+        2
+      ],
+      "expected": 0,
+      "source": "https://learn.microsoft.com/en-us/office/client-developer/excel/excel-worksheet-and-expression-evaluation",
+      "verified_by": "Claude Code 2026-10-16: section Numbers: 'All subnormal numbers and numbers smaller than the minimum positive normal in Excel are converted to positive zero' (2.2250738585072014E-308/2 is subnormal in IEEE)"
+    },
+    {
+      "id": "lt-negative-numbers",
+      "call": "OP_LT",
+      "args": [
+        -2,
+        -1
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE'"
+    },
+    {
+      "id": "lt-number-before-text",
+      "call": "OP_LT",
+      "args": [
+        2,
+        "A"
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE' (numbers sort before text)"
+    },
+    {
+      "id": "gt-text-after-number",
+      "call": "OP_GT",
+      "args": [
+        "A",
+        2
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE' (text sorts after numbers)"
+    },
+    {
+      "id": "eq-number-and-number-text-differ",
+      "call": "OP_EQ",
+      "args": [
+        1,
+        "1"
+      ],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE' (a number and a text are at different places in the order, so they are not equal)"
+    },
+    {
+      "id": "lt-text-a-before-z",
+      "call": "OP_LT",
+      "args": [
+        "A",
+        "Z"
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE' (A-Z)"
+    },
+    {
+      "id": "lt-text-before-logical",
+      "call": "OP_LT",
+      "args": [
+        "Z",
+        false
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE' (text sorts before FALSE)"
+    },
+    {
+      "id": "lt-false-before-true",
+      "call": "OP_LT",
+      "args": [
+        false,
+        true
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE'; sort page: 'In logical values, FALSE is placed before TRUE'"
+    },
+    {
+      "id": "gt-true-after-false",
+      "call": "OP_GT",
+      "args": [
+        true,
+        false
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-gb/office/sort-data-in-a-workbook-in-the-browser-bf63427c-1b17-4ec5-a909-a5f2d07d924c",
+      "verified_by": "Claude Code 2026-10-16: 'In logical values, FALSE is placed before TRUE'"
+    },
+    {
+      "id": "ge-equal-numbers",
+      "call": "OP_GE",
+      "args": [
+        1,
+        1
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/using-calculation-operators-in-excel-formulas-78be92ad-563c-4d62-b081-ae6da5c2ca69",
+      "verified_by": "Claude Code 2026-10-16: comparison operator table: >= Greater than or equal to"
+    },
+    {
+      "id": "le-smaller-number",
+      "call": "OP_LE",
+      "args": [
+        0,
+        1
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE'"
+    },
+    {
+      "id": "ne-different-numbers",
+      "call": "OP_NE",
+      "args": [
+        1,
+        2
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH match_type 1: 'must be placed in ascending order, for example: ...-2, -1, 0, 1, 2, ..., A-Z, FALSE, TRUE' (1 and 2 hold different places)"
+    },
+    {
+      "id": "eq-ignores-case",
+      "call": "OP_EQ",
+      "args": [
+        "apples",
+        "APPLES"
+      ],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/excel/filter-by-using-advanced-criteria",
+      "verified_by": "Claude Code 2026-10-16: section 'Considering case-sensitivity': 'When filtering text data, Excel doesn't distinguish between uppercase and lowercase characters'; MATCH page: 'MATCH does not distinguish between uppercase and lowercase letters when matching text values'. Indirect: no fetched page states it for the = operator itself"
+    },
+    {
+      "id": "mul-blank-times-blank-golden-mt-costs-e18",
+      "call": "OP_MUL",
+      "args": [{"range": [null]}, {"range": [null]}],
+      "expected": 0,
+      "source": "golden mt_dot_budget (golden.lock sha256 e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047) COSTS!E18 =C18*D18",
+      "verified_by": "Claude Code 2026-10-16: C18 and D18 have no cached value (empty cells); E18 caches 0 in the sheet XML"
+    },
+    {
+      "id": "sub-number-minus-blank-golden-sgec-v41-summary-g55",
+      "call": "OP_SUB",
+      "args": [{"range": [0]}, {"range": [null]}],
+      "expected": 0,
+      "source": "golden sgec_v4_1 (golden.lock sha256 75f5d8a0c660fb37535571ef463195508cc9dae7dc94acf604593dcd5078ac08) Summary!G55 =G49-G51",
+      "verified_by": "Claude Code 2026-10-16: G49 caches 0 and G51 is an empty cell; G55 caches 0"
+    },
+    {
+      "id": "eq-array-against-a-value",
+      "call": "OP_EQ",
+      "args": [
+        {
+          "range": [
+            "Apples",
+            "Pears",
+            "apples"
+          ],
+          "columns": 1
+        },
+        "Apples"
+      ],
+      "expected": {
+        "range": [
+          true,
+          false,
+          true
+        ],
+        "columns": 1
+      },
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-27: Example 3 (B2:B9=B12)*(C2:C9=C12)*D2:D9: a comparison of a range with one value gives an array of TRUE/FALSE, element by element (text compared without case)"
+    },
+    {
+      "id": "mul-two-arrays-element-by-element",
+      "call": "OP_MUL",
+      "args": [
+        {
+          "range": [
+            true,
+            false,
+            true
+          ],
+          "columns": 1
+        },
+        {
+          "range": [
+            2,
+            3,
+            4
+          ],
+          "columns": 1
+        }
+      ],
+      "expected": {
+        "range": [
+          2,
+          0,
+          4
+        ],
+        "columns": 1
+      },
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-27: 'replace the commas separating the array arguments with the arithmetic operators you want (*, /, +, -)'; TRUE and FALSE multiply as 1 and 0"
+    },
+    {
+      "id": "neg-neg-array-to-numbers",
+      "call": "OP_NEG",
+      "args": [
+        {
+          "range": [
+            true,
+            false
+          ],
+          "columns": 1
+        }
+      ],
+      "expected": {
+        "range": [
+          -1,
+          0
+        ],
+        "columns": 1
+      },
+      "source": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e",
+      "verified_by": "Claude Code 2026-10-27: an operator on an array works element by element (as * above); -TRUE is -1, -FALSE is 0 (logicals as numbers, operators page)"
+    }
+  ]
+}

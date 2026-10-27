@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "357fcae6382e8a1f0343de00988d490df8251e73035178179d937df869a9f99b",
+  "nodes": {
+    "::tests.unit.hosts.test_ddl": "error"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_ddl.py"
+  ],
+  "recorded_at": "2026-10-16T19:41:20Z",
+  "run_id": "20261016T194120Z-50c3b9f9",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "81eba249586f0ac3b5226836c3270fffe6290f10eb32b9ab579270b2a18b99bd"
+}

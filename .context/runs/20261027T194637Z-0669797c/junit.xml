@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.164" timestamp="2026-10-27T15:46:38.875493-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.unit.sis.test_app" time="0.000"><error message="collection failure">tests/unit/sis/test_app.py:41: in &lt;module&gt;
+    (sis.REPORT_SQL, sis.REPORT),
+     ^^^^^^^^^^^^^^
+E   AttributeError: module 'bob_killer_sis.streamlit_app' has no attribute 'REPORT_SQL'. Did you mean: 'RECENT_SQL'?</error></testcase></testsuite></testsuites>

@@ -12,7 +12,7 @@ CADENCE="$(cd "${CADENCE_HOME:-$HOME/.claude/skills/cadence}" && pwd -P)"
 SAFE_GIT=(git -c core.fsmonitor=false -c core.hooksPath=/dev/null)
 # Paths that Cadence itself rewrites while Claude Code waits (stop guard, session heartbeat).
 # Their integrity is checked by the normalized session line below instead of a raw hash.
-NOISE_RE='^\.context/(coco/|breadcrumbs/|cadence-session[^/]*\.json$|sessions/)'
+NOISE_RE='^\.context/(coco/|breadcrumbs/|cadence-session[^/]*\.json$|sessions/|attest/)'
 
 hash_tree() {  # <label> <dir>
   local label="$1" dir="$2"
@@ -37,12 +37,12 @@ PY
 manifest() {
   hash_tree .context "$root/.context" | awk -v re="$NOISE_RE" '{ if ($2 !~ re) print }'
   session_line
-  hash_tree .claude "$root/.claude"
+  hash_tree .claude "$root/.claude" | grep -v '  \.claude/worktrees/' || true
   hash_tree tools "$root/tools"
   hash_tree git-hooks "$(git -C "$root" rev-parse --path-format=absolute --git-path hooks)"
   hash_tree cadence-skill "$CADENCE"
   shasum -a 256 "$(git -C "$root" rev-parse --path-format=absolute --git-path config)" | sed 's|  .*|  git/config|'
-  bl="$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)"
+  bl="$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config-$(basename "$COCO_CLONE").sha256)"
   [[ -f "$bl" ]] && shasum -a 256 "$bl" | sed 's|  .*|  git/coco-clone-config.sha256|'
   [[ -f "$HOME/.claude/settings.json" ]] && shasum -a 256 "$HOME/.claude/settings.json" | sed 's|  .*|  home/.claude/settings.json|'
   git -C "$root" for-each-ref --format='ref %(objectname) %(refname)'
@@ -66,17 +66,37 @@ case "${1:-}" in
     if diff "$out" <(manifest) > "$out.diff"; then echo "guard OK"; rm -f "$out.diff"
     else echo "GUARD FAIL: protected state changed:" >&2; cat "$out.diff" >&2; exit 1; fi ;;
   baseline)   # called by coco-clone right after the clone is made
-    clone_config_sha > "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)"; echo "baseline saved" ;;
+    clone_config_sha > "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config-$(basename "$COCO_CLONE").sha256)"; echo "baseline saved" ;;
   clone-check)
     fail=0
-    want="$(cat "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config.sha256)" 2>/dev/null || echo none)"
+    want="$(cat "$(git -C "$root" rev-parse --path-format=absolute --git-path coco-clone-config-$(basename "$COCO_CLONE").sha256)" 2>/dev/null || echo none)"
     [[ "$(clone_config_sha)" == "$want" ]] || { echo "clone .git/config changed since clone time" >&2; fail=1; }
-    # .context/hooks.log is written by the core hooks that CoCo runs; it is archived, never committed by CoCo.
-    dirty="$("${SAFE_GIT[@]}" -C "$COCO_CLONE" status --porcelain | grep -vx '?? .context/hooks.log' || true)"
+    # The core hooks that CoCo runs write .context/hooks.log, .context/runs/<id>/ (hook-run.json, junit.xml)
+    # and CoCo may write .context/coco/BLOCKED. Those are archived, never committed by CoCo. A run folder
+    # is tolerated only if it is a hook run (hook-run.json, no run.json), so a red record cannot hide here.
+    dirty="$("${SAFE_GIT[@]}" -C "$COCO_CLONE" status --porcelain --untracked-files=all | while IFS= read -r line; do
+      p="${line:3}"
+      case "$line" in
+        "?? .context/hooks.log"|"?? .context/coco/BLOCKED") continue ;;
+        "?? .context/runs/"*/hook-run.json|"?? .context/runs/"*/junit.xml)
+          d="$COCO_CLONE/$(dirname "$p")"
+          [[ -f "$d/hook-run.json" && ! -f "$d/run.json" ]] && continue ;;
+      esac
+      echo "$line"
+    done)"
     [[ -z "$dirty" ]] || { echo "clone not clean:" >&2; echo "$dirty" >&2; fail=1; }
     [[ -z "$("${SAFE_GIT[@]}" -C "$COCO_CLONE" remote)" ]] || { echo "clone has remotes" >&2; fail=1; }
     hooks="$(find "$(git -C "$COCO_CLONE" rev-parse --absolute-git-dir)/hooks" -type f ! -name '*.sample' 2>/dev/null)"
     [[ -z "$hooks" ]] || { echo "clone has active git hooks: $hooks" >&2; fail=1; }
     [[ $fail -eq 0 ]] && echo "clone OK"; exit $fail ;;
-  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | baseline | clone-check" >&2; exit 2 ;;
+  archive)    # copy the hook output out of the clone: coco-guard archive <dest-dir>
+    dest="${2:?destination}"; mkdir -p "$dest"
+    for f in .context/hooks.log .context/coco/BLOCKED; do
+      [[ -f "$COCO_CLONE/$f" ]] && cp "$COCO_CLONE/$f" "$dest/$(basename "$f")"
+    done
+    for d in "$COCO_CLONE"/.context/runs/*/; do
+      [[ -f "$d/hook-run.json" && ! -f "$d/run.json" ]] && cp -R "${d%/}" "$dest/"
+    done
+    echo "archived to $dest" ;;
+  *) echo "usage: coco-guard snapshot <m> | verify <m> <digest> | baseline | clone-check | archive <dir>" >&2; exit 2 ;;
 esac

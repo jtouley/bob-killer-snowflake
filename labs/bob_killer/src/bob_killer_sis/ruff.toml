@@ -1,0 +1,3 @@
+# The app runs on the SiS container runtime: Python 3.11 only (docs/SPEC.md F1).
+extend = "../../pyproject.toml"
+target-version = "py311"

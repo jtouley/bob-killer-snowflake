@@ -1,0 +1,6 @@
+
+== mt_dot_budget corpus (2026-10-27T16:46:45.276849+00:00)
+cases 29, functions 9 ['IF', 'MIN', 'OP_ADD', 'OP_EQ', 'OP_MUL', 'OP_NE', 'OP_SUB', 'SUM', 'SUMIF'], mismatches 0
+
+== sgec_current corpus (2026-10-27T16:47:04.865433+00:00)
+cases 386, functions 14 ['IF', 'IFERROR', 'ISBLANK', 'OP_ADD', 'OP_CONCAT', 'OP_DIV', 'OP_EQ', 'OP_LT', 'OP_MUL', 'OP_SUB', 'OR', 'ROUND', 'SUM', 'SUMIF'], mismatches 0

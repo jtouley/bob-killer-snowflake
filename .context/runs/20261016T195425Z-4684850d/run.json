@@ -1,0 +1,20 @@
+{
+  "junit_sha256": "274196cc3d54a40de534a7affd888481dba5d67559c383f65779ae4a722ee8e2",
+  "nodes": {
+    "::tests.unit.test_runtime": "error",
+    "tests.unit.test_registry::test_duplicate_name_rejected": "passed",
+    "tests.unit.test_registry::test_entry_points_register": "passed",
+    "tests.unit.test_registry::test_excel_function_registers_in_functions": "failed",
+    "tests.unit.test_registry::test_register_and_get": "passed",
+    "tests.unit.test_registry::test_unknown_name_names_the_registry": "passed"
+  },
+  "pytest_args": [
+    "--continue-on-collection-errors",
+    "tests/unit/test_runtime.py",
+    "tests/unit/test_registry.py"
+  ],
+  "recorded_at": "2026-10-16T19:54:25Z",
+  "run_id": "20261016T195425Z-4684850d",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "d30bce41e2f399103df6f2114e5bb1392140e1afe7934e5b81e520971a1f002e"
+}

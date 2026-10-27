@@ -1,4 +1,4 @@
-"""Contract snapshots: DDL, JSON Schemas and OpenAPI generated from contracts/ (decision 8, D6).
+"""Contract snapshots (decision 8, D6, D31): DDL, JSON Schemas and OpenAPI from contracts/.
 
 Snapshots live in ``src/bob_killer/contracts/snapshots/v{SCHEMA_VERSION}/``. ``export`` refuses
 an existing version directory, so changing a contract means bumping ``SCHEMA_VERSION``.
@@ -19,10 +19,19 @@ SNAPSHOTS = Path("src/bob_killer/contracts/snapshots")
 
 
 def default_models() -> list[type]:
-    """Every shipped StrictModel subclass (test-defined models are excluded), sorted by name."""
-    import bob_killer.contracts.golden  # noqa: F401  (register subclasses)
-    import bob_killer.contracts.runs  # noqa: F401
+    """Every shipped StrictModel subclass (test-defined models are excluded), sorted by name.
+
+    Every module of the ``bob_killer.contracts`` package is imported, so a new contracts module
+    is snapshotted without a change to this gate.
+    """
+    import importlib
+    import pkgutil
+
+    import bob_killer.contracts as package
     from bob_killer.contracts.base import StrictModel
+
+    for info in pkgutil.iter_modules(package.__path__):
+        importlib.import_module(f"{package.__name__}.{info.name}")
 
     found: list[type] = []
     stack: list[type] = [StrictModel]
@@ -35,19 +44,24 @@ def default_models() -> list[type]:
 
 
 def generate(models: Sequence[type] | None = None) -> dict[str, str]:
+    """Every snapshot file. ``workbook_ddl.sql`` joins once ``WORKBOOK_TABLES`` exists (D31)."""
+    import bob_killer.contracts as contracts
     from bob_killer.api.main import app
-    from bob_killer.contracts import TABLES
     from bob_killer.contracts.ddl import schema_ddl
 
     schemas = {
         f"{m.__module__}.{m.__qualname__}": m.model_json_schema()  # type: ignore[attr-defined]
         for m in (default_models() if models is None else models)
     }
-    return {
-        "ddl.sql": schema_ddl(TABLES),
+    files = {
+        "ddl.sql": schema_ddl(contracts.TABLES),
         "schemas.json": json.dumps(schemas, indent=2, sort_keys=True) + "\n",
         "openapi.json": json.dumps(app.openapi(), indent=2, sort_keys=True) + "\n",
     }
+    workbook_tables = getattr(contracts, "WORKBOOK_TABLES", None)
+    if workbook_tables is not None:
+        files["workbook_ddl.sql"] = schema_ddl(workbook_tables)
+    return files
 
 
 def snapshot_dir(project_root: Path, version: int) -> Path:

@@ -1,0 +1,13 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model) ]]
+SELECT
+    [[ ident('sheet') ]],
+    [[ ident('row') ]],
+    [[ ident('col') ]],
+    [[ ident('value') ]],
+    {{ var('bk_host_schema') }}.BK_WIRE_DECODE_NUMBER([[ ident('value') ]]) AS [[ ident('value_number') ]],
+    [[ ident('value') ]]:t::VARCHAR AS [[ ident('value_text') ]],
+    [[ ident('value') ]]:b::BOOLEAN AS [[ ident('value_boolean') ]],
+    [[ ident('value') ]]:e::VARCHAR AS [[ ident('value_error') ]]
+FROM {{ ref([[ step_model | sql ]]) }}
+WHERE [[ ident('node_id') ]] = [[ step | sql ]]

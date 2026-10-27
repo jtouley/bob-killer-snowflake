@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "ab1f849aa489ec52b26593e583eb8dff1e93cce39ed4bf8e0a90097caf40b231",
+  "nodes": {
+    "::tests.unit.hosts.test_odcs": "error"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_odcs.py"
+  ],
+  "recorded_at": "2026-10-16T19:42:36Z",
+  "run_id": "20261016T194236Z-e3380f4f",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "115d11fcbfee2a729c240cf4be88fd0a811d6160ee7cf191e1baa15f100c9241"
+}

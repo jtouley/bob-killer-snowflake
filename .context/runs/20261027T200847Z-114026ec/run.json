@@ -1,0 +1,26 @@
+{
+  "junit_sha256": "196883499b83dc1cb1cd3c3a28515a97b0fcfa0b99ff1be8b4ebdc3e1879191d",
+  "nodes": {
+    "tests.unit.hosts.test_snowflake_yml::test_app_entity_ships_the_sis_package_on_the_container_runtime": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_app_sql_creates_the_declared_app_from_its_files_on_the_app_stage": "failed",
+    "tests.unit.hosts.test_snowflake_yml::test_app_sql_is_the_generated_ddl": "failed",
+    "tests.unit.hosts.test_snowflake_yml::test_every_third_party_package_the_procedures_import_is_deployed[jinja2]": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_every_third_party_package_the_procedures_import_is_deployed[openpyxl]": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_every_third_party_package_the_procedures_import_is_deployed[pydantic]": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_every_third_party_package_the_procedures_import_is_deployed[yaml]": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_procedure_entity_resolves_to_its_handler[CREATE_RUN]": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_procedure_entity_resolves_to_its_handler[EXECUTE_RUN]": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_run_pipeline_handler_takes_the_session_and_the_run_id": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_run_pipeline_runs_as_caller_on_the_build_zip_with_the_deploy_packages": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_run_pipeline_sql_is_the_generated_ddl": "passed",
+    "tests.unit.hosts.test_snowflake_yml::test_the_app_stage_is_a_compiler_object": "failed",
+    "tests.unit.hosts.test_snowflake_yml::test_the_procedure_entities_are_exactly_the_handlers": "passed"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_snowflake_yml.py"
+  ],
+  "recorded_at": "2026-10-27T20:08:47Z",
+  "run_id": "20261027T200847Z-114026ec",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "babe32e25810a5ffa1c290dde09681b483fe51d211440394800ebfb4a0f1f23c"
+}

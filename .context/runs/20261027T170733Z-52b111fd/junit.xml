@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="10" time="39.457" timestamp="2026-10-27T13:07:33.938308-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[iwarm]" time="0.777" /><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[mt_dot_budget]" time="0.145" /><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_current]" time="12.245" /><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v4_1]" time="6.738" /><testcase classname="tests.unit.test_lift" name="test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v5_1]" time="8.213" /><testcase classname="tests.unit.test_lift" name="test_register_stages_is_idempotent" time="0.002" /><testcase classname="tests.unit.test_lift" name="test_every_formula_cell_of_the_goal_set_lifts[mt_dot_budget]" time="0.065"><failure message="assert [Unsupported(...for missing')] == []&#10;  &#10;  Left contains one more item: Unsupported(kind='formula', origin=&quot;'COSTS'!F15&quot;, reason='no IR form for missing')&#10;  Use -v to get more diff">workbook_id = 'mt_dot_budget'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x104169580&gt;
+
+    @pytest.mark.parametrize("workbook_id", ["mt_dot_budget", "sgec_current"])
+    def test_every_formula_cell_of_the_goal_set_lifts(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        raw = pinned_raw(workbook_id)
+        ir = _lift_with_names(raw)
+        formulas = [c for c in raw.cells if c.formula]
+&gt;       assert [u for u in ir.unsupported if u.kind == "formula"] == []
+E       assert [Unsupported(...for missing')] == []
+E         
+E         Left contains one more item: Unsupported(kind='formula', origin="'COSTS'!F15", reason='no IR form for missing')
+E         Use -v to get more diff
+
+tests/unit/test_lift.py:108: AssertionError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_every_formula_cell_of_the_goal_set_lifts[sgec_current]" time="5.373"><failure message="assert [Unsupported(...r name'), ...] == []&#10;  &#10;  Left contains 1935 more items, first extra item: Unsupported(kind='formula', origin=&quot;'Business Travel'!E17&quot;, reason='no IR form for name')&#10;  Use -v to get more diff">workbook_id = 'sgec_current'
+pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x104169580&gt;
+
+    @pytest.mark.parametrize("workbook_id", ["mt_dot_budget", "sgec_current"])
+    def test_every_formula_cell_of_the_goal_set_lifts(
+        workbook_id: str, pinned_raw: Callable[[str], RawWorkbook]
+    ) -&gt; None:
+        raw = pinned_raw(workbook_id)
+        ir = _lift_with_names(raw)
+        formulas = [c for c in raw.cells if c.formula]
+&gt;       assert [u for u in ir.unsupported if u.kind == "formula"] == []
+E       assert [Unsupported(...r name'), ...] == []
+E         
+E         Left contains 1935 more items, first extra item: Unsupported(kind='formula', origin="'Business Travel'!E17", reason='no IR form for name')
+E         Use -v to get more diff
+
+tests/unit/test_lift.py:108: AssertionError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_a_defined_name_reads_the_cells_it_refers_to" time="5.738"><failure message="assert 0">pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x104169580&gt;
+
+    def test_a_defined_name_reads_the_cells_it_refers_to(
+        pinned_raw: Callable[[str], RawWorkbook],
+    ) -&gt; None:
+        import re
+    
+        from bob_killer.contracts.ir import CellRef, cell_range
+        from bob_killer.lift.core import _reads
+    
+        raw = pinned_raw("sgec_current")
+        ir = _lift_with_names(raw)
+        names = {d.name.casefold(): d.refers_to for d in raw.defined_names if d.scope == ""}
+        checked = 0
+        for step in ir.steps:
+            words = {w.casefold() for w in re.findall(r"[A-Za-z_][A-Za-z0-9_.]*", step.formula)}
+            reads = set(_reads(step.expr))
+            for word in words &amp; names.keys():
+                try:
+                    target = cell_range(names[word])
+                except ValueError:
+                    continue
+                cells = {CellRef(sheet=c.sheet, row=c.row, col=c.col) for c in target.cells()}
+                assert cells &lt;= reads, (step.origin, word)
+                checked += 1
+&gt;       assert checked
+E       assert 0
+
+tests/unit/test_lift.py:135: AssertionError</failure></testcase><testcase classname="tests.unit.test_lift" name="test_a_missing_argument_lifts_to_a_blank_literal" time="0.092"><failure message="KeyError: ('COSTS', 15, 6)">pinned_raw = &lt;function pinned_raw.&lt;locals&gt;.get at 0x104169580&gt;
+
+    def test_a_missing_argument_lifts_to_a_blank_literal(
+        pinned_raw: Callable[[str], RawWorkbook],
+    ) -&gt; None:
+        from bob_killer.contracts.graph import Missing
+        from bob_killer.contracts.ir import CellValue, LiteralExpr, iter_expr
+        from bob_killer.graph.dag import build_graph
+        from bob_killer.graph.walk import walk
+        from tests.golden.conftest import graph_input
+    
+        raw = pinned_raw("mt_dot_budget")
+        graph = build_graph(graph_input(raw))
+        with_missing = {
+            (n.key.sheet, n.key.row, n.key.column)
+            for n in graph.nodes
+            if n.ast is not None and any(isinstance(x, Missing) for x in walk(n.ast))
+        }
+        assert with_missing
+        steps = {
+            (s.cells()[0].sheet, s.cells()[0].row, s.cells()[0].col): s
+            for s in _lift_with_names(raw).steps
+        }
+        for key in with_missing:
+&gt;           literals = [e for e in iter_expr(steps[key].expr) if isinstance(e, LiteralExpr)]
+                                             ^^^^^^^^^^
+E           KeyError: ('COSTS', 15, 6)
+
+tests/unit/test_lift.py:160: KeyError</failure></testcase></testsuite></testsuites>

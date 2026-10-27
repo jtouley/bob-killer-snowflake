@@ -1,0 +1,18 @@
+{
+  "junit_sha256": "256806c5f502ea080e9b331978fadf439e62569c53e5de8ee500e7948e2a6f04",
+  "nodes": {
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[iwarm]": "failed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[mt_dot_budget]": "failed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_current]": "failed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v4_1]": "failed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v5_1]": "failed",
+    "tests.unit.test_lift::test_register_stages_is_idempotent": "failed"
+  },
+  "pytest_args": [
+    "tests/unit/test_lift.py"
+  ],
+  "recorded_at": "2026-10-16T20:52:09Z",
+  "run_id": "20261016T205209Z-99e41422",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "dbb74b0dc0a85787d9e64884a0a0fbea6905e9763b10c12af73ac47c0f2e7a18"
+}

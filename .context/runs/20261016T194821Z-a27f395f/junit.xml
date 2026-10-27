@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="7" time="0.384" timestamp="2026-10-16T15:48:21.605576-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_runs" name="test_stage_return_is_the_success_detail[sqlite-text]" time="0.068" /><testcase classname="tests.unit.test_runs" name="test_stage_return_is_the_success_detail[sqlite-none]" time="0.016" /><testcase classname="tests.unit.test_runs" name="test_second_execute_runs_no_stage_and_writes_nothing[sqlite]" time="0.016"><failure message="AssertionError: assert ['3781a82a016...04fd45a36af6'] == ['3781a82a016...04fd45a36af6']&#10;  &#10;  Left contains one more item: '3781a82a016b498cbfdb04fd45a36af6'&#10;  Use -v to get more diff">store = &lt;bob_killer.store.db.RunStore object at 0x106633380&gt;
+
+    def test_second_execute_runs_no_stage_and_writes_nothing(store: RunRepository) -&gt; None:
+        """G24: only the call that wins the claim runs the stages."""
+        calls = _counting_stage()
+        run = queued_run(store)
+        first = execute_run(store, run.run_id)
+        after_first = store.stages(run.run_id)
+        second = execute_run(store, run.run_id)
+        assert first == second == RunState.SUCCEEDED
+&gt;       assert calls == [run.run_id]
+E       AssertionError: assert ['3781a82a016...04fd45a36af6'] == ['3781a82a016...04fd45a36af6']
+E         
+E         Left contains one more item: '3781a82a016b498cbfdb04fd45a36af6'
+E         Use -v to get more diff
+
+tests/unit/test_runs.py:70: AssertionError</failure></testcase><testcase classname="tests.unit.test_runs" name="test_execute_unknown_run_raises_key_error[sqlite]" time="0.008"><failure message="Failed: DID NOT RAISE KeyError">store = &lt;bob_killer.store.db.RunStore object at 0x106ab8260&gt;
+
+    def test_execute_unknown_run_raises_key_error(store: RunRepository) -&gt; None:
+        missing = sample_run().run_id
+&gt;       with pytest.raises(KeyError, match=missing):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE KeyError
+
+tests/unit/test_runs.py:76: Failed</failure></testcase><testcase classname="tests.unit.test_runs" name="test_error_outside_a_stage_fails_the_run_and_raises[sqlite-upsert-after-claim]" time="0.010"><failure message="AssertionError: assert &lt;RunState.RUNNING: 'running'&gt; == &lt;RunState.FAILED: 'failed'&gt;&#10;  &#10;  - failed&#10;  + running">store = &lt;bob_killer.store.db.RunStore object at 0x106ab8da0&gt;
+method = 'upsert_stage', when = &lt;function &lt;lambda&gt; at 0x106a4b740&gt;
+
+    @pytest.mark.parametrize(
+        ("method", "when"),
+        [
+            ("upsert_stage", lambda status: True),
+            ("set_state", lambda run_id, state: state == RunState.SUCCEEDED),
+        ],
+        ids=["upsert-after-claim", "final-set-state"],
+    )
+    def test_error_outside_a_stage_fails_the_run_and_raises(
+        store: RunRepository, method: str, when: Callable[..., bool]
+    ) -&gt; None:
+        """G9a (a) and (c): after a won claim, an error outside a stage gives failed and re-raises."""
+        _counting_stage()
+        run = queued_run(store)
+        with pytest.raises(RuntimeError, match=method):
+            execute_run(_Faulty(store, method, when), run.run_id)  # type: ignore[arg-type]
+        fetched = store.get_run(run.run_id)
+        assert fetched is not None
+&gt;       assert fetched.state == RunState.FAILED
+E       AssertionError: assert &lt;RunState.RUNNING: 'running'&gt; == &lt;RunState.FAILED: 'failed'&gt;
+E         
+E         - failed
+E         + running
+
+tests/unit/test_runs.py:98: AssertionError</failure></testcase><testcase classname="tests.unit.test_runs" name="test_error_outside_a_stage_fails_the_run_and_raises[sqlite-final-set-state]" time="0.016"><failure message="AssertionError: assert &lt;RunState.RUNNING: 'running'&gt; == &lt;RunState.FAILED: 'failed'&gt;&#10;  &#10;  - failed&#10;  + running">store = &lt;bob_killer.store.db.RunStore object at 0x106a52ea0&gt;
+method = 'set_state', when = &lt;function &lt;lambda&gt; at 0x106a4b7e0&gt;
+
+    @pytest.mark.parametrize(
+        ("method", "when"),
+        [
+            ("upsert_stage", lambda status: True),
+            ("set_state", lambda run_id, state: state == RunState.SUCCEEDED),
+        ],
+        ids=["upsert-after-claim", "final-set-state"],
+    )
+    def test_error_outside_a_stage_fails_the_run_and_raises(
+        store: RunRepository, method: str, when: Callable[..., bool]
+    ) -&gt; None:
+        """G9a (a) and (c): after a won claim, an error outside a stage gives failed and re-raises."""
+        _counting_stage()
+        run = queued_run(store)
+        with pytest.raises(RuntimeError, match=method):
+            execute_run(_Faulty(store, method, when), run.run_id)  # type: ignore[arg-type]
+        fetched = store.get_run(run.run_id)
+        assert fetched is not None
+&gt;       assert fetched.state == RunState.FAILED
+E       AssertionError: assert &lt;RunState.RUNNING: 'running'&gt; == &lt;RunState.FAILED: 'failed'&gt;
+E         
+E         - failed
+E         + running
+
+tests/unit/test_runs.py:98: AssertionError</failure></testcase><testcase classname="tests.unit.test_runs" name="test_error_after_a_lost_claim_writes_nothing[sqlite]" time="0.010"><failure message="Failed: DID NOT RAISE RuntimeError">store = &lt;bob_killer.store.db.RunStore object at 0x106ab8620&gt;
+
+    def test_error_after_a_lost_claim_writes_nothing(store: RunRepository) -&gt; None:
+        """G9a (b): a call that lost the claim propagates its error and leaves the state alone."""
+        run = queued_run(store)
+        assert execute_run(store, run.run_id) == RunState.SUCCEEDED
+&gt;       with pytest.raises(RuntimeError, match="get_run"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE RuntimeError
+
+tests/unit/test_runs.py:105: Failed</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,5 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model, depends) ]]
+[[ sql.cell_select(sheet, "src._row", col, node_id, value) ]]
+FROM {{ ref([[ over_model | sql ]]) }} AS src
+WHERE src._row BETWEEN [[ first_row ]] AND [[ last_row ]]

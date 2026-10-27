@@ -1,0 +1,273 @@
+{
+  "family": "lookup",
+  "encoding": "as runtime_aggregate.json; {\"range\": [...], \"columns\": n} is a rectangular range of n columns, cells row by row",
+  "cases": [
+    {
+      "id": "vlookup-approximate-default",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 2],
+      "expected": 2.17,
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(1,A2:C10,2) gives 2.17"
+    },
+    {
+      "id": "vlookup-approximate-true",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 3, true],
+      "expected": 100,
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(1,A2:C10,3,TRUE) gives 100"
+    },
+    {
+      "id": "vlookup-exact-not-found",
+      "call": "VLOOKUP",
+      "args": [0.7, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 3, false],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(0.7,A2:C10,3,FALSE) gives #N/A"
+    },
+    {
+      "id": "vlookup-below-smallest",
+      "call": "VLOOKUP",
+      "args": [0.1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 2, true],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(0.1,A2:C10,2,TRUE) gives #N/A"
+    },
+    {
+      "id": "vlookup-above-largest",
+      "call": "VLOOKUP",
+      "args": [2, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 2, true],
+      "expected": 1.71,
+      "source": "https://support.microsoft.com/en-us/topic/c9be5a08-68a3-453c-bd52-ed88f22f2abd",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0; =VLOOKUP(2,A2:C10,2,TRUE) gives 1.71"
+    },
+    {
+      "id": "vlookup-exact-found",
+      "call": "VLOOKUP",
+      "args": [0.746, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 3, false],
+      "expected": 200,
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: VLOOKUP Examples data A2:C10 (Density, Viscosity, Temperature): 0.457 3.55 500; 0.525 3.25 400; 0.606 2.93 300; 0.675 2.75 250; 0.746 2.57 200; 0.835 2.38 150; 0.946 2.17 100; 1.09 1.95 50; 1.29 1.71 0 (topic page); VLOOKUP page: 'Exact match - 0/FALSE searches for the exact value in the first column': 0.746 is in row 6"
+    },
+    {
+      "id": "vlookup-column-beyond-table",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 4, true],
+      "expected": {"error": "#REF!"},
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Common Problems: 'If col_index_num is greater than the number of columns in table-array, you'll get the #REF! error value'"
+    },
+    {
+      "id": "vlookup-column-below-one",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 0, true],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Common Problems: '#VALUE! in cell: If the table_array is less than 1, you'll get the #VALUE! error value' (the argument checked is col_index_num)"
+    },
+    {
+      "id": "vlookup-wildcard-exact",
+      "call": "VLOOKUP",
+      "args": ["Fontan?", {"range": ["Fontana", 1, "Smith", 2], "columns": 2}, 2, false],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: Best practices: 'If range_lookup is FALSE and lookup_value is text, you can use the wildcard characters ... =VLOOKUP(\"Fontan?\",B2:E7,2,FALSE) will search for all instances of Fontana with a last letter that could vary'"
+    },
+    {
+      "id": "vlookup-text-ignores-case",
+      "call": "VLOOKUP",
+      "args": ["SMITH", {"range": ["Fontana", 1, "Smith", 2], "columns": 2}, 2, false],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-16: MATCH page: 'MATCH does not distinguish between uppercase and lowercase letters when matching text values'; the lookup family shares the rule. Indirect: the VLOOKUP page does not state it"
+    },
+    {
+      "id": "match-exact-number",
+      "call": "MATCH",
+      "args": [41, {"range": [25, 38, 40, 41], "columns": 1}, 0],
+      "expected": 4,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-27: example =MATCH(41,B2:B5,0) on Count 25, 38, 40, 41 gives 4"
+    },
+    {
+      "id": "match-exact-not-found",
+      "call": "MATCH",
+      "args": [39, {"range": [25, 38, 40, 41], "columns": 1}, 0],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-27: match_type 0 'finds the first value that is exactly equal'; 'If MATCH is unsuccessful in finding a match, it returns the #N/A error value'"
+    },
+    {
+      "id": "match-exact-text-ignores-case",
+      "call": "MATCH",
+      "args": ["apples", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, 0],
+      "expected": 3,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-27: 'MATCH does not distinguish between uppercase and lowercase letters'; Apples is the 3rd Product"
+    },
+    {
+      "id": "match-exact-first-of-duplicates",
+      "call": "MATCH",
+      "args": ["Pears", {"range": ["Pears", "Apples", "Pears"], "columns": 1}, 0],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/match-function-e8dffd45-c762-47d6-bf89-533f4a37673a",
+      "verified_by": "Claude Code 2026-10-27: match_type 0 'finds the first value that is exactly equal to lookup_value'"
+    },
+    {
+      "id": "match-number-against-number-text",
+      "call": "MATCH",
+      "args": [41, {"range": ["41", 41], "columns": 1}, 0],
+      "expected": 2,
+      "source": "https://support.microsoft.com/en-us/office/how-to-correct-a-n-a-error-a9708411-f82e-4e1b-8a7e-28c28311b993",
+      "verified_by": "Claude Code 2026-10-27: #N/A page: 'The lookup value and the source data are different data types', so the text '41' is not a match"
+    },
+    {
+      "id": "index-row-2-col-2",
+      "call": "INDEX",
+      "args": [{"range": ["Apples", "Lemons", "Bananas", "Pears"], "columns": 2}, 2, 2],
+      "expected": "Pears",
+      "source": "https://support.microsoft.com/en-us/office/index-function-a5dcf0dd-996d-40a4-a822-b56b061328bd",
+      "verified_by": "Claude Code 2026-10-27: Example 1 =INDEX(A2:B3,2,2) on Apples, Lemons / Bananas, Pears gives Pears"
+    },
+    {
+      "id": "index-row-2-col-1",
+      "call": "INDEX",
+      "args": [{"range": ["Apples", "Lemons", "Bananas", "Pears"], "columns": 2}, 2, 1],
+      "expected": "Bananas",
+      "source": "https://support.microsoft.com/en-us/office/index-function-a5dcf0dd-996d-40a4-a822-b56b061328bd",
+      "verified_by": "Claude Code 2026-10-27: Example 1 =INDEX(A2:B3,2,1) gives Bananas"
+    },
+    {
+      "id": "index-outside-the-array",
+      "call": "INDEX",
+      "args": [{"range": ["Apples", "Lemons", "Bananas", "Pears"], "columns": 2}, 3, 3],
+      "expected": {"error": "#REF!"},
+      "source": "https://support.microsoft.com/en-us/office/index-function-a5dcf0dd-996d-40a4-a822-b56b061328bd",
+      "verified_by": "Claude Code 2026-10-27: row_num and column_num outside the array: 'INDEX returns a #REF! error'"
+    },
+    {
+      "id": "index-one-column-without-column-num",
+      "call": "INDEX",
+      "args": [{"range": [25, 38, 40, 41], "columns": 1}, 3],
+      "expected": 40,
+      "source": "https://support.microsoft.com/en-us/office/index-function-a5dcf0dd-996d-40a4-a822-b56b061328bd",
+      "verified_by": "Claude Code 2026-10-27: column_num is 'Optional if array has only one column'; row 3 of 25, 38, 40, 41"
+    },
+    {
+      "id": "xlookup-exact-default",
+      "call": "XLOOKUP",
+      "args": ["Apples", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, {"range": [25, 38, 40, 41], "columns": 1}],
+      "expected": 40,
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: match_mode '0 - Exact match ... This is the default'; search_mode '1 - ... starting at the first item. This is the default'"
+    },
+    {
+      "id": "xlookup-not-found",
+      "call": "XLOOKUP",
+      "args": ["Kiwi", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, {"range": [25, 38, 40, 41], "columns": 1}],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: 'If a valid match is not found, and [if_not_found] is missing, #N/A is returned'"
+    },
+    {
+      "id": "xlookup-if-not-found",
+      "call": "XLOOKUP",
+      "args": ["Kiwi", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, {"range": [25, 38, 40, 41], "columns": 1}, "none"],
+      "expected": "none",
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: 'Where a valid match is not found, return the [if_not_found] text you supply'"
+    },
+    {
+      "id": "xlookup-explicit-modes",
+      "call": "XLOOKUP",
+      "args": ["Pears", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, {"range": [25, 38, 40, 41], "columns": 1}, "", 0, 1],
+      "expected": 41,
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: match_mode 0 exact, search_mode 1 from the first item; Pears is the 4th Product"
+    },
+    {
+      "id": "xlookup-first-of-duplicates",
+      "call": "XLOOKUP",
+      "args": [2, {"range": [1, 2, 2], "columns": 1}, {"range": ["a", "b", "c"], "columns": 1}],
+      "expected": "b",
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: search_mode 1 'Perform a search starting at the first item'"
+    },
+    {
+      "id": "vlookup-number-skips-number-text",
+      "call": "VLOOKUP",
+      "args": [1, {"range": ["1", "a", 1, "b"], "columns": 2}, 2, false],
+      "expected": "b",
+      "source": "https://support.microsoft.com/en-us/office/how-to-correct-a-n-a-error-a9708411-f82e-4e1b-8a7e-28c28311b993",
+      "verified_by": "Claude Code 2026-10-27: 'you try to have VLOOKUP reference a number, but the source data is stored as text' gives #N/A, so text '1' is not a match for 1"
+    },
+    {
+      "id": "vlookup-blank-key-no-reading-matches",
+      "call": "VLOOKUP",
+      "args": [{"range": [null]}, {"range": ["a", 1, "b", 2], "columns": 2}, 2, false],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/office/how-to-correct-a-n-a-error-a9708411-f82e-4e1b-8a7e-28c28311b993",
+      "verified_by": "Claude Code 2026-10-27: whether Excel reads a blank lookup value as 0 or as empty text, no cell of the first column (a, b) is 0, empty text or blank, so every reading finds no match: #N/A ('if a formula can't find a referenced value'); goldens sgec_current 'Electricity' column L caches ISNA(...) TRUE for blank D cells"
+    },
+    {
+      "id": "vlookup-number-text-in-first-column",
+      "call": "VLOOKUP",
+      "args": [1, {"range": ["1", "a"], "columns": 2}, 2, false],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/office/how-to-correct-a-n-a-error-a9708411-f82e-4e1b-8a7e-28c28311b993",
+      "verified_by": "Claude Code 2026-10-27: moved from refused: the #N/A page now settles it: 'The lookup value and the source data are different data types. For example, you try to have VLOOKUP reference a number, but the source data is stored as text.'"
+    }
+  ],
+  "refused": [
+    {
+      "id": "vlookup-unsorted-approximate",
+      "call": "VLOOKUP",
+      "args": [2, {"range": [3, "c", 1, "a"], "columns": 2}, 2, true],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: 'If the first column isn't sorted, the return value might be something you don't expect'"
+    },
+    {
+      "id": "vlookup-table-without-shape",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [1, 2, 3, 4]}, 2, false],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: a table without its column count has no first column"
+    },
+    {
+      "id": "vlookup-fractional-column",
+      "call": "VLOOKUP",
+      "args": [1, {"range": [0.457, 3.55, 500, 0.525, 3.25, 400, 0.606, 2.93, 300, 0.675, 2.75, 250, 0.746, 2.57, 200, 0.835, 2.38, 150, 0.946, 2.17, 100, 1.09, 1.95, 50, 1.29, 1.71, 0], "columns": 3}, 1.5, true],
+      "source": "https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1",
+      "verified_by": "Claude Code 2026-10-16: the page does not say how a fractional col_index_num is read"
+    },
+    {
+      "id": "vlookup-blank-key-zero-in-first-column",
+      "call": "VLOOKUP",
+      "args": [{"range": [null]}, {"range": [0, "z", 1, "o"], "columns": 2}, 2, false],
+      "source": "https://support.microsoft.com/en-us/office/how-to-correct-a-n-a-error-a9708411-f82e-4e1b-8a7e-28c28311b993",
+      "verified_by": "Claude Code 2026-10-27: a blank read as 0 matches the first row, read as text it matches none: no page settles which"
+    },
+    {
+      "id": "xlookup-match-differs-only-in-case",
+      "call": "XLOOKUP",
+      "args": ["apples", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, {"range": [25, 38, 40, 41], "columns": 1}],
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: the XLOOKUP page does not say whether text matching ignores case"
+    },
+    {
+      "id": "xlookup-wildcard-in-exact-mode",
+      "call": "XLOOKUP",
+      "args": ["A*", {"range": ["Bananas", "Oranges", "Apples", "Pears"], "columns": 1}, {"range": [25, 38, 40, 41], "columns": 1}],
+      "source": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+      "verified_by": "Claude Code 2026-10-27: only match_mode 2 gives * ? ~ 'special meaning'; the page does not say mode 0 reads them literally"
+    },
+    {
+      "id": "index-row-outside-column-inside",
+      "call": "INDEX",
+      "args": [{"range": ["Apples", "Lemons", "Bananas", "Pears"], "columns": 2}, 3, 1],
+      "source": "https://support.microsoft.com/en-us/office/index-function-a5dcf0dd-996d-40a4-a822-b56b061328bd",
+      "verified_by": "Claude Code 2026-10-27: the page states #REF! when row_num and column_num are outside the array, not one of them"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "junit_sha256": "9cd73e2e7361e67b3fa800ad014619df238bae7f06716eb38606d8dddc143f25",
+  "nodes": {
+    "tests.gates.test_compiler_gates::test_generate_importing_runtime_is_rejected[pkg]": "failed",
+    "tests.gates.test_compiler_gates::test_generate_importing_runtime_is_rejected[subpkg]": "failed",
+    "tests.gates.test_compiler_gates::test_literal_in_scoped_test_is_rejected[tests/integration]": "passed",
+    "tests.gates.test_compiler_gates::test_literal_in_scoped_test_is_rejected[tests/live]": "passed",
+    "tests.gates.test_compiler_gates::test_literal_in_scoped_test_is_rejected[tests/snapshot]": "failed",
+    "tests.gates.test_compiler_gates::test_literal_in_scoped_test_is_rejected[tests/unit]": "passed",
+    "tests.gates.test_compiler_gates::test_workbook_model_change_without_bump_fails": "failed"
+  },
+  "pytest_args": [
+    "tests/gates/test_compiler_gates.py"
+  ],
+  "recorded_at": "2026-10-16T19:55:36Z",
+  "run_id": "20261016T195536Z-5cfa871d",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "b84bb517cf537bb6c26727b41d534cf10dde514234e5d4796b3c0d5c38d58553"
+}

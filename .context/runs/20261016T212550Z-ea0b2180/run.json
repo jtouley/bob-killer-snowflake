@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "0b7ca73e3844b231bdd8947d3e63bdf9b7f7dc1f11a1f35184df10d95de5110b",
+  "nodes": {
+    "::tests.unit.hosts.test_procedure": "error"
+  },
+  "pytest_args": [
+    "tests/unit/hosts/test_procedure.py"
+  ],
+  "recorded_at": "2026-10-16T21:25:50Z",
+  "run_id": "20261016T212550Z-ea0b2180",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "4109c7d14af0d4e46f38120163709d13e1ab3ec0fba1adf61329e01a73a7aedf"
+}

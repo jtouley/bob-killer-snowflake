@@ -1,8 +1,11 @@
-"""Generate SQLite DDL (STRICT tables) from contract models. Unmapped types fail loudly."""
+"""DDL generated from contract models, one generator per dialect. Unmapped types fail loudly.
+
+The ``sqlite`` dialect (STRICT tables) is built in; hosts register their own dialects.
+"""
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from datetime import datetime
 from enum import Enum
 
@@ -31,3 +34,8 @@ def table_ddl(model: type[StrictModel]) -> str:
 
 def schema_ddl(models: Iterable[type[StrictModel]]) -> str:
     return "\n".join(table_ddl(m) for m in models)
+
+
+type Dialect = Callable[[Iterable[type[StrictModel]]], str]
+
+ddl_dialects: dict[str, Dialect] = {"sqlite": schema_ddl}

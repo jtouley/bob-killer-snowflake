@@ -1,0 +1,113 @@
+definition_version: 2
+# Snowflake CLI project for the Bob Killer host (docs/SPEC.md §4 F8, G13).
+# `snow snowpark build` zips the artifacts; `snow snowpark deploy` uploads the zip and creates
+# the procedures. The core ships from ../../src/bob_killer through an artifact src/dest mapping.
+mixins:
+  # The deploy procedures (Phase 6): the core zip only, in the F8 layout (zip root holds bob_killer/).
+  core_procedure:
+    stage: deployments
+    artifacts:
+      - src: ../../src
+        dest: src.zip
+  snowpark_shared:
+    stage: deployments
+    artifacts:
+      - src: ../../src
+        dest: src.zip
+      - src: probe/platform_probe.py
+        dest: platform_probe.py
+  # Hello probe (spec §4 F1, F7): one app, with and without the PyPI integration. Deployed only
+  # into a TEST_<uuid8> schema by tests/live/test_platform.py. Throwaway; not a deploy path.
+  hello_shared:
+    query_warehouse: BOB_KILLER_WH
+    compute_pool: BOB_KILLER_POOL
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    main_file: hello_app/streamlit_app.py
+    artifacts:
+      - hello_app/streamlit_app.py
+      - hello_app/pyproject.toml
+entities:
+  platform_probe:
+    type: procedure
+    identifier:
+      name: PLATFORM_PROBE
+    handler: platform_probe.platform_probe
+    runtime: "3.12"
+    signature:
+      - name: stage_path
+        type: string
+    returns: variant
+    execute_as_caller: false
+    meta:
+      use_mixins:
+        - snowpark_shared
+  hello_eai:
+    type: streamlit
+    identifier:
+      name: HELLO_EAI
+    external_access_integrations:
+      - BOB_KILLER_PYPI_EAI
+    meta:
+      use_mixins:
+        - hello_shared
+  hello_no_eai:
+    type: streamlit
+    identifier:
+      name: HELLO_NO_EAI
+    meta:
+      use_mixins:
+        - hello_shared
+  # Deploy entities (docs/SPEC.md §6.3, D1, D7). The schema comes from the connection (APP for
+  # production, TEST_<uuid8> for live tests). Packages come from requirements.txt (F3).
+  create_run:
+    type: procedure
+    identifier:
+      name: CREATE_RUN
+    handler: bob_killer.hosts.snowflake.procedure.create_run_procedure
+    runtime: "3.12"
+    signature:
+      - name: stage_file
+        type: varchar
+      - name: filename
+        type: varchar
+      - name: sha256
+        type: varchar
+    returns: variant
+    execute_as_caller: false
+    meta:
+      use_mixins:
+        - core_procedure
+  execute_run:
+    type: procedure
+    identifier:
+      name: EXECUTE_RUN
+    handler: bob_killer.hosts.snowflake.procedure.execute_run_procedure
+    runtime: "3.12"
+    signature:
+      - name: run_id
+        type: varchar
+    returns: variant
+    execute_as_caller: false
+    meta:
+      use_mixins:
+        - core_procedure
+  app:
+    # SiS container runtime: Python 3.11, installs src/bob_killer_sis/pyproject.toml with uv
+    # from PyPI through the integration (F1, F7). streamlit>=1.50 is pinned there.
+    type: streamlit
+    identifier:
+      name: BOB_KILLER_APP
+    title: Bob Killer
+    query_warehouse: BOB_KILLER_WH
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    compute_pool: BOB_KILLER_POOL
+    external_access_integrations:
+      - BOB_KILLER_PYPI_EAI
+    main_file: streamlit_app.py
+    artifacts:
+      - src: ../../src/bob_killer_sis/streamlit_app.py
+        dest: streamlit_app.py
+      - src: ../../src/bob_killer_sis/schemas.json
+        dest: schemas.json
+      - src: ../../src/bob_killer_sis/pyproject.toml
+        dest: pyproject.toml

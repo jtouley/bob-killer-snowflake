@@ -1,0 +1,3 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model) ]]
+[% call(m) sql.union_all(models) %]SELECT [[ sql.cell_columns() ]] FROM {{ ref([[ m | sql ]]) }}[% endcall %]

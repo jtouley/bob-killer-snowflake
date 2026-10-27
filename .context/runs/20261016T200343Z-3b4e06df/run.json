@@ -1,0 +1,19 @@
+{
+  "junit_sha256": "95f1f8cf6408122090bf1d72d97ce7f4922a961624ceae73bf7cd71ad72c2a42",
+  "nodes": {
+    "tests.unit.test_runs::test_error_after_a_lost_claim_writes_nothing[sqlite]": "failed",
+    "tests.unit.test_runs::test_error_outside_a_stage_fails_the_run_and_raises[sqlite-final-set-state]": "failed",
+    "tests.unit.test_runs::test_error_outside_a_stage_fails_the_run_and_raises[sqlite-upsert-after-claim]": "failed",
+    "tests.unit.test_runs::test_execute_unknown_run_raises_key_error[sqlite]": "failed",
+    "tests.unit.test_runs::test_second_execute_runs_no_stage_and_writes_nothing[sqlite]": "failed",
+    "tests.unit.test_runs::test_stage_return_is_the_success_detail[sqlite-none]": "passed",
+    "tests.unit.test_runs::test_stage_return_is_the_success_detail[sqlite-text]": "passed"
+  },
+  "pytest_args": [
+    "tests/unit/test_runs.py"
+  ],
+  "recorded_at": "2026-10-16T20:03:43Z",
+  "run_id": "20261016T200343Z-3b4e06df",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "ff213c6fea9c30b39c4d4080ce395285e8be4ae4adf4955192f30fa0750cd5d8"
+}

@@ -3,7 +3,8 @@
 Excel workbook → Streamlit app + plain-English docs + equivalence tests, all compiled
 from one Workbook IR. Design: [SPEC.md](SPEC.md). Working agreement: [CLAUDE.md](CLAUDE.md).
 
-Incubating in `jtouley/sandbox` (tracking issue #5). Licensed Apache-2.0 (this subtree only).
+Hosted in Snowflake by this repository (see the root README and `hosts/snowflake/README.md`).
+Licensed Apache-2.0 (this subtree only).
 
 ```bash
 cd labs/bob_killer

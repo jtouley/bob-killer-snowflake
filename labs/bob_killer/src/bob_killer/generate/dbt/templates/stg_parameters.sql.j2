@@ -1,0 +1,7 @@
+[% import "_sql.j2" as sql %]
+[[ sql.header(model) ]]
+[% call(p) sql.union_all(parameters) %]SELECT [[ p | sql ]] AS [[ ident('parameter_id') ]], {{ bk_param([[ p | sql ]]) }} AS [[ ident('value') ]][% endcall %]
+[% if not parameters %]
+SELECT CAST(NULL AS VARCHAR) AS [[ ident('parameter_id') ]], CAST(NULL AS VARIANT) AS [[ ident('value') ]]
+WHERE FALSE
+[% endif %]

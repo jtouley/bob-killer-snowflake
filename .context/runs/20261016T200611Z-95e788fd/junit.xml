@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="2" time="1.502" timestamp="2026-10-16T16:06:12.917601-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.unit.test_graph_dag" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/tests/unit/test_graph_dag.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_graph_dag.py:12: in &lt;module&gt;
+    from bob_killer.contracts.graph import (
+E   ModuleNotFoundError: No module named 'bob_killer.contracts.graph'</error></testcase><testcase classname="" name="tests.unit.test_graph_parser" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/tests/unit/test_graph_parser.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_graph_parser.py:15: in &lt;module&gt;
+    from bob_killer.contracts.graph import (
+E   ModuleNotFoundError: No module named 'bob_killer.contracts.graph'</error></testcase></testsuite></testsuites>

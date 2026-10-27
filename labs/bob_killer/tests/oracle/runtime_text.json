@@ -1,0 +1,38 @@
+{
+  "family": "text",
+  "encoding": "as runtime_aggregate.json",
+  "cases": [
+    {
+      "id": "text-golden-mt-dot-budget-costs-f15",
+      "call": "TEXT",
+      "args": [0, null],
+      "expected": "",
+      "source": "golden mt_dot_budget (golden.lock id mt_dot_budget, sha256 e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047) COSTS!F15 =TEXT(E15,)",
+      "verified_by": "Claude Code 2026-10-27: F15 caches empty text (t=\"str\"); E15 =MIN(500000,0.15*E38) caches 0; the format_text argument is omitted"
+    },
+    {
+      "id": "text-empty-format-text",
+      "call": "TEXT",
+      "args": [0, ""],
+      "expected": "",
+      "source": "golden mt_dot_budget (golden.lock id mt_dot_budget, sha256 e835558d6df6a84ba0576804d02e8280821205d0b576ed232379a373afc93047) COSTS!F15 =TEXT(E15,)",
+      "verified_by": "Claude Code 2026-10-27: an omitted argument and empty text give the same format_text text (\"\"); as COSTS!F15"
+    }
+  ],
+  "refused": [
+    {
+      "id": "text-number-format-code",
+      "call": "TEXT",
+      "args": [1234.567, "$#,##0.00"],
+      "source": "https://support.microsoft.com/en-us/office/text-function-20d5ac4d-7b94-49fd-bb38-93d29371225c",
+      "verified_by": "Claude Code 2026-10-27: number format codes are not implemented"
+    },
+    {
+      "id": "text-of-text",
+      "call": "TEXT",
+      "args": ["a", ""],
+      "source": "https://support.microsoft.com/en-us/office/text-function-20d5ac4d-7b94-49fd-bb38-93d29371225c",
+      "verified_by": "Claude Code 2026-10-27: value is 'A numeric value'; the page does not say what text gives"
+    }
+  ]
+}

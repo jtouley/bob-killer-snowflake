@@ -1,0 +1,19 @@
+name: [[ project | yq ]]
+version: "1.0.0"
+config-version: 2
+profile: [[ project | yq ]]
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+vars:
+  bk_run_id: [[ target.run_id | yq ]]
+  bk_host_schema: [[ target.deploy_schema | yq ]]
+  bk_source_sha256: [[ ir.source.sha256 | yq ]]
+[% for p in ir.parameters %]
+  p_[[ p.id ]]: [[ p.default.h | yq ]]
+[% endfor %]
+models:
+  +materialized: table
+seeds:
+  +quote_columns: true

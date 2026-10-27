@@ -1,0 +1,22 @@
+{
+  "junit_sha256": "52eca5a9af38d39942627c643db6418127f8ca5c0a5536b2a8f0f7f7e5c95035",
+  "nodes": {
+    "tests.unit.test_lift::test_a_defined_name_reads_the_cells_it_refers_to": "failed",
+    "tests.unit.test_lift::test_a_missing_argument_lifts_to_a_blank_literal": "failed",
+    "tests.unit.test_lift::test_every_formula_cell_of_the_goal_set_lifts[mt_dot_budget]": "failed",
+    "tests.unit.test_lift::test_every_formula_cell_of_the_goal_set_lifts[sgec_current]": "failed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[iwarm]": "passed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[mt_dot_budget]": "passed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_current]": "passed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v4_1]": "passed",
+    "tests.unit.test_lift::test_golden_lifts_to_a_valid_ir_that_round_trips[sgec_v5_1]": "passed",
+    "tests.unit.test_lift::test_register_stages_is_idempotent": "passed"
+  },
+  "pytest_args": [
+    "tests/unit/test_lift.py"
+  ],
+  "recorded_at": "2026-10-27T17:07:33Z",
+  "run_id": "20261027T170733Z-52b111fd",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "c4e0f20d3b07c6ce361b2ee2a982bf27c85241683566f4b079764e456865e600"
+}

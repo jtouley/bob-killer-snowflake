@@ -1,0 +1,198 @@
+{
+  "family": "logical",
+  "encoding": "as runtime_aggregate.json",
+  "cases": [
+    {
+      "id": "if-true-returns-value-if-true",
+      "call": "IF",
+      "args": [true, "Over Budget", "OK"],
+      "expected": "Over Budget",
+      "source": "https://support.microsoft.com/en-us/office/if-function-69aed7c9-4e8a-4755-a9bc-aa8bbff73be2",
+      "verified_by": "Claude Code 2026-10-16: syntax 'value_if_true ... returned if the result of logical_test is TRUE' (example =IF(A2>B2,\"Over Budget\",\"OK\"))"
+    },
+    {
+      "id": "if-false-returns-value-if-false",
+      "call": "IF",
+      "args": [false, "Over Budget", "OK"],
+      "expected": "OK",
+      "source": "https://support.microsoft.com/en-us/office/if-function-69aed7c9-4e8a-4755-a9bc-aa8bbff73be2",
+      "verified_by": "Claude Code 2026-10-16: syntax 'value_if_false ... returned if the result of logical_test is FALSE'"
+    },
+    {
+      "id": "if-golden-sgec-waste-gases-d22",
+      "call": "IF",
+      "args": [true, "", 0],
+      "expected": "",
+      "source": "golden sgec_v5_1 (sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd) 'Waste Gases'!D22 =IF(C22=0,\"\",(C22*$E$16))",
+      "verified_by": "Claude Code 2026-10-16: C22 is empty so C22=0 is TRUE and C22*E16 is 0; D22 caches t=\"str\" with an empty <v/> (text \"\") in the sheet XML"
+    },
+    {
+      "id": "if-golden-sgec-waste-gases-d38",
+      "call": "IF",
+      "args": [false, "", 2.5500000000000002E-3],
+      "expected": 2.5500000000000002E-3,
+      "source": "golden sgec_v5_1 (sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd) 'Waste Gases'!D38 =IF(C38=0,\"\",(C38*$E$16))",
+      "verified_by": "Claude Code 2026-10-16: C38 caches 1 so C38=0 is FALSE; C38*E16 = 1*0.00255; D38 caches <v>2.5500000000000002E-3</v>"
+    },
+    {
+      "id": "and-all-true",
+      "call": "AND",
+      "args": [true, true],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/and-function-5f19b2e8-e1df-4408-897a-ce285a19e9d9",
+      "verified_by": "Claude Code 2026-10-16: example =AND(A2>1,A2<100) 'Displays TRUE if A2 is greater than 1 AND less than 100'"
+    },
+    {
+      "id": "and-one-false",
+      "call": "AND",
+      "args": [true, false],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/and-function-5f19b2e8-e1df-4408-897a-ce285a19e9d9",
+      "verified_by": "Claude Code 2026-10-16: example =AND(A2>1,A2<100) '... otherwise it displays FALSE'"
+    },
+    {
+      "id": "and-ignores-text-and-empty-in-a-reference",
+      "call": "AND",
+      "args": [{"range": [true, "x", null]}, true],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/and-function-5f19b2e8-e1df-4408-897a-ce285a19e9d9",
+      "verified_by": "Claude Code 2026-10-16: remark 'If an array or reference argument contains text or empty cells, those values are ignored'"
+    },
+    {
+      "id": "and-no-logical-values-is-value-error",
+      "call": "AND",
+      "args": [{"range": ["x", null]}],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/and-function-5f19b2e8-e1df-4408-897a-ce285a19e9d9",
+      "verified_by": "Claude Code 2026-10-16: remark 'If the specified range contains no logical values, the AND function returns the #VALUE! error'"
+    },
+    {
+      "id": "or-one-true",
+      "call": "OR",
+      "args": [false, true],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/or-function-7d17ad14-8700-4281-b308-00b131e22af0",
+      "verified_by": "Claude Code 2026-10-16: example =OR(A2>1,A2<100) 'Displays TRUE if A2 is greater than 1 OR less than 100'"
+    },
+    {
+      "id": "or-all-false",
+      "call": "OR",
+      "args": [false, false],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/or-function-7d17ad14-8700-4281-b308-00b131e22af0",
+      "verified_by": "Claude Code 2026-10-16: example =OR(A2>1,A2<100) '... otherwise it displays FALSE'"
+    },
+    {
+      "id": "or-ignores-text-and-empty-in-a-reference",
+      "call": "OR",
+      "args": [{"range": ["x", null, false]}, false],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/or-function-7d17ad14-8700-4281-b308-00b131e22af0",
+      "verified_by": "Claude Code 2026-10-16: remark 'If an array or reference argument contains text or empty cells, those values are ignored'"
+    },
+    {
+      "id": "or-no-logical-values-is-value-error",
+      "call": "OR",
+      "args": [{"range": [null, "x"]}],
+      "expected": {"error": "#VALUE!"},
+      "source": "https://support.microsoft.com/en-us/office/or-function-7d17ad14-8700-4281-b308-00b131e22af0",
+      "verified_by": "Claude Code 2026-10-16: remark 'If the specified range contains no logical values, OR returns the #VALUE! error value'"
+    },
+    {
+      "id": "not-false",
+      "call": "NOT",
+      "args": [false],
+      "expected": true,
+      "source": "https://support.microsoft.com/en-us/office/not-function-9cfc6011-a054-40c7-a140-cd4ba2d87d77",
+      "verified_by": "Claude Code 2026-10-16: remark 'If logical is FALSE, NOT returns TRUE'"
+    },
+    {
+      "id": "not-true",
+      "call": "NOT",
+      "args": [true],
+      "expected": false,
+      "source": "https://support.microsoft.com/en-us/office/not-function-9cfc6011-a054-40c7-a140-cd4ba2d87d77",
+      "verified_by": "Claude Code 2026-10-16: remark 'if logical is TRUE, NOT returns FALSE'"
+    },
+    {
+      "id": "iferror-no-error-returns-value",
+      "call": "IFERROR",
+      "args": [6, "Error in calculation"],
+      "expected": 6,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: example =IFERROR(A2/B2, \"Error in calculation\") with 210/35, result 6"
+    },
+    {
+      "id": "iferror-div0-returns-value-if-error",
+      "call": "IFERROR",
+      "args": [{"error": "#DIV/0!"}, "Error in calculation"],
+      "expected": "Error in calculation",
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: example =IFERROR(A3/B3, \"Error in calculation\") with 55/0, result 'Error in calculation'"
+    },
+    {
+      "id": "iferror-na",
+      "call": "IFERROR",
+      "args": [{"error": "#N/A"}, 1],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: 'The following error types are evaluated: #N/A, #VALUE!, #REF!, #DIV/0!, #NUM!, #NAME?, or #NULL!'"
+    },
+    {
+      "id": "iferror-value",
+      "call": "IFERROR",
+      "args": [{"error": "#VALUE!"}, 1],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: error type list on the page"
+    },
+    {
+      "id": "iferror-ref",
+      "call": "IFERROR",
+      "args": [{"error": "#REF!"}, 1],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: error type list on the page"
+    },
+    {
+      "id": "iferror-num",
+      "call": "IFERROR",
+      "args": [{"error": "#NUM!"}, 1],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: error type list on the page"
+    },
+    {
+      "id": "iferror-name",
+      "call": "IFERROR",
+      "args": [{"error": "#NAME?"}, 1],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: error type list on the page"
+    },
+    {
+      "id": "iferror-null",
+      "call": "IFERROR",
+      "args": [{"error": "#NULL!"}, 1],
+      "expected": 1,
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: error type list on the page"
+    },
+    {
+      "id": "iferror-empty-value-is-empty-text",
+      "call": "IFERROR",
+      "args": [null, "x"],
+      "expected": "",
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: remark 'If value or value_if_error is an empty cell, IFERROR treats it as an empty string value (\"\")'"
+    },
+    {
+      "id": "iferror-empty-value-if-error-is-empty-text",
+      "call": "IFERROR",
+      "args": [{"error": "#DIV/0!"}, null],
+      "expected": "",
+      "source": "https://support.microsoft.com/en-us/office/iferror-function-c526fd07-caeb-47b8-8bb6-63f3e417f611",
+      "verified_by": "Claude Code 2026-10-16: remark 'If value or value_if_error is an empty cell, IFERROR treats it as an empty string value (\"\")'"
+    }
+  ]
+}

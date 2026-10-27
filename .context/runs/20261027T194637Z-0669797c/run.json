@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "2009b4a0f13e81d7187a6e8ba3f5f34f431773cf3f4ebeaf623fb2a60498b21f",
+  "nodes": {
+    "::tests.unit.sis.test_app": "error"
+  },
+  "pytest_args": [
+    "tests/unit/sis/test_app.py"
+  ],
+  "recorded_at": "2026-10-27T19:46:37Z",
+  "run_id": "20261027T194637Z-0669797c",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "26c443b4cffcbd474c6660575609b1cd0fab7e904ed4e6cde44149a48dfe75e6"
+}

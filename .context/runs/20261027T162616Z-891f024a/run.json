@@ -1,0 +1,35 @@
+{
+  "junit_sha256": "7f5e695379533a31b918ca6cf526074c7bef574a0fa189ee060fe306ca6f787a",
+  "nodes": {
+    "::tests.unit.hosts.test_procedure": "error",
+    "tests.unit.hosts.test_ddl::test_compiler_objects_create_the_dbt_source_stage": "failed",
+    "tests.unit.hosts.test_ddl::test_dialect_columns_and_informational_primary_key[BronzeRow]": "passed",
+    "tests.unit.hosts.test_ddl::test_dialect_columns_and_informational_primary_key[LandedFile]": "passed",
+    "tests.unit.hosts.test_ddl::test_dialect_columns_and_informational_primary_key[Run]": "passed",
+    "tests.unit.hosts.test_ddl::test_dialect_columns_and_informational_primary_key[StageStatus]": "passed",
+    "tests.unit.hosts.test_ddl::test_dialect_is_registered_and_matches_the_golden_file": "passed",
+    "tests.unit.hosts.test_ddl::test_every_model_column_is_not_null_in_field_order[BronzeRow]": "passed",
+    "tests.unit.hosts.test_ddl::test_every_model_column_is_not_null_in_field_order[LandedFile]": "passed",
+    "tests.unit.hosts.test_ddl::test_every_model_column_is_not_null_in_field_order[Run]": "passed",
+    "tests.unit.hosts.test_ddl::test_every_model_column_is_not_null_in_field_order[StageStatus]": "passed",
+    "tests.unit.hosts.test_ddl::test_snowflake_tables_extend_the_sqlite_tables_with_bronze": "passed",
+    "tests.unit.hosts.test_ddl::test_teardown_drops_the_run_output_schemas_with_the_deployment_schema": "failed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[bool]": "passed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[datetime]": "passed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[enum]": "passed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[float]": "passed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[int]": "passed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[nested_model]": "passed",
+    "tests.unit.hosts.test_ddl::test_type_map_row_matches_the_spec[str]": "passed",
+    "tests.unit.hosts.test_ddl::test_unmapped_type_raises_type_error": "passed"
+  },
+  "pytest_args": [
+    "--continue-on-collection-errors",
+    "tests/unit/hosts/test_procedure.py",
+    "tests/unit/hosts/test_ddl.py"
+  ],
+  "recorded_at": "2026-10-27T16:26:16Z",
+  "run_id": "20261027T162616Z-891f024a",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "7351ed982c785456c2d7308c49f6359380106334870cee95c9fc8b94ce056353"
+}

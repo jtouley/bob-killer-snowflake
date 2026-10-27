@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="48" time="27.328" timestamp="2026-10-16T15:59:34.186437-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_extract" name="test_source_is_the_sha256_of_the_bytes" time="0.072" /><testcase classname="tests.unit.test_extract" name="test_sheets_keep_workbook_order_and_state" time="0.019" /><testcase classname="tests.unit.test_extract" name="test_formula_text_is_kept_and_never_evaluated[('Calc', 'A1')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_formula_text_is_kept_and_never_evaluated[('Calc', 'A2')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_formula_text_is_kept_and_never_evaluated[('Calc', 'A3')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_constant_is_its_own_cached_value[('Inputs', 'A1')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_constant_is_its_own_cached_value[('Inputs', 'A2')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_constant_is_its_own_cached_value[('Inputs', 'A3')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_constant_is_its_own_cached_value[('Inputs', 'B1')]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_constant_is_its_own_cached_value[('Lists', 'A1')]" time="0.013" /><testcase classname="tests.unit.test_extract" name="test_styled_blank_cell_is_kept_with_its_style" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_defined_names_keep_scope" time="0.011" /><testcase classname="tests.unit.test_extract" name="test_tables" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_source_hash[mt_dot_budget]" time="1.102" /><testcase classname="tests.unit.test_extract" name="test_golden_source_hash[sgec_v5_1]" time="22.894" /><testcase classname="tests.unit.test_extract" name="test_golden_sheet_state[mt_dot_budget-COSTS]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_sheet_state[mt_dot_budget-REVENUE]" time="0.050" /><testcase classname="tests.unit.test_extract" name="test_golden_sheet_state[mt_dot_budget-ESRI_MAPINFO_SHEET]" time="0.001" /><testcase classname="tests.unit.test_extract" name="test_golden_sheet_state[sgec_v5_1-Introduction]" time="0.002" /><testcase classname="tests.unit.test_extract" name="test_golden_sheet_state[sgec_v5_1-Summary]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_sheet_state[sgec_v5_1-DropDown]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[mt_dot_budget-COSTS!A1]" time="0.003" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[mt_dot_budget-COSTS!E26]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[mt_dot_budget-COSTS!E27]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[mt_dot_budget-COSTS!C27]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[mt_dot_budget-REVENUE!B15]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Electricity!D20]" time="0.336" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Electricity!E20]" time="0.275" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Electricity!L20]" time="0.124" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Electricity!N20]" time="0.239" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Electricity!N21]" time="0.324" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-DropDown!J2]" time="0.249" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Emission Factors!B406]" time="0.145" /><testcase classname="tests.unit.test_extract" name="test_golden_cell_matches_excel[sgec_v5_1-Emission Factors!B407]" time="0.303" /><testcase classname="tests.unit.test_extract" name="test_golden_defined_name[sgec_v5_1-!eGRID_em_Fctrs]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_defined_name[sgec_v5_1-!Biz_Travel_Fctr]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_defined_name[sgec_v5_1-!Em_by_ProdTransType]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_golden_defined_name[sgec_v5_1-Waste!Em_by_ProdTransType]" time="0.000" /><testcase classname="tests.unit.test_extract" name="test_unsupported_feature_is_reported_with_its_origin[chart]" time="0.021"><failure message="AssertionError: assert ('chart', 'Inputs!J5') in {}">kind = 'chart'
+
+    @pytest.mark.parametrize("kind", sorted(FEATURES))
+    def test_unsupported_feature_is_reported_with_its_origin(kind: str) -&gt; None:
+        data, origin = build_with_feature(kind)
+        found = _unsupported(extract_workbook(data))
+&gt;       assert (kind, origin) in found
+E       AssertionError: assert ('chart', 'Inputs!J5') in {}
+
+tests/unit/test_extract.py:143: AssertionError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_unsupported_feature_is_reported_with_its_origin[data_table]" time="0.028"><failure message="AssertionError: assert ('data_table', 'Calc!C1:C3') in {}">kind = 'data_table'
+
+    @pytest.mark.parametrize("kind", sorted(FEATURES))
+    def test_unsupported_feature_is_reported_with_its_origin(kind: str) -&gt; None:
+        data, origin = build_with_feature(kind)
+        found = _unsupported(extract_workbook(data))
+&gt;       assert (kind, origin) in found
+E       AssertionError: assert ('data_table', 'Calc!C1:C3') in {}
+
+tests/unit/test_extract.py:143: AssertionError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_unsupported_feature_is_reported_with_its_origin[external_link]" time="0.020"><failure message="AssertionError: assert ('external_link', '[1]') in {}">kind = 'external_link'
+
+    @pytest.mark.parametrize("kind", sorted(FEATURES))
+    def test_unsupported_feature_is_reported_with_its_origin(kind: str) -&gt; None:
+        data, origin = build_with_feature(kind)
+        found = _unsupported(extract_workbook(data))
+&gt;       assert (kind, origin) in found
+E       AssertionError: assert ('external_link', '[1]') in {}
+
+tests/unit/test_extract.py:143: AssertionError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_unsupported_feature_is_reported_with_its_origin[pivot_table]" time="0.016"><failure message="AssertionError: assert ('pivot_table', 'Calc!L1:M3') in {}">kind = 'pivot_table'
+
+    @pytest.mark.parametrize("kind", sorted(FEATURES))
+    def test_unsupported_feature_is_reported_with_its_origin(kind: str) -&gt; None:
+        data, origin = build_with_feature(kind)
+        found = _unsupported(extract_workbook(data))
+&gt;       assert (kind, origin) in found
+E       AssertionError: assert ('pivot_table', 'Calc!L1:M3') in {}
+
+tests/unit/test_extract.py:143: AssertionError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_detectors_run_through_the_registry" time="0.043"><failure message="AssertionError: assert RawUnsupported(kind='test_marker', origin='Inputs!A1', reason='registered by a test') in ()&#10; +  where () = RawWorkbook(source=RawSource(sha256='7f0968a97c9ec384e4529291f7ad368ab87485cda889f758a27bd2ce7afdcf16'), sheets=(RawSh...efers_to='Calc!$A$2')), tables=(RawTable(name='Prices', sheet='Inputs', ref='F1:G3'),), vba_modules=(), unsupported=()).unsupported">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x151eec080&gt;
+
+    def test_detectors_run_through_the_registry(monkeypatch: pytest.MonkeyPatch) -&gt; None:
+        monkeypatch.setattr(registry, "detectors", registry.Registry("detectors"))
+        marker = RawUnsupported(kind="test_marker", origin="Inputs!A1", reason="registered by a test")
+        registry.detectors.add(marker.kind, lambda wb: (marker,))
+        raw = extract_workbook(build_structure())
+&gt;       assert marker in raw.unsupported
+E       AssertionError: assert RawUnsupported(kind='test_marker', origin='Inputs!A1', reason='registered by a test') in ()
+E        +  where () = RawWorkbook(source=RawSource(sha256='7f0968a97c9ec384e4529291f7ad368ab87485cda889f758a27bd2ce7afdcf16'), sheets=(RawSh...efers_to='Calc!$A$2')), tables=(RawTable(name='Prices', sheet='Inputs', ref='F1:G3'),), vba_modules=(), unsupported=()).unsupported
+
+tests/unit/test_extract.py:152: AssertionError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_a_plain_workbook_has_no_unsupported_rows" time="0.001" /><testcase classname="tests.unit.test_extract" name="test_unreadable_vba_project_is_reported_not_raised" time="0.020"><failure message="AssertionError: assert ('vba_project', 'xl/vbaProject.bin') in {}&#10; +  where {} = _unsupported(RawWorkbook(source=RawSource(sha256='375097cecd43c51d87b06e2f0bf8786e9fd602bf501d6dd450c731613161e7c3'), sheets=(RawSh...efers_to='Calc!$A$2')), tables=(RawTable(name='Prices', sheet='Inputs', ref='F1:G3'),), vba_modules=(), unsupported=()))">def test_unreadable_vba_project_is_reported_not_raised() -&gt; None:
+        raw = extract_workbook(build_with_vba_part(b"not an OLE compound file"))
+        assert not raw.vba_modules
+&gt;       assert (VBA_PROJECT, VBA_PART) in _unsupported(raw)
+E       AssertionError: assert ('vba_project', 'xl/vbaProject.bin') in {}
+E        +  where {} = _unsupported(RawWorkbook(source=RawSource(sha256='375097cecd43c51d87b06e2f0bf8786e9fd602bf501d6dd450c731613161e7c3'), sheets=(RawSh...efers_to='Calc!$A$2')), tables=(RawTable(name='Prices', sheet='Inputs', ref='F1:G3'),), vba_modules=(), unsupported=()))
+
+tests/unit/test_extract.py:164: AssertionError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_golden_external_link[sgec_v5_1-[1]]" time="0.000"><failure message="KeyError: ('external_link', '[1]')">golden_raw = &lt;function golden_raw.&lt;locals&gt;.get at 0x107f522a0&gt;
+workbook_id = 'sgec_v5_1', expected = {'origin': '[1]', 'target': 'Reference'}
+
+    @pytest.mark.parametrize(("workbook_id", "expected"), _golden("external_links"), ids=_golden_id)
+    def test_golden_external_link(
+        golden_raw: GoldenRaw, workbook_id: str, expected: dict[str, str]
+    ) -&gt; None:
+&gt;       reason = _unsupported(golden_raw(workbook_id))[(EXTERNAL_LINK, expected["origin"])]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: ('external_link', '[1]')
+
+tests/unit/test_extract.py:171: KeyError</failure></testcase><testcase classname="tests.unit.test_extract" name="test_golden_vba_inventory_in_project_order[mt_dot_budget]" time="0.002" /><testcase classname="tests.unit.test_extract" name="test_golden_vba_inventory_in_project_order[sgec_v5_1]" time="0.002"><failure message="AssertionError: assert [] == [('Sheet2', &lt;...ument'&gt;), ...]&#10;  &#10;  Right contains 38 more items, first extra item: ('Sheet2', &lt;VbaModuleKind.DOCUMENT: 'document'&gt;)&#10;  Use -v to get more diff">golden_raw = &lt;function golden_raw.&lt;locals&gt;.get at 0x107f522a0&gt;
+workbook_id = 'sgec_v5_1'
+
+    @pytest.mark.parametrize("workbook_id", sorted(ORACLE["workbooks"]))
+    def test_golden_vba_inventory_in_project_order(golden_raw: GoldenRaw, workbook_id: str) -&gt; None:
+        raw = golden_raw(workbook_id)
+        expected = ORACLE["workbooks"][workbook_id]["vba_modules"]
+&gt;       assert [(m.name, m.kind) for m in raw.vba_modules] == [
+            (e["name"], VbaModuleKind(e["kind"])) for e in expected
+        ]
+E       AssertionError: assert [] == [('Sheet2', &lt;...ument'&gt;), ...]
+E         
+E         Right contains 38 more items, first extra item: ('Sheet2', &lt;VbaModuleKind.DOCUMENT: 'document'&gt;)
+E         Use -v to get more diff
+
+tests/unit/test_extract.py:179: AssertionError</failure></testcase></testsuite></testsuites>

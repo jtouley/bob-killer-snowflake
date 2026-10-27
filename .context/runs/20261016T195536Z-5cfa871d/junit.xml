@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="7" time="15.706" timestamp="2026-10-16T15:55:37.762048-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.gates.test_compiler_gates" name="test_literal_in_scoped_test_is_rejected[tests/unit]" time="0.093" /><testcase classname="tests.gates.test_compiler_gates" name="test_literal_in_scoped_test_is_rejected[tests/integration]" time="0.046" /><testcase classname="tests.gates.test_compiler_gates" name="test_literal_in_scoped_test_is_rejected[tests/live]" time="0.012" /><testcase classname="tests.gates.test_compiler_gates" name="test_literal_in_scoped_test_is_rejected[tests/snapshot]" time="0.009"><failure message="AssertionError: assert 'no_oracle_literals/literal' in set()">project = &lt;tests.gates.conftest.Project object at 0x1038c3260&gt;
+scope = 'tests/snapshot'
+
+    @pytest.mark.parametrize(
+        "scope", ["tests/unit", "tests/integration", "tests/live", "tests/snapshot"]
+    )
+    def test_literal_in_scoped_test_is_rejected(project: Project, scope: str) -&gt; None:
+        project.write({**BASE, f"{scope}/test_c.py": "def test_c():\n    assert f() == 6.0\n"})
+        rules = {v.rule for v in _violations("no_oracle_literals", project.context())}
+&gt;       assert "no_oracle_literals/literal" in rules
+E       AssertionError: assert 'no_oracle_literals/literal' in set()
+
+tests/gates/test_compiler_gates.py:33: AssertionError</failure></testcase><testcase classname="tests.gates.test_compiler_gates" name="test_generate_importing_runtime_is_rejected[pkg]" time="1.436"><failure message="AssertionError: &#10;  ╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐&#10;  ╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │&#10;   ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗&#10;   ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝&#10;  ╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║&#10;  ╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝&#10;    └──▶║║                    ▲ &#10;        ╚╝────────────────────┘&#10;  &#10;  &#10;  ---------&#10;  Contracts&#10;  ---------&#10;  &#10;  Analyzed 52 files, 70 dependencies.&#10;  -----------------------------------&#10;  &#10;  Layers: api/cli &gt; service &gt; stages &gt; store &gt; ir/registry/runtime &gt; contracts KEPT&#10;  Production code never imports tests KEPT&#10;  The Snowflake host never imports the FastAPI surface KEPT&#10;  The Streamlit app (Python 3.11) never imports the core KEPT&#10;  &#10;  Contracts: 4 kept, 0 broken.&#10;  &#10;assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a92314a32663e7c7d/...urface KEPT\nThe Streamlit app (Python 3.11) never imports the core KEPT\n\nContracts: 4 kept, 0 broken.\n', stderr='').returncode">tmp_path = PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21696/test_generate_importing_runtim0')
+leak = 'src/bob_killer/generate/leak.py', source = 'import bob_killer.runtime\n'
+
+    @pytest.mark.parametrize(
+        ("leak", "source"),
+        [
+            pytest.param("src/bob_killer/generate/leak.py", "import bob_killer.runtime\n", id="pkg"),
+            pytest.param(
+                "src/bob_killer/generate/docs/leak.py",
+                "from bob_killer.runtime import functions\n",
+                id="subpkg",
+            ),
+        ],
+    )
+    def test_generate_importing_runtime_is_rejected(tmp_path: Path, leak: str, source: str) -&gt; None:
+        proc = lint_imports(copy_project(tmp_path, {leak: source}))
+&gt;       assert proc.returncode != 0, proc.stdout
+E       AssertionError: 
+E         ╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐
+E         ╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │
+E          ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗
+E          ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝
+E         ╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║
+E         ╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝
+E           └──▶║║                    ▲ 
+E               ╚╝────────────────────┘
+E         
+E         
+E         ---------
+E         Contracts
+E         ---------
+E         
+E         Analyzed 52 files, 70 dependencies.
+E         -----------------------------------
+E         
+E         Layers: api/cli &gt; service &gt; stages &gt; store &gt; ir/registry/runtime &gt; contracts KEPT
+E         Production code never imports tests KEPT
+E         The Snowflake host never imports the FastAPI surface KEPT
+E         The Streamlit app (Python 3.11) never imports the core KEPT
+E         
+E         Contracts: 4 kept, 0 broken.
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a92314a32663e7c7d/...urface KEPT\nThe Streamlit app (Python 3.11) never imports the core KEPT\n\nContracts: 4 kept, 0 broken.\n', stderr='').returncode
+
+tests/gates/test_compiler_gates.py:50: AssertionError</failure></testcase><testcase classname="tests.gates.test_compiler_gates" name="test_generate_importing_runtime_is_rejected[subpkg]" time="1.090"><failure message="AssertionError: &#10;  ╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐&#10;  ╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │&#10;   ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗&#10;   ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝&#10;  ╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║&#10;  ╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝&#10;    └──▶║║                    ▲ &#10;        ╚╝────────────────────┘&#10;  &#10;  &#10;  ---------&#10;  Contracts&#10;  ---------&#10;  &#10;  Analyzed 52 files, 70 dependencies.&#10;  -----------------------------------&#10;  &#10;  Layers: api/cli &gt; service &gt; stages &gt; store &gt; ir/registry/runtime &gt; contracts KEPT&#10;  Production code never imports tests KEPT&#10;  The Snowflake host never imports the FastAPI surface KEPT&#10;  The Streamlit app (Python 3.11) never imports the core KEPT&#10;  &#10;  Contracts: 4 kept, 0 broken.&#10;  &#10;assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a92314a32663e7c7d/...urface KEPT\nThe Streamlit app (Python 3.11) never imports the core KEPT\n\nContracts: 4 kept, 0 broken.\n', stderr='').returncode">tmp_path = PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21696/test_generate_importing_runtim1')
+leak = 'src/bob_killer/generate/docs/leak.py'
+source = 'from bob_killer.runtime import functions\n'
+
+    @pytest.mark.parametrize(
+        ("leak", "source"),
+        [
+            pytest.param("src/bob_killer/generate/leak.py", "import bob_killer.runtime\n", id="pkg"),
+            pytest.param(
+                "src/bob_killer/generate/docs/leak.py",
+                "from bob_killer.runtime import functions\n",
+                id="subpkg",
+            ),
+        ],
+    )
+    def test_generate_importing_runtime_is_rejected(tmp_path: Path, leak: str, source: str) -&gt; None:
+        proc = lint_imports(copy_project(tmp_path, {leak: source}))
+&gt;       assert proc.returncode != 0, proc.stdout
+E       AssertionError: 
+E         ╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐
+E         ╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │
+E          ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗
+E          ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝
+E         ╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║
+E         ╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝
+E           └──▶║║                    ▲ 
+E               ╚╝────────────────────┘
+E         
+E         
+E         ---------
+E         Contracts
+E         ---------
+E         
+E         Analyzed 52 files, 70 dependencies.
+E         -----------------------------------
+E         
+E         Layers: api/cli &gt; service &gt; stages &gt; store &gt; ir/registry/runtime &gt; contracts KEPT
+E         Production code never imports tests KEPT
+E         The Snowflake host never imports the FastAPI surface KEPT
+E         The Streamlit app (Python 3.11) never imports the core KEPT
+E         
+E         Contracts: 4 kept, 0 broken.
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-a92314a32663e7c7d/...urface KEPT\nThe Streamlit app (Python 3.11) never imports the core KEPT\n\nContracts: 4 kept, 0 broken.\n', stderr='').returncode
+
+tests/gates/test_compiler_gates.py:50: AssertionError</failure></testcase><testcase classname="tests.gates.test_compiler_gates" name="test_workbook_model_change_without_bump_fails" time="12.818"><failure message="AssertionError: assert 'workbook_ddl.sql' in {'schemas.json'}">tmp_path = PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21696/test_workbook_model_change_wit0')
+
+    def test_workbook_model_change_without_bump_fails(tmp_path: Path) -&gt; None:
+        init = (PROJECT_ROOT / CONTRACTS_INIT).read_text(encoding="utf-8")
+        wired = (
+            f"{init}\nfrom bob_killer.contracts.workbook_probe import WbProbe  # noqa: E402\n\n"
+            "WORKBOOK_TABLES = (WbProbe,)\n"
+        )
+        copy = copy_project(
+            tmp_path, {CONTRACTS_INIT: wired, WORKBOOK_PROBE: _workbook_probe("    run_id: str\n")}
+        )
+        ctx = GateContext(repo_root=tmp_path, project_root=copy, base=None)
+        version, generated = generate_for(copy)
+        for name, text in generated.items():  # the reviewed snapshot of the current contracts
+            (snapshot_dir(copy, version) / name).write_text(text, encoding="utf-8")
+        assert _violations("contracts_versioned", ctx) == []
+    
+        (copy / WORKBOOK_PROBE).write_text(_workbook_probe("    run_id: str\n    sheet: str\n"))
+        drifted = {v.message.split()[0] for v in _violations("contracts_versioned", ctx)}
+&gt;       assert "workbook_ddl.sql" in drifted
+E       AssertionError: assert 'workbook_ddl.sql' in {'schemas.json'}
+
+tests/gates/test_compiler_gates.py:83: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,174 @@
+{
+  "family": "round",
+  "encoding": "as runtime_aggregate.json. Expected numbers are the nearest double to the decimal Excel shows; that Excel stores exactly that double is an open fact for the oracle.",
+  "cases": [
+    {
+      "id": "round-2.15-1",
+      "call": "ROUND",
+      "args": [2.15, 1],
+      "expected": 2.2,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(2.15, 1), result 2.2 (the double 2.15 is below 2.15, so this needs the 15-digit decimal step)"
+    },
+    {
+      "id": "round-2.149-1",
+      "call": "ROUND",
+      "args": [2.149, 1],
+      "expected": 2.1,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(2.149, 1), result 2.1"
+    },
+    {
+      "id": "round-minus-1.475-2",
+      "call": "ROUND",
+      "args": [-1.475, 2],
+      "expected": -1.48,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(-1.475, 2), result -1.48 (half away from zero on a negative number)"
+    },
+    {
+      "id": "round-21.5-minus-1",
+      "call": "ROUND",
+      "args": [21.5, -1],
+      "expected": 20,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(21.5, -1), result 20"
+    },
+    {
+      "id": "round-626.3-minus-3",
+      "call": "ROUND",
+      "args": [626.3, -3],
+      "expected": 1000,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(626.3,-3), result 1000"
+    },
+    {
+      "id": "round-1.98-minus-1",
+      "call": "ROUND",
+      "args": [1.98, -1],
+      "expected": 0,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(1.98,-1), result 0"
+    },
+    {
+      "id": "round-minus-50.55-minus-2",
+      "call": "ROUND",
+      "args": [-50.55, -2],
+      "expected": -100,
+      "source": "https://support.microsoft.com/en-us/office/round-function-c018c5d8-40fb-4053-90b1-b3e7f61a213c",
+      "verified_by": "Claude Code 2026-10-16: example =ROUND(-50.55,-2), result -100"
+    },
+    {
+      "id": "round-golden-sgec-unit-conversions-c56",
+      "call": "ROUND",
+      "args": [0.6215040397762586, 3],
+      "expected": 0.622,
+      "source": "golden sgec_v5_1 (sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd) 'Unit Conversions'!C56 =ROUND(1/C54,3)",
+      "verified_by": "Claude Code 2026-10-16: C54 caches 1.609, so the first argument is the double 1/1.609; C56 caches <v>0.622</v> in the sheet XML"
+    },
+    {
+      "id": "round-golden-sgec-heat-content-d7",
+      "call": "ROUND",
+      "args": [974.6588693957115, 6],
+      "expected": 974.65886899999998,
+      "source": "golden sgec_v5_1 (sha256 b69fe594f86dfeb53b73616f2523238cc07e965da15aaaae3196f954a4853cfd) 'Heat Content'!D7 =ROUND(1/0.001026,6)",
+      "verified_by": "Claude Code 2026-10-16: the first argument is the double 1/0.001026; D7 caches <v>974.65886899999998</v> in the sheet XML"
+    },
+    {
+      "id": "roundup-3.2-0",
+      "call": "ROUNDUP",
+      "args": [3.2, 0],
+      "expected": 4,
+      "source": "https://support.microsoft.com/en-us/office/roundup-function-f8bc9b23-e795-47db-8703-db171d0c42a7",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDUP(3.2,0), result 4"
+    },
+    {
+      "id": "roundup-76.9-0",
+      "call": "ROUNDUP",
+      "args": [76.9, 0],
+      "expected": 77,
+      "source": "https://support.microsoft.com/en-us/office/roundup-function-f8bc9b23-e795-47db-8703-db171d0c42a7",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDUP(76.9,0), result 77"
+    },
+    {
+      "id": "roundup-3.14159-3",
+      "call": "ROUNDUP",
+      "args": [3.14159, 3],
+      "expected": 3.142,
+      "source": "https://support.microsoft.com/en-us/office/roundup-function-f8bc9b23-e795-47db-8703-db171d0c42a7",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDUP(3.14159, 3), result 3.142"
+    },
+    {
+      "id": "roundup-minus-3.14159-1",
+      "call": "ROUNDUP",
+      "args": [-3.14159, 1],
+      "expected": -3.2,
+      "source": "https://support.microsoft.com/en-us/office/roundup-function-f8bc9b23-e795-47db-8703-db171d0c42a7",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDUP(-3.14159, 1), result -3.2 (away from zero)"
+    },
+    {
+      "id": "roundup-31415.92654-minus-2",
+      "call": "ROUNDUP",
+      "args": [31415.92654, -2],
+      "expected": 31500,
+      "source": "https://support.microsoft.com/en-us/office/roundup-function-f8bc9b23-e795-47db-8703-db171d0c42a7",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDUP(31415.92654, -2), result 31500"
+    },
+    {
+      "id": "rounddown-3.2-0",
+      "call": "ROUNDDOWN",
+      "args": [3.2, 0],
+      "expected": 3,
+      "source": "https://support.microsoft.com/en-us/office/rounddown-function-2ec94c73-241f-4b01-8c6f-17e6d7968f53",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDDOWN(3.2, 0), result 3"
+    },
+    {
+      "id": "rounddown-76.9-0",
+      "call": "ROUNDDOWN",
+      "args": [76.9, 0],
+      "expected": 76,
+      "source": "https://support.microsoft.com/en-us/office/rounddown-function-2ec94c73-241f-4b01-8c6f-17e6d7968f53",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDDOWN(76.9,0), result 76"
+    },
+    {
+      "id": "rounddown-3.14159-3",
+      "call": "ROUNDDOWN",
+      "args": [3.14159, 3],
+      "expected": 3.141,
+      "source": "https://support.microsoft.com/en-us/office/rounddown-function-2ec94c73-241f-4b01-8c6f-17e6d7968f53",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDDOWN(3.14159, 3), result 3.141"
+    },
+    {
+      "id": "rounddown-minus-3.14159-1",
+      "call": "ROUNDDOWN",
+      "args": [-3.14159, 1],
+      "expected": -3.1,
+      "source": "https://support.microsoft.com/en-us/office/rounddown-function-2ec94c73-241f-4b01-8c6f-17e6d7968f53",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDDOWN(-3.14159, 1), result -3.1 (toward zero)"
+    },
+    {
+      "id": "rounddown-31415.92654-minus-2",
+      "call": "ROUNDDOWN",
+      "args": [31415.92654, -2],
+      "expected": 31400,
+      "source": "https://support.microsoft.com/en-us/office/rounddown-function-2ec94c73-241f-4b01-8c6f-17e6d7968f53",
+      "verified_by": "Claude Code 2026-10-16: example =ROUNDDOWN(31415.92654, -2), result 31400"
+    },
+    {
+      "id": "round-text-argument-is-converted",
+      "call": "ROUND",
+      "args": ["$4.00", 0],
+      "expected": 4,
+      "source": "https://support.microsoft.com/en-us/office/calculation-operators-and-precedence-in-excel-48be406d-4975-4d31-b2b8-7af9e0e2878a",
+      "verified_by": "Claude Code 2026-10-16: 'When a formula expects a number, Excel converts text if it is in a format that would usually be accepted for a number' (example = 1+\"$4.00\" gives 5)"
+    },
+    {
+      "id": "round-error-argument-is-returned",
+      "call": "ROUND",
+      "args": [{"error": "#N/A"}, 2],
+      "expected": {"error": "#N/A"},
+      "source": "https://support.microsoft.com/en-us/office/n-function-a624cad1-3635-4208-b54a-29733d1278c9",
+      "verified_by": "Claude Code 2026-10-16: the N table maps an error value to the error value; a number argument that is an error yields that error"
+    }
+  ]
+}

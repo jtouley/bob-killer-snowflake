@@ -1,0 +1,18 @@
+# Static hello project for the platform facts F11-F18 and the local fact L-F1
+# (docs/SPEC-compiler-dbt.md §2). One seed, one model, one test. No packages (D28).
+name: bk_hello
+version: "1.0.0"
+config-version: 2
+profile: bk_hello
+
+seed-paths: ["seeds"]
+model-paths: ["models"]
+
+seeds:
+  bk_hello:
+    +column_types:
+      greeting: varchar
+
+models:
+  bk_hello:
+    +materialized: table

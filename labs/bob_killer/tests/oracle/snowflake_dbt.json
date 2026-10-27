@@ -1,0 +1,5 @@
+{
+  "source": "https://docs.snowflake.com/en/user-guide/data-engineering/dbt-projects-on-snowflake-limitations",
+  "verified_by": "Claude Code 2026-10-27: the page says 'When you use a stored procedure to call EXECUTE DBT PROJECT, use a caller's rights stored procedure' (docs/SPEC-compiler-dbt.md F15); checked in a TEST_ schema: EXECUTE DBT PROJECT failed (100357) in an EXECUTE AS OWNER procedure and returned SUCCESS = TRUE in an EXECUTE AS CALLER one",
+  "procedure_rights": "EXECUTE AS CALLER"
+}

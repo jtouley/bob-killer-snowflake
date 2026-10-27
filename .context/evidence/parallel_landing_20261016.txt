@@ -1,0 +1,3 @@
+
+== two concurrent landings (2026-10-16T21:13:32.573795+00:00)
+A claimed and held; B started and was still waiting after 5 s; A released; results={'a': 'landed', 'b': 'already landed'}; total seconds=11.0

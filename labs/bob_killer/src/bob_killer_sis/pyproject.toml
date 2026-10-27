@@ -1,0 +1,11 @@
+# Dependencies of the Streamlit in Snowflake app (container runtime installs them with uv).
+[project]
+name = "bob-killer-sis"
+version = "0.0.1"
+requires-python = "==3.11.*"
+dependencies = [
+  "streamlit>=1.50",
+  "snowflake-snowpark-python>=1.30",
+  "openpyxl>=3.1",
+  "jsonschema>=4.23",
+]

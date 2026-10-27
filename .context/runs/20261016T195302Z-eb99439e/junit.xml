@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1.532" timestamp="2026-10-16T15:53:05.544220-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="" name="tests.unit.test_extract" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/jasontouleyrou/Projects/bob-killer-snowflake/.claude/worktrees/agent-aa99217bbd58cea84/labs/bob_killer/tests/unit/test_extract.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../../../../.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_extract.py:11: in &lt;module&gt;
+    from bob_killer.contracts.raw import CachedType, RawCell, RawWorkbook, SheetState
+E   ModuleNotFoundError: No module named 'bob_killer.contracts.raw'</error></testcase></testsuite></testsuites>

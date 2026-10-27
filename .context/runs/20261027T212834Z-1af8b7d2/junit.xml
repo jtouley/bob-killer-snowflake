@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="855.172" timestamp="2026-10-27T17:28:35.599262-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.live.test_pipeline" name="test_one_upload_runs_the_whole_pipeline_inside_snowflake[mt_dot_budget]" time="251.958" /><testcase classname="tests.live.test_pipeline" name="test_one_upload_runs_the_whole_pipeline_inside_snowflake[sgec_current]" time="602.571"><failure message="snowflake.snowpark.exceptions.SnowparkSQLException: (1304): 01c804ac-0109-621a-0011-b5ee001a220a: 000603 (XX000): SQL execution internal error:&#10;Processing aborted due to error 300005:4227727749; incident 6831212.">session = &lt;snowflake.snowpark.session.Session object at 0x1211734d0&gt;
+host_schema = 'TEST_3B1D5C04', golden_id = 'sgec_current'
+
+    @pytest.mark.parametrize("golden_id", MVP_GOLDENS)
+    def test_one_upload_runs_the_whole_pipeline_inside_snowflake(
+        session: Session, host_schema: str, golden_id: str
+    ) -&gt; None:
+        session.use_schema(host_schema)
+        data = golden_workbook(golden_id)
+        sha = hashlib.sha256(data).hexdigest()
+        session.file.put_stream(
+            io.BytesIO(data), procedure.staged_path(sha), auto_compress=False, overwrite=True
+        )
+        created = json.loads(session.call("CREATE_RUN", f"{sha}.xlsx", f"{golden_id}.xlsx", sha))
+        run_id = created["run_id"]
+&gt;       view = json.loads(session.call(run_pipeline.NAME, run_id))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/live/test_pipeline.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/utils.py:1206: in call_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/snowpark/session.py:4825: in call
+    return self._call(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/session.py:4947: in _call
+    return self._execute_sproc_internal(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/session.py:5264: in _execute_sproc_internal
+    return df.collect(statement_params=statement_params, _emit_ast=False)[0][0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/telemetry.py:306: in wrap
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/utils.py:1200: in call_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/snowpark/dataframe.py:854: in collect
+    return self._internal_collect_with_tag_no_telemetry(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/dataframe.py:927: in _internal_collect_with_tag_no_telemetry
+    return self._session._conn.execute(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:673: in execute
+    result_set, result_meta = self.get_result_set(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/analyzer/snowflake_plan.py:421: in wrap
+    raise ne.with_traceback(tb) from None
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/analyzer/snowflake_plan.py:174: in wrap
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:739: in get_result_set
+    result, result_meta = self._execute_queries(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:922: in _execute_queries
+    result = self.run_query(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:146: in wrap
+    raise ex
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:140: in wrap
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:555: in run_query
+    raise ex
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:540: in run_query
+    results_cursor = self.execute_and_notify_query_listener(
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:468: in execute_and_notify_query_listener
+    raise ex
+.venv/lib/python3.12/site-packages/snowflake/snowpark/_internal/server_connection.py:459: in execute_and_notify_query_listener
+    results_cursor = self._cursor.execute(query, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/snowflake/connector/cursor.py:1155: in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+.venv/lib/python3.12/site-packages/snowflake/connector/errors.py:298: in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+.venv/lib/python3.12/site-packages/snowflake/connector/errors.py:354: in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+connection = &lt;snowflake.connector.connection.SnowflakeConnection object at 0x1201fe210&gt;
+cursor = &lt;snowflake.connector.cursor.SnowflakeCursor object at 0x1211704d0&gt;
+error_class = &lt;class 'snowflake.connector.errors.ProgrammingError'&gt;
+error_value = {'msg': 'SQL execution internal error:\nProcessing aborted due to error 300005:4227727749; incident 6831212.', 'errno': 603, 'sqlstate': 'XX000', 'sfqid': '01c804ac-0109-621a-0011-b5ee001a220a', ...}
+
+    @staticmethod
+    def default_errorhandler(
+        connection: SnowflakeConnection,
+        cursor: SnowflakeCursor,
+        error_class: type[Error],
+        error_value: dict[str, str],
+    ) -&gt; None:
+        """Default error handler that raises an error.
+    
+        Args:
+            connection: Connections in which the error happened.
+            cursor: Cursor in which the error happened.
+            error_class: Class of error that needs handling.
+            error_value: A dictionary of the error details.
+    
+        Raises:
+            A Snowflake error.
+        """
+        errno = error_value.get("errno")
+        done_format_msg = error_value.get("done_format_msg")
+&gt;       raise error_class(
+            msg=error_value.get("msg"),
+            errno=None if errno is None else int(errno),
+            sqlstate=error_value.get("sqlstate"),
+            sfqid=error_value.get("sfqid"),
+            query=error_value.get("query"),
+            done_format_msg=(
+                None if done_format_msg is None else bool(done_format_msg)
+            ),
+            connection=connection,
+            cursor=cursor,
+        )
+E       snowflake.snowpark.exceptions.SnowparkSQLException: (1304): 01c804ac-0109-621a-0011-b5ee001a220a: 000603 (XX000): SQL execution internal error:
+E       Processing aborted due to error 300005:4227727749; incident 6831212.
+
+.venv/lib/python3.12/site-packages/snowflake/connector/errors.py:229: SnowparkSQLException</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,11 @@
+{
+  "junit_sha256": "c8f3916e71db80f0e23dc2e1bd8b0473bf1cc56d06a5e14a461af00d48345df9",
+  "nodes": {},
+  "pytest_args": [
+    "tests/unit/test_ir.py "
+  ],
+  "recorded_at": "2026-10-16T20:32:34Z",
+  "run_id": "20261016T203234Z-b6496fe6",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "8db27ecb34e21732a29cac8be59488cf86668e2c5931bb261beec15fdec3d1c5"
+}

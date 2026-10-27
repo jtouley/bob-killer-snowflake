@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="7" time="3.676" timestamp="2026-10-16T15:13:32.517336-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.gates.test_phase1_gates" name="test_literal_in_live_test_is_rejected" time="0.009"><failure message="AssertionError: assert 'no_oracle_literals/literal' in set()&#10; +  where set() = _rules('no_oracle_literals', GateContext(repo_root=PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pyt...lndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_literal_in_live_test_is_r0/proj'), base=None, head='HEAD'))&#10; +    where GateContext(repo_root=PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pyt...lndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_literal_in_live_test_is_r0/proj'), base=None, head='HEAD') = context()&#10; +      where context = &lt;tests.gates.conftest.Project object at 0x101f05730&gt;.context">project = &lt;tests.gates.conftest.Project object at 0x101f05730&gt;
+
+    def test_literal_in_live_test_is_rejected(project: Project) -&gt; None:
+        project.write({**BASE, "tests/live/test_c.py": "def test_c():\n    assert f() == 6.0\n"})
+&gt;       assert "no_oracle_literals/literal" in _rules("no_oracle_literals", project.context())
+E       AssertionError: assert 'no_oracle_literals/literal' in set()
+E        +  where set() = _rules('no_oracle_literals', GateContext(repo_root=PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pyt...lndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_literal_in_live_test_is_r0/proj'), base=None, head='HEAD'))
+E        +    where GateContext(repo_root=PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pyt...lndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_literal_in_live_test_is_r0/proj'), base=None, head='HEAD') = context()
+E        +      where context = &lt;tests.gates.conftest.Project object at 0x101f05730&gt;.context
+
+tests/gates/test_phase1_gates.py:28: AssertionError</failure></testcase><testcase classname="tests.gates.test_phase1_gates" name="test_red_commit_under_host_tests_passes_tdd_order" time="0.276" /><testcase classname="tests.gates.test_phase1_gates" name="test_green_edit_of_live_assertion_is_rejected" time="0.476" /><testcase classname="tests.gates.test_phase1_gates" name="test_stop_with_blocked_marker_is_allowed_and_logged" time="0.059"><failure message="assert 2 == 0&#10; +  where 2 = stop(PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0/proj'), PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0'), ['/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/.venv/bin/python', '-c', &quot;import sys; print('FAIL  tdd_order', file=sys.stderr); sys.exit(1)&quot;])&#10; +    where PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0/proj') = &lt;tests.gates.conftest.Project object at 0x101f0ec00&gt;.project&#10; +    and   PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0') = &lt;tests.gates.conftest.Project object at 0x101f0ec00&gt;.root">project = &lt;tests.gates.conftest.Project object at 0x101f0ec00&gt;
+
+    def test_stop_with_blocked_marker_is_allowed_and_logged(project: Project) -&gt; None:
+        marker = project.root / BLOCKED
+        marker.parent.mkdir(parents=True)
+        marker.write_text("false platform fact F3\n")
+&gt;       assert stop(project.project, project.root, FAILING_GATES) == EXIT_OK
+E       assert 2 == 0
+E        +  where 2 = stop(PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0/proj'), PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0'), ['/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/.venv/bin/python', '-c', "import sys; print('FAIL  tdd_order', file=sys.stderr); sys.exit(1)"])
+E        +    where PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0/proj') = &lt;tests.gates.conftest.Project object at 0x101f0ec00&gt;.project
+E        +    and   PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_stop_with_blocked_marker_0') = &lt;tests.gates.conftest.Project object at 0x101f0ec00&gt;.root
+
+tests/gates/test_phase1_gates.py:55: AssertionError</failure></testcase><testcase classname="tests.gates.test_phase1_gates" name="test_stop_without_marker_still_refuses" time="0.024" /><testcase classname="tests.gates.test_phase1_gates" name="test_new_contract_module_is_discovered" time="2.131"><failure message="AssertionError: assert 'contracts_versioned/drift' in set()&#10; +  where set() = _rules('contracts_versioned', GateContext(repo_root=PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pyt...lndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_new_contract_module_is_di0/proj'), base=None, head='HEAD'))">tmp_path = PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_new_contract_module_is_di0')
+
+    def test_new_contract_module_is_discovered(tmp_path: Path) -&gt; None:
+        copy = tmp_path / "proj"
+        shutil.copytree(
+            PROJECT_ROOT / "src", copy / "src", ignore=shutil.ignore_patterns("__pycache__")
+        )
+        (copy / "src" / "bob_killer" / "contracts" / "extra_probe.py").write_text(
+            "from bob_killer.contracts.base import StrictModel\n\n\n"
+            "class ExtraProbe(StrictModel):\n    name: str\n"
+        )
+        ctx = GateContext(repo_root=tmp_path, project_root=copy, base=None)
+&gt;       assert "contracts_versioned/drift" in _rules("contracts_versioned", ctx)
+E       AssertionError: assert 'contracts_versioned/drift' in set()
+E        +  where set() = _rules('contracts_versioned', GateContext(repo_root=PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pyt...lndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_new_contract_module_is_di0/proj'), base=None, head='HEAD'))
+
+tests/gates/test_phase1_gates.py:78: AssertionError</failure></testcase><testcase classname="tests.gates.test_phase1_gates" name="test_app_package_importing_core_is_rejected" time="0.648"><failure message="AssertionError: &#10;  ╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐&#10;  ╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │&#10;   ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗&#10;   ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝&#10;  ╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║&#10;  ╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝&#10;    └──▶║║                    ▲ &#10;        ╚╝────────────────────┘&#10;  &#10;  &#10;  ---------&#10;  Contracts&#10;  ---------&#10;  &#10;  Analyzed 48 files, 69 dependencies.&#10;  -----------------------------------&#10;  &#10;  Layers: api/cli &gt; service &gt; stages &gt; store &gt; ir/registry/runtime &gt; contracts KEPT&#10;  Production code never imports tests KEPT&#10;  &#10;  Contracts: 2 kept, 0 broken.&#10;  &#10;assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/.venv/bin/lint-imports'], ...istry/runtime &gt; contracts KEPT\nProduction code never imports tests KEPT\n\nContracts: 2 kept, 0 broken.\n', stderr='').returncode">tmp_path = PosixPath('/private/var/folders/ct/jtvd3tss6nb4l5wlndd6v2z00000gn/T/pytest-of-jasontouleyrou/pytest-21602/test_app_package_importing_cor0')
+
+    def test_app_package_importing_core_is_rejected(tmp_path: Path) -&gt; None:
+        copy = tmp_path / "proj"
+        shutil.copytree(
+            PROJECT_ROOT / "src", copy / "src", ignore=shutil.ignore_patterns("__pycache__")
+        )
+        shutil.copy(PROJECT_ROOT / "pyproject.toml", copy / "pyproject.toml")
+        sis = copy / "src" / "bob_killer_sis"
+        sis.mkdir(exist_ok=True)
+        (sis / "__init__.py").write_text('"""App package."""\n')
+        (sis / "leak.py").write_text("import bob_killer.contracts\n")
+        proc = _lint_imports(copy)
+&gt;       assert proc.returncode != 0, proc.stdout
+E       AssertionError: 
+E         ╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐
+E         ╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │
+E          ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗
+E          ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝
+E         ╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║
+E         ╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝
+E           └──▶║║                    ▲ 
+E               ╚╝────────────────────┘
+E         
+E         
+E         ---------
+E         Contracts
+E         ---------
+E         
+E         Analyzed 48 files, 69 dependencies.
+E         -----------------------------------
+E         
+E         Layers: api/cli &gt; service &gt; stages &gt; store &gt; ir/registry/runtime &gt; contracts KEPT
+E         Production code never imports tests KEPT
+E         
+E         Contracts: 2 kept, 0 broken.
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/.venv/bin/lint-imports'], ...istry/runtime &gt; contracts KEPT\nProduction code never imports tests KEPT\n\nContracts: 2 kept, 0 broken.\n', stderr='').returncode
+
+tests/gates/test_phase1_gates.py:105: AssertionError</failure></testcase></testsuite></testsuites>

@@ -7,7 +7,7 @@ on:
       - ".context/**"
       - ".github/workflows/bob-killer.yml"
   push:
-    branches: [main]
+    branches: ["**"]
     paths:
       - "labs/bob_killer/**"
       - ".context/**"
@@ -34,10 +34,25 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --python 3.12 --locked
       - run: uv run python scripts/fetch_golden.py --verify-lock
+      # Golden workbooks (gitignored, hash-pinned in golden.lock), cached by the lock's hash.
+      # fetch_golden.py verifies each download against its pinned SHA-256.
+      - name: Restore golden workbooks
+        id: golden
+        uses: actions/cache@v4
+        with:
+          path: labs/bob_killer/golden
+          key: golden-${{ hashFiles('labs/bob_killer/golden.lock') }}
+      - name: Fetch golden workbooks
+        if: steps.golden.outputs.cache-hit != 'true'
+        run: uv run python scripts/fetch_golden.py
       - name: All PR gates over the change's commit range
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: uv run python scripts/gates.py --base "$BASE"
+      - name: App package compiles on Python 3.11 (SiS container runtime)
+        run: uv run --no-project --python 3.11 python -m compileall -q src/bob_killer_sis
+      - name: App package type-checks against the Python 3.11 standard library
+        run: uv run mypy --strict --python-version 3.11 src/bob_killer_sis
       - name: Flag gate-change commits for human review
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -54,3 +69,88 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --python 3.12 --locked
       - run: uv run python scripts/gates.py --only mutation
+
+  # Live Snowflake tests. Runs when the SNOWFLAKE_* secrets exist (tools/setup-ci-secrets.sh);
+  # skips with a notice when none exist. Never a required check (docs/SPEC.md D12).
+  live:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: bk-live-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - name: Check Snowflake secrets (names only, never values)
+        id: secrets
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+          SNOWFLAKE_ROLE: ${{ vars.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ vars.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+          BK_EXPECTED_ROLE: ${{ vars.BK_EXPECTED_ROLE }}
+        working-directory: .
+        run: |
+          missing=()
+          for n in SNOWFLAKE_ACCOUNT SNOWFLAKE_USER SNOWFLAKE_PRIVATE_KEY; do [ -n "${!n}" ] || missing+=("$n"); done
+          if [ ${#missing[@]} -eq 3 ]; then
+            echo "::notice::live job skipped: no SNOWFLAKE_* secrets; see tools/setup-ci-secrets.sh"
+            echo "present=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error::partial Snowflake secrets; empty: ${missing[*]}"; exit 1
+          fi
+          for n in SNOWFLAKE_ROLE SNOWFLAKE_WAREHOUSE SNOWFLAKE_DATABASE BK_EXPECTED_ROLE; do
+            [ -n "${!n}" ] || echo "::warning::variable $n is empty"
+          done
+          echo "present=true" >> "$GITHUB_OUTPUT"
+      - if: steps.secrets.outputs.present == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - if: steps.secrets.outputs.present == 'true'
+        uses: astral-sh/setup-uv@v6
+      - if: steps.secrets.outputs.present == 'true'
+        working-directory: .
+        run: uv sync --locked
+      - if: steps.secrets.outputs.present == 'true'
+        run: uv sync --python 3.12 --locked
+      - name: Restore golden workbooks
+        id: golden
+        if: steps.secrets.outputs.present == 'true'
+        uses: actions/cache@v4
+        with:
+          path: labs/bob_killer/golden
+          key: golden-${{ hashFiles('labs/bob_killer/golden.lock') }}
+      - name: Fetch golden workbooks
+        if: steps.secrets.outputs.present == 'true' && steps.golden.outputs.cache-hit != 'true'
+        run: uv run python scripts/fetch_golden.py
+      - name: Write the key file and the connection (never echoed)
+        if: steps.secrets.outputs.present == 'true'
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+          SNOWFLAKE_ROLE: ${{ vars.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ vars.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+        run: |
+          umask 077
+          mkdir -p ~/.snowflake
+          printf '%s\n' "$SNOWFLAKE_PRIVATE_KEY" > ~/.snowflake/snowflake_key.p8
+          cat > ~/.snowflake/connections.toml <<TOML
+          [bob_killer]
+          account = "$SNOWFLAKE_ACCOUNT"
+          user = "$SNOWFLAKE_USER"
+          authenticator = "SNOWFLAKE_JWT"
+          private_key_file = "$HOME/.snowflake/snowflake_key.p8"
+          role = "$SNOWFLAKE_ROLE"
+          warehouse = "$SNOWFLAKE_WAREHOUSE"
+          database = "$SNOWFLAKE_DATABASE"
+          TOML
+          chmod 600 ~/.snowflake/snowflake_key.p8 ~/.snowflake/connections.toml
+      - if: steps.secrets.outputs.present == 'true'
+        env:
+          BK_EXPECTED_ROLE: ${{ vars.BK_EXPECTED_ROLE }}
+        run: uv run pytest -m live tests/live

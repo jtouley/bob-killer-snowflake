@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="33" time="1.307" timestamp="2026-10-27T15:43:51.219847-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_the_procedure_entities_are_exactly_the_handlers" time="0.001" /><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_procedure_entity_resolves_to_its_handler[CREATE_RUN]" time="0.000" /><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_procedure_entity_resolves_to_its_handler[EXECUTE_RUN]" time="0.000" /><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_app_entity_ships_the_sis_package_on_the_container_runtime" time="0.000" /><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_run_pipeline_sql_is_the_generated_ddl" time="0.000"><failure message="ImportError: cannot import name 'run_pipeline' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)">def test_run_pipeline_sql_is_the_generated_ddl() -&gt; None:
+&gt;       rp = _run_pipeline()
+             ^^^^^^^^^^^^^^^
+
+tests/unit/hosts/test_snowflake_yml.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _run_pipeline() -&gt; Any:
+&gt;       from bob_killer.hosts.snowflake import run_pipeline
+E       ImportError: cannot import name 'run_pipeline' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)
+
+tests/unit/hosts/test_snowflake_yml.py:72: ImportError</failure></testcase><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_run_pipeline_runs_as_caller_on_the_build_zip_with_the_deploy_packages" time="0.007"><failure message="ImportError: cannot import name 'run_pipeline' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)">def test_run_pipeline_runs_as_caller_on_the_build_zip_with_the_deploy_packages() -&gt; None:
+        from bob_killer.hosts.snowflake.udfs import IMPORTS
+    
+&gt;       rp = _run_pipeline()
+             ^^^^^^^^^^^^^^^
+
+tests/unit/hosts/test_snowflake_yml.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _run_pipeline() -&gt; Any:
+&gt;       from bob_killer.hosts.snowflake import run_pipeline
+E       ImportError: cannot import name 'run_pipeline' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)
+
+tests/unit/hosts/test_snowflake_yml.py:72: ImportError</failure></testcase><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_run_pipeline_handler_takes_the_session_and_the_run_id" time="0.000"><failure message="ImportError: cannot import name 'run_pipeline' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)">def test_run_pipeline_handler_takes_the_session_and_the_run_id() -&gt; None:
+&gt;       rp = _run_pipeline()
+             ^^^^^^^^^^^^^^^
+
+tests/unit/hosts/test_snowflake_yml.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _run_pipeline() -&gt; Any:
+&gt;       from bob_killer.hosts.snowflake import run_pipeline
+E       ImportError: cannot import name 'run_pipeline' from 'bob_killer.hosts.snowflake' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/hosts/snowflake/__init__.py)
+
+tests/unit/hosts/test_snowflake_yml.py:72: ImportError</failure></testcase><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_every_third_party_package_the_procedures_import_is_deployed[jinja2]" time="0.142"><failure message="AssertionError: jinja2&#10;assert ({'jinja2'} &amp; {'openpyxl', 'pydantic', 'snowflake-snowpark-python'})">module = 'jinja2'
+
+    @pytest.mark.parametrize("module", ["jinja2", "yaml", "openpyxl", "pydantic"])
+    def test_every_third_party_package_the_procedures_import_is_deployed(module: str) -&gt; None:
+        from importlib.metadata import packages_distributions
+    
+        dists = {d.lower() for d in packages_distributions()[module]}
+        names = {
+            line.split("&lt;")[0].split("&gt;")[0].split("=")[0].strip().lower()
+            for line in (PROJECT / "requirements.txt").read_text().splitlines()
+            if line.strip()
+        }
+&gt;       assert dists &amp; names, module
+E       AssertionError: jinja2
+E       assert ({'jinja2'} &amp; {'openpyxl', 'pydantic', 'snowflake-snowpark-python'})
+
+tests/unit/hosts/test_snowflake_yml.py:120: AssertionError</failure></testcase><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_every_third_party_package_the_procedures_import_is_deployed[yaml]" time="0.101"><failure message="AssertionError: yaml&#10;assert ({'pyyaml'} &amp; {'openpyxl', 'pydantic', 'snowflake-snowpark-python'})">module = 'yaml'
+
+    @pytest.mark.parametrize("module", ["jinja2", "yaml", "openpyxl", "pydantic"])
+    def test_every_third_party_package_the_procedures_import_is_deployed(module: str) -&gt; None:
+        from importlib.metadata import packages_distributions
+    
+        dists = {d.lower() for d in packages_distributions()[module]}
+        names = {
+            line.split("&lt;")[0].split("&gt;")[0].split("=")[0].strip().lower()
+            for line in (PROJECT / "requirements.txt").read_text().splitlines()
+            if line.strip()
+        }
+&gt;       assert dists &amp; names, module
+E       AssertionError: yaml
+E       assert ({'pyyaml'} &amp; {'openpyxl', 'pydantic', 'snowflake-snowpark-python'})
+
+tests/unit/hosts/test_snowflake_yml.py:120: AssertionError</failure></testcase><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_every_third_party_package_the_procedures_import_is_deployed[openpyxl]" time="0.108" /><testcase classname="tests.unit.hosts.test_snowflake_yml" name="test_every_third_party_package_the_procedures_import_is_deployed[pydantic]" time="0.090" /><testcase classname="tests.unit.hosts.test_ddl" name="test_snowflake_tables_extend_the_sqlite_tables_with_bronze" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_dialect_is_registered_and_matches_the_golden_file" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_every_model_column_is_not_null_in_field_order[Run]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_every_model_column_is_not_null_in_field_order[StageStatus]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_every_model_column_is_not_null_in_field_order[LandedFile]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_every_model_column_is_not_null_in_field_order[BronzeRow]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_dialect_columns_and_informational_primary_key[Run]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_dialect_columns_and_informational_primary_key[StageStatus]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_dialect_columns_and_informational_primary_key[LandedFile]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_dialect_columns_and_informational_primary_key[BronzeRow]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_unmapped_type_raises_type_error" time="0.001" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[bool]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[datetime]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[enum]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[float]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[int]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[nested_model]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_type_map_row_matches_the_spec[str]" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_compiler_objects_create_the_dbt_source_stage" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_teardown_drops_the_run_output_schemas_with_the_deployment_schema" time="0.002" /><testcase classname="tests.unit.hosts.test_ddl" name="test_compiler_objects_file_is_the_generated_ddl" time="0.000" /><testcase classname="tests.unit.hosts.test_ddl" name="test_compiler_tables_hold_the_equivalence_report" time="0.000" /></testsuite></testsuites>

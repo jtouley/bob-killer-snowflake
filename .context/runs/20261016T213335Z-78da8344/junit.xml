@@ -1,0 +1,1572 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="56" skipped="0" tests="178" time="0.419" timestamp="2026-10-16T17:33:36.265787-04:00" hostname="Jasons-MacBook-Pro.local"><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sum-golden-sgec-waste-gases-d39]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sum-golden-sgec-waste-gases-c39]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/sum-ignores-text-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/product-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/product-range-and-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/product-ignores-blank-logical-text-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-range-and-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-counts-a-typed-logical]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-counts-typed-numeric-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-typed-untranslatable-text-is-an-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-error-in-a-reference-is-returned]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-range-and-thirty]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-ignores-logical-text-blank-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/max-of-only-ignored-cells-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/min-of-only-ignored-cells-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-range-and-five]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-row]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-counts-zero-ignores-blank-text-logical]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/average-error-argument-is-returned]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/count-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/count-range-and-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/count-typed-arguments]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/counta-range]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_aggregate/counta-counts-empty-text-not-empty-cells]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-2.15-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-2.149-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-minus-1.475-2]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-21.5-minus-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-626.3-minus-3]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-1.98-minus-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-minus-50.55-minus-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-golden-sgec-unit-conversions-c56]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-golden-sgec-heat-content-d7]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-3.2-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-76.9-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-3.14159-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-minus-3.14159-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/roundup-31415.92654-minus-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-3.2-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-76.9-0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-3.14159-3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-minus-3.14159-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/rounddown-31415.92654-minus-2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-text-argument-is-converted]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_round/round-error-argument-is-returned]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-true-returns-value-if-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-false-returns-value-if-false]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-golden-sgec-waste-gases-d22]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/if-golden-sgec-waste-gases-d38]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-all-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-one-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-ignores-text-and-empty-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/and-no-logical-values-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-one-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-all-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-ignores-text-and-empty-in-a-reference]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/or-no-logical-values-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/not-false]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/not-true]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-no-error-returns-value]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-div0-returns-value-if-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-na]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-value]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-ref]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-num]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-name]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-null]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-empty-value-is-empty-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_logical/iferror-empty-value-if-error-is-empty-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-1-to-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-currency-to-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-currency-thousands-to-number]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-expression-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/empty-text-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/word-is-value-error]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/true-is-one]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/false-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/blank-is-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/number-is-itself]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/error-is-itself]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/true-to-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/false-to-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/number-to-text-uses-15-digits]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/blank-formula-result-shows-zero]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/text-formula-result-is-kept]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/fifteen-digit-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/largest-number-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_coercion/largest-negative-number-text]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-3-plus-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_ADD'&quot;">case = {'id': 'add-3-plus-3', 'call': 'OP_ADD', 'args': [3, 3], 'expected': 6, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_ADD'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_ADD'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/sub-3-minus-1]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_SUB'&quot;">case = {'id': 'sub-3-minus-1', 'call': 'OP_SUB', 'args': [3, 1], 'expected': 2, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_SUB'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_SUB'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/neg-1]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_NEG'&quot;">case = {'id': 'neg-1', 'call': 'OP_NEG', 'args': [1], 'expected': -1, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_NEG'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_NEG'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/mul-3-times-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_MUL'&quot;">case = {'id': 'mul-3-times-3', 'call': 'OP_MUL', 'args': [3, 3], 'expected': 9, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_MUL'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_MUL'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/div-3-by-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_DIV'&quot;">case = {'id': 'div-3-by-3', 'call': 'OP_DIV', 'args': [3, 3], 'expected': 1, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_DIV'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_DIV'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/percent-20]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_PERCENT'&quot;">case = {'id': 'percent-20', 'call': 'OP_PERCENT', 'args': [20], 'expected': 0.2, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_PERCENT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_PERCENT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/pow-2-to-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_POW'&quot;">case = {'id': 'pow-2-to-3', 'call': 'OP_POW', 'args': [2, 3], 'expected': 8, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_POW'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_POW'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/sub-3-minus-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_SUB'&quot;">case = {'id': 'sub-3-minus-3', 'call': 'OP_SUB', 'args': [3, 3], 'expected': 0, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_SUB'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_SUB'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/neg-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_NEG'&quot;">case = {'id': 'neg-3', 'call': 'OP_NEG', 'args': [3], 'expected': -3, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_NEG'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_NEG'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/percent-30]" time="0.002"><failure message="KeyError: &quot;functions: no entry named 'OP_PERCENT'&quot;">case = {'id': 'percent-30', 'call': 'OP_PERCENT', 'args': [30], 'expected': 0.3, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_PERCENT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_PERCENT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/pow-3-to-3]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_POW'&quot;">case = {'id': 'pow-3-to-3', 'call': 'OP_POW', 'args': [3, 3], 'expected': 27, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_POW'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_POW'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/concat-north-wind]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_CONCAT'&quot;">case = {'id': 'concat-north-wind', 'call': 'OP_CONCAT', 'args': ['North', 'wind'], 'expected': 'Northwind', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_CONCAT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_CONCAT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-number-texts]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_ADD'&quot;">case = {'id': 'add-number-texts', 'call': 'OP_ADD', 'args': ['1', '2'], 'expected': 3, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_ADD'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_ADD'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-currency-text]" time="0.005"><failure message="KeyError: &quot;functions: no entry named 'OP_ADD'&quot;">case = {'id': 'add-currency-text', 'call': 'OP_ADD', 'args': [1, '$4.00'], 'expected': 5, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_ADD'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_ADD'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/concat-text-and-logical]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_CONCAT'&quot;">case = {'id': 'concat-text-and-logical', 'call': 'OP_CONCAT', 'args': ['A', True], 'expected': 'ATRUE', ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_CONCAT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_CONCAT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/add-text-not-a-number-is-value-error]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_ADD'&quot;">case = {'id': 'add-text-not-a-number-is-value-error', 'call': 'OP_ADD', 'args': ['abc', 1], 'expected': {'error': '#VALUE!'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_ADD'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_ADD'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/div-by-zero]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_DIV'&quot;">case = {'id': 'div-by-zero', 'call': 'OP_DIV', 'args': [1, 0], 'expected': {'error': '#DIV/0!'}, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_DIV'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_DIV'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/subnormal-result-is-zero]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_DIV'&quot;">case = {'id': 'subnormal-result-is-zero', 'call': 'OP_DIV', 'args': [2.2250738585072014e-308, 2], 'expected': 0, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_DIV'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_DIV'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-negative-numbers]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_LT'&quot;">case = {'id': 'lt-negative-numbers', 'call': 'OP_LT', 'args': [-2, -1], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-number-before-text]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_LT'&quot;">case = {'id': 'lt-number-before-text', 'call': 'OP_LT', 'args': [2, 'A'], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/gt-text-after-number]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_GT'&quot;">case = {'id': 'gt-text-after-number', 'call': 'OP_GT', 'args': ['A', 2], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_GT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_GT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/eq-number-and-number-text-differ]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_EQ'&quot;">case = {'id': 'eq-number-and-number-text-differ', 'call': 'OP_EQ', 'args': [1, '1'], 'expected': False, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_EQ'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_EQ'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-text-a-before-z]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_LT'&quot;">case = {'id': 'lt-text-a-before-z', 'call': 'OP_LT', 'args': ['A', 'Z'], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-text-before-logical]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_LT'&quot;">case = {'id': 'lt-text-before-logical', 'call': 'OP_LT', 'args': ['Z', False], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/lt-false-before-true]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_LT'&quot;">case = {'id': 'lt-false-before-true', 'call': 'OP_LT', 'args': [False, True], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/gt-true-after-false]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_GT'&quot;">case = {'id': 'gt-true-after-false', 'call': 'OP_GT', 'args': [True, False], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_GT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_GT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/ge-equal-numbers]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_GE'&quot;">case = {'id': 'ge-equal-numbers', 'call': 'OP_GE', 'args': [1, 1], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_GE'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_GE'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/le-smaller-number]" time="0.001"><failure message="KeyError: &quot;functions: no entry named 'OP_LE'&quot;">case = {'id': 'le-smaller-number', 'call': 'OP_LE', 'args': [0, 1], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LE'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LE'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/ne-different-numbers]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_NE'&quot;">case = {'id': 'ne-different-numbers', 'call': 'OP_NE', 'args': [1, 2], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_NE'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_NE'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_matches_oracle[runtime_operators/eq-ignores-case]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_EQ'&quot;">case = {'id': 'eq-ignores-case', 'call': 'OP_EQ', 'args': ['apples', 'APPLES'], 'expected': True, ...}
+
+    @pytest.mark.parametrize("case", oracle_params(*FAMILIES))
+    def test_matches_oracle(case: dict[str, Any]) -&gt; None:
+        args = [decode_cell(a) for a in case["args"]]
+        expected = decode_cell(case["expected"])
+&gt;       actual = resolve(case["call"])(*args)
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_EQ'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_EQ'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[ADD]" time="0.000"><failure message="AssertionError: assert 'OP_ADD' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.ADD: 'ADD'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_ADD' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[SUB]" time="0.000"><failure message="AssertionError: assert 'OP_SUB' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.SUB: 'SUB'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_SUB' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[MUL]" time="0.000"><failure message="AssertionError: assert 'OP_MUL' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.MUL: 'MUL'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_MUL' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[DIV]" time="0.000"><failure message="AssertionError: assert 'OP_DIV' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.DIV: 'DIV'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_DIV' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[POW]" time="0.000"><failure message="AssertionError: assert 'OP_POW' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.POW: 'POW'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_POW' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[CONCAT]" time="0.000"><failure message="AssertionError: assert 'OP_CONCAT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.CONCAT: 'CONCAT'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_CONCAT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[EQ]" time="0.002"><failure message="AssertionError: assert 'OP_EQ' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.EQ: 'EQ'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_EQ' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[NE]" time="0.001"><failure message="AssertionError: assert 'OP_NE' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.NE: 'NE'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_NE' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[LT]" time="0.000"><failure message="AssertionError: assert 'OP_LT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.LT: 'LT'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_LT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[GT]" time="0.000"><failure message="AssertionError: assert 'OP_GT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.GT: 'GT'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_GT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[LE]" time="0.001"><failure message="AssertionError: assert 'OP_LE' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.LE: 'LE'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_LE' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[GE]" time="0.000"><failure message="AssertionError: assert 'OP_GE' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.GE: 'GE'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_GE' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[NEG]" time="0.002"><failure message="AssertionError: assert 'OP_NEG' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.NEG: 'NEG'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_NEG' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_every_ir_operator_resolves_to_a_runtime_function[PERCENT]" time="0.000"><failure message="AssertionError: assert 'OP_PERCENT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;">op = &lt;Operator.PERCENT: 'PERCENT'&gt;
+
+    @pytest.mark.parametrize("op", list(Operator))
+    def test_every_ir_operator_resolves_to_a_runtime_function(op: Operator) -&gt; None:
+        # The dbt generator renders bk_op('&lt;op.value&gt;'), the BK_OP_&lt;op.value&gt; UDF (SPEC-compiler-dbt §4.4).
+&gt;       assert f"OP_{op.value}" in functions
+E       AssertionError: assert 'OP_PERCENT' in &lt;bob_killer.registry.Registry object at 0x105f13110&gt;
+
+tests/unit/test_runtime.py:46: AssertionError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-01-01-is-serial-1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2008-01-01]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2011-07-05]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2011-07-05-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1904-01-01-is-serial-0-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2008-12-08]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-02-28-is-serial-59]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-02-29-is-serial-60]" time="0.001" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/1900-03-01-is-serial-61]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/2100-03-01-not-leap]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/9999-12-31-is-the-last-date]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_both_ways[runtime_dates/9999-12-31-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-0-before-1900-01-01]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-after-9999-12-31]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-minus-1-before-1904-01-01]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_date_serial_outside_excel_range[runtime_dates/serial-after-9999-12-31-in-1904]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args0]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args1]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args2]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args3]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_logical-args4]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[rounding.number_to_text-args5]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[AVERAGE-args6]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[SUM-args7]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[ROUND-args8]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[IF-args9]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[NOT-args10]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[AND-args11]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args12]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args13]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[coercion.to_number-args14]" time="0.000" /><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_SUB-args15]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_SUB'&quot;">call = 'OP_SUB', args = [1.2249999999999999, 1.225]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_SUB'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_SUB'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_ADD-args16]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_ADD'&quot;">call = 'OP_ADD', args = [0.1, -0.09999999999999999]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_ADD'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_ADD'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_MUL-args17]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_MUL'&quot;">call = 'OP_MUL', args = [1e+308, 10.0]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_MUL'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_MUL'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_POW-args18]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_POW'&quot;">call = 'OP_POW', args = [0.0, 0.0]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_POW'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_POW'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_POW-args19]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_POW'&quot;">call = 'OP_POW', args = [0.0, -1.0]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_POW'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_POW'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_POW-args20]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_POW'&quot;">call = 'OP_POW', args = [-8.0, 0.3333333333333333]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_POW'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_POW'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_ADD-args21]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_ADD'&quot;">call = 'OP_ADD', args = [(1.0, 2.0), 1.0]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_ADD'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_ADD'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_EQ-args22]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_EQ'&quot;">call = 'OP_EQ', args = [0.30000000000000004, 0.3]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_EQ'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_EQ'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_LT-args23]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_LT'&quot;">call = 'OP_LT', args = ['a', '_']
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_LT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_LT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_EQ-args24]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_EQ'&quot;">call = 'OP_EQ', args = [None, False]
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_EQ'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_EQ'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_EQ-args25]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_EQ'&quot;">call = 'OP_EQ', args = ['é', 'É']
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_EQ'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_EQ'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase><testcase classname="tests.unit.test_runtime" name="test_unsupported_input_is_refused_not_guessed[OP_CONCAT-args26]" time="0.000"><failure message="KeyError: &quot;functions: no entry named 'OP_CONCAT'&quot;">call = 'OP_CONCAT'
+args = ['aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'b']
+
+    @pytest.mark.parametrize(
+        ("call", "args"),
+        [
+            ("coercion.to_number", ["16:48:00"]),  # time text: VALUE accepts it, we do not yet
+            ("coercion.to_number", ["6/1/2001"]),  # date text: locale-dependent
+            ("coercion.to_number", ["50%"]),  # percent text: not on a fetched page yet
+            ("coercion.to_number", ["1e400"]),  # beyond 9.99999999999999E+307
+            ("coercion.to_logical", ["TRUE"]),  # text where a logical is expected
+            ("rounding.number_to_text", [1e-7]),  # General-format notation unknown below 1E-5
+            ("AVERAGE", [True]),  # the AVERAGE page says typed logicals are "not counted"
+            ("SUM", [None]),  # an omitted argument
+            ("ROUND", [(2.5,), 0]),  # an array where a scalar is expected
+            ("IF", [(True,), 1, 2]),
+            ("NOT", [(True,)]),
+            ("AND", [(1.0,)]),  # numbers inside a reference: not documented
+            ("coercion.to_number", ["\u00a012"]),  # CHAR(160) is not number white space in Excel
+            ("coercion.to_number", ["\uff11\uff12"]),  # fullwidth digits: Excel result not established
+            (
+                "coercion.to_number",
+                ["(5)"],
+            ),  # accounting parentheses: Excel reads a negative; not on a fetched page
+            # + and - results at or very close to zero: Excel 97+ compensates, threshold undocumented
+            ("OP_SUB", [1.333 + 1.225 - 1.333, 1.225]),
+            ("OP_ADD", [0.1, -0.1 + 2e-17]),
+            ("OP_MUL", [1e308, 10.0]),  # beyond the largest double: operator result not documented
+            ("OP_POW", [0.0, 0.0]),  # 0^0, 0^-1, (-8)^(1/3): not on the POWER page
+            ("OP_POW", [0.0, -1.0]),
+            ("OP_POW", [-8.0, 1 / 3]),
+            ("OP_ADD", [(1.0, 2.0), 1.0]),  # a multi-cell reference: implicit intersection or array
+            ("OP_EQ", [0.1 + 0.2, 0.3]),  # equal at 15 digits, unequal as doubles: undocumented
+            ("OP_LT", ["a", "_"]),  # punctuation order in comparisons is not documented
+            ("OP_EQ", [None, False]),  # blank against a logical: not documented
+            ("OP_EQ", ["\u00e9", "\u00c9"]),  # case folding beyond ASCII: not documented
+            ("OP_CONCAT", ["a" * 32767, "b"]),  # beyond 32 767 characters in a cell
+        ],
+    )
+    def test_unsupported_input_is_refused_not_guessed(call: str, args: list[Any]) -&gt; None:
+        with pytest.raises(UnsupportedValue):
+&gt;           resolve(call)(*args)
+            ^^^^^^^^^^^^^
+
+tests/unit/test_runtime.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/test_runtime.py:31: in resolve
+    fn: Callable[..., Any] = getattr(MODULES[module], name) if module else functions.get(call)
+                                                                           ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;bob_killer.registry.Registry object at 0x105f13110&gt;, name = 'OP_CONCAT'
+
+    def get(self, name: str) -&gt; T:
+        try:
+            return self._items[name]
+        except KeyError:
+&gt;           raise KeyError(f"{self.kind}: no entry named {name!r}") from None
+E           KeyError: "functions: no entry named 'OP_CONCAT'"
+
+src/bob_killer/registry.py:34: KeyError</failure></testcase></testsuite></testsuites>

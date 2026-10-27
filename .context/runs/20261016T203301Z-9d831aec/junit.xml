@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="34" skipped="0" tests="34" time="1.569" timestamp="2026-10-16T16:33:02.434423-04:00" hostname="Jasons-MacBook-Pro.local"><properties><property name="hypothesis-statistics-tests/unit/test_ir.py::test_number_wire_is_float_hex" value="dGVzdHMvdW5pdC90ZXN0X2lyLnB5Ojp0ZXN0X251bWJlcl93aXJlX2lzX2Zsb2F0X2hleDoKCiAgLSBkdXJpbmcgcmV1c2UgcGhhc2UgKDAuMTQgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMTMwbXMsIG9mIHdoaWNoIH4gNG1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAwIHBhc3NpbmcsIDEgZmFpbGluZywgYW5kIDAgaW52YWxpZCB0ZXN0IGNhc2VzCiAgICAtIEZvdW5kIDEgZGlzdGluY3QgZXJyb3IgaW4gdGhpcyBwaGFzZQoKICAtIFN0b3BwZWQgYmVjYXVzZSBub3RoaW5nIGxlZnQgdG8gZG8=" /><property name="hypothesis-statistics-tests/unit/test_ir.py::test_other_wire_kinds_round_trip" value="dGVzdHMvdW5pdC90ZXN0X2lyLnB5Ojp0ZXN0X290aGVyX3dpcmVfa2luZHNfcm91bmRfdHJpcDoKCiAgLSBkdXJpbmcgcmV1c2UgcGhhc2UgKDAuMDEgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gNG1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMCBwYXNzaW5nLCAxIGZhaWxpbmcsIGFuZCAwIGludmFsaWQgdGVzdCBjYXNlcwogICAgLSBGb3VuZCAxIGRpc3RpbmN0IGVycm9yIGluIHRoaXMgcGhhc2UKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugbm90aGluZyBsZWZ0IHRvIGRv" /><property name="hypothesis-statistics-tests/unit/test_ir.py::test_a1_ranges_parse" value="dGVzdHMvdW5pdC90ZXN0X2lyLnB5Ojp0ZXN0X2ExX3Jhbmdlc19wYXJzZToKCiAgLSBkdXJpbmcgcmV1c2UgcGhhc2UgKDAuMDEgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMTBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDAgcGFzc2luZywgMSBmYWlsaW5nLCBhbmQgMCBpbnZhbGlkIHRlc3QgY2FzZXMKICAgIC0gRm91bmQgMSBkaXN0aW5jdCBlcnJvciBpbiB0aGlzIHBoYXNlCgogIC0gU3RvcHBlZCBiZWNhdXNlIG5vdGhpbmcgbGVmdCB0byBkbw==" /></properties><testcase classname="tests.unit.test_ir" name="test_ir_yaml_round_trips_identically" time="0.002"><failure message="ImportError: cannot import name 'dump_ir' from 'bob_killer.ir' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/ir/__init__.py)">def test_ir_yaml_round_trips_identically() -&gt; None:
+&gt;       from bob_killer.ir import dump_ir, load_ir
+E       ImportError: cannot import name 'dump_ir' from 'bob_killer.ir' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/ir/__init__.py)
+
+tests/unit/test_ir.py:24: ImportError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_ir_yaml_is_the_json_shape" time="0.000"><failure message="ImportError: cannot import name 'dump_ir' from 'bob_killer.ir' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/ir/__init__.py)">def test_ir_yaml_is_the_json_shape() -&gt; None:
+&gt;       from bob_killer.ir import dump_ir, load_ir
+E       ImportError: cannot import name 'dump_ir' from 'bob_killer.ir' (/Users/jasontouleyrou/Projects/bob-killer-snowflake/labs/bob_killer/src/bob_killer/ir/__init__.py)
+
+tests/unit/test_ir.py:33: ImportError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[extra key]" time="0.102"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d32e0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[wrong schema version]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3380&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 999, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[coerced int]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3420&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[bad sha256]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d34c0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': 'xyz'}, 'sheets': [{'id': 'data', 'name'...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[bad node id]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3560&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[bad origin]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3600&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[unknown sheet in origin]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d36a0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[unknown step kind]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060d3740&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[number with text field]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d37e0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[non-canonical hex]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3880&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[nan hex]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3920&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[infinite hex]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d39c0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[parameter default not a number]" time="0.008"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3a60&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[unknown excel error]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3b00&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[op arity]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060d3ba0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[unknown operator]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060d3c40&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[dangling parameter]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060d3ce0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[dangling over input]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060d3d80&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[dangling lookup]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060d3e20&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[dangling output step]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3ec0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[dangling vba translation]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060d3f60&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[duplicate node id]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _append.&lt;locals&gt;.mutate at 0x1060e40e0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[input columns do not span the origin]" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _set.&lt;locals&gt;.mutate at 0x1060e4180&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[range ends before it starts]" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060e4220&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[scalar step over a range]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060e42c0&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_invalid_ir_is_rejected[column step over two columns]" time="0.002"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">mutation = &lt;function _step_field.&lt;locals&gt;.mutate at 0x1060e4360&gt;
+
+    @pytest.mark.parametrize("mutation", INVALID.values(), ids=INVALID.keys())
+    def test_invalid_ir_is_rejected(mutation: Any) -&gt; None:
+        with pytest.raises(ValidationError):
+&gt;           sample_ir(mutation)
+
+tests/unit/test_ir.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit/conftest.py:488: in sample_ir
+    return build_ir(data)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_step_kinds_are_the_closed_registry" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">def test_step_kinds_are_the_closed_registry() -&gt; None:
+        from bob_killer import registry
+&gt;       from bob_killer.contracts.ir import STEP_MODELS
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/test_ir.py:112: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_number_wire_is_float_hex" time="0.148"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'&#10;Failing test case: test_number_wire_is_float_hex(&#10;    x=0.0,&#10;)">@given(x=finite)
+&gt;   def test_number_wire_is_float_hex(x: float) -&gt; None:
+                   ^^^
+
+tests/unit/test_ir.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+x = 0.0
+
+    @given(x=finite)
+    def test_number_wire_is_float_hex(x: float) -&gt; None:
+&gt;       from bob_killer.contracts.ir import CellValue
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+E       Failing test case: test_number_wire_is_float_hex(
+E           x=0.0,
+E       )
+
+tests/unit/test_ir.py:129: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_other_wire_kinds_round_trip" time="0.071"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'&#10;Failing test case: test_other_wire_kinds_round_trip(&#10;    value=('blank', None),&#10;)">@given(
+&gt;       value=st.one_of(
+                   ^^^
+            st.text().map(lambda t: ("text", t)),
+            st.booleans().map(lambda b: ("boolean", b)),
+            excel_errors.map(lambda e: ("error", e)),
+            st.just(("blank", None)),
+        )
+    )
+
+tests/unit/test_ir.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = ('blank', None)
+
+    @given(
+        value=st.one_of(
+            st.text().map(lambda t: ("text", t)),
+            st.booleans().map(lambda b: ("boolean", b)),
+            excel_errors.map(lambda e: ("error", e)),
+            st.just(("blank", None)),
+        )
+    )
+    def test_other_wire_kinds_round_trip(value: tuple[str, Any]) -&gt; None:
+&gt;       from bob_killer.contracts.ir import CellValue, ExcelError
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+E       Failing test case: test_other_wire_kinds_round_trip(
+E           value=('blank', None),
+E       )
+
+tests/unit/test_ir.py:147: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_a1_ranges_parse" time="0.020"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'&#10;Failing test case: test_a1_ranges_parse(&#10;    sheet='0',&#10;    row=1,&#10;    col=1,&#10;    height=0,&#10;    width=0,&#10;)">@given(
+&gt;       sheet=sheet_names,
+                   ^^^
+        row=st.integers(1, 1_048_576),
+        col=st.integers(1, 16_384),
+        height=st.integers(0, 40),
+        width=st.integers(0, 5),
+    )
+
+tests/unit/test_ir.py:168: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+sheet = '0', row = 1, col = 1, height = 0, width = 0
+
+    @given(
+        sheet=sheet_names,
+        row=st.integers(1, 1_048_576),
+        col=st.integers(1, 16_384),
+        height=st.integers(0, 40),
+        width=st.integers(0, 5),
+    )
+    def test_a1_ranges_parse(sheet: str, row: int, col: int, height: int, width: int) -&gt; None:
+&gt;       from bob_killer.contracts.ir import cell_range
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+E       Failing test case: test_a1_ranges_parse(
+E           sheet='0',
+E           row=1,
+E           col=1,
+E           height=0,
+E           width=0,
+E       )
+
+tests/unit/test_ir.py:175: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_unquoted_sheet_names_parse" time="0.001"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">def test_unquoted_sheet_names_parse() -&gt; None:
+&gt;       from bob_killer.contracts.ir import cell_range
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/test_ir.py:194: ModuleNotFoundError</failure></testcase><testcase classname="tests.unit.test_ir" name="test_built_ir_matches_its_json" time="0.000"><failure message="ModuleNotFoundError: No module named 'bob_killer.contracts.ir'">def test_built_ir_matches_its_json() -&gt; None:
+        data = sample_ir_json()
+&gt;       assert build_ir(data).model_dump(mode="json") == data
+               ^^^^^^^^^^^^^^
+
+tests/unit/test_ir.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = {'schema_version': 1, 'source': {'file': 'bobs_forecast_2013.xlsm', 'sha256': '9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2c9f2...': 'Annual growth rate', 'origin': ["'Summary'!C4"], 'description': "Annual growth rate from 'Summary'!C4", ...}], ...}
+
+    def build_ir(data: Mapping[str, Any]) -&gt; WorkbookIR:
+&gt;       from bob_killer.contracts.ir import WorkbookIR
+E       ModuleNotFoundError: No module named 'bob_killer.contracts.ir'
+
+tests/unit/conftest.py:479: ModuleNotFoundError</failure></testcase></testsuite></testsuites>
