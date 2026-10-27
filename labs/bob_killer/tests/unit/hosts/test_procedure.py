@@ -476,3 +476,12 @@ def test_run_pipeline_without_a_review_fails_generate(world: World) -> None:
     (failed,) = [s for s in view.stages if s.state == StageState.FAILED]
     assert failed.stage == generate_stage.STAGE_NAME
     assert NamesNeedReview.__name__ in failed.detail
+
+
+def test_register_pipeline_builds_with_dbt_after_generate() -> None:
+    from bob_killer.generate import stage as generate_stage
+    from bob_killer.hosts.snowflake import dbt
+
+    procedure.register_pipeline()
+    expected = (*PIPELINE, generate_stage.STAGE_NAME, dbt.STAGE_NAME)
+    assert registry.stages.names()[: len(expected)] == expected
