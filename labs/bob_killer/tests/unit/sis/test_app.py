@@ -34,8 +34,13 @@ def _selected(sql: str) -> list[str]:
 
 @pytest.mark.parametrize(
     ("sql", "schema"),
-    [(sis.RUN_SQL, sis.RUN), (sis.RECENT_SQL, sis.RUN), (sis.STAGES_SQL, sis.STAGE)],
-    ids=["run", "recent", "stages"],
+    [
+        (sis.RUN_SQL, sis.RUN),
+        (sis.RECENT_SQL, sis.RUN),
+        (sis.STAGES_SQL, sis.STAGE),
+        (sis.REPORT_SQL, sis.REPORT),
+    ],
+    ids=["run", "recent", "stages", "report"],
 )
 def test_every_query_names_the_contract_columns(sql: str, schema: str) -> None:
     assert _selected(sql) == list(sis.SCHEMAS[schema]["properties"])
@@ -150,3 +155,91 @@ def test_recent_runs_lists_the_rows_for_all_users(app: AppTest, fake: FakeSessio
     shown = " ".join(m.value for m in app.markdown)
     assert all(r["RUN_ID"] in shown for r in rows)
     assert (sis.RECENT_SQL, ()) in fake.statements
+
+
+# --- RUN_PIPELINE and the equivalence report ------------------------------------------------------
+
+
+def test_an_upload_starts_the_whole_pipeline() -> None:
+    from bob_killer.hosts.snowflake import run_pipeline
+
+    assert sis.EXECUTE_RUN == run_pipeline.NAME
+
+
+def _report(run_id: str, mismatched: int) -> dict[str, object]:
+    """A WB_REPORTS row as Snowpark returns it: upper-case names, the VARIANT as JSON text."""
+    from bob_killer.contracts.ir import CellValue
+    from bob_killer.contracts.report import CellMismatch, EquivalenceReport, Mismatches
+
+    cells = tuple(
+        CellMismatch(
+            sheet="S",
+            cell_row=n + 1,
+            cell_col=n + 1,
+            expected=CellValue.number(n),
+            actual=CellValue.number(n + 1),
+        )
+        for n in range(mismatched)
+    )
+    total = 7
+    report = EquivalenceReport(
+        run_id=run_id,
+        workbook_sha256=SHA,
+        denominator=total,
+        cells_checked=total,
+        cells_matched=total - mismatched,
+        mismatches=Mismatches(cells=cells),
+        parity_test_failures=mismatched,
+        channels_agree=True,
+        steps_generated=total,
+        steps_total=total,
+        unsupported=0,
+    )
+    row = {k.upper(): v for k, v in report.model_dump(mode="json").items()}
+    row["MISMATCHES"] = json.dumps(row["MISMATCHES"], indent=2)
+    return row
+
+
+REPORT_RUN = SHA[: len(SHA) // 2]  # a run id of the contract's form
+
+
+def _watch_run(app: AppTest, fake: FakeSession, run_id: str) -> AppTest:
+    fake.script(sis.RUN_SQL, [run_row(state=RunState.SUCCEEDED.value, run_id=run_id)])
+    fake.script(sis.STAGES_SQL, [stage_row(run_id)])
+    app.session_state[sis.JOBS_KEY] = {run_id: FakeAsyncJob(None, done=True)}
+    return app.run()
+
+
+@pytest.mark.parametrize("mismatched", [0, 2])
+def test_the_report_shows_counts_mismatches_and_the_docs_path(
+    app: AppTest, fake: FakeSession, mismatched: int
+) -> None:
+    run_id = REPORT_RUN
+    report = _report(run_id, mismatched)
+    fake.script(sis.REPORT_SQL, [report])
+    _watch_run(app, fake, run_id)
+    assert not app.exception
+    assert not app.error
+    shown = {m.label: m.value for m in app.metric}
+    for key in ("CELLS_MATCHED", "CELLS_CHECKED", "DENOMINATOR"):
+        assert str(report[key]) in shown.values(), key
+    assert any(sis.DOCS_PATH.format(run_id=run_id) in m.value for m in app.markdown)
+    assert len(app.dataframe) == len([None] * bool(mismatched))
+    if mismatched:
+        (frame,) = app.dataframe
+        assert len(frame.value) == mismatched
+    assert (sis.REPORT_SQL, (run_id,)) in fake.statements
+
+
+def test_a_report_row_that_fails_the_json_schema_shows_an_error(
+    app: AppTest, fake: FakeSession
+) -> None:
+    run_id = REPORT_RUN
+    report = _report(run_id, 0)
+    report["CELLS_CHECKED"] = "every one"
+    fake.script(sis.REPORT_SQL, [report])
+    _watch_run(app, fake, run_id)
+    assert not app.exception
+    report_name = sis.REPORT.rsplit(".", 1)[1]
+    assert any(sis.INVALID_ROW in e.value and report_name in e.value for e in app.error)
+    assert not app.metric
