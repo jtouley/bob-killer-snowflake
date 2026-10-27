@@ -3,6 +3,13 @@
 (runtime/operators.py)."""
 
 from bob_killer.runtime import operators
-from bob_killer.runtime.functions import aggregate, information, logical, lookup, round_digits
+from bob_killer.runtime.functions import (
+    aggregate,
+    information,
+    logical,
+    lookup,
+    round_digits,
+    text,
+)
 
-__all__ = ["aggregate", "information", "logical", "lookup", "operators", "round_digits"]
+__all__ = ["aggregate", "information", "logical", "lookup", "operators", "round_digits", "text"]
