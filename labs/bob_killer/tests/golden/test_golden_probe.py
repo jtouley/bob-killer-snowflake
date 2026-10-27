@@ -33,3 +33,27 @@ def test_supported_cells_match_excel_exactly(golden_probe: Probe, entry: GoldenE
     report = golden_probe(entry)
     assert report.mismatches == []
     assert report.matches == report.evaluated
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_every_ir_step_of_the_goal_set_matches_excel_exactly(golden_id: str) -> None:
+    """The MVP goal set: each lifted step, from cached precedents, equals its cached value."""
+    from bob_killer.extract import extract_workbook
+    from bob_killer.graph.dag import build_graph
+    from bob_killer.lift import lift
+    from bob_killer.verify.config import values_equal
+    from tests.conftest import golden_workbook
+    from tests.golden.conftest import IrEvaluator, graph_input
+
+    raw = extract_workbook(golden_workbook(golden_id))
+    ir = lift(raw, build_graph(graph_input(raw)))
+    ev = IrEvaluator(raw)
+    mismatches = []
+    for step in ir.steps:
+        ref = step.cells()[0]
+        expected = ev.value(ref.sheet, ref.row, ref.col)
+        got = ev.result(step.expr)  # a refusal or a missing function fails the test
+        if not values_equal(expected, got):
+            mismatches.append((step.origin[0], step.formula, expected, got))
+    assert mismatches == []
+    assert len(ir.steps) == sum(bool(c.formula) for c in raw.cells)

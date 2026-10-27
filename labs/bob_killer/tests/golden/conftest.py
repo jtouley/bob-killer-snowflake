@@ -276,3 +276,60 @@ def golden_probe() -> Callable[[GoldenEntry], ProbeReport]:
         return reports[entry.id]
 
     return get
+
+
+# --- the IR corpus: every lifted step against Excel's cache (docs/SPEC-compiler-dbt.md Phase 12) ---
+
+
+class IrEvaluator:
+    """Evaluates an IR step expression on the cached values of the cells it reads.
+
+    IF is lazy, as in Excel: the runtime IF picks the branch from the condition, and only that
+    branch is evaluated (the dbt generator renders IF the same way). Every other call gets its
+    arguments evaluated. The cell's final value is ``cell_result`` of the expression's value.
+    """
+
+    def __init__(self, raw: RawWorkbook) -> None:
+        self.cells = Evaluator(raw).cells
+
+    def value(self, sheet: str, row: int, col: int) -> CellValue:
+        return cached(self.cells.get((sheet, row, col)))
+
+    def eval(self, expr: object) -> Arg:
+        from bob_killer.contracts import ir
+        from bob_killer.runtime import wire
+
+        match expr:
+            case ir.LiteralExpr(value=v):
+                return wire.from_wire(v)
+            case ir.CellExpr(sheet=s, row=r, col=c):
+                return (self.value(s, r, c),)
+            case ir.RangeExpr(sheet=s, row=r, col=c, last_row=lr, last_col=lc):
+                return Area(
+                    (self.value(s, i, j) for i in range(r, lr + 1) for j in range(c, lc + 1)),
+                    columns=lc - c + 1,
+                )
+            case ir.CallExpr(name="IF", args=args):
+                chosen = functions.get("IF")(self.eval(args[0]), *IF_BRANCHES)
+                if chosen == IF_BRANCHES[0]:
+                    return self.eval(args[1]) if len(args) > 1 else False
+                if chosen == IF_BRANCHES[1]:
+                    return self.eval(args[2]) if len(args) > 2 else False
+                return chosen  # type: ignore[no-any-return]
+            case ir.CallExpr(name=name, args=args):
+                return functions.get(name)(*(self.eval(a) for a in args))  # type: ignore[no-any-return]
+            case ir.OpExpr(op=op, args=args):
+                return functions.get(f"OP_{op.value}")(*(self.eval(a) for a in args))  # type: ignore[no-any-return]
+        raise TypeError(f"no evaluation for {expr!r}")
+
+    def result(self, expr: object) -> CellValue:
+        out = self.eval(expr)
+        if isinstance(out, tuple):
+            if len(out) != 1:
+                raise Ineligible("array result")
+            out = out[0]
+        return cell_result(out)
+
+
+# Marker branches: IF returns one of them unchanged, so the caller learns which branch IF chose.
+IF_BRANCHES = (1.0, 2.0)

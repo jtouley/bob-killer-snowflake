@@ -28,9 +28,10 @@ FAMILIES = (
     "runtime_operators",
     "runtime_information",
     "runtime_lookup",
+    "runtime_text",
 )
 # Oracle files whose "refused" list holds inputs no fetched source settles (never guessed).
-REFUSALS = ("runtime_aggregate", "runtime_information", "runtime_lookup")
+REFUSALS = ("runtime_aggregate", "runtime_information", "runtime_lookup", "runtime_text")
 
 
 def resolve(call: str) -> Callable[..., Any]:
