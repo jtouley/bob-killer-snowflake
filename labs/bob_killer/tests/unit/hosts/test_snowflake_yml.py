@@ -63,3 +63,58 @@ def test_app_entity_ships_the_sis_package_on_the_container_runtime() -> None:
     assert app["compute_pool"]
     assert app["external_access_integrations"]
     assert app["query_warehouse"]
+
+
+# --- RUN_PIPELINE: caller's rights, from 40_run_pipeline.sql (F15) ---------------------------------
+
+
+def _run_pipeline() -> Any:
+    from bob_killer.hosts.snowflake import run_pipeline
+
+    return run_pipeline
+
+
+def test_run_pipeline_sql_is_the_generated_ddl() -> None:
+    rp = _run_pipeline()
+    assert rp.SQL_PATH.read_text(encoding="utf-8") == rp.render_ddl()
+
+
+def test_run_pipeline_runs_as_caller_on_the_build_zip_with_the_deploy_packages() -> None:
+    from bob_killer.hosts.snowflake.udfs import IMPORTS
+
+    rp = _run_pipeline()
+    ddl = rp.render_ddl()
+    from tests.conftest import load_oracle
+
+    assert load_oracle("snowflake_dbt")["procedure_rights"] in ddl
+    assert f"IMPORTS = ('{IMPORTS}')" in ddl
+    assert f"RUNTIME_VERSION = '{sys.version_info.major}.{sys.version_info.minor}'" in ddl
+    listed = ", ".join(f"'{p}'" for p in rp.packages())
+    assert f"PACKAGES = ({listed})" in ddl
+    assert rp.packages() == tuple(
+        line.strip()
+        for line in (PROJECT / "requirements.txt").read_text().splitlines()
+        if line.strip()
+    )
+
+
+def test_run_pipeline_handler_takes_the_session_and_the_run_id() -> None:
+    rp = _run_pipeline()
+    module, _, name = rp.HANDLER.rpartition(".")
+    assert module == procedure.__name__
+    handler = getattr(procedure, name)
+    declared = [a.split()[0].lower() for a in rp.ARGUMENTS]
+    assert list(inspect.signature(handler).parameters) == [procedure.SESSION_PARAMETER, *declared]
+
+
+@pytest.mark.parametrize("module", ["jinja2", "yaml", "openpyxl", "pydantic"])
+def test_every_third_party_package_the_procedures_import_is_deployed(module: str) -> None:
+    from importlib.metadata import packages_distributions
+
+    dists = {d.lower() for d in packages_distributions()[module]}
+    names = {
+        line.split("<")[0].split(">")[0].split("=")[0].strip().lower()
+        for line in (PROJECT / "requirements.txt").read_text().splitlines()
+        if line.strip()
+    }
+    assert dists & names, module
