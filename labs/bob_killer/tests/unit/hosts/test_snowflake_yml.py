@@ -118,3 +118,39 @@ def test_every_third_party_package_the_procedures_import_is_deployed(module: str
         if line.strip()
     }
     assert dists & names, module
+
+
+# --- the app's deploy SQL (snow 3.29 refuses artifact sources outside the project root) ------------
+
+
+def test_app_sql_is_the_generated_ddl() -> None:
+    from bob_killer.hosts.snowflake import app
+
+    assert app.SQL_PATH.read_text(encoding="utf-8") == app.render_ddl()
+
+
+def test_app_sql_creates_the_declared_app_from_its_files_on_the_app_stage() -> None:
+    from bob_killer.hosts.snowflake import app
+
+    (entity,) = _entities("streamlit").values()
+    ddl = app.render_ddl()
+    assert f"CREATE OR REPLACE STREAMLIT {entity['identifier']['name']}\n" in ddl
+    assert f"FROM '@{app.STAGE}'" in ddl
+    for key in ("main_file", "runtime_name"):
+        assert f"{key.upper()} = '{entity[key]}'" in ddl
+    for key in ("query_warehouse", "compute_pool"):
+        assert f"{key.upper()} = {entity[key]}" in ddl
+    assert (
+        f"EXTERNAL_ACCESS_INTEGRATIONS = ({', '.join(entity['external_access_integrations'])})"
+        in ddl
+    )
+    assert {(src, dest) for src, dest in app.artifacts()} == {
+        ((PROJECT / a["src"]).resolve(), a["dest"]) for a in entity["artifacts"]
+    }
+
+
+def test_the_app_stage_is_a_compiler_object() -> None:
+    from bob_killer.hosts.snowflake import app
+    from bob_killer.hosts.snowflake.ddl import compiler_objects_sql
+
+    assert f"CREATE STAGE IF NOT EXISTS {app.STAGE}\n" in compiler_objects_sql()

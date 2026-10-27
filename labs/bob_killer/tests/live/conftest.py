@@ -105,6 +105,25 @@ def write_evidence(name: str, title: str, body: str) -> None:
         f.write(f"\n== {title} ({datetime.now(UTC).isoformat()})\n{redact(body).rstrip()}\n")
 
 
+DEPLOY_SCRIPTS = ("10_tables.sql", "20_compiler_objects.sql", "30_udfs.sql", "40_run_pipeline.sql")
+
+
+def deploy_reviews(session: Session) -> None:
+    """Put hosts/snowflake/reviews/*.yaml on @DBT_SRC/_reviews/ of the current schema."""
+    import io
+
+    from bob_killer.hosts.snowflake.compiler import DBT_SRC, REVIEWS
+    from bob_killer.hosts.snowflake.reviews import REVIEWS_DIR
+
+    for f in sorted(REVIEWS_DIR.glob("*.yaml")):
+        session.file.put_stream(
+            io.BytesIO(f.read_bytes()),
+            f"{DBT_SRC}/{REVIEWS}/{f.name}",
+            auto_compress=False,
+            overwrite=True,
+        )
+
+
 @pytest.fixture(scope="session")
 def host_schema(session: Session) -> Iterator[str]:
     """A TEST_<uuid8> schema holding the deployed host and compiler (procedures, UDFs, DBT_SRC).
@@ -125,9 +144,10 @@ def host_schema(session: Session) -> Iterator[str]:
                 for leftover in BUILD_LEFTOVERS:
                     leftover.unlink(missing_ok=True)
             session.use_schema(name)
-            for script in ("10_tables.sql", "20_compiler_objects.sql", "30_udfs.sql"):
+            for script in DEPLOY_SCRIPTS:
                 for statement in sql_file(HOST / "sql" / script):
                     session.sql(statement).collect()
+            deploy_reviews(session)
             yield name
         finally:
             for statement in sql_file(HOST / "sql" / "99_teardown.sql", schema=name):
