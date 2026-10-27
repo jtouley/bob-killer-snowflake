@@ -19,9 +19,11 @@ import jinja2
 import yaml
 
 from bob_killer.contracts.ir import (
+    CallExpr,
     CellRef,
     CellValue,
     GeneratedProject,
+    OpExpr,
     ParamExpr,
     Step,
     TargetConfig,
@@ -202,15 +204,34 @@ step_handlers.add("conditional", SingleCellHandler())
 step_handlers.add("vba_procedure", VbaHandler())
 
 
+# Snowflake runs at most 128 Python UDF call sites in one query (error 100370 "Too many Python
+# functions in the query" at 129, measured in a TEST_ schema on 2026-10-27; not documented).
+# A shared level model is split into parts _p2, _p3, ... that stay within it (D26 otherwise).
+MAX_UDF_CALLS = 128
+
+
+def udf_calls(step: Step) -> int:
+    """The BK_* UDF call sites a step renders: one per function call and per operator."""
+    return sum(isinstance(e, CallExpr | OpExpr) for root in step.exprs() for e in iter_expr(root))
+
+
 def layout(ir: WorkbookIR) -> Layout:
     lay = Layout(ir=ir, levels=levels(ir), sheet_ids={s.name: s.id for s in ir.sheets})
     lay.model_of.update({i.id: f"stg_input__{i.id}" for i in ir.inputs})
     lay.model_of.update({lk.id: f"stg_lookup__{lk.id}" for lk in ir.lookups})
     taken = set(lay.model_of.values())
     kind_of: dict[str, str] = {}
+    parts: dict[str, tuple[int, int]] = {}  # shared model -> (part number, UDF calls in it)
     for step in generated_steps(ir):
         handler = step_handlers.get(step.kind)
         model = handler.model_name(step, lay)
+        if handler.shared:
+            calls = udf_calls(step)
+            number, used = parts.get(model, (1, 0))
+            if used and used + calls > MAX_UDF_CALLS:
+                number, used = number + 1, 0
+            parts[model] = (number, used + calls)
+            model = model if number == 1 else f"{model}_p{number}"
         seen = kind_of.setdefault(model, step.kind)
         if model in taken or (model in lay.model_of.values() and not handler.shared):
             raise ValueError(f"{step.id}: model name {model} is already used")
