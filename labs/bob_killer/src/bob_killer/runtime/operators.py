@@ -16,6 +16,7 @@ from __future__ import annotations
 import math
 import re
 from collections.abc import Callable
+from typing import Any
 
 from bob_killer.registry import excel_function
 from bob_killer.runtime.coercion import (
@@ -27,6 +28,7 @@ from bob_killer.runtime.coercion import (
     to_text,
 )
 from bob_killer.runtime.rounding import fifteen_digits
+from bob_killer.runtime.values import Area
 
 SYMBOLS: dict[str, str] = {
     "+": "ADD",
@@ -61,6 +63,31 @@ def operand(value: Arg) -> CellValue:
             raise UnsupportedValue("a multi-cell reference as an operand")  # pragma: no mutate
         return value[0]
     return value
+
+
+def _elementwise[F: Callable[..., Any]](op: F) -> F:
+    """The operator on arrays: element by element over areas of one shape, a single value
+    applied to every element (SUMPRODUCT page: "replace the commas separating the array
+    arguments with the arithmetic operators"; arrays "must have the same dimensions").
+
+    Only a shaped area (an ``Area``) is an array here; other multi-cell references stay refused.
+    """
+
+    def apply(*args: Arg) -> Any:
+        areas = [a for a in args if isinstance(a, Area) and len(a) > 1]
+        if not areas:
+            return op(*args)
+        shapes = {(a.rows, a.columns) for a in areas}
+        if len(shapes) != 1:
+            raise UnsupportedValue("arrays of different dimensions")  # pragma: no mutate
+        first = areas[0]
+        cells = [
+            op(*(a[i] if isinstance(a, Area) and len(a) > 1 else operand(a) for a in args))
+            for i in range(len(first))
+        ]
+        return Area(cells, columns=first.columns)
+
+    return apply  # type: ignore[return-value]
 
 
 def number_result(x: float) -> float | ExcelError:
@@ -114,26 +141,29 @@ def _power(x: float, y: float) -> float:
         return math.inf
 
 
-add = excel_function("OP_ADD")(_arithmetic(lambda x, y: _compensated(x + y, x, y)))
-sub = excel_function("OP_SUB")(_arithmetic(lambda x, y: _compensated(x - y, x, y)))
-mul = excel_function("OP_MUL")(_arithmetic(float.__mul__))
-div = excel_function("OP_DIV")(_arithmetic(_divide))
-pow_ = excel_function("OP_POW")(_arithmetic(_power))
+add = excel_function("OP_ADD")(_elementwise(_arithmetic(lambda x, y: _compensated(x + y, x, y))))
+sub = excel_function("OP_SUB")(_elementwise(_arithmetic(lambda x, y: _compensated(x - y, x, y))))
+mul = excel_function("OP_MUL")(_elementwise(_arithmetic(float.__mul__)))
+div = excel_function("OP_DIV")(_elementwise(_arithmetic(_divide)))
+pow_ = excel_function("OP_POW")(_elementwise(_arithmetic(_power)))
 
 
 @excel_function("OP_NEG")
+@_elementwise
 def neg(a: Arg) -> Number:
     x = to_number(operand(a))
     return x if isinstance(x, ExcelError) else number_result(-x)
 
 
 @excel_function("OP_PERCENT")
+@_elementwise
 def percent(a: Arg) -> Number:
     x = to_number(operand(a))
     return x if isinstance(x, ExcelError) else number_result(x / 100)
 
 
 @excel_function("OP_CONCAT")
+@_elementwise
 def concat(a: Arg, b: Arg) -> str | ExcelError:
     left = to_text(operand(a))
     if isinstance(left, ExcelError):
@@ -211,9 +241,9 @@ def _comparison(test: Callable[[int], bool]) -> Callable[[Arg, Arg], bool | Exce
     return apply
 
 
-eq = excel_function("OP_EQ")(_comparison(lambda c: c == 0))
-ne = excel_function("OP_NE")(_comparison(lambda c: c != 0))
-lt = excel_function("OP_LT")(_comparison(lambda c: c < 0))
-gt = excel_function("OP_GT")(_comparison(lambda c: c > 0))
-le = excel_function("OP_LE")(_comparison(lambda c: c <= 0))
-ge = excel_function("OP_GE")(_comparison(lambda c: c >= 0))
+eq = excel_function("OP_EQ")(_elementwise(_comparison(lambda c: c == 0)))
+ne = excel_function("OP_NE")(_elementwise(_comparison(lambda c: c != 0)))
+lt = excel_function("OP_LT")(_elementwise(_comparison(lambda c: c < 0)))
+gt = excel_function("OP_GT")(_elementwise(_comparison(lambda c: c > 0)))
+le = excel_function("OP_LE")(_elementwise(_comparison(lambda c: c <= 0)))
+ge = excel_function("OP_GE")(_elementwise(_comparison(lambda c: c >= 0)))

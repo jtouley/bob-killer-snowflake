@@ -149,6 +149,33 @@ def sumif(range_: Arg, criteria_: Arg, sum_range: Arg = None) -> float | ExcelEr
     return number_result(_accumulate(numbers, 0.0, float.__add__))
 
 
+@excel_function("SUMIFS")
+def sumifs(sum_range: Arg, *pairs: Arg) -> float | ExcelError:
+    """Adds the sum_range cells that meet every criteria_range/criteria pair (SUMIFS page).
+
+    Each criteria is the SUMIF criteria; a row that fails one test is not added, whatever the
+    other tests would say. A criteria_range of another size is refused.
+    """
+    addends = _reference(sum_range, "SUMIFS sum_range")
+    if not pairs or len(pairs) % 2:
+        raise UnsupportedValue("SUMIFS without criteria_range/criteria pairs")  # pragma: no mutate
+    tests = []
+    for range_, criteria_ in zip(pairs[::2], pairs[1::2], strict=True):
+        cells = _reference(range_, "SUMIFS criteria_range")
+        if len(cells) != len(addends):
+            raise UnsupportedValue("a criteria_range of another size")  # pragma: no mutate
+        tests.append((cells, criteria.criteria(operand(criteria_))))
+    numbers: list[float] = []
+    for i, addend in enumerate(addends):
+        if not all(match(cells[i]) for cells, match in tests):
+            continue
+        if isinstance(addend, ExcelError):
+            raise UnsupportedValue("an error value among the cells to add")  # pragma: no mutate
+        if isinstance(addend, float):
+            numbers.append(addend)
+    return number_result(_accumulate(numbers, 0.0, float.__add__))
+
+
 def _entry(cell: CellValue) -> float:
     if isinstance(cell, ExcelError):
         raise UnsupportedValue("an error value in a SUMPRODUCT array")  # pragma: no mutate

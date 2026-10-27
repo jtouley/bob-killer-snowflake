@@ -35,7 +35,8 @@ _NUMBER_TEXT = re.compile(
 _NOT_ESTABLISHED = re.compile(r"[^\x00-\x7f]|^\s*\(")
 # Text Excel may read as a date or time ("6/1/2001", "16:48:00", "5 Jan 2020", "4 PM").
 _DATE_OR_TIME_TEXT = re.compile(
-    r"\d\s*[/:-]\s*\d|(?i:\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b|\b[ap]m\b)"
+    r"\d\s*[/:-]\s*\d|(?i:\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?"
+    r"|sep(t(ember)?)?|oct(ober)?|nov(ember)?|dec(ember)?)\b|\b[ap]m\b)"
 )
 
 
