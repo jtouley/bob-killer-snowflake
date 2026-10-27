@@ -382,3 +382,97 @@ def test_run_pipeline_persists_what_a_failed_run_wrote(world: World) -> None:
     assert failed == [extract_stage.STAGE]
     run_dir = f"{procedure.DBT_SRC}/{created.run_id}/"
     assert [p for p, _ in world.session.file.puts if p.startswith(run_dir)] == []
+
+
+def _compiler() -> Any:
+    from bob_killer.hosts.snowflake import compiler
+
+    return compiler
+
+
+def _stage_reviews_and_target(world: World, golden_id: str, target: Any) -> None:
+    """The deployed review file on @DBT_SRC/_reviews/ and the session's CURRENT_* target."""
+    from bob_killer.hosts.snowflake.reviews import REVIEWS_DIR
+
+    c = _compiler()
+    name = f"{c.REVIEWS}/{golden_id}.yaml"
+    world.session.file.staged[f"{c.DBT_SRC}/{name}"] = (
+        REVIEWS_DIR / f"{golden_id}.yaml"
+    ).read_bytes()
+    world.session.script(c.LIST_SQL, [{"name": f"dbt_src/{name}"}])
+    world.session.script(
+        c.TARGET_SQL,
+        [
+            {
+                "DATABASE": target.database,
+                "SCHEMA": target.deploy_schema,
+                "ROLE": target.role,
+                "WAREHOUSE": target.warehouse,
+            }
+        ],
+    )
+
+
+def test_register_pipeline_generates_after_lift() -> None:
+    from bob_killer.generate import stage as generate_stage
+
+    procedure.register_pipeline()
+    expected = (*PIPELINE, generate_stage.STAGE_NAME)
+    assert registry.stages.names()[: len(expected)] == expected
+
+
+@pytest.mark.parametrize("golden_id", MVP_GOLDENS[:1])
+def test_run_pipeline_generates_the_dbt_project_and_the_input_cells(
+    world: World, golden_id: str
+) -> None:
+    import yaml
+
+    from bob_killer.contracts.workbook import ReviewFile, WbInputCell
+    from bob_killer.generate import stage as generate_stage
+    from bob_killer.generate.base import run_generators
+    from bob_killer.hosts.snowflake.reviews import REVIEWS_DIR, lifted
+    from bob_killer.ir.cells import cached_values
+    from bob_killer.ir.reviews import apply_reviews
+    from tests.unit.conftest import sample_target
+
+    data = golden_workbook(golden_id)
+    created = world.created(data)
+    target = sample_target().model_copy(
+        update={"run_id": created.run_id, "dbt_version": _compiler().DBT_VERSION}
+    )
+    _stage_reviews_and_target(world, golden_id, target)
+    view = procedure.run_pipeline_handler(world.session, created.run_id, host_factory=world.host)
+    states = {s.stage: s.state for s in view.stages}
+    assert states[generate_stage.STAGE_NAME] == StageState.SUCCEEDED
+    review = ReviewFile.model_validate_json(
+        json.dumps(yaml.safe_load((REVIEWS_DIR / f"{golden_id}.yaml").read_text("utf-8")))
+    )
+    ir = apply_reviews(lifted(data), review.reviews)
+    values = cached_values(extract_workbook(data))
+    expected = run_generators(ir, target, values)
+    for f in expected.files:
+        assert _staged_run_file(world, created.run_id, f.path) == f.content.encode()
+    rows = generate_stage.input_cells(created.run_id, ir, values)
+    insert = f"INSERT INTO {WbInputCell.table_name.upper()}"
+    binds = [p for q, params in world.session.statements if q.startswith(insert) for p in params]
+    names = list(WbInputCell.model_fields)
+    dumped = [r.model_dump(mode="json") for r in rows]
+    flat = [json.dumps(d[n]) if n == "value" else d[n] for d in dumped for n in names]
+    assert binds == flat
+    deletes = [p for q, p in world.session.statements if q == _compiler().DELETE_INPUTS_SQL]
+    assert deletes == [(created.run_id,)]
+
+
+def test_run_pipeline_without_a_review_fails_generate(world: World) -> None:
+    from bob_killer.generate import stage as generate_stage
+    from bob_killer.generate.base import NamesNeedReview
+    from tests.unit.conftest import sample_target
+
+    created = world.created(golden_workbook(MVP_GOLDENS[0]))
+    target = sample_target().model_copy(update={"run_id": created.run_id})
+    _stage_reviews_and_target(world, MVP_GOLDENS[0], target)
+    world.session.script(_compiler().LIST_SQL, [])  # no review file deployed
+    view = procedure.run_pipeline_handler(world.session, created.run_id, host_factory=world.host)
+    (failed,) = [s for s in view.stages if s.state == StageState.FAILED]
+    assert failed.stage == generate_stage.STAGE_NAME
+    assert NamesNeedReview.__name__ in failed.detail

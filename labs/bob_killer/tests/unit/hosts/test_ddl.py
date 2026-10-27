@@ -87,3 +87,11 @@ def test_compiler_objects_create_the_dbt_source_stage() -> None:
 def test_teardown_drops_the_run_output_schemas_with_the_deployment_schema() -> None:
     text = TEARDOWN.read_text(encoding="utf-8")
     assert f"<% schema %>{procedure.RUN_SCHEMA_INFIX}%" in text
+
+
+def test_compiler_objects_file_is_the_generated_ddl() -> None:
+    from bob_killer.contracts.workbook import WbInputCell
+    from bob_killer.hosts.snowflake.ddl import COMPILER_TABLES, compiler_objects_sql
+
+    assert WbInputCell in COMPILER_TABLES
+    assert COMPILER_OBJECTS.read_text(encoding="utf-8") == compiler_objects_sql()

@@ -628,12 +628,11 @@ def test_if_binds_its_choice_once_and_renders_each_branch_once() -> None:
     marks = tuple(LiteralExpr(value=CellValue.number(m)) for m in render.IF_BRANCHES)
     sql = renderer.scalar(CallExpr(name="IF", args=(test, yes, no)))
     choose = renderer.scalar(CallExpr(name="IF", args=(test, *marks)))
-    assert sql.count(choose) == 1
-    assert sql.count("bk_fn(") == 1
-    for branch in (yes, no):
-        assert sql.count(renderer.scalar(branch)) == 1
+    once = [choose, *(renderer.scalar(b) for b in (yes, no))]
+    assert [sql.count(part) for part in once] == [len([part]) for part in once]
+    assert sql.count("bk_fn(") == sql.count(choose)
     then = [sql.index(f"THEN {renderer.scalar(b)}") for b in (yes, no)]
-    assert all(i > 0 for i in then)
+    assert then == sorted(then)
 
 
 def test_every_step_cell_value_is_unwrapped_and_shows_blank_as_zero() -> None:
@@ -645,3 +644,96 @@ def test_every_step_cell_value_is_unwrapped_and_shows_blank_as_zero() -> None:
     for step in sample_ir().steps:
         if step.kind == "scalar_expr":
             assert _render().cell_value(renderer.scalar(step.expr)) in text, step.id
+
+
+# --- the generate stage (generate/stage.py) and its source columns --------------------------------
+
+
+class RecordingIO:
+    """A GenerateIO over one golden's lift and cache; it records what the stage writes."""
+
+    def __init__(self, golden_id: str, *, reviewed: bool = True) -> None:
+        from bob_killer.extract import extract_workbook
+        from bob_killer.hosts.snowflake.reviews import lifted
+        from bob_killer.ir.cells import cached_values
+        from bob_killer.ir.reviews import top_choice_reviews
+        from tests.conftest import golden_workbook
+
+        data = golden_workbook(golden_id)
+        self.ir = lifted(data)
+        self.values = cached_values(extract_workbook(data))
+        review = top_choice_reviews(self.ir, reviewer="r", reason="why")
+        self.review = review.reviews if reviewed else ()
+        self.projects: list[Any] = []
+        self.rows: list[Any] = []
+
+    def load_ir(self, run_id: str) -> Any:
+        return self.ir
+
+    def cell_values(self, run_id: str) -> Any:
+        return self.values
+
+    def reviews(self, ir: Any) -> Any:
+        return self.review
+
+    def target(self, run_id: str) -> Any:
+        return sample_target().model_copy(update={"run_id": run_id})
+
+    def write_project(self, run_id: str, project: Any) -> None:
+        self.projects.append(project)
+
+    def write_input_cells(self, run_id: str, rows: Any) -> None:
+        self.rows.append(rows)
+
+
+RUN_ID = "ab" * 16
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_generate_stage_writes_every_generated_file_and_the_input_cells(golden_id: str) -> None:
+    from bob_killer.generate.base import run_generators
+    from bob_killer.generate.stage import generate_stage
+    from bob_killer.ir.reviews import apply_reviews
+
+    io = RecordingIO(golden_id)
+    generate_stage(io)(RUN_ID)
+    expected = run_generators(apply_reviews(io.ir, io.review), io.target(RUN_ID), io.values)
+    assert io.projects == [expected]
+    ((rows),) = io.rows
+    cells = [(n.id, ref) for n in io.ir.inputs for ref in n.cells()]
+    got = [(r.node_id, r.sheet, r.cell_row, r.cell_col, r.value, r.run_id) for r in rows]
+    want = [(nid, ref.sheet, ref.row, ref.col, io.values[ref], RUN_ID) for nid, ref in cells]
+    assert got == want
+
+
+def test_generate_stage_fails_while_names_await_review() -> None:
+    from bob_killer.generate.base import NamesNeedReview
+    from bob_killer.generate.stage import generate_stage
+
+    io = RecordingIO("mt_dot_budget", reviewed=False)
+    with pytest.raises(NamesNeedReview):
+        generate_stage(io)(RUN_ID)
+    assert io.projects == io.rows == []
+
+
+def test_generate_stage_registers_once_and_only_when_asked() -> None:
+    from bob_killer import registry
+    from bob_killer.generate import stage
+
+    assert stage.STAGE_NAME not in registry.stages
+    io = RecordingIO("mt_dot_budget")
+    stage.register_stages(io)
+    stage.register_stages(io)
+    assert registry.stages.names() == (stage.STAGE_NAME,)
+
+
+def test_staging_models_read_the_input_cells_by_their_contract_columns() -> None:
+    from bob_killer.contracts.workbook import WbInputCell
+
+    files = project()
+    staging = [v for k, v in files.items() if k.startswith("dbt/models/staging/stg_input__")]
+    assert staging
+    for text in staging:
+        for name in WbInputCell.model_fields:
+            if name != "node_id":
+                assert f"bk_ident('{name.upper()}')" in text, name

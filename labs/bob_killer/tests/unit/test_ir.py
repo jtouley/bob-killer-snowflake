@@ -200,3 +200,81 @@ def test_unquoted_sheet_names_parse() -> None:
 def test_built_ir_matches_its_json() -> None:
     data = sample_ir_json()
     assert build_ir(data).model_dump(mode="json") == data
+
+
+# --- cached values and name reviews (ir/cells.py, ir/reviews.py) ----------------------------------
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_cached_values_are_the_cached_cell_values(golden_id: str) -> None:
+    """Expected from the golden probe's reader of the same cache (tests/golden/conftest.cached)."""
+    from bob_killer.extract import extract_workbook
+    from bob_killer.ir.cells import cached_values, cell_ref
+    from bob_killer.runtime import wire
+    from tests.conftest import golden_workbook
+    from tests.golden.conftest import cached
+
+    raw = extract_workbook(golden_workbook(golden_id))
+    values = cached_values(raw)
+    for c in raw.cells:
+        try:
+            expected = cached(c)
+        except LookupError:
+            continue
+        assert values[cell_ref(c)] == wire.to_wire(expected), (c.sheet, c.address)
+
+
+def _golden_ir(golden_id: str) -> Any:
+    from bob_killer.hosts.snowflake.reviews import lifted
+    from tests.conftest import golden_workbook
+
+    return lifted(golden_workbook(golden_id))
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_top_choice_reviews_accept_every_output_facing_name(golden_id: str) -> None:
+    from bob_killer.contracts.ir import NameRule, NameStatus
+    from bob_killer.generate.base import check_names
+    from bob_killer.ir.reviews import apply_reviews, needs_review, top_choice_reviews
+
+    ir = _golden_ir(golden_id)
+    queue = needs_review(ir)
+    assert queue
+    review = top_choice_reviews(ir, reviewer="r", reason="why")
+    reviewed = apply_reviews(ir, review.reviews)
+    check_names(reviewed)  # raises NamesNeedReview while one is pending
+    by_id = {n.id: n for n in (*reviewed.steps, *reviewed.outputs)}
+    for node in queue:
+        after = by_id[node.id]
+        assert (after.name_status, after.name_rule) == (NameStatus.ACCEPTED, NameRule.REVIEWED)
+        assert (after.label, after.origin) == (node.label, node.origin)
+    assert needs_review(reviewed) == ()
+
+
+def test_a_review_whose_fingerprint_changed_does_not_apply() -> None:
+    from bob_killer.ir.reviews import apply_reviews, needs_review, top_choice_reviews
+
+    ir = _golden_ir("mt_dot_budget")
+    review = top_choice_reviews(ir, reviewer="r", reason="why")
+    stale = tuple(
+        r.model_copy(update={"fingerprint": r.fingerprint + "x"}) if r.fingerprint else r
+        for r in review.reviews
+    )
+    still = {n.id for n in needs_review(apply_reviews(ir, stale))}
+    assert still == {r.node_id for r in review.reviews if r.fingerprint}
+
+
+@pytest.mark.parametrize("golden_id", ["mt_dot_budget", "sgec_current"])
+def test_committed_review_file_is_the_top_choice_of_the_current_lift(golden_id: str) -> None:
+    """hosts/snowflake/reviews/<golden>.yaml: regenerate with the reviews command on drift."""
+    import yaml
+
+    from bob_killer.contracts.workbook import ReviewFile
+    from bob_killer.hosts.snowflake.reviews import REVIEWS_DIR
+    from bob_killer.ir.reviews import top_choice_reviews
+
+    text = (REVIEWS_DIR / f"{golden_id}.yaml").read_text(encoding="utf-8")
+    committed = ReviewFile.model_validate_json(json.dumps(yaml.safe_load(text)))
+    first = committed.reviews[0]
+    ir = _golden_ir(golden_id)
+    assert committed == top_choice_reviews(ir, reviewer=first.reviewer, reason=first.reason)
