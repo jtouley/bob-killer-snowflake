@@ -99,7 +99,18 @@ def sql_file(path: Path, **variables: str) -> list[str]:
     text = "\n".join(ln for ln in path.read_text().splitlines() if not ln.lstrip().startswith("--"))
     for key, value in variables.items():
         text = text.replace(f"<% {key} %>", value)
-    return [s.strip() for s in text.split(";") if s.strip()]
+    # A $$ ... $$ block (Snowflake Scripting) is one statement, whatever semicolons it holds.
+    statements, current = [], ""
+    for i, part in enumerate(text.split("$$")):
+        if i % 2:
+            current += f"$${part}$$"
+            continue
+        head, *rest = part.split(";")
+        current += head
+        for piece in rest:
+            statements.append(current)
+            current = piece
+    return [s.strip() for s in [*statements, current] if s.strip()]
 
 
 @pytest.fixture(scope="module")

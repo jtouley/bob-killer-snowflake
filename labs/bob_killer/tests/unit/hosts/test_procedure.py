@@ -31,12 +31,12 @@ from bob_killer.extract.raw_db import read_raw
 from bob_killer.graph import stage as graph_stage
 from bob_killer.graph.dag import build_graph
 from bob_killer.hosts.snowflake import bronze, procedure
+from bob_killer.hosts.snowflake.store import SnowflakeRunStore
 from bob_killer.ir import dump_ir
 from bob_killer.lift import lift
 from bob_killer.lift import stage as lift_stage
-from bob_killer.service.workspace import Workspace
-from bob_killer.hosts.snowflake.store import SnowflakeRunStore
 from bob_killer.service.uploads import UploadRejected, inspect_upload
+from bob_killer.service.workspace import Workspace
 from bob_killer.store.db import RunStore
 from tests.conftest import (
     MVP_GOLDENS,
