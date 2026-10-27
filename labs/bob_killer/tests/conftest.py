@@ -203,3 +203,16 @@ STORE_FACTORIES: dict[str, Callable[[Path], RunRepository]] = {
 @pytest.fixture(params=sorted(STORE_FACTORIES))
 def store(request: pytest.FixtureRequest, tmp_path: Path) -> RunRepository:
     return STORE_FACTORIES[request.param](tmp_path)
+
+
+# The MVP goal set (docs/review/REVIEW_2026-10-26.md §3.2 item 9): the goldens the whole
+# pipeline must compile and verify inside Snowflake.
+MVP_GOLDENS = ("mt_dot_budget", "sgec_current")
+
+
+def golden_workbook(golden_id: str) -> bytes:
+    """A pinned golden's bytes, fetched and hash-checked when absent (never skipped)."""
+    from tests.golden.conftest import golden_bytes, pinned_goldens
+
+    (entry,) = (e for e in pinned_goldens() if e.id == golden_id)
+    return golden_bytes(entry)

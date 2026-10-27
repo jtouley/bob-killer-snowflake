@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import tempfile
 from collections.abc import Callable, Iterator
 from http import HTTPStatus
 from pathlib import Path
@@ -24,13 +25,30 @@ from bob_killer.contracts.runs import (
     StageState,
     UploadLimits,
 )
+from bob_killer.extract import extract_workbook
+from bob_killer.extract import stage as extract_stage
+from bob_killer.extract.raw_db import read_raw
+from bob_killer.graph import stage as graph_stage
+from bob_killer.graph.dag import build_graph
 from bob_killer.hosts.snowflake import bronze, procedure
+from bob_killer.ir import dump_ir
+from bob_killer.lift import lift
+from bob_killer.lift import stage as lift_stage
+from bob_killer.service.workspace import Workspace
 from bob_killer.hosts.snowflake.store import SnowflakeRunStore
 from bob_killer.service.uploads import UploadRejected, inspect_upload
 from bob_killer.store.db import RunStore
-from tests.conftest import bomb, load_oracle, snowflake_tables_session, workbook_like
+from tests.conftest import (
+    MVP_GOLDENS,
+    bomb,
+    golden_workbook,
+    load_oracle,
+    snowflake_tables_session,
+    workbook_like,
+)
 from tests.fakes.snowpark import FakeSession
 from tests.fixtures.make_bronze_fixtures import WORKBOOKS
+from tests.golden.conftest import graph_input
 
 SNAPSHOT = (
     Path(procedure.__file__).resolve().parents[2]
@@ -72,10 +90,13 @@ class World:
         self.plain = RunStore(tmp_path / "runs.db")
         self.store = Recording(self.plain)
         self.land = Lander()
+        self.workspace = Workspace(tmp_path / "work")
 
     def host(self, session: object) -> procedure.Host:
         assert session is self.session
-        return procedure.Host(session=session, store=self.store, land=self.land)
+        return procedure.Host(
+            session=session, store=self.store, land=self.land, workspace=self.workspace
+        )
 
     def stage(self, data: bytes, sha256: str | None = None) -> str:
         sha = sha256 or hashlib.sha256(data).hexdigest()
@@ -310,3 +331,54 @@ def test_default_host_lands_a_staged_file_with_the_snowflake_store_and_bronze() 
     insert = f"INSERT INTO {BronzeRow.table_name.upper()}"
     binds = [v for q, p in session.statements if q.startswith(insert) for v in p]
     assert len(binds) == oracle["row_count"] * len(BronzeRow.model_fields)
+
+
+# The compiler pipeline (docs/SPEC-compiler-dbt.md §3.1): landing first, then the compiler stages.
+PIPELINE = (bronze.STAGE_NAME, extract_stage.STAGE, graph_stage.STAGE_NAME, lift_stage.STAGE_NAME)
+
+
+def test_register_pipeline_is_idempotent_and_lands_before_compiling() -> None:
+    procedure.register_pipeline()
+    procedure.register_pipeline()
+    assert registry.stages.names()[: len(PIPELINE)] == PIPELINE
+
+
+def test_default_host_keeps_its_workspace_under_the_temp_dir() -> None:
+    workspace = procedure.default_host(FakeSession()).workspace
+    assert workspace.root.parent == Path(tempfile.gettempdir())
+
+
+def _staged_run_file(world: World, run_id: str, name: str) -> bytes:
+    path = f"{procedure.DBT_SRC}/{run_id}/{name}"
+    (options,) = [o for p, o in world.session.file.puts if p == path]
+    assert options["auto_compress"] is False
+    return world.session.file.staged[path]
+
+
+@pytest.mark.parametrize("golden_id", MVP_GOLDENS[:1])
+def test_run_pipeline_compiles_the_staged_upload_and_persists_its_files(
+    world: World, tmp_path: Path, golden_id: str
+) -> None:
+    data = golden_workbook(golden_id)
+    created = world.created(data)
+    view = procedure.run_pipeline_handler(world.session, created.run_id, host_factory=world.host)
+    stages = [(s.stage, s.state) for s in view.stages]
+    assert stages[: len(PIPELINE)] == [(name, StageState.SUCCEEDED) for name in PIPELINE]
+    sha = hashlib.sha256(data).hexdigest()
+    assert procedure.staged_path(sha) in world.session.file.reads
+    raw = extract_workbook(data)
+    ir_text = _staged_run_file(world, created.run_id, procedure.IR_YAML).decode()
+    assert ir_text == dump_ir(lift(raw, build_graph(graph_input(raw))))
+    copy = tmp_path / "copy.db"
+    copy.write_bytes(_staged_run_file(world, created.run_id, procedure.WORKBOOK_DB))
+    assert read_raw(copy) == raw
+
+
+def test_run_pipeline_persists_what_a_failed_run_wrote(world: World) -> None:
+    created = world.created(WORKBOOK)  # a zip shaped like an xlsx, so extract fails
+    view = procedure.run_pipeline_handler(world.session, created.run_id, host_factory=world.host)
+    assert view.run.state == RunState.FAILED
+    failed = [s.stage for s in view.stages if s.state == StageState.FAILED]
+    assert failed == [extract_stage.STAGE]
+    run_dir = f"{procedure.DBT_SRC}/{created.run_id}/"
+    assert [p for p, _ in world.session.file.puts if p.startswith(run_dir)] == []

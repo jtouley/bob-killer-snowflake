@@ -12,6 +12,7 @@ from bob_killer.contracts import TABLES, StrictModel
 from bob_killer.contracts.bronze import BronzePayload, BronzeRow, LandedFile
 from bob_killer.contracts.ddl import ddl_dialects
 from bob_killer.contracts.runs import RunState
+from bob_killer.hosts.snowflake import procedure
 from bob_killer.hosts.snowflake.ddl import SNOWFLAKE_TABLES, column_type, table_ddl
 
 GOLDEN = Path(__file__).resolve().parents[3] / "hosts/snowflake/sql/10_tables.sql"
@@ -72,3 +73,17 @@ _ANNOTATIONS: dict[str, object] = {
 @pytest.mark.parametrize("kind", sorted(_ORACLE["cases"]))
 def test_type_map_row_matches_the_spec(kind: str) -> None:
     assert column_type("c", _ANNOTATIONS[kind]) == _ORACLE["cases"][kind]
+
+
+COMPILER_OBJECTS = GOLDEN.with_name("20_compiler_objects.sql")
+TEARDOWN = GOLDEN.with_name("99_teardown.sql")
+
+
+def test_compiler_objects_create_the_dbt_source_stage() -> None:
+    stage = procedure.DBT_SRC.removeprefix("@")
+    assert f"CREATE STAGE IF NOT EXISTS {stage}" in COMPILER_OBJECTS.read_text(encoding="utf-8")
+
+
+def test_teardown_drops_the_run_output_schemas_with_the_deployment_schema() -> None:
+    text = TEARDOWN.read_text(encoding="utf-8")
+    assert f"<% schema %>{procedure.RUN_SCHEMA_INFIX}%" in text
