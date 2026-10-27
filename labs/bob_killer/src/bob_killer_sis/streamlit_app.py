@@ -1,7 +1,9 @@
 """Bob Killer upload app for Streamlit in Snowflake (container runtime, Python 3.11; §5.2).
 
 It never imports bob_killer. Every row it reads is checked against schemas.json, the copy of
-the core JSON Schema snapshot (D8). Every query names its columns (G7).
+the core JSON Schema snapshot (D8). Every query names its columns (G7). An upload starts the
+whole compiler pipeline (RUN_PIPELINE, block=False); the app polls RUNS, STAGE_STATUS and
+WB_REPORTS and shows the stage table, the equivalence report and where the run's docs are.
 """
 
 from __future__ import annotations
@@ -25,10 +27,14 @@ RUN = "bob_killer.contracts.runs.Run"
 STAGE = "bob_killer.contracts.runs.StageStatus"
 CREATED = "bob_killer.contracts.runs.RunCreated"
 REJECTED = "bob_killer.contracts.runs.RunRejected"
+REPORT = "bob_killer.contracts.report.EquivalenceReport"
 
 UPLOADS = "@UPLOADS"
 CREATE_RUN = "CREATE_RUN"
-EXECUTE_RUN = "EXECUTE_RUN"
+# The procedure that executes a run: RUN_PIPELINE runs every stage, dbt included (caller's
+# rights, F15); EXECUTE_RUN alone lands bronze only.
+EXECUTE_RUN = "RUN_PIPELINE"
+DOCS_PATH = "@DBT_SRC/{run_id}/docs/"
 SESSION_KEY = "snowpark_session"
 JOBS_KEY = "jobs"
 PREVIEW_ROWS = 5
@@ -47,6 +53,7 @@ def columns(schema: str) -> str:
 RUN_SQL = f"SELECT {columns(RUN)} FROM RUNS WHERE run_id = ?"
 STAGES_SQL = f"SELECT {columns(STAGE)} FROM STAGE_STATUS WHERE run_id = ? ORDER BY _seq"
 RECENT_SQL = f"SELECT {columns(RUN)} FROM RUNS ORDER BY _seq DESC LIMIT {RECENT_LIMIT}"
+REPORT_SQL = f"SELECT {columns(REPORT)} FROM WB_REPORTS WHERE run_id = ?"
 
 
 def session() -> Any:
@@ -58,13 +65,19 @@ def session() -> Any:
     return st.session_state[SESSION_KEY]
 
 
-def _json_value(value: object) -> object:
-    return value.isoformat() if isinstance(value, datetime | date) else value
+def _json_value(value: object, prop: dict[str, Any]) -> object:
+    if isinstance(value, datetime | date):
+        return value.isoformat()
+    structured = "$ref" in prop or prop.get("type") in ("object", "array")
+    if isinstance(value, str) and structured and value.lstrip()[:1] in ("{", "["):
+        return json.loads(value)  # Snowpark returns a VARIANT column as JSON text
+    return value
 
 
 def checked(schema: str, row: dict[str, Any]) -> dict[str, Any] | None:
-    """The row with lowercased keys and ISO datetimes, or None (and an error) if invalid."""
-    doc = {k.lower(): _json_value(v) for k, v in row.items()}
+    """The row with lowercased keys, ISO datetimes and parsed VARIANTs, or None if invalid."""
+    props = SCHEMAS[schema]["properties"]
+    doc = {k.lower(): _json_value(v, props.get(k.lower(), {})) for k, v in row.items()}
     errors = list(jsonschema.Draft202012Validator(SCHEMAS[schema]).iter_errors(doc))
     if errors:
         st.error(f"{INVALID_ROW} ({schema.rsplit('.', 1)[1]}): {errors[0].message}")
@@ -110,6 +123,21 @@ def submit(filename: str, data: bytes) -> None:
     st.session_state.setdefault(JOBS_KEY, {})[doc["run_id"]] = job
 
 
+def show_report(run_id: str) -> None:
+    for report in query(REPORT, REPORT_SQL, run_id):
+        cols = st.columns(3)
+        for col, key in zip(cols, ("cells_matched", "cells_checked", "denominator"), strict=True):
+            col.metric(key.replace("_", " "), report[key])
+        st.markdown(
+            f"parity test failures: {report['parity_test_failures']}; "
+            f"channels agree: {report['channels_agree']}"
+        )
+        mismatches = report["mismatches"]["cells"]
+        if mismatches:
+            st.dataframe(mismatches)
+        st.markdown(f"docs: `{DOCS_PATH.format(run_id=run_id)}`")
+
+
 def show_run(run_id: str, job: Any) -> None:
     runs = query(RUN, RUN_SQL, run_id)
     stages = query(STAGE, STAGES_SQL, run_id)
@@ -117,6 +145,7 @@ def show_run(run_id: str, job: Any) -> None:
         st.markdown(f"**{run['filename']}** `{run['run_id']}`: {run['state']}")
         for stage in stages:
             st.markdown(f"- {stage['stage']}: {stage['state']} {stage['detail']}")
+        show_report(run_id)
         if job.is_done() and run["state"] not in FINAL_STATES:
             st.error(f"{STUCK}: run {run_id}")
 
