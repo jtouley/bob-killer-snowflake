@@ -19,10 +19,11 @@ from pathlib import Path
 from bob_killer.contracts import TABLES, StrictModel
 from bob_killer.contracts.bronze import BronzeRow, LandedFile
 from bob_killer.contracts.ddl import ddl_dialects
+from bob_killer.contracts.report import EquivalenceReport
 from bob_killer.contracts.workbook import WbInputCell
 
 SNOWFLAKE_TABLES: tuple[type[StrictModel], ...] = (*TABLES, LandedFile, BronzeRow)
-COMPILER_TABLES: tuple[type[StrictModel], ...] = (WbInputCell,)
+COMPILER_TABLES: tuple[type[StrictModel], ...] = (WbInputCell, EquivalenceReport)
 
 _SCALARS: dict[object, str] = {
     str: "VARCHAR",

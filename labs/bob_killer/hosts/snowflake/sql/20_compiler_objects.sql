@@ -19,3 +19,20 @@ CREATE TABLE IF NOT EXISTS WB_INPUT_CELLS (
   _written_at TIMESTAMP_TZ DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (run_id, sheet, cell_row, cell_col)
 );
+
+CREATE TABLE IF NOT EXISTS WB_REPORTS (
+  run_id VARCHAR NOT NULL,
+  workbook_sha256 VARCHAR NOT NULL,
+  denominator NUMBER(38,0) NOT NULL,
+  cells_checked NUMBER(38,0) NOT NULL,
+  cells_matched NUMBER(38,0) NOT NULL,
+  mismatches VARIANT NOT NULL,
+  parity_test_failures NUMBER(38,0) NOT NULL,
+  channels_agree BOOLEAN NOT NULL,
+  steps_generated NUMBER(38,0) NOT NULL,
+  steps_total NUMBER(38,0) NOT NULL,
+  unsupported NUMBER(38,0) NOT NULL,
+  _seq NUMBER AUTOINCREMENT ORDER,
+  _written_at TIMESTAMP_TZ DEFAULT CURRENT_TIMESTAMP(),
+  PRIMARY KEY (run_id)
+);

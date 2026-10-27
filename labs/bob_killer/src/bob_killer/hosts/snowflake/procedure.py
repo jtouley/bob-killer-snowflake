@@ -37,6 +37,7 @@ from bob_killer.service.runs import create_run, execute_run
 from bob_killer.service.uploads import UploadRejected
 from bob_killer.service.workspace import Workspace
 from bob_killer.store import RunRepository
+from bob_killer.verify import stage as verify_stage
 
 UPLOADS = bronze.UPLOADS
 LANDING_STAGE = bronze.STAGE_NAME
@@ -115,6 +116,7 @@ def register_pipeline() -> None:
     lift_stage.register_stages(_BOUND)
     generate_stage.register_stages(_BOUND_COMPILER)
     dbt.register_stages(_BOUND_COMPILER)
+    verify_stage.register_stages(_BOUND_COMPILER)
 
 
 def create_run_handler(

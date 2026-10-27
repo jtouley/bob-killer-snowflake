@@ -13676,6 +13676,531 @@
     "title": "RawWorkbook",
     "type": "object"
   },
+  "bob_killer.contracts.report.CellMismatch": {
+    "$defs": {
+      "CellValue": {
+        "additionalProperties": false,
+        "description": "One Excel value. ``wire()`` is the D21 wire text: ``{\"k\":\"n\",\"h\":\"<float.hex()>\"}``.",
+        "properties": {
+          "b": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "B"
+          },
+          "e": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExcelError"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "h": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "H"
+          },
+          "k": {
+            "$ref": "#/$defs/ValueKind"
+          },
+          "t": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "T"
+          }
+        },
+        "required": [
+          "k"
+        ],
+        "title": "CellValue",
+        "type": "object"
+      },
+      "ExcelError": {
+        "enum": [
+          "#NULL!",
+          "#DIV/0!",
+          "#VALUE!",
+          "#REF!",
+          "#NAME?",
+          "#NUM!",
+          "#N/A",
+          "#GETTING_DATA",
+          "#SPILL!",
+          "#CALC!",
+          "#FIELD!",
+          "#BLOCKED!",
+          "#CONNECT!",
+          "#BUSY!",
+          "#UNKNOWN!",
+          "#PYTHON!"
+        ],
+        "title": "ExcelError",
+        "type": "string"
+      },
+      "ValueKind": {
+        "enum": [
+          "n",
+          "s",
+          "b",
+          "e",
+          "z"
+        ],
+        "title": "ValueKind",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "actual": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/CellValue"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "cell_col": {
+        "title": "Cell Col",
+        "type": "integer"
+      },
+      "cell_row": {
+        "title": "Cell Row",
+        "type": "integer"
+      },
+      "expected": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/CellValue"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "sheet": {
+        "title": "Sheet",
+        "type": "string"
+      }
+    },
+    "required": [
+      "sheet",
+      "cell_row",
+      "cell_col",
+      "expected",
+      "actual"
+    ],
+    "title": "CellMismatch",
+    "type": "object"
+  },
+  "bob_killer.contracts.report.EquivalenceReport": {
+    "$defs": {
+      "CellMismatch": {
+        "additionalProperties": false,
+        "properties": {
+          "actual": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CellValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cell_col": {
+            "title": "Cell Col",
+            "type": "integer"
+          },
+          "cell_row": {
+            "title": "Cell Row",
+            "type": "integer"
+          },
+          "expected": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CellValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sheet": {
+            "title": "Sheet",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sheet",
+          "cell_row",
+          "cell_col",
+          "expected",
+          "actual"
+        ],
+        "title": "CellMismatch",
+        "type": "object"
+      },
+      "CellValue": {
+        "additionalProperties": false,
+        "description": "One Excel value. ``wire()`` is the D21 wire text: ``{\"k\":\"n\",\"h\":\"<float.hex()>\"}``.",
+        "properties": {
+          "b": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "B"
+          },
+          "e": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExcelError"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "h": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "H"
+          },
+          "k": {
+            "$ref": "#/$defs/ValueKind"
+          },
+          "t": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "T"
+          }
+        },
+        "required": [
+          "k"
+        ],
+        "title": "CellValue",
+        "type": "object"
+      },
+      "ExcelError": {
+        "enum": [
+          "#NULL!",
+          "#DIV/0!",
+          "#VALUE!",
+          "#REF!",
+          "#NAME?",
+          "#NUM!",
+          "#N/A",
+          "#GETTING_DATA",
+          "#SPILL!",
+          "#CALC!",
+          "#FIELD!",
+          "#BLOCKED!",
+          "#CONNECT!",
+          "#BUSY!",
+          "#UNKNOWN!",
+          "#PYTHON!"
+        ],
+        "title": "ExcelError",
+        "type": "string"
+      },
+      "Mismatches": {
+        "additionalProperties": false,
+        "properties": {
+          "cells": {
+            "items": {
+              "$ref": "#/$defs/CellMismatch"
+            },
+            "title": "Cells",
+            "type": "array"
+          }
+        },
+        "required": [
+          "cells"
+        ],
+        "title": "Mismatches",
+        "type": "object"
+      },
+      "ValueKind": {
+        "enum": [
+          "n",
+          "s",
+          "b",
+          "e",
+          "z"
+        ],
+        "title": "ValueKind",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "cells_checked": {
+        "title": "Cells Checked",
+        "type": "integer"
+      },
+      "cells_matched": {
+        "title": "Cells Matched",
+        "type": "integer"
+      },
+      "channels_agree": {
+        "title": "Channels Agree",
+        "type": "boolean"
+      },
+      "denominator": {
+        "title": "Denominator",
+        "type": "integer"
+      },
+      "mismatches": {
+        "$ref": "#/$defs/Mismatches"
+      },
+      "parity_test_failures": {
+        "title": "Parity Test Failures",
+        "type": "integer"
+      },
+      "run_id": {
+        "pattern": "^[0-9a-f]{32}$",
+        "title": "Run Id",
+        "type": "string"
+      },
+      "steps_generated": {
+        "title": "Steps Generated",
+        "type": "integer"
+      },
+      "steps_total": {
+        "title": "Steps Total",
+        "type": "integer"
+      },
+      "unsupported": {
+        "title": "Unsupported",
+        "type": "integer"
+      },
+      "workbook_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Workbook Sha256",
+        "type": "string"
+      }
+    },
+    "required": [
+      "run_id",
+      "workbook_sha256",
+      "denominator",
+      "cells_checked",
+      "cells_matched",
+      "mismatches",
+      "parity_test_failures",
+      "channels_agree",
+      "steps_generated",
+      "steps_total",
+      "unsupported"
+    ],
+    "title": "EquivalenceReport",
+    "type": "object"
+  },
+  "bob_killer.contracts.report.Mismatches": {
+    "$defs": {
+      "CellMismatch": {
+        "additionalProperties": false,
+        "properties": {
+          "actual": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CellValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cell_col": {
+            "title": "Cell Col",
+            "type": "integer"
+          },
+          "cell_row": {
+            "title": "Cell Row",
+            "type": "integer"
+          },
+          "expected": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CellValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sheet": {
+            "title": "Sheet",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sheet",
+          "cell_row",
+          "cell_col",
+          "expected",
+          "actual"
+        ],
+        "title": "CellMismatch",
+        "type": "object"
+      },
+      "CellValue": {
+        "additionalProperties": false,
+        "description": "One Excel value. ``wire()`` is the D21 wire text: ``{\"k\":\"n\",\"h\":\"<float.hex()>\"}``.",
+        "properties": {
+          "b": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "B"
+          },
+          "e": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExcelError"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "h": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "H"
+          },
+          "k": {
+            "$ref": "#/$defs/ValueKind"
+          },
+          "t": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "T"
+          }
+        },
+        "required": [
+          "k"
+        ],
+        "title": "CellValue",
+        "type": "object"
+      },
+      "ExcelError": {
+        "enum": [
+          "#NULL!",
+          "#DIV/0!",
+          "#VALUE!",
+          "#REF!",
+          "#NAME?",
+          "#NUM!",
+          "#N/A",
+          "#GETTING_DATA",
+          "#SPILL!",
+          "#CALC!",
+          "#FIELD!",
+          "#BLOCKED!",
+          "#CONNECT!",
+          "#BUSY!",
+          "#UNKNOWN!",
+          "#PYTHON!"
+        ],
+        "title": "ExcelError",
+        "type": "string"
+      },
+      "ValueKind": {
+        "enum": [
+          "n",
+          "s",
+          "b",
+          "e",
+          "z"
+        ],
+        "title": "ValueKind",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "cells": {
+        "items": {
+          "$ref": "#/$defs/CellMismatch"
+        },
+        "title": "Cells",
+        "type": "array"
+      }
+    },
+    "required": [
+      "cells"
+    ],
+    "title": "Mismatches",
+    "type": "object"
+  },
   "bob_killer.contracts.runs.Run": {
     "$defs": {
       "RunState": {
