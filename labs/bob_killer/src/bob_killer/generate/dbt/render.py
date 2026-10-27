@@ -117,34 +117,46 @@ class SqlRenderer:
             ) from None
 
     def pieces(self, rng: CellRange) -> list[str]:
-        """Long-form selects (_r, _c, _v) that together cover every cell of ``rng`` once."""
+        """Long-form selects (_r, _c, _v) that together cover every cell of ``rng`` once.
+
+        An input gives one select per column it shares with ``rng``. Step cells give one select
+        per model: the model's rows inside ``rng`` are exactly the range's cells it owns.
+        """
         out: list[str] = []
         covered = 0
+        models: set[str] = set()
         nodes = {n.id: n for n in (self.owner_of(c) for c in rng.cells())}
         for nid in sorted(nodes):
             for own in nodes[nid].ranges():
                 part = intersect(own, rng)
-                if part is not None:
-                    covered += len(part.cells())
-                    out.extend(self._piece(nodes[nid], own, part))
+                if part is None:
+                    continue
+                covered += len(part.cells())
+                node = nodes[nid]
+                if isinstance(node, Input):
+                    out.extend(self._piece(node, own, part))
+                else:
+                    models.add(self.model_of[nid])
         if covered != len(rng.cells()):
             raise ValueError(f"range on {rng.sheet} is not covered exactly once")
+        out.extend(self._model_piece(m, rng) for m in sorted(models))
         return out
 
-    def _piece(self, node: Node, own: CellRange, part: CellRange) -> list[str]:
+    def _model_piece(self, model: str, rng: CellRange) -> str:
+        return (
+            f"SELECT m.{ROW} AS _r, m.{COL} AS _c, m.{VALUE} AS _v FROM {ref(model)} AS m "
+            f"WHERE m.{SHEET} = {sql_string(rng.sheet)} "
+            f"AND m.{ROW} BETWEEN {rng.row} AND {rng.last_row} "
+            f"AND m.{COL} BETWEEN {rng.col} AND {rng.last_col}"
+        )
+
+    def _piece(self, node: Input, own: CellRange, part: CellRange) -> list[str]:
         model = ref(self.model_of[node.id])
-        if isinstance(node, Input):
-            names = {own.col + i: ident(c.name) for i, c in enumerate(node.columns)}
-            return [
-                f"SELECT i._row AS _r, {col} AS _c, i.{names[col]} AS _v FROM {model} AS i "
-                f"WHERE i._row BETWEEN {part.row} AND {part.last_row}"
-                for col in range(part.col, part.last_col + 1)
-            ]
+        names = {own.col + i: ident(c.name) for i, c in enumerate(node.columns)}
         return [
-            f"SELECT m.{ROW} AS _r, m.{COL} AS _c, m.{VALUE} AS _v FROM {model} AS m "
-            f"WHERE m.{SHEET} = {sql_string(part.sheet)} "
-            f"AND m.{ROW} BETWEEN {part.row} AND {part.last_row} "
-            f"AND m.{COL} BETWEEN {part.col} AND {part.last_col}"
+            f"SELECT i._row AS _r, {col} AS _c, i.{names[col]} AS _v FROM {model} AS i "
+            f"WHERE i._row BETWEEN {part.row} AND {part.last_row}"
+            for col in range(part.col, part.last_col + 1)
         ]
 
 

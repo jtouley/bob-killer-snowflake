@@ -18,6 +18,7 @@ from bob_killer.contracts.base import SCHEMA_VERSION
 from bob_killer.contracts.ir import (
     CallExpr,
     CellExpr,
+    CellRange,
     CellRef,
     CellValue,
     Column,
@@ -287,13 +288,26 @@ def lift(raw: RawWorkbook, graph: g.CellGraph, *, file: str = "workbook.xlsx") -
         for r in frozen
     ]
     read_cells = {c for s in kept for c in _reads(s.expr)}
-    for r in sorted(read_cells - computed - frozen_set, key=lambda c: (c.sheet, c.row, c.col)):
-        inputs.append(
-            Input(
-                **_node(node_id(r), a1(r)),  # type: ignore[arg-type]
-                shape=InputShape.SCALAR,
-                columns=(Column(name="value", label="value", dtype=DType.CELL),),
+    for rng in _rectangles(read_cells - computed - frozen_set):
+        first = CellRef(sheet=rng.sheet, row=rng.row, col=rng.col)
+        if rng.height == rng.width == 1:
+            inputs.append(
+                Input(
+                    **_node(node_id(first), a1(first)),  # type: ignore[arg-type]
+                    shape=InputShape.SCALAR,
+                    columns=(Column(name="value", label="value", dtype=DType.CELL),),
+                )
             )
+            continue
+        last = CellRef(sheet=rng.sheet, row=rng.last_row, col=rng.last_col)
+        origin = f"{a1(first)}:{_letters(last.col)}{last.row}"
+        nid = f"{node_id(first)}_{_letters(last.col).lower()}{last.row}"[:63]
+        columns = tuple(
+            Column(name=f"col_{_letters(c).lower()}", label=_letters(c), dtype=DType.CELL)
+            for c in range(rng.col, rng.last_col + 1)
+        )
+        inputs.append(
+            Input(**_node(nid, origin), shape=InputShape.TABLE, columns=columns)  # type: ignore[arg-type]
         )
     outputs = [
         Output(**_node(f"out_{s.id}"[:63], s.origin[0]), step=s.id, format=Format.GENERAL)  # type: ignore[arg-type]
@@ -319,6 +333,35 @@ def lift(raw: RawWorkbook, graph: g.CellGraph, *, file: str = "workbook.xlsx") -
         unsupported=tuple(unsupported),
         vba=(),
     )
+
+
+def _runs(values: list[int]) -> list[tuple[int, int]]:
+    """Sorted integers as (first, last) runs of consecutive values."""
+    out: list[tuple[int, int]] = []
+    for v in sorted(values):
+        if out and v == out[-1][1] + 1:
+            out[-1] = (out[-1][0], v)
+        else:
+            out.append((v, v))
+    return out
+
+
+def _rectangles(cells: set[CellRef]) -> list[CellRange]:
+    """The input cells as rectangles: per sheet and column the runs of consecutive rows, then
+    adjacent columns with the same run merged. Sorted by sheet, first row, first column."""
+    columns: dict[tuple[str, int], list[int]] = {}
+    for c in cells:
+        columns.setdefault((c.sheet, c.col), []).append(c.row)
+    spans: dict[tuple[str, int, int], list[int]] = {}
+    for (sheet, col), rows in columns.items():
+        for first, last in _runs(rows):
+            spans.setdefault((sheet, first, last), []).append(col)
+    out = [
+        CellRange(sheet=sheet, row=first, col=begin, last_row=last, last_col=end)
+        for (sheet, first, last), cols in spans.items()
+        for begin, end in _runs(cols)
+    ]
+    return sorted(out, key=lambda r: (r.sheet, r.row, r.col))
 
 
 def _reads(expr: Expr) -> list[CellRef]:
